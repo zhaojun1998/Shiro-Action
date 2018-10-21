@@ -4,6 +4,7 @@ import im.zhaojun.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Set;
 
 @Mapper
@@ -25,4 +26,8 @@ public interface UserMapper {
     Set<String> findRoleNameByUserName(@Param("username")String username);
 
     User findOneByUserName(@Param("username")String username);
+
+    List<User> findListByUserName(@Param("likeUsername")String likeUsername);
+
+    int updateStatusByPrimaryKey(@Param("id") Integer id, @Param("status") int status);
 }
