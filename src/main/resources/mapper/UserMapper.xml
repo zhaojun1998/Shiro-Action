@@ -166,4 +166,19 @@
     from user
     where username=#{username,jdbcType=VARCHAR} limit 1
   </select>
+
+
+  <select id="findListByUserName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from user
+    where 1=1
+    <if test="likeUsername!=null">
+      and username like CONCAT('%', #{likeUsername,jdbcType=VARCHAR}, '%')
+    </if>
+  </select>
+
+  <update id="updateStatusByPrimaryKey">
+    update user set status = #{status} where user_id = #{id}
+  </update>
 </mapper>
