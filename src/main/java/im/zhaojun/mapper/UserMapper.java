@@ -2,6 +2,9 @@ package im.zhaojun.mapper;
 
 import im.zhaojun.model.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Set;
 
 @Mapper
 public interface UserMapper {
@@ -16,4 +19,10 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    Set<String> findPermsByUserName(@Param("username")String username);
+
+    Set<String> findRoleNameByUserName(@Param("username")String username);
+
+    User findOneByUserName(@Param("username")String username);
 }

@@ -130,4 +130,40 @@
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+
+  <select id="findPermsByUserName" resultType="String" parameterType="String">
+    select menu.perms
+    from
+      user,
+      role,
+      user_role,
+      menu,
+      role_menu
+    where
+      user.user_id = user_role.user_id and
+      role.role_id = user_role.role_id and
+      role.role_id = role_menu.role_id and
+      menu.menu_id = role_menu.menu_id and
+      user.username = #{username, jdbcType=VARCHAR}
+  </select>
+
+  <select id="findRoleNameByUserName" resultType="String" parameterType="String">
+    select role.role_name
+    from
+      user,
+      role,
+      user_role
+    where
+      user.user_id = user_role.user_id and
+      role.role_id = user_role.role_id and
+      user.username = #{username,jdbcType=VARCHAR}
+  </select>
+
+  <select id="findOneByUserName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from user
+    where username=#{username,jdbcType=VARCHAR} limit 1
+  </select>
 </mapper>
