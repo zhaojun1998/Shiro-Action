@@ -130,4 +130,10 @@
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAllMenuTreeVO" resultType="im.zhaojun.model.vo.MenuTreeVO">
+    select
+    <include refid="Base_Column_List"/>
+    from menu order by order_num
+  </select>
 </mapper>
