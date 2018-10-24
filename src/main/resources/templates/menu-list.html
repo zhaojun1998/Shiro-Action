@@ -56,7 +56,7 @@
 
         <div class="x-body">
             <div class="dHead">
-                <a class="layui-btn layui-btn-primary layui-btn-xs layui-btn-xstree"  onclick="window.location.href='index.html';">刷新</a>
+                <a class="layui-btn layui-btn-primary layui-btn-xs layui-btn-xstree"  onclick="add()">添加</a>
                 <a class="layui-btn layui-btn-primary layui-btn-xs layui-btn-xstree"  onclick="reload()">reload</a>
                 <a class="layui-btn layui-btn-primary layui-btn-xs layui-btn-xstree"  onclick="query()">query</a>
                 <a class="layui-btn layui-btn-primary layui-btn-xs layui-btn-xstree"  onclick="add(null);">新增一行</a>
@@ -202,6 +202,11 @@
             var checkStatus = treeGrid.checkStatus(tableId)
                 , data = checkStatus.data;
             layer.msg('选中了：' + data.length + ' 个');
+        }
+
+
+        function add() {
+            x_admin_show("菜单添加", "menu", 500);
         }
 
         function reload() {

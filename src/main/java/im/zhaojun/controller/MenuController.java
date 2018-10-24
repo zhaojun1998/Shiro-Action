@@ -27,4 +27,15 @@ public class MenuController {
     public ResultBean<Collection<MenuTreeVO>> menuTree() {
         return new ResultBean<>(menuService.getAllMenuTreeVO());
     }
+
+    @GetMapping("/menus/tree2")
+    @ResponseBody
+    public ResultBean<Collection<MenuTreeVO>> menuTree2() {
+        return new ResultBean<>(menuService.getMenuTreeVO());
+    }
+
+    @GetMapping("/menu")
+    public String menu() {
+        return "menu-add";
+    }
 }

@@ -16,4 +16,8 @@ public class MenuService {
     public List<MenuTreeVO> getAllMenuTreeVO() {
         return menuMapper.selectAllMenuTreeVO();
     }
+
+    public List<MenuTreeVO> getMenuTreeVO() {
+        return menuMapper.selectMenuTreeVO();
+    }
 }

@@ -136,4 +136,10 @@
     <include refid="Base_Column_List"/>
     from menu order by order_num
   </select>
+
+  <select id="selectMenuTreeVO" resultType="im.zhaojun.model.vo.MenuTreeVO">
+    select
+    <include refid="Base_Column_List"/>
+    from menu where type = '0' order by order_num
+  </select>
 </mapper>

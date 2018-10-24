@@ -21,4 +21,6 @@ public interface MenuMapper {
     int updateByPrimaryKey(Menu record);
 
     List<MenuTreeVO> selectAllMenuTreeVO();
+
+    List<MenuTreeVO> selectMenuTreeVO();
 }
