@@ -84,4 +84,14 @@
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
+
+  <select id="findListByName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from role
+    where 1=1
+    <if test="likeName!=null">
+      and role_name like concat('%', #{likeName,jdbcType=VARCHAR} ,'%')
+    </if>
+  </select>
 </mapper>
