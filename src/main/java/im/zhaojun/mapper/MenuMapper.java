@@ -1,7 +1,6 @@
 package im.zhaojun.mapper;
 
 import im.zhaojun.model.Menu;
-import im.zhaojun.model.vo.MenuTreeVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,7 +19,11 @@ public interface MenuMapper {
 
     int updateByPrimaryKey(Menu record);
 
-    List<MenuTreeVO> selectAllMenuTreeVO();
+    List<Menu> selectAll();
 
-    List<MenuTreeVO> selectMenuTreeVO();
+    List<Menu> selectAllMenu();
+
+    int deleteByParentId(Integer parentId);
+
+    List<Menu> selectChildren(Integer id);
 }

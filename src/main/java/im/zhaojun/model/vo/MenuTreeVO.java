@@ -2,13 +2,14 @@ package im.zhaojun.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class MenuTreeVO {
 
     @JsonProperty("id")
     private Integer menuId;
 
-    @JsonProperty("pid")
-    private Integer parentId;
+    private List<MenuTreeVO> children;
 
     @JsonProperty("name")
     private String menuName;
@@ -21,13 +22,7 @@ public class MenuTreeVO {
 
     private Integer orderNum;
 
-    public Integer getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(Integer menuId) {
-        this.menuId = menuId;
-    }
+    private Integer parentId;
 
     public Integer getParentId() {
         return parentId;
@@ -35,6 +30,14 @@ public class MenuTreeVO {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public Integer getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
     }
 
     public String getMenuName() {
@@ -75,5 +78,13 @@ public class MenuTreeVO {
 
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public List<MenuTreeVO> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<MenuTreeVO> children) {
+        this.children = children;
     }
 }

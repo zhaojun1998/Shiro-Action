@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <th:block th:fragment="menu(menus)">
+        <li th:each="menu:${menus}">
+            <a href="javascript:;">
+                <i class="iconfont">&#xe6b8;</i>
+                <cite th:text="${menu.menuName}">系统管理</cite>
+                <i class="iconfont nav_right">&#xe697;</i>
+            </a>
+            <ul class="sub-menu">
+                <li th:each="child:${menu.children}">
+                    <a th:if="${#lists.isEmpty(child.children)}" data-th-_href="${child.url}" _href="users">
+                        <i class="iconfont">&#xe6a7;</i>
+                        <cite th:text="${child.menuName}">用户管理</cite>
+                    </a>
+                    <th:block th:unless="${#lists.isEmpty(child.children)}" th:include="this::menu(${child})" />
+                </li>
+            </ul>
+        </li>
+    </th:block>
+</body>
+</html>

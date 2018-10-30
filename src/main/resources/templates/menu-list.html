@@ -145,12 +145,20 @@
         function del(obj) {
             layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除，此操作不能撤销！", {icon: 3, title: '提示'},
                 function (index) {//确定回调
-                    obj.del();
-                    layer.close(index);
+                    var id = obj.data.id;
+                    $.post('/menu/' + id, {_method: "DELETE"}, function (data) {
+                        obj.del();
+                        layer.close(index);
+                        handlerResult(data, deleteDone);
+                    });
                 }, function (index) {//取消回调
                     layer.close(index);
                 }
             );
+        }
+
+        function deleteDone() {
+            layer.msg("删除成功!");
         }
 
 

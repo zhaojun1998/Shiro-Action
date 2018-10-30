@@ -2,6 +2,21 @@
 
 本项目使用 Spring Boot 搭建, 用于加深对 Spring Boot 与 Shiro 的学习.
 
+## 技术选型
+
+### 后端
+* 基础框架：Spring Boot 2.0.6.RELEASE
+* 持久层框架：Mybatis 3.4.6
+* 安全框架：Apache Shiro 1.4.0
+摸板引擎：Thymeleaf 3.0.9.RELEASE
+数据库连接池：Druid 1.1.10
+缓存框架：Redis
+日志打印：logback
+
+### 前端
+* 基本模板: [X-Admin](http://x.xuebingsi.com/)
+* 弹出层: Layer
+
 ## 接口返回格式
 
 ### 新增
