@@ -107,12 +107,6 @@
       <if test="orderNum != null">
         order_num = #{orderNum,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
     </set>
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
@@ -123,9 +117,7 @@
       url = #{url,jdbcType=VARCHAR},
       perms = #{perms,jdbcType=VARCHAR},
       type = #{type,jdbcType=CHAR},
-      order_num = #{orderNum,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      order_num = #{orderNum,jdbcType=INTEGER}
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
 
@@ -146,9 +138,9 @@
     where parent_id = #{parentId,jdbcType=INTEGER}
   </delete>
 
-  <select id="selectChildren" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectChildrenID" parameterType="java.lang.Integer" resultType="int">
     select
-    <include refid="Base_Column_List" />
+      menu_id
     from menu
     where parent_id = #{id, jdbcType=INTEGER}
   </select>

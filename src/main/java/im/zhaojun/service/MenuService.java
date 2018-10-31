@@ -31,6 +31,10 @@ public class MenuService {
         return menu.getMenuId();
     }
 
+    public boolean update(Menu menu) {
+        return menuMapper.updateByPrimaryKey(menu) == 1;
+    }
+
     public boolean deleteByParentId(Integer parentId) {
         menuMapper.deleteByParentId(parentId);
         return true;
@@ -41,9 +45,9 @@ public class MenuService {
     }
 
     public boolean deleteByIDAndChildren(Integer id) {
-        List<Menu> menus = menuMapper.selectChildren(id);
-        for (Menu menu : menus) {
-            deleteByIDAndChildren(menu.getMenuId());
+        List<Integer> childIDList = menuMapper.selectChildrenID(id);
+        for (Integer childID : childIDList) {
+            deleteByIDAndChildren(childID);
         }
         return delete(id);
     }

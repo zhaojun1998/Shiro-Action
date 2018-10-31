@@ -26,9 +26,14 @@
                style="float:right"
                href="javascript:location.replace(location.href);" title="刷新"></a>
         </div>
+
         <div class="x-body">
             <table class="layui-hide" id="user-table"></table>
         </div>
+
+        <script type="text/html" id="toolbar">
+            <a class="layui-btn layui-btn-xs" lay-event="add">新增</a>
+        </script>
 
         <script type="text/html" id="column-toolbar">
             {{#  if(d.status === '0') { }}
@@ -59,6 +64,7 @@
                     , url: '/users/page'
                     , cellMinWidth: 80 // 全局定义常规单元格的最小宽度，layui 2.2.1 新增
                     , page: true
+                    , toolbar: '#toolbar'
                     , cols: [
                         [
                             {field: 'userId', title: 'ID', sort: true}
@@ -73,9 +79,13 @@
                     ]
                 });
 
-                // 工具条点击事件
                 table.on('toolbar', function (obj) {
+                    var data = obj.data;
+                    var event = obj.event;
 
+                    if (event === 'add') {
+                        x_admin_show("新增角色", "user");
+                    }
                 });
 
                 // 行点击事件

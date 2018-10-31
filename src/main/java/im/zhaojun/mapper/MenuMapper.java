@@ -25,5 +25,5 @@ public interface MenuMapper {
 
     int deleteByParentId(Integer parentId);
 
-    List<Menu> selectChildren(Integer id);
+    List<Integer> selectChildrenID(Integer id);
 }

@@ -28,7 +28,7 @@
                         菜单名称
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="menuName" name="menuName" required="" lay-verify="required"
+                        <input type="text" id="menuName" name="menuName" th:value="${menu?.menuName}" lay-verify="required"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -37,8 +37,8 @@
                         菜单类型
                     </label>
                     <div class="layui-input-block">
-                        <input type="radio" name="type" value="0" title="菜单" checked="">
-                        <input type="radio" name="type" value="1" title="按钮">
+                        <input type="radio" name="type" th:checked="${menu?.type == '0' ? true: false}" value="0" title="菜单">
+                        <input type="radio" name="type" th:checked="${menu?.type == '1' ? true: false}" value="1" title="按钮">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -46,7 +46,7 @@
                         菜单URL
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="url" name="url" required="" lay-verify="required"
+                        <input type="text" id="url" th:value="${menu?.url}" name="url" lay-verify="required"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         菜单标识
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="perms" name="perms" required="" lay-verify="required"
+                        <input type="text" id="perms" th:value="${menu?.perms}" name="perms" lay-verify="required"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -81,7 +81,8 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn" lay-submit="" lay-filter="add">增加</button>
+                    <input type="hidden" name="menuId" th:value="${menu?.menuId}">
+                    <button class="layui-btn" th:text="${menu}?'修改':'增加'" lay-submit="" data-th-lay-filter="${menu}?'edit':'add'">增加</button>
                 </div>
             </form>
         </div>
@@ -91,57 +92,43 @@
                 $ = layui.jquery;
                 var form = layui.form
                     , layer = layui.layer;
-                // $.ajax({
-                //     url: '/menus/tree2',
-                //     dataType: 'json',
-                //     success: function(data){
-                //         data.select = [2,  3];
-                //         var trees = authtree.listConvert(data.data, {
-                //             primaryKey: 'id'
-                //             ,startPid: 0
-                //             ,parentKey: 'pid'
-                //             ,nameKey: 'name'
-                //             ,valueKey: 'id'
-                //             ,checkedKey: data.select
-                //         });
-                //         // 如果后台返回的不是树结构，请使用 authtree.listConvert 转换
-                //         authtree.render('#LAY-auth-tree-index', trees, {
-                //             inputname: 'authids[]',
-                //             layfilter: 'lay-check-auth',
-                //             autowidth: true
-                //         });
-                //     }
-                // });
-
-                //自定义验证规则
-                form.verify({
-                    nikename: function (value) {
-                        if (value.length < 5) {
-                            return '昵称至少得5个字符啊';
-                        }
-                    }
-                    , pass: [/(.+){6,12}$/, '密码必须6到12位']
-                    , repass: function (value) {
-                        if ($('#L_pass').val() != $('#L_repass').val()) {
-                            return '两次密码不一致';
-                        }
-                    }
-                });
 
                 //监听提交
                 form.on('submit(add)', function (form) {
                     console.log(form.field);
                     //发异步，把数据提交给php
-                    $.post('menu', form.field, function (result) {
+                    $.post('/menu', form.field, function (result) {
                         handlerResult(result, addDone);
                     });
                     return false;
                 });
-                
+
+                //监听提交
+                form.on('submit(edit)', function (form) {
+                    console.log(form.field);
+                    //发异步，把数据提交给php
+                    form.field._method = 'PUT';
+                    console.log(form.field);
+                    $.post('/menu', form.field, function (result) {
+                        handlerResult(result, editDone);
+                    });
+                    return false;
+                });
+
                 
                 function addDone(data) {
                     console.log("add result id : ", data);
-                    layer.msg("增加成功", {icon: 6}, function () {
+                    layer.msg("添加成功", {icon: 6}, function () {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                    });
+                }
+
+                function editDone(data) {
+                    console.log("edit result id : ", data);
+                    layer.msg("修改成功", {icon: 6}, function () {
                         // 获得frame索引
                         var index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame
