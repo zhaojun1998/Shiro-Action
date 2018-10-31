@@ -17,7 +17,7 @@ public class TreeUtil {
      */
     public static List<MenuTreeVO> toTree(List<MenuTreeVO> list) {
         all = new ArrayList<>(list);
-        List<MenuTreeVO> root = new ArrayList<MenuTreeVO>();
+        List<MenuTreeVO> root = new ArrayList<>();
 
         for (MenuTreeVO menuTreeVO : list) {
             if (menuTreeVO.getParentId() == 0) {

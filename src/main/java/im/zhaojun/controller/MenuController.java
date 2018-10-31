@@ -54,4 +54,23 @@ public class MenuController {
     public ResultBean<Boolean> delete(@PathVariable("id") Integer id) {
         return new ResultBean<>(menuService.deleteByIDAndChildren(id));
     }
+
+    @GetMapping("/menu/{id}")
+    public String editHtml(@PathVariable("id") Integer id, Model model) {
+        Menu menu = menuService.selectOne(id);
+        List<Menu> menus = menuService.selectAllMenu();
+        model.addAttribute("menu", menu);
+        model.addAttribute("menus", menus);
+        return "menu-add";
+    }
+
+    @PutMapping("/menu")
+    @ResponseBody
+    public ResultBean<Boolean> edit(Menu menu) {
+        logger.debug("edit menu: {}", menu);
+        if (menu.getParentId() == null) {
+            menu.setParentId(0);
+        }
+        return new ResultBean<>(menuService.update(menu));
+    }
 }
