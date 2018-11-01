@@ -56,16 +56,14 @@
     "msg": "success",
     "data": [
         {
-            "person": {
-                "username": "abc",
-                "age": 28
-            }
+            "userId": 1,
+            "username": "admin",
+            "email": "root@zhaojun.im"
         },
         {
-            "person": {
-                "username": "cde",
-                "age": 20
-            }
+            "userId": 2,
+            "username": "user",
+            "email": "xxx@zhaojun.im"
         }
     ]
 }
@@ -74,20 +72,18 @@
 ### 分页获取
 ```json
 {
+    "count": 2,
     "code": 0,
-    "count": 30,
     "data": [
         {
-            "person": {
-                "username": "abc",
-                "age": 28
-            }
+            "userId": 1,
+            "username": "admin",
+            "email": "root@zhaojun.im"
         },
         {
-            "person": {
-                "username": "cde",
-                "age": 20
-            }
+            "userId": 2,
+            "username": "user",
+            "email": "xxx@zhaojun.im"
         }
     ]
 }
