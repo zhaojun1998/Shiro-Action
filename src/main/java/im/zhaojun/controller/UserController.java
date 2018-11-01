@@ -36,6 +36,11 @@ public class UserController {
     }
 
 
+    @GetMapping("/user")
+    public String addHtml() {
+        return "user-add";
+    }
+
     @PostMapping("/user/disable")
     @ResponseBody
     public ResultBean<Boolean> disable(Integer id) {

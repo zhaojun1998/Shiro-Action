@@ -21,7 +21,7 @@ public class MenuController {
     @Resource
     private MenuService menuService;
 
-    @RequestMapping("/menus")
+    @GetMapping("/menus")
     public String listMenuHtml() {
         return "menu-list";
     }
