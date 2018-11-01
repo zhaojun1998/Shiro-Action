@@ -2,9 +2,13 @@ package im.zhaojun.service;
 
 import im.zhaojun.mapper.MenuMapper;
 import im.zhaojun.model.Menu;
+import im.zhaojun.model.vo.MenuTreeVO;
+import im.zhaojun.util.MenuVOConvert;
+import im.zhaojun.util.TreeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +27,15 @@ public class MenuService {
 
     public Menu selectOne(Integer id) {
         return menuMapper.selectByPrimaryKey(id);
+    }
+
+    public List<MenuTreeVO> getALLMenuTreeVO() {
+        List<Menu> menuTreeVO = selectAllMenu();
+        List<MenuTreeVO> menuTreeVOS = new ArrayList<>();
+        for (Menu menu : menuTreeVO) {
+            menuTreeVOS.add(MenuVOConvert.menuToTreeVO(menu));
+        }
+        return TreeUtil.toTree(menuTreeVOS);
     }
 
 

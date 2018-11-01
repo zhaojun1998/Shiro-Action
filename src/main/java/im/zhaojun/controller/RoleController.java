@@ -19,7 +19,7 @@ public class RoleController {
     @Resource
     private RoleService roleService;
 
-    @RequestMapping("/roles")
+    @GetMapping("/roles")
     public String listRoleHtml() {
         return "role-list";
     }

@@ -1,16 +1,12 @@
 package im.zhaojun.controller;
 
-import im.zhaojun.model.Menu;
 import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.service.MenuService;
-import im.zhaojun.util.MenuVOConvert;
-import im.zhaojun.util.TreeUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,18 +15,14 @@ public class IndexController {
     @Resource
     private MenuService menuService;
 
-    @RequestMapping(value = {"/", "/main"})
+    @GetMapping(value = {"/", "/main"})
     public String index(Model model) {
-        List<Menu> menuTreeVO = menuService.selectAllMenu();
-        List<MenuTreeVO> menuTreeVOS = new ArrayList<>();
-        for (Menu menu : menuTreeVO) {
-            menuTreeVOS.add(MenuVOConvert.menuToTreeVO(menu));
-        }
-        model.addAttribute("menus", TreeUtil.toTree(menuTreeVOS));
+        List<MenuTreeVO> menuTreeVOS = menuService.getALLMenuTreeVO();
+        model.addAttribute("menus", menuTreeVOS);
         return "index";
     }
 
-    @RequestMapping("/welcome")
+    @GetMapping("/welcome")
     public String welcome() {
         return "welcome";
     }
