@@ -21,4 +21,6 @@ public interface RoleMapper {
     int updateByPrimaryKey(Role record);
 
     List<Role> findListByName(@Param("likeName")String likeName);
+
+    List<Integer> selectMenuIdByRoleId(@Param("roleId") Integer roleId);
 }

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="im.zhaojun.mapper.RoleMenuMapper">
-  <resultMap id="BaseResultMap" type="im.zhaojun.model.RoleMenu">
+    <sql id="Base_Column_List">
+        role_id,
+        menu_id
+    </sql>
+    <resultMap id="BaseResultMap" type="im.zhaojun.model.RoleMenu">
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="menu_id" jdbcType="INTEGER" property="menuId" />
   </resultMap>
@@ -28,4 +32,20 @@
       </if>
     </trim>
   </insert>
+
+    <insert id="insertList">
+        INSERT INTO role_menu(
+        role_id, menu_id
+        )VALUES
+        <foreach collection="menuIds" item="menuId" index="index" separator=",">
+            (
+            #{roleId}
+            ,#{menuId}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleMenuByRoleId">
+        delete from role_menu where role_id = #{roleId}
+    </delete>
 </mapper>

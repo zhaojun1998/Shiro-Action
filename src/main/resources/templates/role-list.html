@@ -75,16 +75,7 @@
                     var event = obj.event;
 
                     if (event === 'edit') {
-                        layer.open({
-                            type: 2,
-                            title: '编辑角色',
-                            shadeClose: true,
-                            area: ['450px', '250px'],
-                            content: '/role/' + data.id,
-                            end: function(){
-                                table.reload('role-table');
-                            }
-                        });
+                        x_admin_show("编辑角色", "role/" + data.roleId);
                     } else if (event === 'del') {
                         layer.msg("del...");
                     }
