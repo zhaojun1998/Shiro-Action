@@ -175,7 +175,7 @@ layui.define(['jquery', 'form'], function(exports){
 				// '+new Array(dept * 4).join('&nbsp;')+'
 				str += '<div><div class="auth-status" style="display: flex;flex-direction: row;align-items: flex-end;"> '+
 					(hasChild?'<i class="layui-icon auth-icon '+(openstatus?'active':'')+'" style="cursor:pointer;">'+(openstatus?obj.openIconContent:obj.closeIconContent)+'</i>':'<i class="layui-icon auth-leaf" style="opacity:0;">&#xe626;</i>')+
-					(dept > 0 ? '<span>├─ </span>':'')+
+					(dept > 0 ? '<span></span>':'')+
 					'<input type="checkbox" name="'+inputname+'" title="'+item.name+'" value="'+item.value+'" lay-skin="primary" lay-filter="'+layfilter+'" '+
 					(item.checked?'checked="checked"':'')+'> </div>'+
 					' <div class="auth-child" style="'+(openstatus ?'':'display:none;')+'padding-left:40px;"> '+append+'</div></div>'
@@ -250,7 +250,7 @@ layui.define(['jquery', 'form'], function(exports){
 			// 子节点列表的Key
 			opt.childKey = opt.childKey ? opt.childKey : 'list';
 			// 有子节点的前缀
-			opt.prefixHasChildStr = opt.prefixStr ? opt.prefixStr : '├─';
+			opt.prefixHasChildStr = opt.prefixStr ? opt.prefixStr : '';
 			// 没有子节点的前缀
 			opt.prefixHasChildStr = opt.prefixStr ? opt.prefixStr : '|';
 			// 树的深度影响的子节点数据
