@@ -17,7 +17,7 @@ public class IndexController {
 
     @GetMapping(value = {"/", "/main"})
     public String index(Model model) {
-        List<MenuTreeVO> menuTreeVOS = menuService.getALLMenuTreeVO();
+        List<MenuTreeVO> menuTreeVOS = menuService.getCurrentUserMenuTreeVO();
         model.addAttribute("menus", menuTreeVOS);
         return "index";
     }
@@ -25,5 +25,10 @@ public class IndexController {
     @GetMapping("/welcome")
     public String welcome() {
         return "welcome";
+    }
+
+    @GetMapping("/403")
+    public String unauthorizedPage() {
+        return "403";
     }
 }
