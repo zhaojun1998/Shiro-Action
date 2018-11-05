@@ -5,10 +5,10 @@ import im.zhaojun.model.Menu;
 import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.util.MenuVOConvert;
 import im.zhaojun.util.TreeUtil;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,14 +30,22 @@ public class MenuService {
     }
 
     public List<MenuTreeVO> getALLMenuTreeVO() {
-        List<Menu> menuTreeVO = selectAllMenu();
-        List<MenuTreeVO> menuTreeVOS = new ArrayList<>();
-        for (Menu menu : menuTreeVO) {
-            menuTreeVOS.add(MenuVOConvert.menuToTreeVO(menu));
-        }
+        List<Menu> menus = selectAllMenu();
+        List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
         return TreeUtil.toTree(menuTreeVOS);
     }
 
+    public List<MenuTreeVO> getCurrentUserMenuTreeVO() {
+        String userName = (String) SecurityUtils.getSubject().getPrincipal();
+        List<Menu> menus = selectMenuByUserId(userName);
+        List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
+        return TreeUtil.toTree(menuTreeVOS);
+    }
+
+
+    public List<Menu> selectMenuByUserId(String userName) {
+        return menuMapper.selectMenuByUserId(userName);
+    }
 
     public int add(Menu menu) {
         menuMapper.insert(menu);

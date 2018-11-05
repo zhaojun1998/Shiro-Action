@@ -2,6 +2,7 @@ package im.zhaojun.mapper;
 
 import im.zhaojun.model.Menu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface MenuMapper {
     int deleteByParentId(Integer parentId);
 
     List<Integer> selectChildrenID(Integer id);
+
+    List<Menu> selectMenuByUserId(@Param("userName") String userName);
 }

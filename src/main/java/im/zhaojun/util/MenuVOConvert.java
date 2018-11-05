@@ -52,6 +52,14 @@ public class MenuVOConvert {
         return menuTreeVO;
     }
 
+    public static List<MenuTreeVO> menuToTreeVO(List<Menu> menus) {
+        List<MenuTreeVO> menuTreeVOS = new ArrayList<>();
+        for (Menu menu : menus) {
+            menuTreeVOS.add(menuToTreeVO(menu));
+        }
+        return menuTreeVOS;
+    }
+
 
     private static Map<Integer, MenuTreeVO> result = new HashMap<>();
     private static Map<Integer, Menu> hash = new HashMap<>();
