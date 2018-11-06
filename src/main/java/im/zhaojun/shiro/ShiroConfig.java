@@ -1,6 +1,7 @@
 package im.zhaojun.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import im.zhaojun.service.MenuService;
 import im.zhaojun.shiro.realm.UserNameRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
@@ -9,11 +10,14 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import javax.annotation.Resource;
 
 @Configuration
 public class ShiroConfig {
+
+    @Resource
+    private MenuService menuService;
+
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -22,21 +26,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
-        // 设置拦截器
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-
-        // 忽略静态文件
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/fonts/**", "anon");
-        filterChainDefinitionMap.put("/images/**", "anon");
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/lib/**", "anon");
-
-        filterChainDefinitionMap.put("/login", "anon");
-//        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
-        filterChainDefinitionMap.put("/**", "authc");
-
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(menuService.loadFilterChainDefinitions());
         return shiroFilterFactoryBean;
     }
 

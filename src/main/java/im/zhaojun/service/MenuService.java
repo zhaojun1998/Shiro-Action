@@ -9,7 +9,9 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MenuService {
@@ -37,14 +39,14 @@ public class MenuService {
 
     public List<MenuTreeVO> getCurrentUserMenuTreeVO() {
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
-        List<Menu> menus = selectMenuByUserId(userName);
+        List<Menu> menus = selectMenuByUserName(userName);
         List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
         return TreeUtil.toTree(menuTreeVOS);
     }
 
 
-    public List<Menu> selectMenuByUserId(String userName) {
-        return menuMapper.selectMenuByUserId(userName);
+    public List<Menu> selectMenuByUserName(String userName) {
+        return menuMapper.selectMenuByUserName(userName);
     }
 
     public int add(Menu menu) {
@@ -71,5 +73,29 @@ public class MenuService {
             deleteByIDAndChildren(childID);
         }
         return delete(id);
+    }
+
+
+    /**
+     * 从数据库加载权限列表
+     */
+    public Map<String, String> loadFilterChainDefinitions() {
+        // 权限控制map.从数据库获取
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/fonts/**", "anon");
+        filterChainDefinitionMap.put("/images/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/lib/**", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
+
+        List<Menu> menus = selectAll();
+        for (Menu menu : menus) {
+            filterChainDefinitionMap.put("/" + menu.getUrl(), "perms[" + menu.getPerms() + "]");
+        }
+
+        filterChainDefinitionMap.put("/**", "authc");
+        return filterChainDefinitionMap;
     }
 }

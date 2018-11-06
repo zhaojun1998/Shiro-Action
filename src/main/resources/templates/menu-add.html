@@ -76,7 +76,7 @@
                     <div class="layui-input-inline">
                         <select name="parentId" id="parentId">
                             <option value="">请选择上级菜单</option>
-                            <option th:each="menu:${menus}" th:value="${menu.menuId}" th:text="${menu.menuName}" value="3">音乐</option>
+                            <option th:each="obj:${menus}" th:selected="${obj.menuId == menu.parentId}" th:value="${obj.menuId}" th:text="${obj.menuName}"></option>
                         </select>
                     </div>
                 </div>

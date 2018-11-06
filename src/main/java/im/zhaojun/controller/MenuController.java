@@ -2,6 +2,7 @@ package im.zhaojun.controller;
 
 import im.zhaojun.model.Menu;
 import im.zhaojun.service.MenuService;
+import im.zhaojun.service.ShiroService;
 import im.zhaojun.util.ResultBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,9 @@ public class MenuController {
 
     @Resource
     private MenuService menuService;
+
+    @Resource
+    private ShiroService shiroService;
 
     @GetMapping("/menus")
     public String listMenuHtml() {
@@ -46,7 +50,9 @@ public class MenuController {
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }
-        return new ResultBean<>(menuService.add(menu));
+        ResultBean<Integer> resultBean = new ResultBean<>(menuService.add(menu));
+        shiroService.updatePermission();
+        return resultBean;
     }
 
     @DeleteMapping("/menu/{id}")
@@ -71,6 +77,8 @@ public class MenuController {
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }
-        return new ResultBean<>(menuService.update(menu));
+        ResultBean<Boolean> resultBean = new ResultBean<>(menuService.update(menu));
+        shiroService.updatePermission();
+        return resultBean;
     }
 }
