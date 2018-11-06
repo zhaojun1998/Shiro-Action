@@ -31,7 +31,6 @@ public class UserNameRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(roles);
         authorizationInfo.setStringPermissions(perms);
-        logger.debug("授权");
         return authorizationInfo;
     }
 

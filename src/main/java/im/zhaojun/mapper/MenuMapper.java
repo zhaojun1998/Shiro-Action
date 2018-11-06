@@ -28,5 +28,5 @@ public interface MenuMapper {
 
     List<Integer> selectChildrenID(Integer id);
 
-    List<Menu> selectMenuByUserId(@Param("userName") String userName);
+    List<Menu> selectMenuByUserName(@Param("userName") String userName);
 }
