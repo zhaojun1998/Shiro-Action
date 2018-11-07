@@ -27,11 +27,9 @@
   </delete>
   <insert id="insert" keyColumn="menu_id" keyProperty="menuId" parameterType="im.zhaojun.model.Menu" useGeneratedKeys="true">
     insert into menu (parent_id, menu_name, url, 
-      perms, type, order_num, 
-      create_time, modify_time)
+      perms, type, order_num)
     values (#{parentId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{perms,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, #{orderNum,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+      #{perms,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, #{orderNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="menu_id" keyProperty="menuId" parameterType="im.zhaojun.model.Menu" useGeneratedKeys="true">
     insert into menu
@@ -131,9 +129,27 @@
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
 
-  <select id="selectAllMenuTreeVO" resultType="im.zhaojun.model.vo.MenuTreeVO">
+  <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from menu order by order_num
+  </select>
+
+  <select id="selectAllMenu" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List"/>
+    from menu where type = '0' order by order_num
+  </select>
+
+  <delete id="deleteByParentId" parameterType="java.lang.Integer">
+    delete from menu
+    where parent_id = #{parentId,jdbcType=INTEGER}
+  </delete>
+
+  <select id="selectChildren" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu
+    where parent_id = #{id, jdbcType=INTEGER}
   </select>
 </mapper>

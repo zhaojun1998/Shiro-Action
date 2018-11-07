@@ -1,12 +1,18 @@
 package im.zhaojun.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 public class Menu {
+    @JsonProperty("id")
     private Integer menuId;
 
+    @JsonProperty("pid")
     private Integer parentId;
 
+    @JsonProperty("name")
     private String menuName;
 
     private String url;
@@ -17,8 +23,10 @@ public class Menu {
 
     private Integer orderNum;
 
+    @JsonIgnore
     private Date createTime;
 
+    @JsonIgnore
     private Date modifyTime;
 
     public Integer getMenuId() {
@@ -91,5 +99,20 @@ public class Menu {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "menuId=" + menuId +
+                ", parentId=" + parentId +
+                ", menuName='" + menuName + '\'' +
+                ", url='" + url + '\'' +
+                ", perms='" + perms + '\'' +
+                ", type='" + type + '\'' +
+                ", orderNum=" + orderNum +
+                ", createTime=" + createTime +
+                ", modifyTime=" + modifyTime +
+                '}';
     }
 }

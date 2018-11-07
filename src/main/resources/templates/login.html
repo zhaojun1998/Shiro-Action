@@ -38,7 +38,6 @@
                 var form = layui.form;
                 form.on('submit(login)', function (data) {
                     $.post('login', data.field, function (result) {
-                        console.log('delete result', result);
                         handlerResult(result, loginDone);
                     });
                     return false;
