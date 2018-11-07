@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -20,45 +19,43 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/roles")
-    public String listRoleHtml() {
+    public String index() {
         return "role-list";
     }
 
-    @GetMapping(value = "/roles/page")
+    @GetMapping(value = "/roles/list")
     @ResponseBody
-    public PageResultBean<Role> roles(@RequestParam(value = "name", required = false) String name,
-                                      int page,
-                                      int limit) {
-        List<Role> roles = roleService.findListByName(name, page, limit);
+    public PageResultBean<Role> getList(@RequestParam(value = "page", defaultValue = "1") int page,
+                                        @RequestParam(value = "limit", defaultValue = "10")int limit) {
+        List<Role> roles = roleService.selectAll(page, limit);
         PageInfo<Role> rolePageInfo = new PageInfo<>(roles);
         return new PageResultBean<>(rolePageInfo.getTotal(), rolePageInfo.getList());
     }
 
-    @GetMapping("role")
-    public String addRoleHtml() {
+    @GetMapping("/role")
+    public String add() {
         return "role-add";
     }
 
-
-    @PostMapping("role")
+    @PostMapping("/role")
     @ResponseBody
     public ResultBean<Integer> add(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
-        return new ResultBean<>(roleService.addRole(role, menuIds));
+        return new ResultBean<>(roleService.add(role, menuIds));
     }
 
-    @PutMapping("role")
-    @ResponseBody
-    public ResultBean<Integer> update(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
-        return new ResultBean<>(roleService.updateRole(role, menuIds));
-    }
-
-    @GetMapping("role/{id}")
-    public String editHtml(@PathVariable("id") Integer roleId, Model model) {
+    @GetMapping("/role/{id}")
+    public String update(@PathVariable("id") Integer roleId, Model model) {
         Role role = roleService.selectOne(roleId);
         model.addAttribute("role", role);
 
         List<Integer> checkedKey = roleService.selectMenuIdByRoleId(roleId);
         model.addAttribute("checkedKey", checkedKey);
         return "role-add";
+    }
+
+    @PutMapping("/role")
+    @ResponseBody
+    public ResultBean<Integer> update(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
+        return new ResultBean<>(roleService.update(role, menuIds));
     }
 }

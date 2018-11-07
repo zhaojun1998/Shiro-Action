@@ -1,161 +1,176 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="im.zhaojun.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="im.zhaojun.model.User">
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="salt" jdbcType="VARCHAR" property="salt" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="status" jdbcType="CHAR" property="status" />
-    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    user_id, username, password, salt, email, status, last_login_time, create_time, modify_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from user
-    where user_id = #{userId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
-    where user_id = #{userId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.model.User" useGeneratedKeys="true">
-    insert into user (username, password, salt, 
-      email, status, last_login_time)
-    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{lastLoginTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.model.User" useGeneratedKeys="true">
-    insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="username != null">
+    <resultMap id="BaseResultMap" type="im.zhaojun.model.User">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id,
         username,
-      </if>
-      <if test="password != null">
         password,
-      </if>
-      <if test="salt != null">
         salt,
-      </if>
-      <if test="email != null">
         email,
-      </if>
-      <if test="status != null">
         status,
-      </if>
-      <if test="lastLoginTime != null">
         last_login_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null">
-        #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=CHAR},
-      </if>
-      <if test="lastLoginTime != null">
-        #{lastLoginTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="im.zhaojun.model.User">
-    update user
-    <set>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null">
-        salt = #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=CHAR},
-      </if>
-      <if test="lastLoginTime != null">
-        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where user_id = #{userId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="im.zhaojun.model.User">
-    update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      salt = #{salt,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      status = #{status,jdbcType=CHAR},
-      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
-    where user_id = #{userId,jdbcType=INTEGER}
-  </update>
+        create_time,
+        modify_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.model.User"
+            useGeneratedKeys="true">
+        insert into user (username, password, salt,
+                          email, status, last_login_time)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{lastLoginTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.model.User"
+            useGeneratedKeys="true">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="salt != null">
+                salt,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="im.zhaojun.model.User">
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="im.zhaojun.model.User">
+        update user
+        set username        = #{username,jdbcType=VARCHAR},
+            password        = #{password,jdbcType=VARCHAR},
+            salt            = #{salt,jdbcType=VARCHAR},
+            email           = #{email,jdbcType=VARCHAR},
+            status          = #{status,jdbcType=CHAR},
+            last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
 
-  <select id="findPermsByUserName" resultType="String" parameterType="String">
-    select menu.perms
-    from
-      user,
-      role,
-      user_role,
-      menu,
-      role_menu
-    where
-      user.user_id = user_role.user_id and
-      role.role_id = user_role.role_id and
-      role.role_id = role_menu.role_id and
-      menu.menu_id = role_menu.menu_id and
-      user.username = #{username, jdbcType=VARCHAR}
-  </select>
+    <select id="selectPermsByUserName" resultType="String" parameterType="String">
+        select menu.perms
+        from
+             user,
+             role,
+             user_role,
+             menu,
+             role_menu
+        where
+            user.user_id = user_role.user_id
+          and
+            role.role_id = user_role.role_id
+          and
+            role.role_id = role_menu.role_id
+          and
+            menu.menu_id = role_menu.menu_id
+          and
+            user.username = #{username, jdbcType=VARCHAR}
+    </select>
 
-  <select id="findRoleNameByUserName" resultType="String" parameterType="String">
-    select role.role_name
-    from
-      user,
-      role,
-      user_role
-    where
-      user.user_id = user_role.user_id and
-      role.role_id = user_role.role_id and
-      user.username = #{username,jdbcType=VARCHAR}
-  </select>
+    <select id="selectRoleNameByUserName" resultType="String" parameterType="String">
+        select role.role_name
+        from
+             user,
+             role,
+             user_role
+        where
+            user.user_id = user_role.user_id
+          and
+            role.role_id = user_role.role_id
+          and
+            user.username = #{username,jdbcType=VARCHAR}
+    </select>
 
-  <select id="findOneByUserName" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from user
-    where username=#{username,jdbcType=VARCHAR} limit 1
-  </select>
+    <select id="selectOneByUserName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where username=#{username,jdbcType=VARCHAR} limit 1
+    </select>
 
 
-  <select id="findListByUserName" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from user
-    where 1=1
-    <if test="likeUsername!=null">
-      and username like CONCAT('%', #{likeUsername,jdbcType=VARCHAR}, '%')
-    </if>
-  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+    </select>
 
-  <update id="updateStatusByPrimaryKey">
-    update user set status = #{status} where user_id = #{id}
-  </update>
+    <update id="updateStatusByPrimaryKey">
+        update user
+        set status = #{status}
+        where user_id = #{id}
+    </update>
 </mapper>

@@ -2,6 +2,7 @@ package im.zhaojun.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import im.zhaojun.service.MenuService;
+import im.zhaojun.service.ShiroService;
 import im.zhaojun.shiro.realm.UserNameRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
@@ -18,6 +19,7 @@ public class ShiroConfig {
     @Resource
     private MenuService menuService;
 
+
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -26,7 +28,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(menuService.loadFilterChainDefinitions());
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(menuService.getUrlPermsMap());
         return shiroFilterFactoryBean;
     }
 
@@ -42,10 +44,7 @@ public class ShiroConfig {
     }
 
     /**
-     * 自定义身份认证 realm;
-     * <p>
-     * 必须写这个类，并加上 @Bean 注解，目的是注入 CustomRealm，
-     * 否则会影响 CustomRealm类 中其他类的依赖注入
+     * 自定义 Realm
      */
     @Bean
     public UserNameRealm userNameRealm() {

@@ -59,16 +59,6 @@
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <!--
-                <div class="layui-form-item">
-                    <label class="layui-form-label">
-                        选择权限
-                    </label>
-                    <div class="layui-input-block">
-                        <div id="LAY-auth-tree-index"></div>
-                    </div>
-                </div>
-                -->
                 <div class="layui-form-item">
                     <label for="parentId" class="layui-form-label">
                         上级菜单
@@ -76,7 +66,7 @@
                     <div class="layui-input-inline">
                         <select name="parentId" id="parentId">
                             <option value="">请选择上级菜单</option>
-                            <option th:each="obj:${menus}" th:selected="${obj.menuId == menu.parentId}" th:value="${obj.menuId}" th:text="${obj.menuName}"></option>
+                            <option th:each="obj:${menus}" th:selected="${obj.menuId == menu?.parentId}" th:value="${obj.menuId}" th:text="${obj.menuName}"></option>
                         </select>
                     </div>
                 </div>

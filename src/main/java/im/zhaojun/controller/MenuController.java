@@ -4,8 +4,6 @@ import im.zhaojun.model.Menu;
 import im.zhaojun.service.MenuService;
 import im.zhaojun.service.ShiroService;
 import im.zhaojun.util.ResultBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +15,6 @@ import java.util.List;
 @Controller
 public class MenuController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
-
     @Resource
     private MenuService menuService;
 
@@ -26,18 +22,18 @@ public class MenuController {
     private ShiroService shiroService;
 
     @GetMapping("/menus")
-    public String listMenuHtml() {
+    public String index() {
         return "menu-list";
     }
 
-    @GetMapping("/menus/tree")
+    @GetMapping("/menus/list")
     @ResponseBody
-    public ResultBean<Collection<Menu>> getAll() {
+    public ResultBean<Collection<Menu>> getList() {
         return new ResultBean<>(menuService.selectAll());
     }
 
     @GetMapping("/menu")
-    public String menuHTML(Model model) {
+    public String get(Model model) {
         List<Menu> menus = menuService.selectAllMenu();
         model.addAttribute("menus", menus);
         return "menu-add";
@@ -46,7 +42,6 @@ public class MenuController {
     @PostMapping("/menu")
     @ResponseBody
     public ResultBean<Integer> add(Menu menu) {
-        logger.debug("add menu: {}", menu);
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }
@@ -62,7 +57,7 @@ public class MenuController {
     }
 
     @GetMapping("/menu/{id}")
-    public String editHtml(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable("id") Integer id, Model model) {
         Menu menu = menuService.selectOne(id);
         List<Menu> menus = menuService.selectAllMenu();
         model.addAttribute("menu", menu);
@@ -73,7 +68,6 @@ public class MenuController {
     @PutMapping("/menu")
     @ResponseBody
     public ResultBean<Boolean> edit(Menu menu) {
-        logger.debug("edit menu: {}", menu);
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }

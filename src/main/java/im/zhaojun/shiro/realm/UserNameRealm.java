@@ -25,8 +25,8 @@ public class UserNameRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String) principals.getPrimaryPrincipal();
 
-        Set<String> roles = userMapper.findRoleNameByUserName(username);
-        Set<String> perms = userMapper.findPermsByUserName(username);
+        Set<String> roles = userMapper.selectRoleNameByUserName(username);
+        Set<String> perms = userMapper.selectPermsByUserName(username);
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(roles);
@@ -37,7 +37,7 @@ public class UserNameRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = (String) token.getPrincipal();
-        User user = userMapper.findOneByUserName(username);
+        User user = userMapper.selectOneByUserName(username);
         if (user == null) {
             throw new UnknownAccountException();
         }

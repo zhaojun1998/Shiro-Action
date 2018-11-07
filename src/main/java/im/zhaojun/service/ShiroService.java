@@ -1,15 +1,17 @@
 package im.zhaojun.service;
 
+import im.zhaojun.model.Menu;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -17,14 +19,14 @@ public class ShiroService {
 
     private static final Logger logger = LoggerFactory.getLogger(ShiroService.class);
 
-    @Autowired
+    @Resource
     private ShiroFilterFactoryBean shiroFilterFactoryBean;
 
     @Resource
     private MenuService menuService;
 
     /**
-     * 重新加载权限
+     * 更新 Shiro 过滤器链
      */
     public void updatePermission() {
         synchronized (shiroFilterFactoryBean) {
@@ -44,7 +46,7 @@ public class ShiroService {
             manager.getFilterChains().clear();
             shiroFilterFactoryBean.getFilterChainDefinitionMap().clear();
             shiroFilterFactoryBean
-                    .setFilterChainDefinitionMap(menuService.loadFilterChainDefinitions());
+                    .setFilterChainDefinitionMap(menuService.getUrlPermsMap());
             // 重新构建生成
             Map<String, String> chains = shiroFilterFactoryBean
                     .getFilterChainDefinitionMap();
@@ -54,7 +56,6 @@ public class ShiroService {
                         .replace(" ", "");
                 manager.createChain(url, chainDefinition);
             }
-            logger.info("已从数据库重新加载权限信息");
         }
     }
 }
