@@ -67,7 +67,7 @@
                     , layer = layui.layer
                     , authtree = layui.authtree;
 
-                $.get('/menus/tree', function (data) {
+                $.get('/menus/list', function (data) {
                     var trees = authtree.listConvert(data.data, {
                         primaryKey: 'id'
                         , startPid: 0

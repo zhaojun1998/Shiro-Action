@@ -1,6 +1,7 @@
 package im.zhaojun.controller;
 
 import com.github.pagehelper.PageInfo;
+import im.zhaojun.model.User;
 import im.zhaojun.model.vo.UserVO;
 import im.zhaojun.service.UserService;
 import im.zhaojun.util.PageResultBean;
@@ -21,24 +22,29 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    public String getUsers() {
+    public String index() {
         return "user-list";
     }
 
     @GetMapping("/users/page")
     @ResponseBody
-    public PageResultBean<UserVO> userList(@RequestParam(value = "username", required = false) String username,
-                                           @RequestParam(value = "page", defaultValue = "1") int page,
-                                           @RequestParam(value = "limit", defaultValue = "10")int limit) {
-        List<UserVO> users = userService.findListByUserName(username, page, limit);
+    public PageResultBean<UserVO> getList(@RequestParam(value = "page", defaultValue = "1") int page,
+                                          @RequestParam(value = "limit", defaultValue = "10")int limit) {
+        List<UserVO> users = userService.selectAll(page, limit);
         PageInfo<UserVO> userPageInfo = new PageInfo<>(users);
         return new PageResultBean<>(userPageInfo.getTotal(), userPageInfo.getList());
     }
 
 
     @GetMapping("/user")
-    public String addHtml() {
+    public String add() {
         return "user-add";
+    }
+
+    @PostMapping("/user")
+    @ResponseBody
+    public ResultBean<Integer> add(User user) {
+        return new ResultBean<>(userService.add(user));
     }
 
     @PostMapping("/user/disable")

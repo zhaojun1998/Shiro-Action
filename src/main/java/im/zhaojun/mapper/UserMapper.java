@@ -21,13 +21,28 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    Set<String> findPermsByUserName(@Param("username")String username);
+    /**
+     * 获取用户所拥有的所有权限
+     */
+    Set<String> selectPermsByUserName(@Param("username")String username);
 
-    Set<String> findRoleNameByUserName(@Param("username")String username);
+    /**
+     * 获取用户所拥有的所有角色
+     */
+    Set<String> selectRoleNameByUserName(@Param("username")String username);
 
-    User findOneByUserName(@Param("username")String username);
+    /**
+     * 根据用户名获取用户
+     */
+    User selectOneByUserName(@Param("username")String username);
 
-    List<User> findListByUserName(@Param("likeUsername")String likeUsername);
+    /**
+     * 获取所有用户
+     */
+    List<User> selectAll();
 
+    /**
+     * 更改用户的状态为某项值
+     */
     int updateStatusByPrimaryKey(@Param("id") Integer id, @Param("status") int status);
 }

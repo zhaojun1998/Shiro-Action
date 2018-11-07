@@ -70,21 +70,9 @@
         where role_id = #{roleId,jdbcType=INTEGER}
     </update>
 
-    <select id="findListByName" resultMap="BaseResultMap">
+    <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from role
-        where 1=1
-        <if test="likeName!=null">
-            and role_name like concat('%', #{likeName,jdbcType=VARCHAR} ,'%')
-        </if>
-    </select>
-
-    <select id="selectMenuIdByRoleId" resultType="int">
-        select role_menu.menu_id
-        from menu,
-             role_menu
-        where role_menu.menu_id = menu.menu_id
-          and role_menu.role_id = #{roleId}
     </select>
 </mapper>

@@ -20,7 +20,7 @@ public class LoginController {
 
     @PostMapping("login")
     @ResponseBody
-    public ResultBean<String> doLogin(User user) {
+    public ResultBean<String> login(User user) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         subject.login(token);

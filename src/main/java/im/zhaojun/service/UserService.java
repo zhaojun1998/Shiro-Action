@@ -17,9 +17,9 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
-    public List<UserVO> findListByUserName(String username, int page, int rows) {
+    public List<UserVO> selectAll(int page, int rows) {
         PageHelper.startPage(page, rows);
-        List<User> userList = userMapper.findListByUserName(username);
+        List<User> userList = userMapper.selectAll();
         List<UserVO> userVOList = new ArrayList<>();
         for (User user : userList) {
             UserVO userVO = new UserVO();
@@ -27,6 +27,11 @@ public class UserService {
             userVOList.add(userVO);
         }
         return userVOList;
+    }
+
+    public Integer add(User user) {
+        userMapper.insert(user);
+        return user.getUserId();
     }
 
     public boolean disableUserByID(Integer id) {

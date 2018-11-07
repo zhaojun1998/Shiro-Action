@@ -8,102 +8,9 @@ import java.util.*;
 
 public class MenuVOConvert {
 
-    public static List<MenuTreeVO> menuToTree(List<Menu> menus) {
-        Map<Integer, MenuTreeVO> result = new HashMap<>();
-        Map<Integer, MenuTreeVO> hash = new HashMap<>();
-        for (Menu menu : menus) {
-            hash.put(menu.getMenuId(), menuToTreeVO(menu));
-        }
-
-        for (Menu menu : menus) {
-            MenuTreeVO menuTreeVO = menuToTreeVO(menu);
-
-            Integer parentId = menu.getParentId();
-
-            MenuTreeVO parent = result.containsKey(parentId) ? result.get(parentId): hash.get(parentId);
-
-            if (parent != null) {
-                List<MenuTreeVO> children = parent.getChildren();
-                if (children == null) {
-                    List<MenuTreeVO> newChildren = new ArrayList<>();
-                    newChildren.add(menuTreeVO);
-                    parent.setChildren(newChildren);
-                } else {
-                    children.add(menuTreeVO);
-                    parent.setChildren(children);
-                }
-                result.put(parent.getMenuId(), parent);
-            } else {
-                result.put(menuTreeVO.getMenuId(), menuTreeVO);
-            }
-        }
-
-        ArrayList<MenuTreeVO> list = new ArrayList<>();
-        Set<Map.Entry<Integer, MenuTreeVO>> entries = result.entrySet();
-        for (Map.Entry<Integer, MenuTreeVO> entry : entries) {
-            list.add(entry.getValue());
-        }
-        return list;
-    }
-
-    public static MenuTreeVO menuToTreeVO(Menu menu) {
-        MenuTreeVO menuTreeVO = new MenuTreeVO();
-        BeanUtils.copyProperties(menu, menuTreeVO);
-        return menuTreeVO;
-    }
-
-    public static List<MenuTreeVO> menuToTreeVO(List<Menu> menus) {
-        List<MenuTreeVO> menuTreeVOS = new ArrayList<>();
-        for (Menu menu : menus) {
-            menuTreeVOS.add(menuToTreeVO(menu));
-        }
-        return menuTreeVOS;
-    }
-
-
     private static Map<Integer, MenuTreeVO> result = new HashMap<>();
     private static Map<Integer, Menu> hash = new HashMap<>();
 
-    public static List<MenuTreeVO> menuToTree2(List<Menu> menus) {
-        for (Menu menu : menus) {
-            hash.put(menu.getMenuId(), menu);
-        }
-
-        for (Menu menu : menus) {
-//            MenuTreeVO menuTreeVO = menuToTreeVO(menu);
-            getChildren(menu);
-        }
-
-        ArrayList<MenuTreeVO> list = new ArrayList<>();
-        Set<Map.Entry<Integer, MenuTreeVO>> entries = result.entrySet();
-        for (Map.Entry<Integer, MenuTreeVO> entry : entries) {
-            list.add(entry.getValue());
-        }
-        return list;
-    }
-
-    private static List<Menu> getChildren(Menu menu) {
-
-        List<Menu> list = new ArrayList<>();
-
-        for (Map.Entry<Integer, Menu> menuTreeVOEntry : hash.entrySet()) {
-            getChildren(menuTreeVOEntry.getValue());
-            Menu value = menuTreeVOEntry.getValue();
-            if (value.getParentId().equals(menu.getMenuId())) {
-                list.add(value);
-                hash.remove(menuTreeVOEntry.getKey());
-            }
-        }
-        return list;
-    }
-
-
-
-    /**
-     *方法三
-     * @param list
-     * @return
-     */
     public static List<MenuTreeVO> toTree(List<MenuTreeVO> list) {
         List<MenuTreeVO> treeList = new ArrayList<>();
         for (MenuTreeVO tree : list) {
@@ -129,5 +36,35 @@ public class MenuVOConvert {
                 toTreeChildren(node.getChildren(),tree);
             }
         }
+    }
+
+    /**
+     * 查找当前菜单的所有子菜单, 并设置到当前菜单对象的 children 字段中.
+     */
+    private static void setChildrenBySelf(Menu menu) {
+        List<Menu> list = new ArrayList<>();
+
+        for (Map.Entry<Integer, Menu> menuTreeVOEntry : hash.entrySet()) {
+            setChildrenBySelf(menuTreeVOEntry.getValue());
+            Menu value = menuTreeVOEntry.getValue();
+            if (value.getParentId().equals(menu.getMenuId())) {
+                list.add(value);
+                hash.remove(menuTreeVOEntry.getKey());
+            }
+        }
+    }
+
+    public static List<MenuTreeVO> menuToTreeVO(List<Menu> menus) {
+        List<MenuTreeVO> menuTreeVOS = new ArrayList<>();
+        for (Menu menu : menus) {
+            menuTreeVOS.add(menuToTreeVO(menu));
+        }
+        return menuTreeVOS;
+    }
+
+    private static MenuTreeVO menuToTreeVO(Menu menu) {
+        MenuTreeVO menuTreeVO = new MenuTreeVO();
+        BeanUtils.copyProperties(menu, menuTreeVO);
+        return menuTreeVO;
     }
 }

@@ -20,13 +20,33 @@ public interface MenuMapper {
 
     int updateByPrimaryKey(Menu record);
 
+    /**
+     * 获取所有菜单(导航菜单和按钮)
+     */
     List<Menu> selectAll();
 
+    /**
+     * 获取所有导航菜单
+     */
     List<Menu> selectAllMenu();
 
+    /**
+     * 删除当前菜单的所有子菜单
+     */
     int deleteByParentId(Integer parentId);
 
+    /**
+     * 查找某菜单的所有子类 ID
+     */
     List<Integer> selectChildrenID(Integer id);
 
+    /**
+     * 获取某个用户的所拥有的导航菜单
+     */
     List<Menu> selectMenuByUserName(@Param("userName") String userName);
+
+    /**
+     * 根据角色获取所有的权限ID
+     */
+    List<Integer> selectMenuIdByRoleId(@Param("roleId") Integer roleId);
 }

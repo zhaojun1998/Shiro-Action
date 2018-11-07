@@ -19,10 +19,16 @@ public class MenuService {
     @Resource
     private MenuMapper menuMapper;
 
+    /**
+     * 获取所有菜单(导航菜单和按钮)
+     */
     public List<Menu> selectAll() {
         return menuMapper.selectAll();
     }
 
+    /**
+     * 获取所有导航菜单
+     */
     public List<Menu> selectAllMenu() {
         return menuMapper.selectAllMenu();
     }
@@ -31,21 +37,31 @@ public class MenuService {
         return menuMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 获取所有菜单 (树形结构)
+     */
     public List<MenuTreeVO> getALLMenuTreeVO() {
         List<Menu> menus = selectAllMenu();
         List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
         return TreeUtil.toTree(menuTreeVOS);
     }
 
-    public List<MenuTreeVO> getCurrentUserMenuTreeVO() {
+    /**
+     * 获取当前登陆用户拥有的树形菜单
+     */
+    public List<MenuTreeVO> selectCurrentUserMenuTreeVO() {
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
         List<Menu> menus = selectMenuByUserName(userName);
         List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
         return TreeUtil.toTree(menuTreeVOS);
     }
 
-
-    public List<Menu> selectMenuByUserName(String userName) {
+    /**
+     * 根据用户名获取所拥有的树形菜单
+     * @param userName
+     * @return
+     */
+    private List<Menu> selectMenuByUserName(String userName) {
         return menuMapper.selectMenuByUserName(userName);
     }
 
@@ -67,6 +83,9 @@ public class MenuService {
         return menuMapper.deleteByPrimaryKey(id) == 1;
     }
 
+    /**
+     * 删除当前菜单以及其子菜单
+     */
     public boolean deleteByIDAndChildren(Integer id) {
         List<Integer> childIDList = menuMapper.selectChildrenID(id);
         for (Integer childID : childIDList) {
@@ -75,12 +94,10 @@ public class MenuService {
         return delete(id);
     }
 
-
     /**
      * 从数据库加载权限列表
      */
-    public Map<String, String> loadFilterChainDefinitions() {
-        // 权限控制map.从数据库获取
+    public Map<String, String> getUrlPermsMap() {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
         filterChainDefinitionMap.put("/css/**", "anon");
