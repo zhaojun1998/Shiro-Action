@@ -2,6 +2,7 @@ package im.zhaojun.service;
 
 import im.zhaojun.mapper.MenuMapper;
 import im.zhaojun.model.Menu;
+import im.zhaojun.model.User;
 import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.util.MenuVOConvert;
 import im.zhaojun.util.TreeUtil;
@@ -50,8 +51,8 @@ public class MenuService {
      * 获取当前登陆用户拥有的树形菜单
      */
     public List<MenuTreeVO> selectCurrentUserMenuTreeVO() {
-        String userName = (String) SecurityUtils.getSubject().getPrincipal();
-        List<Menu> menus = selectMenuByUserName(userName);
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        List<Menu> menus = selectMenuByUserName(user.getUsername());
         List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
         return TreeUtil.toTree(menuTreeVOS);
     }

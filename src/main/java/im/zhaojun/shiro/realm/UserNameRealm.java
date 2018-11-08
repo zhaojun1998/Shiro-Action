@@ -23,7 +23,9 @@ public class UserNameRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String username = (String) principals.getPrimaryPrincipal();
+        User user = (User) principals.getPrimaryPrincipal();
+
+        String username = user.getUsername();
 
         Set<String> roles = userMapper.selectRoleNameByUserName(username);
         Set<String> perms = userMapper.selectPermsByUserName(username);
@@ -44,6 +46,6 @@ public class UserNameRealm extends AuthorizingRealm {
         if ("0".equals(user.getStatus())) {
             throw new LockedAccountException();
         }
-        return new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), ByteSource.Util.bytes(user.getSalt()), super.getName());
+        return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), super.getName());
     }
 }

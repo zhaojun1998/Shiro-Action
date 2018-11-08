@@ -1,8 +1,12 @@
 package im.zhaojun.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = -3200103254689137288L;
+
     private Integer userId;
 
     private String username;
