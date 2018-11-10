@@ -1,5 +1,7 @@
 package im.zhaojun.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,8 +13,10 @@ public class User implements Serializable {
 
     private String username;
 
+    @JsonIgnore
     private String password;
 
+    @JsonIgnore
     private String salt;
 
     private String email;
@@ -21,8 +25,10 @@ public class User implements Serializable {
 
     private Date lastLoginTime;
 
+    @JsonIgnore
     private Date createTime;
 
+    @JsonIgnore
     private Date modifyTime;
 
     public Integer getUserId() {

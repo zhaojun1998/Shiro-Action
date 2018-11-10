@@ -26,6 +26,15 @@
             -ms-box-sizing: border-box; /*IE8*/
             box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
         }
+        .dHead {
+            height:85px;
+            width:100%;
+            position: fixed;
+            z-index:5;
+            top:0;
+            overflow-x: auto;
+            padding: 10px;
+        }
         .dBody {
             width:100%;
             overflow:auto;
@@ -65,7 +74,7 @@
     </body>
 
     <script>
-        var editObj = null, ptable = null, treeGrid = null, tableId = 'treeTable', layer = null;
+        var ptable = null, treeGrid = null, tableId = 'treeTable', layer = null;
         layui.config({
             base: '/lib/layui/extend/'
         }).extend({
@@ -78,7 +87,6 @@
                 id: tableId
                 , elem: '#' + tableId
                 , url: '/menus/list'
-                , cellMinWidth: 100
                 , idField: 'id' //必須字段
                 , treeId: 'id' //树形id字段名称
                 , treeUpId: 'pid'//树形父id字段名称
@@ -102,15 +110,14 @@
                         }}
                         , {field: 'url', width: 100, title: '地址', sort: true}
                         , {field: 'perms', title: '权限表示', sort: true}
-                        , {
-                        width: 100, title: '操作', align: 'center'/*toolbar: '#barDemo'*/
-                        , templet: function (d) {
-                            var html = '';
-                            var addBtn = '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>';
-                            var delBtn = '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
-                            return addBtn + delBtn;
+                        , {title: '操作', align: 'center'/*toolbar: '#barDemo'*/
+                            , templet: function (d) {
+                                var html = '';
+                                var addBtn = '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>';
+                                var delBtn = '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                                return addBtn + delBtn;
+                            }
                         }
-                    }
                     ]
                 ]
                 , isPage: false
