@@ -61,7 +61,7 @@
 <!-- 左侧菜单结束 -->
 <!-- 右侧主体开始 -->
 <div class="page-content">
-    <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+    <div class="layui-tab tab" lay-filter="tab" lay-allowclose="false">
         <ul class="layui-tab-title">
             <li class="home"><i class="layui-icon">&#xe68e;</i>我的桌面</li>
         </ul>
@@ -81,5 +81,24 @@
     <div class="copyright">Copyright ©2017 x-admin v2.3 All Rights Reserved</div>
 </div>
 <!-- 底部结束 -->
+
+<script type="application/javascript">
+
+    layui.use(['form', 'element'], function () {
+        // 获取 URL 的路由值
+        var layid = location.hash.replace(/^#tab=/, '');
+
+        // 当路由值不为空则获取
+        if (layid != null && layid !== '') {
+            $("a[_href='" + layid + "']").click();
+        }
+
+        // 当切换标签卡时更改路由值
+        element.on('tab(tab)', function (elem) {
+            location.hash = 'tab=' + $(this).attr('lay-id');
+        });
+    });
+
+</script>
 </body>
 </html>

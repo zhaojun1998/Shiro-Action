@@ -1,16 +1,16 @@
 $(function () {
+
     //加载弹出层
-    layui.use(['form', 'element'],
-        function () {
-            layer = layui.layer;
-            element = layui.element;
-        });
+    layui.use(['form', 'element'], function () {
+        layer = layui.layer;
+        element = layui.element;
+    });
 
     //触发事件
     var tab = {
         tabAdd: function (title, url, id) {
             //新增一个Tab项
-            element.tabAdd('xbs_tab', {
+            element.tabAdd('tab', {
                 title: title
                 ,
                 content: '<iframe tab-id="' + id + '" frameborder="0" src="' + url + '" scrolling="yes" class="x-iframe"></iframe>'
@@ -20,14 +20,14 @@ $(function () {
         }
         , tabDelete: function (othis) {
             //删除指定Tab项
-            element.tabDelete('xbs_tab', '44'); //删除：“商品管理”
+            element.tabDelete('tab', '44'); //删除：“商品管理”
 
 
             othis.addClass('layui-btn-disabled');
         }
         , tabChange: function (id) {
             //切换到指定Tab项
-            element.tabChange('xbs_tab', id); //切换到：用户管理
+            element.tabChange('tab', id); //切换到：用户管理
         }
     };
 
@@ -105,7 +105,7 @@ $(function () {
                 $("tbody tr[cate-id=" + cateIds[i] + "]").hide().find('.x-show').html('&#xe623;').attr('status', 'true');
             }
         }
-    })
+    });
 
     //左侧菜单效果
     // $('#content').bind("click",function(event){
@@ -132,23 +132,22 @@ $(function () {
             var index = $('.left-nav #nav li').index($(this));
 
             for (var i = 0; i < $('.x-iframe').length; i++) {
-                if ($('.x-iframe').eq(i).attr('tab-id') == index + 1) {
-                    tab.tabChange(index + 1);
+                if ($('.x-iframe').eq(i).attr('tab-id') == url) {
+                    tab.tabChange(url);
                     event.stopPropagation();
                     return;
                 }
             }
-            ;
 
-            tab.tabAdd(title, url, index + 1);
-            tab.tabChange(index + 1);
+            tab.tabAdd(title, url, url);
+            tab.tabChange(url);
         }
 
         event.stopPropagation();
 
     })
 
-})
+});
 var cateIds = [];
 
 function getCateId(cateId) {
