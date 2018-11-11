@@ -41,7 +41,7 @@
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
                 <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
                 <dd><a onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
-                <dd><a href="./login.html">退出</a></dd>
+                <dd><a href="login.html" th:href="@{logout}">退出</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
@@ -85,17 +85,20 @@
 <script type="application/javascript">
 
     layui.use(['form', 'element'], function () {
-        // 获取 URL 的路由值
-        var layid = location.hash.replace(/^#tab=/, '');
 
-        // 当路由值不为空则获取
-        if (layid != null && layid !== '') {
-            $("a[_href='" + layid + "']").click();
-        }
+        $(function () {
+            // 获取 URL 的路由值
+            var layid = location.hash.replace(/^#tab=/, '');
 
-        // 当切换标签卡时更改路由值
-        element.on('tab(tab)', function (elem) {
-            location.hash = 'tab=' + $(this).attr('lay-id');
+            // 当路由值不为空则获取
+            if (layid != null && layid !== '') {
+                $("a[_href='" + layid + "']").click();
+            }
+
+            // 当切换标签卡时更改路由值
+            element.on('tab(tab)', function (elem) {
+                location.hash = 'tab=' + $(this).attr('lay-id');
+            });
         });
     });
 
