@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import im.zhaojun.mapper.UserMapper;
 import im.zhaojun.model.User;
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,14 +22,16 @@ public class UserService {
 
     public Integer add(User user) {
         String salt = String.valueOf(System.currentTimeMillis());
-        Md5Hash md5Hash = new Md5Hash(user.getPassword(), salt);
-        String encryptPassword = md5Hash.toString();
+        String encryptPassword = new Md5Hash(user.getPassword(), salt).toString();
 
-        ByteSource.Util.bytes("TestSalt");
         user.setSalt(salt);
         user.setPassword(encryptPassword);
         userMapper.insert(user);
         return user.getUserId();
+    }
+
+    public boolean updateLastLoginTimeByUsername(String username) {
+        return userMapper.updateLastLoginTimeByUsername(username) == 1;
     }
 
     public boolean disableUserByID(Integer id) {
