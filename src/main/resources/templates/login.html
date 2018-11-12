@@ -33,6 +33,11 @@
     </div>
 
     <script>
+        // 如果在 iframe 中, 则跳出 iframe
+        if (self !== top) {
+            top.location.href = location.href;
+        }
+
         $(function () {
             layui.use('form', function () {
                 var form = layui.form;
