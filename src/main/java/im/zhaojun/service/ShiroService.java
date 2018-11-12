@@ -1,6 +1,5 @@
 package im.zhaojun.service;
 
-import im.zhaojun.model.Menu;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
@@ -10,14 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
 public class ShiroService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShiroService.class);
+    private static final Logger log = LoggerFactory.getLogger(ShiroService.class);
 
     @Resource
     private ShiroFilterFactoryBean shiroFilterFactoryBean;
@@ -28,7 +25,7 @@ public class ShiroService {
     /**
      * 更新 Shiro 过滤器链
      */
-    public void updatePermission() {
+    public void updateFilterChain() {
         synchronized (shiroFilterFactoryBean) {
             AbstractShiroFilter shiroFilter = null;
             try {

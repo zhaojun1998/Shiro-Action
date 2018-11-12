@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String update(@PathVariable("id") Integer id, Model model) {
         User user = userService.selectOne(id);
         model.addAttribute("user", user);
         return "user-add";
@@ -53,7 +53,7 @@ public class UserController {
 
     @PutMapping("/user")
     @ResponseBody
-    public ResultBean<Boolean> edit(User user) {
+    public ResultBean<Boolean> update(User user) {
         return new ResultBean<>(userService.update(user));
     }
 

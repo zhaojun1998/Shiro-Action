@@ -14,23 +14,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class WebExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(WebExceptionHandler.class);
 
     @ExceptionHandler
     public ResultBean unknownAccount(UnknownAccountException e) {
-        logger.error("账号不存在");
+        log.error("账号不存在");
         return ResultBean.error(ResultBean.FAIL, "账号不存在");
     }
 
     @ExceptionHandler
     public ResultBean incorrectCredentials(IncorrectCredentialsException e) {
-        logger.error("密码错误");
+        log.error("密码错误");
         return ResultBean.error(ResultBean.FAIL, "密码错误");
     }
 
     @ExceptionHandler
     public ResultBean lockedAccount(LockedAccountException e) {
-        logger.error("账号已锁定");
+        log.error("账号已锁定");
         return ResultBean.error(ResultBean.FAIL, "账号已锁定");
     }
 

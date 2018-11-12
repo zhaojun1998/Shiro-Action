@@ -101,6 +101,7 @@ public class MenuService {
     public Map<String, String> getUrlPermsMap() {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
+        filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/images/**", "anon");

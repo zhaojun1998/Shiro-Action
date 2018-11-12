@@ -16,13 +16,14 @@ import java.util.Set;
 
 public class UserNameRealm extends AuthorizingRealm {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserNameRealm.class);
+    private static final Logger log = LoggerFactory.getLogger(UserNameRealm.class);
 
     @Resource
     private UserMapper userMapper;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        log.info("从数据库获取权限信息");
         User user = (User) principals.getPrimaryPrincipal();
 
         String username = user.getUsername();
@@ -38,6 +39,7 @@ public class UserNameRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        log.info("从数据库获取认证信息");
         String username = (String) token.getPrincipal();
         User user = userMapper.selectOneByUserName(username);
         if (user == null) {
