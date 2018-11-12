@@ -1,5 +1,6 @@
 package im.zhaojun.controller;
 
+import im.zhaojun.annotaion.UpdateFilterChain;
 import im.zhaojun.model.Menu;
 import im.zhaojun.service.MenuService;
 import im.zhaojun.service.ShiroService;
@@ -39,17 +40,17 @@ public class MenuController {
         return "menu-add";
     }
 
+    @UpdateFilterChain
     @PostMapping("/menu")
     @ResponseBody
     public ResultBean<Integer> add(Menu menu) {
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }
-        ResultBean<Integer> resultBean = new ResultBean<>(menuService.add(menu));
-        shiroService.updatePermission();
-        return resultBean;
+        return new ResultBean<>(menuService.add(menu));
     }
 
+    @UpdateFilterChain
     @DeleteMapping("/menu/{id}")
     @ResponseBody
     public ResultBean<Boolean> delete(@PathVariable("id") Integer id) {
@@ -57,7 +58,7 @@ public class MenuController {
     }
 
     @GetMapping("/menu/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String update(@PathVariable("id") Integer id, Model model) {
         Menu menu = menuService.selectOne(id);
         List<Menu> menus = menuService.selectAllMenu();
         model.addAttribute("menu", menu);
@@ -65,14 +66,13 @@ public class MenuController {
         return "menu-add";
     }
 
+    @UpdateFilterChain
     @PutMapping("/menu")
     @ResponseBody
-    public ResultBean<Boolean> edit(Menu menu) {
+    public ResultBean<Boolean> update(Menu menu) {
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }
-        ResultBean<Boolean> resultBean = new ResultBean<>(menuService.update(menu));
-        shiroService.updatePermission();
-        return resultBean;
+        return new ResultBean<>(menuService.update(menu));
     }
 }
