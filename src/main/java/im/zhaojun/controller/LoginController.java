@@ -38,6 +38,6 @@ public class LoginController {
     @GetMapping("logout")
     public String logout() {
         SecurityUtils.getSubject().logout();
-        return "login";
+        return "redirect:login";
     }
 }
