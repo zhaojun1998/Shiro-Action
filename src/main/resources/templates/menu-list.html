@@ -102,14 +102,15 @@
                 , cols: [
                     [
                         {type: 'numbers'}
-                        , {field: 'name', width: 300, title: '名称', sort: true}
-                        , {width: 100, title: '类型', templet: function (d) {
+                        , {field: 'name', width: 300, title: '名称'}
+                        , {width: 80, title: '类型', templet: function (d) {
                             var html = "<a class='layui-btn layui-btn-xs " + (d.type === '0' ? '' : 'layui-btn-warm')
                                  + "'>" + (d.type === '0' ? '菜单' : '按钮') + "</a>";
                             return html;
                         }}
-                        , {field: 'url', width: 100, title: '地址', sort: true}
-                        , {field: 'perms', title: '权限表示', sort: true}
+                        , {field: 'url', width: 200, title: '地址'}
+                        , {field: 'perms', title: '权限标识符'}
+                        , {field: 'orderNum', width: 80, title: '权重', sort: true}
                         , {title: '操作', align: 'center'/*toolbar: '#barDemo'*/
                             , templet: function (d) {
                                 var html = '';

@@ -51,6 +51,15 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label for="orderNum" class="layui-form-label">
+                        权重
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="orderNum" th:value="${menu?.orderNum}" name="orderNum" lay-verify="number|required"
+                               autocomplete="off" class="layui-input" placeholder="权重值越大, 排序越靠前">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label for="perms" class="layui-form-label">
                         菜单标识
                     </label>
