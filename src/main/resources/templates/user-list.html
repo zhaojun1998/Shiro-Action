@@ -53,19 +53,18 @@
                 table.render({
                     elem: '#user-table'
                     , url: '/users/page'
-                    , cellMinWidth: 80 // 全局定义常规单元格的最小宽度，layui 2.2.1 新增
                     , page: true
                     , toolbar: '#toolbar'
                     , cols: [
                         [
-                            {field: 'userId', title: 'ID', sort: true}
-                            , {field: 'username', title: '用户名'}
-                            , {field: 'email', title: '邮箱'}
-                            , {field: 'lastLoginTime', title: '最后登陆时间'}
+                            {field: 'userId', title: 'ID', sort: true, width: "15%"}
+                            , {field: 'username', title: '用户名', width: "20%"}
+                            , {field: 'email', title: '邮箱', width: "20%"}
+                            , {field: 'lastLoginTime', title: '最后登陆时间', width: "15%"}
                             , {field: 'status', title: '状态', templet: function (d) {
                                 return d.status === '1' ? "正常" : "锁定";
-                            }}
-                            , {title: '操作', align: 'center', toolbar: '#column-toolbar'}
+                            }, width: "15%"}
+                            , {title: '操作', align: 'center', toolbar: '#column-toolbar', width: "15%"}
                         ]
                     ]
                 });
