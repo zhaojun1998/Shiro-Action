@@ -2,6 +2,7 @@ package im.zhaojun.shiro.realm;
 
 import im.zhaojun.mapper.UserMapper;
 import im.zhaojun.model.User;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -10,10 +11,12 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Set;
 
+@Component
 public class UserNameRealm extends AuthorizingRealm {
 
     private static final Logger log = LoggerFactory.getLogger(UserNameRealm.class);
@@ -49,5 +52,9 @@ public class UserNameRealm extends AuthorizingRealm {
             throw new LockedAccountException();
         }
         return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), super.getName());
+    }
+
+    public void clearAuthorizationCache(){
+        this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
     }
 }
