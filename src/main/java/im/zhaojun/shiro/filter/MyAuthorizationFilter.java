@@ -1,4 +1,4 @@
-package im.zhaojun.shiro;
+package im.zhaojun.shiro.filter;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.StringUtils;
@@ -22,6 +22,25 @@ public class MyAuthorizationFilter extends PermissionsAuthorizationFilter {
     private static final Logger log = LoggerFactory
             .getLogger(MyAuthorizationFilter.class);
 
+    @Override
+    protected boolean pathsMatch(String path, ServletRequest request) {
+        String requestURI = this.getPathWithinApplication(request);
+
+        log.info("path: {}, requestUrl: {}", path, requestURI);
+
+        String[] strings = path.split("==");
+        if (strings.length <= 1) {
+            // 普通的 URL, 正常处理
+            return this.pathsMatch(strings[0], requestURI);
+        } else {
+            // 获取当前请求的 http method.
+            String httpMethod = WebUtils.toHttp(request).getMethod().toUpperCase();
+
+            // 匹配当前请求的 http method 与 过滤器链中的的是否一致
+            return httpMethod.equals(strings[1].toUpperCase()) && this.pathsMatch(strings[0], requestURI);
+        }
+    }
+
     /**
      * 当没有权限被拦截时:
      *          如果是 AJAX 请求, 则返回 JSON 数据.
@@ -29,6 +48,7 @@ public class MyAuthorizationFilter extends PermissionsAuthorizationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
+        log.info("http method:" + WebUtils.toHttp(request).getMethod().toUpperCase());
         Subject subject = getSubject(request, response);
         // 如果未登录
         if (subject.getPrincipal() == null) {

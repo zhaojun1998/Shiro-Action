@@ -59,8 +59,6 @@ public class MenuService {
 
     /**
      * 根据用户名获取所拥有的树形菜单
-     * @param userName
-     * @return
      */
     private List<Menu> selectMenuByUserName(String userName) {
         return menuMapper.selectMenuByUserName(userName);
@@ -111,9 +109,13 @@ public class MenuService {
 
         List<Menu> menus = selectAll();
         for (Menu menu : menus) {
-            filterChainDefinitionMap.put("/" + menu.getUrl(), "perms[" + menu.getPerms() + "]");
+            String url = menu.getUrl();
+            if (menu.getMethod() != null && !"".equals(menu.getMethod().trim())) {
+                url += ("==" + menu.getMethod());
+            }
+            String perms = "perms[" + menu.getPerms() + "]";
+            filterChainDefinitionMap.put(url, perms);
         }
-
         filterChainDefinitionMap.put("/**", "authc");
         return filterChainDefinitionMap;
     }

@@ -54,8 +54,8 @@
     <body class="layui-anim layui-anim-fadein">
         <div class="x-nav">
             <span class="layui-breadcrumb">
-            <a href="">首页</a>
-            <a href="">系统管理</a>
+            <a href="#">首页</a>
+            <a href="#">权限管理</a>
             <a><cite>菜单管理</cite></a>
             </span>
             <a class="layui-icon layui-icon-refresh"
@@ -101,16 +101,17 @@
                 , method: 'get'
                 , cols: [
                     [
-                        {type: 'numbers'}
-                        , {field: 'name', width: 300, title: '名称'}
-                        , {width: 80, title: '类型', templet: function (d) {
+                        {type: 'numbers', width: "5%"}
+                        , {field: 'name', title: '名称', width: "16%"}
+                        , {title: '类型', templet: function (d) {
                             var html = "<a class='layui-btn layui-btn-xs " + (d.type === '0' ? '' : 'layui-btn-warm')
                                  + "'>" + (d.type === '0' ? '菜单' : '按钮') + "</a>";
                             return html;
-                        }}
-                        , {field: 'url', width: 200, title: '地址'}
-                        , {field: 'perms', title: '权限标识符'}
-                        , {field: 'orderNum', width: 80, title: '权重', sort: true}
+                        }, width: "5%"}
+                        , {field: 'url', title: '地址', width: "20%"}
+                        , {field: 'method', title: '方法', width: "10%"}
+                        , {field: 'perms', title: '权限标识符', width: "20%"}
+                        , {field: 'orderNum', title: '权重', width: "10%"}
                         , {title: '操作', align: 'center'/*toolbar: '#barDemo'*/
                             , templet: function (d) {
                                 var html = '';
