@@ -45,4 +45,6 @@ public interface UserMapper {
      * 更改用户的状态为某项值
      */
     int updateStatusByPrimaryKey(@Param("id") Integer id, @Param("status") int status);
+
+    int updateLastLoginTimeByUsername(@Param("username") String username);
 }

@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CommonPageController {
 
     @GetMapping("/403")
-    public String unauthorizedPage() {
+    public String forbidden() {
         return "403";
+    }
+
+    @GetMapping("/401")
+    public String unauthorizedPage() {
+        return "401";
     }
 
     @GetMapping("/500")

@@ -1,14 +1,22 @@
 package im.zhaojun.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = -3200103254689137288L;
+
     private Integer userId;
 
     private String username;
 
+    @JsonIgnore
     private String password;
 
+    @JsonIgnore
     private String salt;
 
     private String email;
@@ -17,8 +25,10 @@ public class User {
 
     private Date lastLoginTime;
 
+    @JsonIgnore
     private Date createTime;
 
+    @JsonIgnore
     private Date modifyTime;
 
     public Integer getUserId() {

@@ -2,6 +2,7 @@ package im.zhaojun.service;
 
 import im.zhaojun.mapper.MenuMapper;
 import im.zhaojun.model.Menu;
+import im.zhaojun.model.User;
 import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.util.MenuVOConvert;
 import im.zhaojun.util.TreeUtil;
@@ -50,16 +51,14 @@ public class MenuService {
      * 获取当前登陆用户拥有的树形菜单
      */
     public List<MenuTreeVO> selectCurrentUserMenuTreeVO() {
-        String userName = (String) SecurityUtils.getSubject().getPrincipal();
-        List<Menu> menus = selectMenuByUserName(userName);
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        List<Menu> menus = selectMenuByUserName(user.getUsername());
         List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
         return TreeUtil.toTree(menuTreeVOS);
     }
 
     /**
      * 根据用户名获取所拥有的树形菜单
-     * @param userName
-     * @return
      */
     private List<Menu> selectMenuByUserName(String userName) {
         return menuMapper.selectMenuByUserName(userName);
@@ -100,6 +99,7 @@ public class MenuService {
     public Map<String, String> getUrlPermsMap() {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
+        filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/images/**", "anon");
@@ -109,9 +109,13 @@ public class MenuService {
 
         List<Menu> menus = selectAll();
         for (Menu menu : menus) {
-            filterChainDefinitionMap.put("/" + menu.getUrl(), "perms[" + menu.getPerms() + "]");
+            String url = menu.getUrl();
+            if (!"".equals(menu.getMethod())) {
+                url += ("==" + menu.getMethod());
+            }
+            String perms = "perms[" + menu.getPerms() + "]";
+            filterChainDefinitionMap.put(url, perms);
         }
-
         filterChainDefinitionMap.put("/**", "authc");
         return filterChainDefinitionMap;
     }

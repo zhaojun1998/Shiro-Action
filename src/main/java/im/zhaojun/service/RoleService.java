@@ -5,6 +5,7 @@ import im.zhaojun.mapper.MenuMapper;
 import im.zhaojun.mapper.RoleMapper;
 import im.zhaojun.mapper.RoleMenuMapper;
 import im.zhaojun.model.Role;
+import im.zhaojun.shiro.realm.UserNameRealm;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +23,8 @@ public class RoleService {
     @Resource
     private MenuMapper menuMapper;
 
+    @Resource
+    private UserNameRealm userNameRealm;
 
     public Role selectOne(Integer roleId) {
         return roleMapper.selectByPrimaryKey(roleId);
@@ -42,6 +45,7 @@ public class RoleService {
         roleMapper.updateByPrimaryKey(role);
         roleMenuMapper.deleteRoleMenuByRoleId(role.getRoleId());
         roleMenuMapper.insertList(role.getRoleId(), menuIds);
+        userNameRealm.clearAuthorizationCache();
         return role.getRoleId();
     }
 

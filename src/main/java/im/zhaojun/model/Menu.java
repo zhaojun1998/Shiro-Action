@@ -29,6 +29,8 @@ public class Menu {
     @JsonIgnore
     private Date modifyTime;
 
+    private String method;
+
     public Integer getMenuId() {
         return menuId;
     }
@@ -101,6 +103,14 @@ public class Menu {
         this.modifyTime = modifyTime;
     }
 
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
     @Override
     public String toString() {
         return "Menu{" +
@@ -113,6 +123,7 @@ public class Menu {
                 ", orderNum=" + orderNum +
                 ", createTime=" + createTime +
                 ", modifyTime=" + modifyTime +
+                ", method='" + method + '\'' +
                 '}';
     }
 }

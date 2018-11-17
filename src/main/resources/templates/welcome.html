@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
     <head>
         <meta charset="UTF-8">
-        <title>欢迎页面-X-admin2.0</title>
+        <title>欢迎页面</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -13,7 +13,7 @@
     <body>
     <div class="x-body layui-anim layui-anim-up">
         <blockquote class="layui-elem-quote">欢迎管理员：
-            <span class="x-red"><shiro:principal/></span>！当前时间: [[${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')}]]</blockquote>
+            <span class="x-red"><shiro:principal property="username"/></span>！当前时间: [[${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')}]]</blockquote>
         <fieldset class="layui-elem-field">
             <legend>数据统计</legend>
             <div class="layui-field-box">

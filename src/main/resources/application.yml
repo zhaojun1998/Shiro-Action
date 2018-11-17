@@ -16,3 +16,4 @@ logging:
   level:
     im.zhaojun.mapper: debug
     im.zhaojun.controller: debug
+    org.crazycake.shiro: debug

@@ -173,4 +173,11 @@
         set status = #{status}
         where user_id = #{id}
     </update>
+
+    <update id="updateLastLoginTimeByUsername">
+        update user
+        set last_login_time = current_timestamp
+        where username = #{username}
+    </update>
+
 </mapper>
