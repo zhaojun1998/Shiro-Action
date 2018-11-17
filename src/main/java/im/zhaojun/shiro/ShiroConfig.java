@@ -2,8 +2,8 @@ package im.zhaojun.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import im.zhaojun.service.MenuService;
-import im.zhaojun.shiro.filter.MyAuthorizationFilter;
-import im.zhaojun.shiro.filter.MyFormAuthenticationFilter;
+import im.zhaojun.shiro.filter.RestAuthorizationFilter;
+import im.zhaojun.shiro.filter.RestFormAuthenticationFilter;
 import im.zhaojun.shiro.realm.UserNameRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
@@ -35,8 +35,8 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
-        filters.put("authc", new MyFormAuthenticationFilter());
-        filters.put("perms", new MyAuthorizationFilter());
+        filters.put("authc", new RestFormAuthenticationFilter());
+        filters.put("perms", new RestAuthorizationFilter());
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(menuService.getUrlPermsMap());
         return shiroFilterFactoryBean;

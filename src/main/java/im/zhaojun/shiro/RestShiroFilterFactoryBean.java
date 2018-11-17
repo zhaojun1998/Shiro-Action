@@ -16,7 +16,7 @@ public class RestShiroFilterFactoryBean extends ShiroFilterFactoryBean {
     private static final Logger log = LoggerFactory.getLogger(RestShiroFilterFactoryBean.class);
 
     @Override
-    protected AbstractShiroFilter createInstance() throws Exception {
+    protected AbstractShiroFilter createInstance() {
 
         log.debug("Creating Shiro Filter instance.");
 

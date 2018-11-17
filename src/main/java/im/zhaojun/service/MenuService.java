@@ -110,7 +110,7 @@ public class MenuService {
         List<Menu> menus = selectAll();
         for (Menu menu : menus) {
             String url = menu.getUrl();
-            if (menu.getMethod() != null && !"".equals(menu.getMethod().trim())) {
+            if (!"".equals(menu.getMethod())) {
                 url += ("==" + menu.getMethod());
             }
             String perms = "perms[" + menu.getPerms() + "]";

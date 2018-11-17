@@ -15,20 +15,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 修改后的 perms 过滤器
+ * 修改后的 perms 过滤器, 添加对 AJAX 请求的支持.
  */
-public class MyAuthorizationFilter extends PermissionsAuthorizationFilter {
+public class RestAuthorizationFilter extends PermissionsAuthorizationFilter {
 
     private static final Logger log = LoggerFactory
-            .getLogger(MyAuthorizationFilter.class);
+            .getLogger(RestAuthorizationFilter.class);
 
     @Override
     protected boolean pathsMatch(String path, ServletRequest request) {
         String requestURI = this.getPathWithinApplication(request);
 
-        log.info("path: {}, requestUrl: {}", path, requestURI);
-
         String[] strings = path.split("==");
+
         if (strings.length <= 1) {
             // 普通的 URL, 正常处理
             return this.pathsMatch(strings[0], requestURI);
@@ -48,22 +47,28 @@ public class MyAuthorizationFilter extends PermissionsAuthorizationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
-        log.info("http method:" + WebUtils.toHttp(request).getMethod().toUpperCase());
         Subject subject = getSubject(request, response);
         // 如果未登录
         if (subject.getPrincipal() == null) {
             // AJAX 请求返回 JSON
             if (im.zhaojun.util.WebUtils.isAjaxRequest(WebUtils.toHttp(request))) {
+                if (log.isDebugEnabled()) {
+                    log.debug("用户: [{}] 请求 restful url : {}, 未登录被拦截.", subject.getPrincipal(), this.getPathWithinApplication(request));                }
                 Map<String, Object> map = new HashMap<>();
                 map.put("code", -1);
                 im.zhaojun.util.WebUtils.writeJson(map, response);
             } else {
+                // 其他请求跳转到登陆页面
                 saveRequestAndRedirectToLogin(request, response);
             }
         } else {
             // 如果已登陆, 但没有权限
             // 对于 AJAX 请求返回 JSON
             if (im.zhaojun.util.WebUtils.isAjaxRequest(WebUtils.toHttp(request))) {
+                if (log.isDebugEnabled()) {
+                    log.debug("用户: [{}] 请求 restful url : {}, 无权限被拦截.", subject.getPrincipal(), this.getPathWithinApplication(request));
+                }
+
                 Map<String, Object> map = new HashMap<>();
                 map.put("code", -2);
                 map.put("msg", "没有权限啊!");

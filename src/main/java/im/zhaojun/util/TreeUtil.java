@@ -7,30 +7,36 @@ import java.util.List;
 
 public class TreeUtil {
 
+    /**
+     * 所有待用"菜单"
+     */
     private static List<MenuTreeVO> all = null;
 
     /**
-     * 拿到所有顶级菜单
-     * 遍历每一个顶级菜单获得其子节点
+     * 转换为树形
      * @param list 所有节点
      * @return 转换后的树结构菜单
      */
     public static List<MenuTreeVO> toTree(List<MenuTreeVO> list) {
+        // 最初, 所有的 "菜单" 都是待用的
         all = new ArrayList<>(list);
-        List<MenuTreeVO> root = new ArrayList<>();
+
+        // 拿到所有的顶级 "菜单"
+        List<MenuTreeVO> roots = new ArrayList<>();
 
         for (MenuTreeVO menuTreeVO : list) {
             if (menuTreeVO.getParentId() == 0) {
-                root.add(menuTreeVO);
+                roots.add(menuTreeVO);
             }
         }
 
-        all.removeAll(root);
+        // 将所有顶级菜单从 "待用菜单列表" 中删除
+        all.removeAll(roots);
 
-        for (MenuTreeVO menuTreeVO : root) {
-            menuTreeVO.setChildren(getChildren(menuTreeVO));;
+        for (MenuTreeVO menuTreeVO : roots) {
+            menuTreeVO.setChildren(getCurrentNodeChildren(menuTreeVO));;
         }
-        return root;
+        return roots;
     }
 
     /**
@@ -40,18 +46,23 @@ public class TreeUtil {
      * @param parent 父节点
      * @return  子节点
      */
-    private static List<MenuTreeVO> getChildren(MenuTreeVO parent) {
+    private static List<MenuTreeVO> getCurrentNodeChildren(MenuTreeVO parent) {
+        // 判断当前节点有没有子节点, 没有则创建一个空长度的 List, 有就使用之前已有的所有子节点.
         List<MenuTreeVO> childList = parent.getChildren() == null ? new ArrayList<>() : parent.getChildren();
+
+        // 从 "待用菜单列表" 中找到当前节点的所有子节点
         for (MenuTreeVO child : all) {
             if (parent.getMenuId().equals(child.getParentId())) {
                 childList.add(child);
             }
         }
 
+        // 将当前节点的所有子节点从 "待用菜单列表" 中删除
         all.removeAll(childList);
 
+        // 所有的子节点再寻找它们自己的子节点
         for (MenuTreeVO menuTreeVO : childList) {
-            menuTreeVO.setChildren(getChildren(menuTreeVO));
+            menuTreeVO.setChildren(getCurrentNodeChildren(menuTreeVO));
         }
         return childList;
     }
