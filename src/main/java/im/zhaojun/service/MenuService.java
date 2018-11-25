@@ -99,6 +99,7 @@ public class MenuService {
     public Map<String, String> getUrlPermsMap() {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
+        // 系统默认过滤器
         filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
@@ -106,6 +107,8 @@ public class MenuService {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/lib/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/captcha", "anon");
+
 
         List<Menu> menus = selectAll();
         for (Menu menu : menus) {

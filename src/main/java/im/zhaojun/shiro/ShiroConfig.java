@@ -2,6 +2,7 @@ package im.zhaojun.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import im.zhaojun.service.MenuService;
+import im.zhaojun.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import im.zhaojun.shiro.filter.RestAuthorizationFilter;
 import im.zhaojun.shiro.filter.RestFormAuthenticationFilter;
 import im.zhaojun.shiro.realm.UserNameRealm;
@@ -67,7 +68,7 @@ public class ShiroConfig {
 
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
-        return new HashedCredentialsMatcher("md5");
+        return new RetryLimitHashedCredentialsMatcher("md5");
     }
 
     @Bean

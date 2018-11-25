@@ -33,5 +33,12 @@ public class WebExceptionHandler {
         log.error("账号已锁定");
         return ResultBean.error(ResultBean.FAIL, "账号已锁定");
     }
+    @ExceptionHandler
+    public ResultBean lockedAccount(CaptchaIncorrectException e) {
+        log.error("验证码错误");
+        return ResultBean.error(ResultBean.FAIL, "验证码错误");
+    }
+
+
 
 }

@@ -95,6 +95,12 @@
             <version>3.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.1.21</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -27,6 +27,9 @@
             <hr class="hr15">
             <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
             <hr class="hr15">
+            <input name="captcha" lay-verify="required" placeholder="验证码" style="width:50%;"  type="text" class="layui-input-inline layui-input">
+            <img onclick="generateCaptcha(this)" th:src="@{/captcha}"/>
+            <hr class="hr15">
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
             <hr class="hr20" >
         </form>
@@ -50,9 +53,13 @@
             });
         });
 
+        function generateCaptcha(obj) {
+            $(obj).attr("src", "/captcha?timestamp" + (new Date()).valueOf());
+        }
+
         function loginDone(data) {
             layer.msg("登陆成功, 即将跳转到首页!", function () {
-                location.href = 'main'
+                location.href = 'main';
             });
         }
     </script>
