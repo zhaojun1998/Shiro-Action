@@ -3,6 +3,7 @@ package im.zhaojun.controller;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;
 import im.zhaojun.exception.CaptchaIncorrectException;
+import im.zhaojun.exception.UserAlreadyExistsException;
 import im.zhaojun.model.User;
 import im.zhaojun.service.UserService;
 import im.zhaojun.util.ResultBean;
@@ -13,7 +14,6 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -30,7 +30,12 @@ public class LoginController {
 
     @GetMapping("login")
     public String login() {
-        return "login";
+        return "login2";
+    }
+
+    @GetMapping("register")
+    public String register() {
+        return "register";
     }
 
     @PostMapping("login")
@@ -46,17 +51,34 @@ public class LoginController {
         return new ResultBean<>(userService.updateLastLoginTimeByUsername(user.getUsername()));
     }
 
-
     @GetMapping("logout")
     public String logout() {
         SecurityUtils.getSubject().logout();
         return "redirect:login";
     }
 
-    @RequestMapping("/captcha")
+    @GetMapping("checkUser")
+    @ResponseBody
+    public ResultBean<Boolean> checkUser(String username) {
+        return new ResultBean<>(userService.checkUserNameExist(username));
+    }
+
+    @PostMapping("register")
+    @ResponseBody
+    public ResultBean<Integer> register(User user) {
+        if (userService.checkUserNameExist(user.getUsername())) {
+            throw new UserAlreadyExistsException();
+        }
+
+        // 注册后默认的角色, 根据自己数据库的角色表 ID 设置
+        Integer[] initRoleIds = {2};
+        return new ResultBean<>(userService.add(user, initRoleIds));
+    }
+
+    @GetMapping("captcha")
     public void captcha(HttpServletResponse response) throws IOException {
         //定义图形验证码的长、宽、验证码字符数、干扰元素个数
-        ShearCaptcha shearCaptcha = CaptchaUtil.createShearCaptcha(160, 50, 4, 4);
+        ShearCaptcha shearCaptcha = CaptchaUtil.createShearCaptcha(160, 38, 4, 4);
 
         Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute("captcha", shearCaptcha.getCode());
