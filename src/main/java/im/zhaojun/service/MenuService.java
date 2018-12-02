@@ -102,8 +102,10 @@ public class MenuService {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/lib/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/captcha", "anon");
+        filterChainDefinitionMap.put("/register", "anon");
 
+        filterChainDefinitionMap.put("/captcha", "anon");
+        filterChainDefinitionMap.put("/checkUser", "anon");
 
         List<Menu> menus = selectAll();
         for (Menu menu : menus) {

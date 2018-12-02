@@ -60,6 +60,14 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        角色
+                    </label>
+                    <div class="layui-input-block">
+                        <input th:each="role:${roles}" type="checkbox" name="role" th:value="${role.roleId}" th:title="${role.roleName}" title="角色名称">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <input type="hidden" name="userId" th:value="${user?.userId}">
                     <button class="layui-btn" th:text="${user}?'修改':'添加'" lay-submit="" data-th-lay-filter="${user}?'edit':'add'">添加</button>
                 </div>
@@ -74,6 +82,7 @@
 
                 // 监听提交
                 form.on('submit(add)', function (form) {
+                    form.field.role = getCheckBoxValueByName('role');
                     $.post('/user', form.field, function (result) {
                         handlerResult(result, addDone);
                     });
@@ -89,7 +98,6 @@
                     return false;
                 });
 
-                
                 function addDone(data) {
                     console.log("add result id : ", data);
                     layer.msg("添加成功", {icon: 6}, function () {
@@ -108,6 +116,14 @@
                         //关闭当前frame
                         parent.layer.close(index);
                     });
+                }
+
+                function getCheckBoxValueByName(name) {
+                    var checkedValue =[];
+                    $('input[name="' + name + '"]:checked').each(function(){
+                        checkedValue.push($(this).val());
+                    });
+                    return checkedValue;
                 }
             });
         </script>

@@ -47,4 +47,6 @@ public interface UserMapper {
     int updateStatusByPrimaryKey(@Param("id") Integer id, @Param("status") int status);
 
     int updateLastLoginTimeByUsername(@Param("username") String username);
+
+    int countByUserName(@Param("username") String username);
 }

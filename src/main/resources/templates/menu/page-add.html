@@ -25,11 +25,11 @@
             <form action="" method="post" class="layui-form">
                 <div class="layui-form-item">
                     <label for="menuName" class="layui-form-label">
-                        菜单名称
+                        页面名称
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" id="menuName" name="menuName" th:value="${menu?.menuName}" lay-verify="required"
-                               autocomplete="off" class="layui-input">
+                               autocomplete="off" placeholder="请输入页面名称" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -102,7 +102,7 @@
                     success: function (d) {
                         if ([[${menu!=null}]]) {
                             // 选中节点，根据id筛选
-                            treeSelect.checkNode('tree', [[${menu.parentId}]]);
+                            treeSelect.checkNode('tree', [[${menu?.parentId}]]);
                             // 获取zTree对象，可以调用zTree方法
                             var treeObj = treeSelect.zTree('tree');
                             // 刷新树结构

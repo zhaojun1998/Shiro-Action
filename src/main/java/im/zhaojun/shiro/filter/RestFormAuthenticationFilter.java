@@ -20,7 +20,6 @@ public class RestFormAuthenticationFilter extends FormAuthenticationFilter {
     private static final Logger log = LoggerFactory
             .getLogger(RestFormAuthenticationFilter.class);
 
-
     @Override
     protected boolean pathsMatch(String path, ServletRequest request) {
         String requestURI = this.getPathWithinApplication(request);

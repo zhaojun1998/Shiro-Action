@@ -17,14 +17,14 @@ public class updateFilterChainAspect {
     @Resource
     private ShiroService shiroService;
 
-    private static final Logger logger = LoggerFactory.getLogger(updateFilterChainAspect.class);
+    private static final Logger log = LoggerFactory.getLogger(updateFilterChainAspect.class);
 
     @Pointcut("@annotation(im.zhaojun.annotaion.UpdateFilterChain)")
     public void updateFilterChain() {}
 
     @After("updateFilterChain()")
     public void doAfter() {
-        logger.info("更新 Shiro 过滤器链");
+        log.info("更新 Shiro 过滤器链");
         shiroService.updateFilterChain();
     }
 

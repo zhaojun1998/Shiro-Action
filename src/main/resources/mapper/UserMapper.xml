@@ -183,4 +183,9 @@
         where username = #{username}
     </update>
 
+    <select id="countByUserName" resultType="java.lang.Integer">
+        select count(*)
+        from user where username = #{username}
+    </select>
+
 </mapper>

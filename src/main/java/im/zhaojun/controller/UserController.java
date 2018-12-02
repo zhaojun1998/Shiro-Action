@@ -2,6 +2,7 @@ package im.zhaojun.controller;
 
 import com.github.pagehelper.PageInfo;
 import im.zhaojun.model.User;
+import im.zhaojun.service.RoleService;
 import im.zhaojun.service.UserService;
 import im.zhaojun.util.PageResultBean;
 import im.zhaojun.util.ResultBean;
@@ -17,6 +18,9 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private RoleService roleService;
 
     @GetMapping("/users")
     public String index() {
@@ -34,14 +38,15 @@ public class UserController {
 
 
     @GetMapping("/user")
-    public String add() {
+    public String add(Model model) {
+        model.addAttribute("roles", roleService.selectAll());
         return "user/user-add";
     }
 
     @PostMapping("/user")
     @ResponseBody
-    public ResultBean<Integer> add(User user) {
-        return new ResultBean<>(userService.add(user));
+    public ResultBean<Integer> add(User user,  @RequestParam("role[]") Integer roleIds[]) {
+        return new ResultBean<>(userService.add(user, roleIds));
     }
 
     @GetMapping("/user/{id}")

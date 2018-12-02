@@ -32,6 +32,10 @@ public class RoleService {
 
     public List<Role> selectAll(int page, int rows) {
         PageHelper.startPage(page, rows);
+        return selectAll();
+    }
+
+    public List<Role> selectAll() {
         return roleMapper.selectAll();
     }
 

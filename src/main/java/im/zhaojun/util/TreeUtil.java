@@ -18,6 +18,9 @@ public class TreeUtil {
      * @return 转换后的树结构菜单
      */
     public static List<MenuTreeVO> toTree(List<MenuTreeVO> list) {
+        if (list == null || list.isEmpty()) {
+            return new ArrayList<>();
+        }
         // 最初, 所有的 "菜单" 都是待用的
         all = new ArrayList<>(list);
 

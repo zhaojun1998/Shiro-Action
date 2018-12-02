@@ -191,7 +191,10 @@ function x_admin_show(title, url, w, h) {
         shadeClose: true,
         shade: 0.4,
         title: title,
-        content: url
+        content: url,
+        end: function () {
+            location.reload();
+        }
     });
 }
 
@@ -223,7 +226,7 @@ function handlerResult(result, fn) {
     }
     // 没有登陆异常，重定向到登陆页面
     else if (result.code === -1) {
-        showError("没有登录");
+        showError("登录已失效");
         // $("#logindlg").modal('show');
     }
     // 参数校验出错，直接提示
