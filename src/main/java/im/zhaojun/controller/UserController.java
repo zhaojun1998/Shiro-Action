@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String index() {
-        return "user-list";
+        return "user/user-list";
     }
 
     @GetMapping("/users/page")
@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("/user")
     public String add() {
-        return "user-add";
+        return "user/user-add";
     }
 
     @PostMapping("/user")
@@ -48,7 +48,7 @@ public class UserController {
     public String update(@PathVariable("id") Integer id, Model model) {
         User user = userService.selectOne(id);
         model.addAttribute("user", user);
-        return "user-add";
+        return "user/user-add";
     }
 
     @PutMapping("/user")
@@ -57,15 +57,15 @@ public class UserController {
         return new ResultBean<>(userService.update(user));
     }
 
-    @PostMapping("/user/disable")
+    @PostMapping("/user/{id}/disable")
     @ResponseBody
-    public ResultBean<Boolean> disable(Integer id) {
+    public ResultBean<Boolean> disable(@PathVariable("id") Integer id) {
         return new ResultBean<>(userService.disableUserByID(id));
     }
 
-    @PostMapping("/user/enable")
+    @PostMapping("/user/{id}/enable")
     @ResponseBody
-    public ResultBean<Boolean> enable(Integer id) {
+    public ResultBean<Boolean> enable(@PathVariable("id") Integer id) {
         return new ResultBean<>(userService.enableUserByID(id));
     }
 }

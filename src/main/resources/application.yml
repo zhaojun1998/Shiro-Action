@@ -1,8 +1,8 @@
 spring:
   datasource:
     username: root
-    password: root
-    url: jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&characterEncoding=UTF8
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   jackson:
@@ -17,3 +17,4 @@ logging:
     im.zhaojun.mapper: debug
     im.zhaojun.controller: debug
     org.crazycake.shiro: debug
+    im.zhaojun.shiro: debug

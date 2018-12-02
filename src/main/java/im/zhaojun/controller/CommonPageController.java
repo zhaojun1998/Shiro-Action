@@ -8,16 +8,16 @@ public class CommonPageController {
 
     @GetMapping("/403")
     public String forbidden() {
-        return "403";
+        return "common/403";
     }
 
     @GetMapping("/401")
     public String unauthorizedPage() {
-        return "401";
+        return "common/401";
     }
 
     @GetMapping("/500")
     public String error() {
-        return "500";
+        return "common/500";
     }
 }

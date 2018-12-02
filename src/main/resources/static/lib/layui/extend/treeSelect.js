@@ -6,7 +6,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
         _MOD = 'treeSelect',
         trss = {},
         TreeSelect = function () {
-            this.v = '1.0.0';
+            this.v = '1.0.3';
         };
 
     /*
@@ -88,16 +88,16 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
                     key: {
                         isParent: "isParent",
                         children: "children",
-                        name: "title",
+                        name: "name",
                         title: "",
                         url: "url",
                         icon: "icon"
                     },
                     simpleData: {
-                        enable: true,
+                        enable: false,
                         idKey: "id",
-                        pIdKey: "pid",
-                        rootPId: 0
+                        pIdKey: "pId",
+                        rootPId: null
                     },
                     keep: {
                         parent: false,
@@ -3858,6 +3858,8 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
             placeholder = options.placeholder === undefined ? '请选择' : options.placeholder,
             // 是否开启搜索
             search = options.search === undefined ? false : options.search,
+            // 样式配置项
+            style= options.style,
             // 唯一id
             tmp = new Date().getTime(),
             DATA = {},
@@ -3888,6 +3890,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
                             a.searchParam();
                         }
                         TREE_OBJ = $.fn.zTree.getZTreeObj(TREE_SELECT_BODY_ID);
+                        a.configStyle();
                         if (success){
                             var obj = {
                                 treeId: TREE_SELECT_ID,
@@ -3899,20 +3902,31 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
                 });
                 return a;
             },
+            // 检查input是否有默认值
+            checkDefaultValue: function(){
+
+            },
             setting: function () {
                 var setting = {
                     callback: {
                         onClick: a.onClick,
                         onExpand: a.onExpand,
-                        onCollapse: a.onCollapse
+                        onCollapse: a.onCollapse,
+                        beforeExpand: a.ztreeCallBack.beforeExpand
                     }
                 };
                 return setting;
+            },
+            ztreeCallBack: {
+                beforeExpand: function(){
+                    a.configStyle();
+                },
             },
             onCollapse: function () {
                 a.focusInput();
             },
             onExpand: function () {
+                a.configStyle();
                 a.focusInput();
             },
             focusInput: function () {
@@ -4038,14 +4052,26 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
             },
             loadCss: function () {
                 var ztree = '.ztree *{padding:0;margin:0;font-size:12px;font-family:Verdana,Arial,Helvetica,AppleGothic,sans-serif}.ztree{margin:0;padding:5px;color:#333}.ztree li{padding:0;margin:0;list-style:none;line-height:14px;text-align:left;white-space:nowrap;outline:0}.ztree li ul{margin:0;padding:0 0 0 18px}.ztree li ul.line{background:url(./img/line_conn.gif) 0 0 repeat-y;}.ztree li a{padding:1px 3px 0 0;margin:0;cursor:pointer;height:17px;color:#333;background-color:transparent;text-decoration:none;vertical-align:top;display:inline-block}.ztree li a:hover{text-decoration:underline}.ztree li a.curSelectedNode{padding-top:0px;background-color:#FFE6B0;color:black;height:16px;border:1px #FFB951 solid;opacity:0.8;}.ztree li a.curSelectedNode_Edit{padding-top:0px;background-color:#FFE6B0;color:black;height:16px;border:1px #FFB951 solid;opacity:0.8;}.ztree li a.tmpTargetNode_inner{padding-top:0px;background-color:#316AC5;color:white;height:16px;border:1px #316AC5 solid;opacity:0.8;filter:alpha(opacity=80)}.ztree li a.tmpTargetNode_prev{}.ztree li a.tmpTargetNode_next{}.ztree li a input.rename{height:14px;width:80px;padding:0;margin:0;font-size:12px;border:1px #7EC4CC solid;*border:0px}.ztree li span{line-height:16px;margin-right:2px}.ztree li span.button{line-height:0;margin:0;width:16px;height:16px;display:inline-block;vertical-align:middle;border:0 none;cursor:pointer;outline:none;background-color:transparent;background-repeat:no-repeat;background-attachment:scroll;background-image:url("./img/zTreeStandard.png");*background-image:url("./img/zTreeStandard.gif")}.ztree li span.button.chk{width:13px;height:13px;margin:0 3px 0 0;cursor:auto}.ztree li span.button.chk.checkbox_false_full{background-position:0 0}.ztree li span.button.chk.checkbox_false_full_focus{background-position:0 -14px}.ztree li span.button.chk.checkbox_false_part{background-position:0 -28px}.ztree li span.button.chk.checkbox_false_part_focus{background-position:0 -42px}.ztree li span.button.chk.checkbox_false_disable{background-position:0 -56px}.ztree li span.button.chk.checkbox_true_full{background-position:-14px 0}.ztree li span.button.chk.checkbox_true_full_focus{background-position:-14px -14px}.ztree li span.button.chk.checkbox_true_part{background-position:-14px -28px}.ztree li span.button.chk.checkbox_true_part_focus{background-position:-14px -42px}.ztree li span.button.chk.checkbox_true_disable{background-position:-14px -56px}.ztree li span.button.chk.radio_false_full{background-position:-28px 0}.ztree li span.button.chk.radio_false_full_focus{background-position:-28px -14px}.ztree li span.button.chk.radio_false_part{background-position:-28px -28px}.ztree li span.button.chk.radio_false_part_focus{background-position:-28px -42px}.ztree li span.button.chk.radio_false_disable{background-position:-28px -56px}.ztree li span.button.chk.radio_true_full{background-position:-42px 0}.ztree li span.button.chk.radio_true_full_focus{background-position:-42px -14px}.ztree li span.button.chk.radio_true_part{background-position:-42px -28px}.ztree li span.button.chk.radio_true_part_focus{background-position:-42px -42px}.ztree li span.button.chk.radio_true_disable{background-position:-42px -56px}.ztree li span.button.switch{width:18px;height:18px}.ztree li span.button.root_open{background-position:-92px -54px}.ztree li span.button.root_close{background-position:-74px -54px}.ztree li span.button.roots_open{background-position:-92px 0}.ztree li span.button.roots_close{background-position:-74px 0}.ztree li span.button.center_open{background-position:-92px -18px}.ztree li span.button.center_close{background-position:-74px -18px}.ztree li span.button.bottom_open{background-position:-92px -36px}.ztree li span.button.bottom_close{background-position:-74px -36px}.ztree li span.button.noline_open{background-position:-92px -72px}.ztree li span.button.noline_close{background-position:-74px -72px}.ztree li span.button.root_docu{background:none;}.ztree li span.button.roots_docu{background-position:-56px 0}.ztree li span.button.center_docu{background-position:-56px -18px}.ztree li span.button.bottom_docu{background-position:-56px -36px}.ztree li span.button.noline_docu{background:none;}.ztree li span.button.ico_open{margin-right:2px;background-position:-110px -16px;vertical-align:top;*vertical-align:middle}.ztree li span.button.ico_close{margin-right:2px;background-position:-110px 0;vertical-align:top;*vertical-align:middle}.ztree li span.button.ico_docu{margin-right:2px;background-position:-110px -32px;vertical-align:top;*vertical-align:middle}.ztree li span.button.edit{margin-right:2px;background-position:-110px -48px;vertical-align:top;*vertical-align:middle}.ztree li span.button.remove{margin-right:2px;background-position:-110px -64px;vertical-align:top;*vertical-align:middle}.ztree li span.button.ico_loading{margin-right:2px;background:url(./img/loading.gif) no-repeat scroll 0 0 transparent;vertical-align:top;*vertical-align:middle}ul.tmpTargetzTree{background-color:#FFE6B0;opacity:0.8;filter:alpha(opacity=80)}span.tmpzTreeMove_arrow{width:16px;height:16px;display:inline-block;padding:0;margin:2px 0 0 1px;border:0 none;position:absolute;background-color:transparent;background-repeat:no-repeat;background-attachment:scroll;background-position:-110px -80px;background-image:url("./img/zTreeStandard.png");*background-image:url("./img/zTreeStandard.gif")}ul.ztree.zTreeDragUL{margin:0;padding:0;position:absolute;width:auto;height:auto;overflow:hidden;background-color:#cfcfcf;border:1px #00B83F dotted;opacity:0.8;filter:alpha(opacity=80)}.zTreeMask{z-index:10000;background-color:#cfcfcf;opacity:0.0;filter:alpha(opacity=0);position:absolute}',
-                    ztree_ex = '.layui-treeSelect .ztree li span.button{font-family:layui-icon!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:0;line-height:inherit}.layui-treeSelect .ztree li span.button.ico_open{display:none}.layui-treeSelect .ztree li span.button.ico_close{display:none}.layui-treeSelect .ztree li span.button.ico_docu:before{content:"\\e621"}.layui-treeSelect .ztree li span.button.bottom_close:before,.layui-treeSelect .ztree li span.button.center_close:before,.layui-treeSelect .ztree li span.button.roots_close:before, .layui-treeSelect .ztree li span.button.root_close:before{content:"\\e623"}.layui-treeSelect .ztree li span.button.bottom_open:before,.layui-treeSelect .ztree li span.button.roots_open:before,.layui-treeSelect .ztree li span.button.center_open:before,.layui-treeSelect .ztree li span.button.root_open:before{content:"\\e625"}.layui-treeSelect .ztree li a:hover{text-decoration:none}.layui-treeSelect .ztree *{font-size:14px}.layui-treeSelect .ztree li{line-height:inherit;padding:2px 0}.layui-treeSelect .ztree li span.button.switch{position:relative;top:-1px}.layui-treeSelect .ztree li a,.ztree li span{line-height:18px;height:inherit}.layui-treeSelect .ztree li a.curSelectedNode{color:#5fb878;background:0;border:0;height:inherit;padding-top:1px}.layui-treeSelect .ztree li ul.line{background:0}.layui-treeSelect .layui-anim::-webkit-scrollbar{width:6px;height:6px;background-color:#f5f5f5}.layui-treeSelect .layui-anim::-webkit-scrollbar-track{box-shadow:inset 0 0 6px rgba(107,98,98,0.3);border-radius:10px;background-color:#f5f5f5}.layui-treeSelect .layui-anim::-webkit-scrollbar-thumb{border-radius:10px;box-shadow:inset 0 0 6px rgba(107,98,98,0.3);background-color:#555}.layui-treeSelect.layui-form-select .layui-anim{display:none;position:absolute;left:0;top:42px;padding:5px 0;z-index:9999;min-width:100%;border:1px solid #d2d2d2;max-height:300px;overflow-y:auto;background-color:#fff;border-radius:2px;box-shadow:0 2px 4px rgba(0,0,0,.12);box-sizing:border-box}.layui-treeSelect.layui-form-selected .layui-anim{display:block}',
-                    $head = $('head'),
+                    ztree_ex = '.layui-treeSelect .ztree li span.button{font-family:layui-icon!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:none;line-height:inherit;}.layui-treeSelect .ztree li span.button.ico_open{display:none;}.layui-treeSelect .ztree li span.button.ico_close{display:none;}.layui-treeSelect .ztree li span.button.ico_docu:before{content:"\\e621";}.layui-treeSelect .ztree li span.button.bottom_close:before,.layui-treeSelect .ztree li span.button.center_close:before,.layui-treeSelect .ztree li span.button.roots_close:before,.layui-treeSelect .ztree li span.button.root_close:before{content:"\\e623";}.layui-treeSelect .ztree li span.button.bottom_open:before,.layui-treeSelect .ztree li span.button.roots_open:before,.layui-treeSelect .ztree li span.button.center_open:before,.layui-treeSelect .ztree li span.button.root_open:before{content:"\\e625";}.layui-treeSelect .ztree li a:hover{text-decoration:none;}.layui-treeSelect .ztree *{font-size:14px;}.layui-treeSelect .ztree li{line-height:inherit;padding:2px 0;}.layui-treeSelect .ztree li span.button.switch{position:relative;top:-1px;}.layui-treeSelect .ztree li a,.ztree li span{line-height:18px;height:inherit;}.layui-treeSelect .ztree li a.curSelectedNode{color:#5FB878;background:none;border:none;height:inherit;padding-top:1px;}.layui-treeSelect .layui-anim::-webkit-scrollbar{width:6px;height:6px;background-color:#F5F5F5;}.layui-treeSelect .layui-anim::-webkit-scrollbar-track{box-shadow:inset 0 0 6px rgba(107,98,98,0.3);border-radius:10px;background-color:#F5F5F5;}.layui-treeSelect .layui-anim::-webkit-scrollbar-thumb{border-radius:10px;box-shadow:inset 0 0 6px rgba(107,98,98,0.3);background-color:#555;}.layui-treeSelect.layui-form-select .layui-anim{display:none;position:absolute;left:0;top:42px;padding:5px 0;z-index:9999;min-width:100%;border:1px solid #d2d2d2;max-height:300px;overflow-y:auto;background-color:#fff;border-radius:2px;box-shadow:0 2px 4px rgba(0,0,0,.12);box-sizing:border-box;}.layui-treeSelect.layui-form-selected .layui-anim{display:block;}.layui-treeSelect .ztree li ul.line{background:none;position:relative;}.layui-treeSelect .ztree li ul.line:before{content:"";height:100%;border-left:1px dotted #ece;position:absolute;left:8px;}.layui-treeSelect .ztree li .center_docu:before,.ztree li .bottom_docu::before{content:"";height:100%;border-left:1px dotted #ece;position:absolute;left:8px;}.layui-treeSelect .ztree li .center_docu::after,.ztree li .bottom_docu::after{content:"";position:absolute;left:8px;top:8px;width:8px;border-top:1px dotted #ece;}.layui-treeSelect .ztree li span.button.ico_open{display:inline-block;position:relative;top:1px;}.layui-treeSelect .ztree li span.button.ico_close{display:inline-block;position:relative;top:1px;}.layui-treeSelect .ztree li span.button.ico_open:before{content:"\\e643";}.layui-treeSelect .ztree li span.button.ico_close:before{content:"\\e63f";}';
+                $head = $('head'),
                     ztreeStyle = $head.find('style[ztree]');
-                console.log(ztreeStyle)
+
                 if (ztreeStyle.length === 0) {
                     $head.append($('<style ztree>').append(ztree).append(ztree_ex))
                 }
                 return a;
+            },
+            configStyle: function(){
+                if (style == undefined || style.line == undefined || !style.line.enable) {
+                    $('#' + TREE_SELECT_ID).find('li .center_docu,li .bottom_docu').hide();
+                    //.layui-treeSelect .ztree li .center_docu:before, .ztree li .bottom_docu::before
+                }
+
+                if (style == undefined || style.folder == undefined || !style.folder.enable) {
+                    console.log($('#' + TREE_SELECT_ID).find('li span.button.ico_open'))
+                    $('#' + TREE_SELECT_ID).find('li span.button.ico_open').hide();
+                    $('#' + TREE_SELECT_ID).find('li span.button.ico_close').hide();
+                }
             },
             event: function (evt, el, fn) {
                 $('body').on(evt, el, fn);
@@ -4077,6 +4103,7 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
             name = node.name;
         treeInput.val(name);
         o.find('a[treenode_a]').removeClass('curSelectedNode');
+        obj.get(filter).val(id).attr('value', id);
         treeObj.selectNode(node);
     };
 
@@ -4089,11 +4116,14 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
     };
 
     var obj = {
-        filter: function(filter){
+        get: function(filter){
             if (!filter) {
                 layui.hint().error('filter 不能为空');
             }
-            var tf = $('*[lay-filter='+ filter +']'),
+            return $('*[lay-filter='+ filter +']');
+        },
+        filter: function(filter){
+            var tf = obj.get(filter),
                 o = tf.next();
             return o;
         },
@@ -4108,4 +4138,4 @@ layui.define(['form', 'jquery'], function (exports) { //提示：模块也可以
     //输出接口
     var mod = new TreeSelect();
     exports(_MOD, mod);
-});
+});    

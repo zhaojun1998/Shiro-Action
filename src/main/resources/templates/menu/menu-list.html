@@ -68,7 +68,9 @@
         </div>
 
         <script type="text/html" id="toolbar">
-            <a class="layui-btn layui-btn-xs" onclick="x_admin_show('菜单添加', 'menu', 500)">新增</a>
+            <a class="layui-btn layui-btn-xs" onclick="x_admin_show('菜单添加', 'menu', 500)">新增菜单</a>
+            <a class="layui-btn layui-btn-xs" onclick="x_admin_show('页面添加', 'menu/page', 500)">新增页面</a>
+            <a class="layui-btn layui-btn-xs" onclick="x_admin_show('API添加', 'menu/api', 500)">新增API</a>
         </script>
 
     </body>
@@ -103,10 +105,10 @@
                     [
                         {type: 'numbers', width: "5%"}
                         , {field: 'name', title: '名称', width: "16%"}
-                        , {title: '类型', templet: function (d) {
-                            var html = "<a class='layui-btn layui-btn-xs " + (d.type === '0' ? '' : 'layui-btn-warm')
-                                 + "'>" + (d.type === '0' ? '菜单' : '按钮') + "</a>";
-                            return html;
+                        , {title: '类型', align: 'center', templet: function (d) {
+                            // var html = "<a class='layui-btn layui-btn-xs" + (d.type === '0' ? '' : d.type === '1' ? 'layui-btn-primary' : 'layui-btn-warm')
+                            //     + "'>" + (d.type === '0' ? '菜单': d.type === '1' ? '按钮' : ' API ') + "</a>";
+                            return d.type === '0' ? '菜单': d.type === '1' ? '按钮' : ' API ';
                         }, width: "5%"}
                         , {field: 'url', title: '地址', width: "20%"}
                         , {field: 'method', title: '方法', width: "10%"}
@@ -137,7 +139,13 @@
             treeGrid.on('tool(' + tableId + ')', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'edit') {//删除行
-                    x_admin_show("编辑", 'menu/' + data.id, 500);
+                    if (data.type === '0') {
+                        x_admin_show("编辑", 'menu/' + data.id, 500);
+                    } else if (data.type === '1') {
+                        x_admin_show("编辑", 'menu/page/' + data.id, 500);
+                    } else if (data.type === '2') {
+                        x_admin_show("编辑", 'menu/api/' + data.id, 500);
+                    }
                 } else if (obj.event === "del") {//添加行
                     del(obj);
                 }

@@ -30,7 +30,7 @@ public class MenuService {
     /**
      * 获取所有导航菜单
      */
-    public List<Menu> selectAllMenu() {
+    public List<Menu> selectAllMenuAndPage() {
         return menuMapper.selectAllMenu();
     }
 
@@ -42,7 +42,7 @@ public class MenuService {
      * 获取所有菜单 (树形结构)
      */
     public List<MenuTreeVO> getALLMenuTreeVO() {
-        List<Menu> menus = selectAllMenu();
+        List<Menu> menus = selectAllMenuAndPage();
         List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
         return TreeUtil.toTree(menuTreeVOS);
     }
@@ -71,11 +71,6 @@ public class MenuService {
 
     public boolean update(Menu menu) {
         return menuMapper.updateByPrimaryKey(menu) == 1;
-    }
-
-    public boolean deleteByParentId(Integer parentId) {
-        menuMapper.deleteByParentId(parentId);
-        return true;
     }
 
     public boolean delete(Integer id) {
@@ -113,12 +108,15 @@ public class MenuService {
         List<Menu> menus = selectAll();
         for (Menu menu : menus) {
             String url = menu.getUrl();
-            if (menu.getMethod() != null && !"".equals(menu.getMethod())) {
-                url += ("==" + menu.getMethod());
+            if (url != null) {
+                if (menu.getMethod() != null && !"".equals(menu.getMethod())) {
+                    url += ("==" + menu.getMethod());
+                }
+                String perms = "perms[" + menu.getPerms() + "]";
+                filterChainDefinitionMap.put(url, perms);
             }
-            String perms = "perms[" + menu.getPerms() + "]";
-            filterChainDefinitionMap.put(url, perms);
         }
+
         filterChainDefinitionMap.put("/**", "authc");
         return filterChainDefinitionMap;
     }

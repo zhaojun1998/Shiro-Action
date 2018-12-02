@@ -84,11 +84,11 @@
                     var event = obj.event;
 
                     if (event === 'disable') {
-                        $.post('/user/disable', {id: data.userId}, function (data) {
+                        $.post('/user/' + data.userId +'/disable', function (data) {
                             handlerResult(data, disableDone);
                         });
                     } else if (event === 'enable') {
-                        $.post('/user/enable', {id: data.userId}, function (data) {
+                        $.post('/user/' + data.userId + '/enable', function (data) {
                             handlerResult(data, enableDone);
                         });
                     }

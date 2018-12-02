@@ -20,7 +20,7 @@ public class RoleController {
 
     @GetMapping("/roles")
     public String index() {
-        return "role-list";
+        return "role/role-list";
     }
 
     @GetMapping(value = "/roles/list")
@@ -34,7 +34,7 @@ public class RoleController {
 
     @GetMapping("/role")
     public String add() {
-        return "role-add";
+        return "role/role-add";
     }
 
     @PostMapping("/role")
@@ -50,7 +50,7 @@ public class RoleController {
 
         List<Integer> checkedKey = roleService.selectMenuIdByRoleId(roleId);
         model.addAttribute("checkedKey", checkedKey);
-        return "role-add";
+        return "role/role-add";
     }
 
     @PutMapping("/role")

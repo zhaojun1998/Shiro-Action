@@ -2,8 +2,8 @@ package im.zhaojun.controller;
 
 import im.zhaojun.annotaion.UpdateFilterChain;
 import im.zhaojun.model.Menu;
+import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.service.MenuService;
-import im.zhaojun.service.ShiroService;
 import im.zhaojun.util.ResultBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +19,9 @@ public class MenuController {
     @Resource
     private MenuService menuService;
 
-    @Resource
-    private ShiroService shiroService;
-
     @GetMapping("/menus")
     public String index() {
-        return "menu-list";
+        return "menu/menu-list";
     }
 
     @GetMapping("/menus/list")
@@ -34,10 +31,30 @@ public class MenuController {
     }
 
     @GetMapping("/menu")
-    public String get(Model model) {
-        List<Menu> menus = menuService.selectAllMenu();
+    public String getMenu(Model model) {
+        List<Menu> menus = menuService.selectAllMenuAndPage();
         model.addAttribute("menus", menus);
-        return "menu-add";
+        return "menu/menu-add";
+    }
+
+    @GetMapping("/menu/page")
+    public String getPage(Model model) {
+        List<Menu> menus = menuService.selectAllMenuAndPage();
+        model.addAttribute("menus", menus);
+        return "menu/page-add";
+    }
+
+    @GetMapping("/menu/api")
+    public String getAPI(Model model) {
+        List<Menu> menus = menuService.selectAllMenuAndPage();
+        model.addAttribute("menus", menus);
+        return "menu/api-add";
+    }
+
+    @GetMapping("/menu/tree")
+    @ResponseBody
+    public List<MenuTreeVO> tree() {
+        return menuService.getALLMenuTreeVO();
     }
 
     @UpdateFilterChain
@@ -58,12 +75,24 @@ public class MenuController {
     }
 
     @GetMapping("/menu/{id}")
-    public String update(@PathVariable("id") Integer id, Model model) {
+    public String updateMenu(@PathVariable("id") Integer id, Model model) {
         Menu menu = menuService.selectOne(id);
-        List<Menu> menus = menuService.selectAllMenu();
         model.addAttribute("menu", menu);
-        model.addAttribute("menus", menus);
-        return "menu-add";
+        return "menu/menu-add";
+    }
+
+    @GetMapping("/menu/page/{id}")
+    public String updatePage(@PathVariable("id") Integer id, Model model) {
+        Menu menu = menuService.selectOne(id);
+        model.addAttribute("menu", menu);
+        return "menu/page-add";
+    }
+
+    @GetMapping("/menu/api/{id}")
+    public String updateAPI(@PathVariable("id") Integer id, Model model) {
+        Menu menu = menuService.selectOne(id);
+        model.addAttribute("menu", menu);
+        return "menu/api-add";
     }
 
     @UpdateFilterChain

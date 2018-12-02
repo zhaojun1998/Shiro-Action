@@ -108,6 +108,7 @@ public class ShiroConfig {
         sessionManager.setSessionDAO(redisSessionDAO());
         Cookie cookie = new SimpleCookie("SHIRO_SESSION_ID");
         sessionManager.setSessionIdCookie(cookie);
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
         return sessionManager;
     }
 }

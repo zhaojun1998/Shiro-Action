@@ -186,7 +186,7 @@
     <select id="selectAllMenu" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from menu where type = '0' order by order_num
+        from menu where type = '0' or type = '1' order by order_num
     </select>
 
     <delete id="deleteByParentId" parameterType="java.lang.Integer">
@@ -225,7 +225,7 @@
           and
             menu.menu_id = role_menu.menu_id
           and
-            menu.type = 0
+            (menu.type = 0 or menu.type = 1)
           and
             user.username = #{userName}
         order by order_num

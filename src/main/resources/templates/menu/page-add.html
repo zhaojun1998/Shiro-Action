@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>菜单添加</title>
+        <title>页面添加</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport"
@@ -33,46 +33,30 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">
-                        菜单类型
-                    </label>
-                    <div class="layui-input-block" >
-                        <input type="radio" name="type" th:checked="${menu?.type == '0' ? true: false}" value="0" title="菜单" lay-filter="type" >
-                        <input type="radio" name="type" th:checked="${menu?.type == '1' ? true: false}" value="1" title="按钮" lay-filter="type" >
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label for="url" class="layui-form-label">
                         菜单URL
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" id="url" th:value="${menu?.url}" name="url" lay-verify="required"
                                autocomplete="off" class="layui-input" placeholder="需要授权的 URL">
-                    </div>
-                </div>
-                <div id="methodField" hidden class="layui-form-item">
-                    <label class="layui-form-label">
-                        HTTP Method
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="radio" name="method" th:checked="${menu?.method == 'GET' ? true: false}" value="GET" title="GET">
-                        <input type="radio" name="method" th:checked="${menu?.method == 'POST' ? true: false}" value="POST" title="POST">
-                        <input type="radio" name="method" th:checked="${menu?.method == 'DELETE' ? true: false}" value="DELETE" title="DELETE">
-                        <input type="radio" name="method" th:checked="${menu?.method == 'PUT' ? true: false}" value="PUT" title="PUT">
+                        <div class="layui-form-mid layui-word-aux">
+                            外部链接以 http(s):// 开头。 <br>
+                            支持 ?, *, ** 通配符。
+                        </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label for="orderNum" class="layui-form-label">
-                        权重
+                        排序
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" id="orderNum" th:value="${menu?.orderNum}" name="orderNum" lay-verify="number|required"
-                               autocomplete="off" class="layui-input" placeholder="权重值越大, 排序越靠前">
+                               autocomplete="off" class="layui-input" placeholder="序号值越小, 排序越靠前">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label for="perms" class="layui-form-label">
-                        菜单标识
+                        权限标识
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" id="perms" th:value="${menu?.perms}" name="perms" lay-verify="required"
@@ -80,38 +64,50 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="parentId" class="layui-form-label">
+                    <label for="tree" class="layui-form-label">
                         上级菜单
                     </label>
                     <div class="layui-input-inline">
-                        <select name="parentId" id="parentId">
-                            <option value="">请选择上级菜单</option>
-                            <option th:each="obj:${menus}" th:selected="${obj.menuId == menu?.parentId}" th:value="${obj.menuId}" th:text="${obj.menuName}"></option>
-                        </select>
+                        <input type="text" name="parentId" id="tree" lay-filter="tree" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <input type="hidden" name="menuId" th:value="${menu?.menuId}">
+                    <input type="hidden" name="type" value="1">
                     <button class="layui-btn" th:text="${menu}?'修改':'增加'" lay-submit="" data-th-lay-filter="${menu}?'edit':'add'">增加</button>
                 </div>
             </form>
         </div>
 
         <script>
-            layui.use(['form', 'layer'], function () {
+            layui.config({
+                base: '/lib/layui/extend/'
+            }).extend({
+                treeGrid: 'treeSelect'
+            }).use(['form', 'layer', 'treeSelect'], function () {
                 $ = layui.jquery;
                 var form = layui.form
-                    , layer = layui.layer;
+                    , layer = layui.layer
+                    , treeSelect = layui.treeSelect;
 
-                if ( [[${menu?.type == '1'}]] ) {
-                    $("#methodField").show();
-                }
-
-                form.on('radio(type)', function(data){
-                    if (data.value === '0') {
-                        $("#methodField").hide();
-                    } else if (data.value === '1') {
-                        $("#methodField").show();
+                treeSelect.render({
+                    // 选择器
+                    elem: '#tree',
+                    // 数据
+                    data: '/menu/tree',
+                    // 异步加载方式：get/post，默认get
+                    type: 'get',
+                    // 占位符
+                    placeholder: '请选择上级菜单',
+                    success: function (d) {
+                        if ([[${menu!=null}]]) {
+                            // 选中节点，根据id筛选
+                            treeSelect.checkNode('tree', [[${menu.parentId}]]);
+                            // 获取zTree对象，可以调用zTree方法
+                            var treeObj = treeSelect.zTree('tree');
+                            // 刷新树结构
+                            treeSelect.refresh('tree');
+                        }
                     }
                 });
 

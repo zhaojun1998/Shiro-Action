@@ -1,6 +1,8 @@
 package im.zhaojun.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 
@@ -9,11 +11,13 @@ public class MenuTreeVO {
     @JsonProperty("id")
     private Integer menuId;
 
+    @JsonSerialize(include = JsonSerialize.Inclusion.NON_EMPTY)
     private List<MenuTreeVO> children;
 
     @JsonProperty("name")
     private String menuName;
 
+    @JsonIgnore
     private String url;
 
     private String perms;

@@ -138,6 +138,9 @@
             menu.menu_id = role_menu.menu_id
           and
             user.username = #{username, jdbcType=VARCHAR}
+          and
+            (menu.type = 1 or menu.type = 2)
+
     </select>
 
     <select id="selectRoleNameByUserName" resultType="String" parameterType="String">
