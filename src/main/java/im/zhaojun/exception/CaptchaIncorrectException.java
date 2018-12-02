@@ -3,6 +3,7 @@ package im.zhaojun.exception;
 import org.apache.shiro.authc.AuthenticationException;
 
 public class CaptchaIncorrectException extends AuthenticationException {
+
     public CaptchaIncorrectException() {
         super();
     }
