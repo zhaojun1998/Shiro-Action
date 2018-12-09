@@ -106,6 +106,8 @@ public class MenuService {
 
         filterChainDefinitionMap.put("/captcha", "anon");
         filterChainDefinitionMap.put("/checkUser", "anon");
+        // 管理员账号不能被禁用
+        filterChainDefinitionMap.put("/user/1/disable", "perms[user:admin:disable]");
 
         List<Menu> menus = selectAll();
         for (Menu menu : menus) {
