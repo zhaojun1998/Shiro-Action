@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
     <head>
         <meta charset="UTF-8">
         <title>用户管理</title>
@@ -9,7 +9,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" th:href="@{/favicon.ico}"/>
         <link rel="stylesheet" href="./css/font.css" th:href="@{/css/font.css}">
         <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
-        <script type="text/javascript" src="./lib/jquery/jquery.min.js" th:src="@{/lib/jquery/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
         <script src="./lib/layui/layui.js" charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
         <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
     </head>
@@ -36,12 +36,16 @@
         </script>
 
         <script type="text/html" id="column-toolbar">
-            {{#  if(d.status === '0') { }}
-                <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="enable">激活</a>
-            {{#  } }}
+            {{#  if('<shiro:principal property="username"/>' !== d.username) { }}
 
-            {{#  if(d.status === '1') { }}
-                <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="disable">禁用</a>
+                {{#  if(d.status === '0') { }}
+                    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="enable">激活</a>
+                {{#  } }}
+
+                {{#  if(d.status === '1') { }}
+                    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="disable">禁用</a>
+                {{#  } }}
+
             {{#  } }}
         </script>
 
