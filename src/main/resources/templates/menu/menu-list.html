@@ -9,7 +9,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" th:href="@{/favicon.ico}"/>
         <link rel="stylesheet" href="./css/font.css" th:href="@{/css/font.css}">
         <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
-        <script type="text/javascript" src="./lib/jquery/jquery.min.js" th:src="@{/lib/jquery/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
         <script src="./lib/layui/layui.js" charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
         <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
     </head>
@@ -49,6 +49,7 @@
             padding: 0px 5px;
             font-size: 12px;
         }
+        .layui-table-body{overflow-x: hidden;}
     </style>
 
     <body class="layui-anim layui-anim-fadein">
@@ -71,6 +72,8 @@
             <a class="layui-btn layui-btn-xs" onclick="x_admin_show('菜单添加', 'menu', 500)">新增菜单</a>
             <a class="layui-btn layui-btn-xs" onclick="x_admin_show('页面添加', 'menu/page', 500)">新增页面</a>
             <a class="layui-btn layui-btn-xs" onclick="x_admin_show('API添加', 'menu/api', 500)">新增API</a>
+            <a class="layui-btn layui-btn-xs layui-btn-normal" onclick="openAll()">全部展开</a>
+            <a class="layui-btn layui-btn-xs layui-btn-normal" onclick="closeAll()">全部收起</a>
         </script>
 
     </body>
@@ -150,7 +153,20 @@
                     del(obj);
                 }
             });
+            
+
         });
+
+
+        function openAll() {
+            var treedata = treeGrid.getDataTreeList(tableId);
+            treeGrid.treeOpenAll(tableId, true);
+        }
+
+        function closeAll() {
+            var treedata=treeGrid.getDataTreeList(tableId);
+            treeGrid.treeOpenAll(tableId, false);
+        }
 
         function del(obj) {
             layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除，此操作不能撤销！", {icon: 3, title: '提示'},

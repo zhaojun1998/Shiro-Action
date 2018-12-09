@@ -104,7 +104,9 @@ public class MenuService {
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/register", "anon");
 
+        // 验证码
         filterChainDefinitionMap.put("/captcha", "anon");
+        // 检查用户名是否存在
         filterChainDefinitionMap.put("/checkUser", "anon");
         // 管理员账号不能被禁用
         filterChainDefinitionMap.put("/user/1/disable", "perms[user:admin:disable]");

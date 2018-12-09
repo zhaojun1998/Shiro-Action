@@ -30,8 +30,8 @@ public class RoleService {
         return roleMapper.selectByPrimaryKey(roleId);
     }
 
-    public List<Role> selectAll(int page, int rows) {
-        PageHelper.startPage(page, rows);
+    public List<Role> selectAll(int page, int limit) {
+        PageHelper.startPage(page, limit);
         return selectAll();
     }
 

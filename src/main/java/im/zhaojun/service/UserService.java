@@ -1,7 +1,6 @@
 package im.zhaojun.service;
 
 import com.github.pagehelper.PageHelper;
-import im.zhaojun.mapper.RoleMenuMapper;
 import im.zhaojun.mapper.UserMapper;
 import im.zhaojun.mapper.UserRoleMapper;
 import im.zhaojun.model.User;

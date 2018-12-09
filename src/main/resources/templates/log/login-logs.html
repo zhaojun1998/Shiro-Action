@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>角色管理</title>
+        <title>登录日志</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -20,7 +20,7 @@
             <a href="#">首页</a>
             <a href="#">权限管理</a>
             <a>
-              <cite>角色管理</cite></a>
+              <cite>登录日志</cite></a>
             </span>
             <a class="layui-icon layui-icon-refresh"
                style="float:right"
@@ -28,57 +28,28 @@
         </div>
 
         <div class="x-body">
-            <table class="layui-hide" id="role-table"></table>
+            <table class="layui-hide" id="login-log-table"></table>
         </div>
 
-        <script type="text/html" id="toolbar">
-            <a class="layui-btn layui-btn-xs" lay-event="add">新增</a>
-        </script>
-
-        <script type="text/html" id="column-toolbar">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-        </script>
-
         <script>
-            layui.use(['table', 'element'], function () {
+            layui.use(['table', 'element', 'laydate'], function () {
                 var table = layui.table;
                 var $ = layui.$;
 
                 table.render({
-                    elem: '#role-table'
-                    , url: '/roles/list'
-                    , cellMinWidth: 80
+                    elem: '#login-log-table'
+                    , url: '/log/login/page'
                     , page: true
-                    , toolbar: '#toolbar'
                     , cols: [
                         [
-                            {field: 'roleId', title: 'ID', sort: true}
-                            , {field: 'roleName', title: '名称'}
-                            , {field: 'remark', title: '描述'}
-                            , {title: '操作', align: 'center', toolbar: '#column-toolbar', width: "20%"}
+                            {field: 'username', title: '用户名'}
+                            , {field: 'loginTime', title: '登陆时间'}
+                            , {field: 'loginStatus', title: '状态', templet: function (d) {
+                                return d.loginStatus === '1' ? "成功" : "失败";
+                            }, width: "15%"}
+                            , {field: 'ip', title: 'IP'}
                         ]
                     ]
-                });
-
-                table.on('toolbar', function (obj) {
-                    var data = obj.data;
-                    var event = obj.event;
-
-                    if (event === 'add') {
-                        x_admin_show("新增角色", "role");
-                    }
-                });
-
-                table.on('tool', function (obj) {
-                    var data = obj.data;
-                    var event = obj.event;
-
-                    if (event === 'edit') {
-                        x_admin_show("编辑角色", "role/" + data.roleId);
-                    } else if (event === 'del') {
-                        layer.msg("del...");
-                    }
                 });
             });
         </script>
