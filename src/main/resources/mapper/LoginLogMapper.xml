@@ -124,7 +124,7 @@
     from login_log order by login_time desc
   </select>
 
-  <select id="recentlyWeekLoginCount" resultType="int">
+  <select id="recentlyWeekLoginCount" parameterType="java.lang.String" resultType="int">
     select
       #   a.login_time,
       ifnull(b.count, 0) as count
@@ -146,7 +146,7 @@
       select
         date(login_time) as datetime,
         count(*)         as count
-      from login_log
+      from login_log where username = #{username}
       group by date(login_time)
     ) b on a.login_time = b.datetime order by login_time;
   </select>

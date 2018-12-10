@@ -2,6 +2,7 @@ package im.zhaojun.mapper;
 
 import im.zhaojun.model.LoginLog;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,5 +22,5 @@ public interface LoginLogMapper {
 
     List<LoginLog> selectAll();
 
-    List<Integer> recentlyWeekLoginCount();
+    List<Integer> recentlyWeekLoginCount(@Param("username") String username);
 }
