@@ -1,7 +1,7 @@
 package im.zhaojun.controller;
 
 import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.ShearCaptcha;
+import cn.hutool.captcha.CircleCaptcha;
 import im.zhaojun.exception.CaptchaIncorrectException;
 import im.zhaojun.exception.UserAlreadyExistsException;
 import im.zhaojun.model.User;
@@ -78,7 +78,7 @@ public class LoginController {
     @GetMapping("captcha")
     public void captcha(HttpServletResponse response) throws IOException {
         //定义图形验证码的长、宽、验证码字符数、干扰元素个数
-        ShearCaptcha shearCaptcha = CaptchaUtil.createShearCaptcha(160, 38, 4, 4);
+        CircleCaptcha shearCaptcha = CaptchaUtil.createCircleCaptcha(160, 38, 4, 0);
 
         Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute("captcha", shearCaptcha.getCode());
