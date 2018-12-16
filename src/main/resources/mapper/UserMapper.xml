@@ -187,4 +187,8 @@
         select count(*)
         from user where username = #{username}
     </select>
+
+    <select id="selectRoleIdsById" resultType="java.lang.Integer">
+        select role_id from user_role where user_id = #{userId}
+    </select>
 </mapper>

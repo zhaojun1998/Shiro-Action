@@ -16,20 +16,11 @@
   <insert id="insertSelective" parameterType="im.zhaojun.model.RoleMenu">
     insert into role_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        role_id,
-      </if>
-      <if test="menuId != null">
-        menu_id,
-      </if>
+      <if test="roleId != null">role_id,</if><if test="menuId != null">menu_id,</if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
-      </if>
-      <if test="menuId != null">
-        #{menuId,jdbcType=INTEGER},
-      </if>
+      <if test="roleId != null">#{roleId,jdbcType=INTEGER},</if>
+      <if test="menuId != null">#{menuId,jdbcType=INTEGER},</if>
     </trim>
   </insert>
 

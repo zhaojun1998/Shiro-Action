@@ -49,4 +49,6 @@ public interface UserMapper {
     int updateLastLoginTimeByUsername(@Param("username") String username);
 
     int countByUserName(@Param("username") String username);
+
+    Integer[] selectRoleIdsById(@Param("userId") Integer userId);
 }

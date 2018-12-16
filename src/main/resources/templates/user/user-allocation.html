@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>用户添加</title>
+        <title>用户授权</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport"
@@ -24,51 +24,19 @@
         <div class="x-body">
             <form action="" method="post" class="layui-form">
                 <div class="layui-form-item">
-                    <label for="username" class="layui-form-label">
-                        用户名
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="username" name="username" lay-verify="required"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="email" class="layui-form-label">
-                        邮箱
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="email" name="email" lay-verify="required"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="password" class="layui-form-label">
-                        用户密码
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="password" name="password" lay-verify="required"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">
-                        状态
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="status" value="1" title="正常">
-                        <input type="radio" name="status" value="0" title="禁用">
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label">
                         角色
                     </label>
                     <div class="layui-input-block">
-                        <input th:each="role:${roles}" type="checkbox" name="role" th:value="${role.roleId}" th:title="${role.roleName}" title="角色名称">
+                        <th:block th:each="role:${roles}">
+                            <input th:checked="${#arrays.contains(roleIds, role.roleId)}" type="checkbox" name="role" th:value="${role.roleId}"
+                                   th:title="${role.roleName} + ${role.roleId}" title="角色名称">
+                        </th:block>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn" lay-submit="" lay-filter="add">添加</button>
+                    <input type="hidden" name="userId" th:value="${userId}">
+                    <button class="layui-btn" lay-submit="" lay-filter="allocation">授权</button>
                 </div>
             </form>
         </div>
@@ -80,17 +48,18 @@
                     , layer = layui.layer;
 
                 // 监听提交
-                form.on('submit(add)', function (form) {
+                form.on('submit(allocation)', function (form) {
                     form.field.role = getCheckBoxValueByName('role');
-                    $.post('/user', form.field, function (result) {
-                        handlerResult(result, addDone);
+                    var data = form.field;
+                    $.post('/user/' + data.userId + "/allocation", data, function (result) {
+                        handlerResult(result, allocationDone);
                     });
                     return false;
                 });
 
-                function addDone(data) {
-                    console.log("add result id : ", data);
-                    layer.msg("添加成功", {icon: 6}, function () {
+                function allocationDone(data) {
+                    console.log("allocation result id : ", data);
+                    layer.msg("授权成功", {icon: 6}, function () {
                         // 获得frame索引
                         var index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame
@@ -99,7 +68,7 @@
                 }
 
                 function getCheckBoxValueByName(name) {
-                    var checkedValue = [];
+                    var checkedValue =[];
                     $('input[name="' + name + '"]:checked').each(function(){
                         checkedValue.push($(this).val());
                     });

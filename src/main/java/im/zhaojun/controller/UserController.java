@@ -56,10 +56,21 @@ public class UserController {
         return "user/user-add";
     }
 
-    @PutMapping("/user")
+    @GetMapping("/user/{id}/allocation")
+    public String allocation(@PathVariable("id") Integer userId, Model model) {
+        User user = userService.selectOne(userId);
+        model.addAttribute("roleIds", userService.selectRoleIdsById(userId));
+        model.addAttribute("userId", userId);
+        model.addAttribute("roles", roleService.selectAll());
+        return "user/user-allocation";
+    }
+
+    @PostMapping("/user/{id}/allocation")
     @ResponseBody
-    public ResultBean<Boolean> update(User user) {
-        return new ResultBean<>(userService.update(user));
+    public ResultBean allocation(@PathVariable("id") Integer userId,
+                                         @RequestParam("role[]") Integer roleIds[]) {
+        userService.allocation(userId, roleIds);
+        return new ResultBean();
     }
 
     @PostMapping("/user/{id}/disable")

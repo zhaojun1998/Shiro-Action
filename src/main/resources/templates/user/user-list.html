@@ -36,16 +36,20 @@
         </script>
 
         <script type="text/html" id="column-toolbar">
+
+
             {{#  if('<shiro:principal property="username"/>' !== d.username) { }}
+                <a class="layui-btn layui-btn-xs" lay-event="allocation">授权</a>
 
                 {{#  if(d.status === '0') { }}
                     <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="enable">激活</a>
                 {{#  } }}
 
                 {{#  if(d.status === '1') { }}
-                    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="disable">禁用</a>
+                    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="disable">禁用</a>
                 {{#  } }}
 
+                <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
             {{#  } }}
         </script>
 
@@ -86,8 +90,9 @@
                 table.on('tool', function (obj) {
                     var data = obj.data;
                     var event = obj.event;
-
-                    if (event === 'disable') {
+                    if (event === 'allocation') {
+                        x_admin_show("授权", '/user/' + data.userId + "/allocation", 500);
+                    } else if (event === 'disable') {
                         $.post('/user/' + data.userId +'/disable', function (data) {
                             handlerResult(data, disableDone);
                         });
@@ -95,6 +100,11 @@
                         $.post('/user/' + data.userId + '/enable', function (data) {
                             handlerResult(data, enableDone);
                         });
+                    } else if (event === 'del') {
+                        layer.msg("删除...");
+                        // $.post('/user/' + data.userId +'/disable', function (data) {
+                        //     handlerResult(data, disableDone);
+                        // });
                     }
                 });
 

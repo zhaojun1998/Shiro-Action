@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="im.zhaojun.mapper.MenuMapper">
+  <resultMap id="findMenuIdAndCreateTimeResult" type="im.zhaojun.mapper.FindMenuIdAndCreateTimeResult">
+    <result column="menu_id" property="menuId"/>
+    <result column="create_time" property="createTime"/>
+  </resultMap>
   <resultMap id="BaseResultMap" type="im.zhaojun.model.Menu">
     <!--
       WARNING - @mbg.generated

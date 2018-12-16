@@ -36,6 +36,10 @@ public class UserService {
         return userMapper.selectAll();
     }
 
+    public Integer[] selectRoleIdsById(Integer userId) {
+        return userMapper.selectRoleIdsById(userId);
+    }
+
     public Integer add(User user, Integer[] roleIds) {
         String salt = String.valueOf(System.currentTimeMillis());
         String encryptPassword = new Md5Hash(user.getPassword(), salt).toString();
@@ -48,8 +52,7 @@ public class UserService {
         user.setPassword(encryptPassword);
         userMapper.insert(user);
 
-        // 清空原有的角色, 赋予新角色.
-        userRoleMapper.deleteUserMenuByUserId(user.getUserId());
+        // 赋予角色.
         userRoleMapper.insertList(user.getUserId(), roleIds);
 
         return user.getUserId();
@@ -97,10 +100,18 @@ public class UserService {
         Collection<Session> activeSessions = redisSessionDAO.getActiveSessions();
         for (Session session : activeSessions) {
             SimplePrincipalCollection simplePrincipalCollection = (SimplePrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-            User user = (User) simplePrincipalCollection.getPrimaryPrincipal();
-            if (userId.equals(user.getUserId())) {
-                offlineBySessionId(String.valueOf(session.getId()));
+            if (simplePrincipalCollection != null) {
+                User user = (User) simplePrincipalCollection.getPrimaryPrincipal();
+                if (user != null && userId.equals(user.getUserId())) {
+                    offlineBySessionId(String.valueOf(session.getId()));
+                }
             }
         }
+    }
+
+    public void allocation(Integer userId, Integer[] roleIds) {
+        // 清空原有的角色, 赋予新角色.
+        userRoleMapper.deleteUserMenuByUserId(userId);
+        userRoleMapper.insertList(userId, roleIds);
     }
 }
