@@ -11,9 +11,9 @@ public class CommonPageController {
         return "common/403";
     }
 
-    @GetMapping("/401")
+    @GetMapping("/404")
     public String unauthorizedPage() {
-        return "common/401";
+        return "common/404";
     }
 
     @GetMapping("/500")
