@@ -53,7 +53,9 @@ public class UserService {
         userMapper.insert(user);
 
         // 赋予角色.
-        userRoleMapper.insertList(user.getUserId(), roleIds);
+        if (roleIds.length > 0) {
+            userRoleMapper.insertList(user.getUserId(), roleIds);
+        }
 
         return user.getUserId();
     }
