@@ -16,18 +16,27 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.Map;
 
 @Configuration
+@PropertySource(value = "classpath:application.yml")
 public class ShiroConfig {
 
     @Resource
     private MenuService menuService;
+
+    @Value("${spring.redis.host}")
+    private String redisHost;
+
+    @Value("${spring.redis.port}")
+    private Integer redisPort;
 
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
@@ -88,8 +97,8 @@ public class ShiroConfig {
     @Bean
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
-        redisManager.setHost("127.0.0.1");
-        redisManager.setPort(6379);
+        redisManager.setHost(redisHost);
+        redisManager.setPort(redisPort);
         redisManager.setTimeout(600);
         return redisManager;
     }
