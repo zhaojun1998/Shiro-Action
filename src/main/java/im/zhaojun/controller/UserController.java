@@ -1,6 +1,7 @@
 package im.zhaojun.controller;
 
 import com.github.pagehelper.PageInfo;
+import im.zhaojun.exception.UserAlreadyExistsException;
 import im.zhaojun.model.User;
 import im.zhaojun.service.RoleService;
 import im.zhaojun.service.UserService;
@@ -45,15 +46,11 @@ public class UserController {
 
     @PostMapping("/user")
     @ResponseBody
-    public ResultBean<Integer> add(User user,  @RequestParam("role[]") Integer roleIds[]) {
+    public ResultBean<Integer> add(User user,  @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
+        if (userService.checkUserNameExist(user.getUsername())) {
+            throw new UserAlreadyExistsException();
+        }
         return new ResultBean<>(userService.add(user, roleIds));
-    }
-
-    @GetMapping("/user/{id}")
-    public String update(@PathVariable("id") Integer id, Model model) {
-        User user = userService.selectOne(id);
-        model.addAttribute("user", user);
-        return "user/user-add";
     }
 
     @GetMapping("/user/{id}/allocation")
