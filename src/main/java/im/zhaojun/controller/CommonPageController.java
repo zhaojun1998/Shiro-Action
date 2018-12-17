@@ -21,9 +21,4 @@ public class CommonPageController {
     public String error() {
         return "common/500";
     }
-
-    @GetMapping("/400")
-    public ResultBean badRequest() {
-        return ResultBean.error(ResultBean.FAIL, "请求参数不正确");
-    }
 }

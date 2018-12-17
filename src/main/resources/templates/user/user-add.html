@@ -28,7 +28,7 @@
                         用户名
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="username" name="username" lay-verify="required"
+                        <input type="text" id="username" name="username" lay-verify="required|username"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         状态
                     </label>
                     <div class="layui-input-block">
-                        <input type="radio" name="status" value="1" title="正常">
+                        <input type="radio" name="status" value="1" checked title="正常">
                         <input type="radio" name="status" value="0" title="禁用">
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn" lay-submit="" lay-filter="add">添加</button>
+                    <button class="layui-btn" type="button" lay-submit="" lay-filter="add">添加</button>
                 </div>
             </form>
         </div>
@@ -79,8 +79,30 @@
                 var form = layui.form
                     , layer = layui.layer;
 
+                form.verify({
+                    username: function (value) {
+                        if (!value) {
+                            return '昵称不能为空';
+                        }
+                        console.log(1);
+                        $.ajax({
+                            url: 'checkUser',
+                            type: 'get',
+                            async: false,
+                            dataType: 'json',
+                            data: {username: value},
+                            //验证用户名是否可用
+                            success: function (data) {
+                                return '当前用户名已被占用! ';
+                            }
+                        })
+                        console.log(2);
+                    }
+                });
+
                 // 监听提交
                 form.on('submit(add)', function (form) {
+                    console.log('1');
                     form.field.role = getCheckBoxValueByName('role');
                     $.post('/user', form.field, function (result) {
                         handlerResult(result, addDone);

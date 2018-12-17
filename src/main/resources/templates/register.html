@@ -71,7 +71,7 @@
         </div>
 
         <div class="layui-input-inline login-btn" style="width: 85%">
-            <button type="submit" lay-submit lay-filter="sub" class="layui-btn">注册</button>
+            <button type="button" lay-submit lay-filter="sub" class="layui-btn">注册</button>
         </div>
 
         <hr style="width: 85%"/>
@@ -89,25 +89,6 @@
         var layer = layui.layer;
 
         form.verify({
-            username: function (value) {
-                if (!value) {
-                    return '昵称不能为空';
-                }
-
-                $.ajax({
-                    url: 'checkUser',
-                    type: 'get',
-                    async: false,
-                    dataType: 'json',
-                    data: {username: value},
-                    //验证用户名是否可用
-                    success: function (data) {
-                        if (data.data) {
-                            return '当前用户名已被占用! ';
-                        }
-                    }
-                })
-            },
             password: [
                 /^[\S]{6,12}$/,
                 '密码必须6到12位，且不能出现空格'
