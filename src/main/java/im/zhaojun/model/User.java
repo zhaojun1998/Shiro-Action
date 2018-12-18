@@ -31,6 +31,9 @@ public class User implements Serializable {
     @JsonIgnore
     private Date modifyTime;
 
+    @JsonIgnore
+    private String activeCode;
+
     public Integer getUserId() {
         return userId;
     }
@@ -103,6 +106,14 @@ public class User implements Serializable {
         this.modifyTime = modifyTime;
     }
 
+    public String getActiveCode() {
+        return activeCode;
+    }
+
+    public void setActiveCode(String activeCode) {
+        this.activeCode = activeCode;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -115,6 +126,7 @@ public class User implements Serializable {
                 ", lastLoginTime=" + lastLoginTime +
                 ", createTime=" + createTime +
                 ", modifyTime=" + modifyTime +
+                ", activeCode='" + activeCode + '\'' +
                 '}';
     }
 }

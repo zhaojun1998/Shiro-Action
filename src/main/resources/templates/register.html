@@ -38,6 +38,13 @@
                 <i class="layui-icon" id="wr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
             </div>
         </div>
+        <div class="layui-input-inline">
+            <!-- 邮箱 -->
+            <div class="layui-inline" style="width: 85%">
+                <input type="text" class="layui-input" placeholder="请输入邮箱" autocomplete="off"
+                       lay-verify="required|email" id="email" name="email">
+            </div>
+        </div>
         <!-- 密码 -->
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 85%">
@@ -116,7 +123,6 @@
                         if (data.data) {
                             $('#wr').removeAttr('hidden');
                             $('#ri').attr('hidden', 'hidden');
-                            showError('当前用户名已被占用!');
                         } else {
                             $('#ri').removeAttr('hidden');
                             $('#wr').attr('hidden', 'hidden');
@@ -132,7 +138,6 @@
             if (!($('#password').val().match(reg))) {
                 $('#pwr').removeAttr('hidden');
                 $('#pri').attr('hidden', 'hidden');
-                showError('密码必须6到12位，且不能出现空格');
             } else {
                 $('#pri').removeAttr('hidden');
                 $('#pwr').attr('hidden', 'hidden');
@@ -163,9 +168,7 @@
     });
 
     function registerDone(data) {
-        layer.msg("注册成功, 即将前往登录页!", function () {
-            window.location.href = "login"
-        })
+        layer.msg("注册成功, 请检查邮箱进行激活!");
     }
 </script>
 </body>

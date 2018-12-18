@@ -33,6 +33,7 @@ public class UserNameRealm extends AuthorizingRealm {
         String username = user.getUsername();
 
         Set<String> roles = userMapper.selectRoleNameByUserName(username);
+//        url = userid   select *
         Set<String> perms = userMapper.selectPermsByUserName(username);
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();

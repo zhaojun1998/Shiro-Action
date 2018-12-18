@@ -116,4 +116,8 @@ public class UserService {
         userRoleMapper.deleteUserMenuByUserId(userId);
         userRoleMapper.insertList(userId, roleIds);
     }
+
+    public User selectByActiveCode(String activeCode) {
+        return userMapper.selectByActiveCode(activeCode);
+    }
 }

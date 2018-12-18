@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 @Mapper
-public interface UserMapper {
+public interface UserMapper<findByActiveCode> {
     int deleteByPrimaryKey(Integer userId);
 
     int insert(User record);
@@ -51,4 +51,6 @@ public interface UserMapper {
     int countByUserName(@Param("username") String username);
 
     Integer[] selectRoleIdsById(@Param("userId") Integer userId);
+
+    User selectByActiveCode(@Param("activeCode") String activeCode);
 }

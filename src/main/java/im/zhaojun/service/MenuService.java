@@ -108,9 +108,9 @@ public class MenuService {
         filterChainDefinitionMap.put("/captcha", "anon");
         // 检查用户名是否存在
         filterChainDefinitionMap.put("/checkUser", "anon");
-        // 管理员账号不能被禁用
-        filterChainDefinitionMap.put("/user/1/disable", "perms[user:admin:disable]");
-
+        // 激活账号
+        filterChainDefinitionMap.put("/active", "anon");
+        filterChainDefinitionMap.put("/user/1/disable", "perms[xxxx]");
         List<Menu> menus = selectAll();
         for (Menu menu : menus) {
             String url = menu.getUrl();
