@@ -2,7 +2,7 @@
 
 本项目使用 Spring Boot 搭建, 用于加深对 Spring Boot 与 Shiro 的学习.
 
-预览地址: [http://122.152.195.194/login](http://122.152.195.194/login)
+预览地址: [http://shiro.zhaojun.im/](http://shiro.zhaojun.im/)
 默认管理员账号: `admin`, 密码: `123456`.
 普通用户账号: `user`, 密码: `123456`.
 
