@@ -1,4 +1,4 @@
-package im.zhaojun.annotaion;
+package im.zhaojun.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

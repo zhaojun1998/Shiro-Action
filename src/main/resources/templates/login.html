@@ -15,7 +15,6 @@
     <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="icon" href="../frame/static/image/code.png">
 
 </head>
 <body>
@@ -32,8 +31,10 @@
                    class="layui-input">
         </div>
         <div class="layui-input-inline">
-            <input name="captcha" lay-verify="required" placeholder="验证码" style="width:50%;"  type="text" class="layui-input-inline layui-input">
-            <img style="margin-bottom: 15px;" onclick="generateCaptcha(this)" th:src="@{/captcha}"/>
+            <input name="captcha" lay-verify="required" placeholder="验证码" style="width:50%;" type="text"
+                   class="layui-input-inline layui-input">
+            <img style="margin-bottom: 15px;" onclick="generateCaptcha(this)"
+                 th:src="@{/captcha(timestamp=${new java.util.Date().getTime()})}"/>
         </div>
         <div class="layui-input-inline login-btn">
             <button lay-submit lay-filter="login" class="layui-btn">登录</button>
@@ -76,7 +77,10 @@
     }
 
     function loginDone(data) {
-        layer.msg("登陆成功, 即将跳转到首页!", function () {
+        layer.msg("登陆成功, 即将跳转到首页!", {
+            icon: 1,
+            time: 1000
+        }, function () {
             location.href = 'main';
         });
     }

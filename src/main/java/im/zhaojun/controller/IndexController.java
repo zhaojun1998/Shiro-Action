@@ -32,7 +32,6 @@ public class IndexController {
         return "welcome";
     }
 
-
     @GetMapping("/weekLoginCount")
     @ResponseBody
     public List<Integer> recentlyWeekLoginCount() {

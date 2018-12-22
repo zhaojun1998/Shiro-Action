@@ -1,6 +1,7 @@
 package im.zhaojun.controller;
 
 import com.github.pagehelper.PageInfo;
+import im.zhaojun.annotation.Log;
 import im.zhaojun.exception.UserAlreadyExistsException;
 import im.zhaojun.model.User;
 import im.zhaojun.service.RoleService;
@@ -37,13 +38,13 @@ public class UserController {
         return new PageResultBean<>(userPageInfo.getTotal(), userPageInfo.getList());
     }
 
-
     @GetMapping("/user")
     public String add(Model model) {
         model.addAttribute("roles", roleService.selectAll());
         return "user/user-add";
     }
 
+    @Log("新增账号")
     @PostMapping("/user")
     @ResponseBody
     public ResultBean<Integer> add(User user,  @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
@@ -62,6 +63,7 @@ public class UserController {
         return "user/user-allocation";
     }
 
+    @Log("为用户授予角色")
     @PostMapping("/user/{id}/allocation")
     @ResponseBody
     public ResultBean allocation(@PathVariable("id") Integer userId,
@@ -70,12 +72,14 @@ public class UserController {
         return new ResultBean();
     }
 
+    @Log("禁用账号")
     @PostMapping("/user/{id}/disable")
     @ResponseBody
     public ResultBean<Boolean> disable(@PathVariable("id") Integer id) {
         return new ResultBean<>(userService.disableUserByID(id));
     }
 
+    @Log("激活账号")
     @PostMapping("/user/{id}/enable")
     @ResponseBody
     public ResultBean<Boolean> enable(@PathVariable("id") Integer id) {

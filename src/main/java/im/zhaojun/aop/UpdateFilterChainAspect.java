@@ -19,7 +19,7 @@ public class UpdateFilterChainAspect {
 
     private static final Logger log = LoggerFactory.getLogger(UpdateFilterChainAspect.class);
 
-    @Pointcut("@annotation(im.zhaojun.annotaion.UpdateFilterChain)")
+    @Pointcut("@annotation(im.zhaojun.annotation.UpdateFilterChain)")
     public void updateFilterChain() {}
 
     @After("updateFilterChain()")

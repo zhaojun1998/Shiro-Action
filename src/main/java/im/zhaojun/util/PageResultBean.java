@@ -1,8 +1,11 @@
 package im.zhaojun.util;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PageResultBean<T> {
+public class PageResultBean<T> implements Serializable {
+
+    private static final long serialVersionUID = 5071118307783022228L;
 
     private long count;
     private int code;

@@ -29,11 +29,6 @@ public class LoginLogService {
         loginLogMapper.insert(loginLog);
     }
 
-    public List<LoginLog> list(int page) {
-        PageHelper.startPage(page, 20);
-        return loginLogMapper.selectAll();
-    }
-
     /**
      * 最近一周登陆次数
      */
