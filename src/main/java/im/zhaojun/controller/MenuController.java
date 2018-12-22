@@ -25,6 +25,7 @@ public class MenuController {
         return "menu/menu-list";
     }
 
+    @Log("获取菜单列表")
     @GetMapping("/menus/list")
     @ResponseBody
     public ResultBean<Collection<Menu>> getList() {
@@ -52,6 +53,7 @@ public class MenuController {
         return "menu/api-add";
     }
 
+    @Log("获取菜单列表")
     @GetMapping("/menu/tree")
     @ResponseBody
     public List<MenuTreeVO> tree() {

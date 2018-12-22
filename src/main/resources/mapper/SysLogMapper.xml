@@ -50,7 +50,7 @@
       create_time)
     values (#{username,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR}, #{time,jdbcType=INTEGER}, 
       #{method,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
-      #{create_time,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="im.zhaojun.model.SysLog" useGeneratedKeys="true">
     <!--
@@ -101,7 +101,7 @@
         #{ip,jdbcType=VARCHAR},
       </if>
       <if test="create_time != null">
-        #{create_time,jdbcType=TIMESTAMP},
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -131,7 +131,7 @@
         ip = #{ip,jdbcType=VARCHAR},
       </if>
       <if test="create_time != null">
-        create_time = #{create_time,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -148,7 +148,7 @@
       `method` = #{method,jdbcType=VARCHAR},
       params = #{params,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

@@ -24,6 +24,7 @@ public class RoleController {
         return "role/role-list";
     }
 
+    @Log("获取角色列表")
     @GetMapping(value = "/roles/list")
     @ResponseBody
     public PageResultBean<Role> getList(@RequestParam(value = "page", defaultValue = "1") int page,

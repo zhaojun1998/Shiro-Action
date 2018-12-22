@@ -1,4 +1,4 @@
-package im.zhaojun.controller;
+package im.zhaojun.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;

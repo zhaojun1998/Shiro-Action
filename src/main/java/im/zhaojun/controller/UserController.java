@@ -29,6 +29,7 @@ public class UserController {
         return "user/user-list";
     }
 
+    @Log("获取用户列表")
     @GetMapping("/users/page")
     @ResponseBody
     public PageResultBean<User> getList(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -44,7 +45,7 @@ public class UserController {
         return "user/user-add";
     }
 
-    @Log("新增账号")
+    @Log("新增用户")
     @PostMapping("/user")
     @ResponseBody
     public ResultBean<Integer> add(User user,  @RequestParam(value = "role[]", required = false) Integer roleIds[]) {

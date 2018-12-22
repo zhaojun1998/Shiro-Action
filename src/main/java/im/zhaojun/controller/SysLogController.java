@@ -1,6 +1,7 @@
 package im.zhaojun.controller;
 
 import com.github.pagehelper.PageInfo;
+import im.zhaojun.annotation.Log;
 import im.zhaojun.model.SysLog;
 import im.zhaojun.service.SysLogService;
 import im.zhaojun.util.PageResultBean;
@@ -23,6 +24,7 @@ public class SysLogController {
         return "log/sys-logs";
     }
 
+    @Log("查看操作日志")
     @GetMapping("/log/sys/page")
     @ResponseBody
     public PageResultBean<SysLog> getList(@RequestParam(value = "page", defaultValue = "1") int page,

@@ -1,9 +1,11 @@
 package im.zhaojun.controller;
 
 import cn.hutool.core.util.IdUtil;
+import im.zhaojun.annotation.Log;
 import im.zhaojun.exception.CaptchaIncorrectException;
 import im.zhaojun.exception.UserAlreadyExistsException;
 import im.zhaojun.model.User;
+import im.zhaojun.service.MailService;
 import im.zhaojun.service.UserService;
 import im.zhaojun.util.ResultBean;
 import im.zhaojun.util.code.Captcha;
@@ -41,6 +43,7 @@ public class LoginController {
         return "register";
     }
 
+    @Log("登录")
     @PostMapping("login")
     @ResponseBody
     public ResultBean<Boolean> login(User user, String captcha) {
@@ -56,6 +59,7 @@ public class LoginController {
         return new ResultBean<>(userService.updateLastLoginTimeByUsername(user.getUsername()));
     }
 
+    @Log("注销")
     @GetMapping("logout")
     public String logout() {
         SecurityUtils.getSubject().logout();
@@ -103,6 +107,7 @@ public class LoginController {
         session.setAttribute("captcha", captcha.text().toLowerCase());
     }
 
+    @Log("激活注册账号")
     @GetMapping("active")
     public String active(String token, Model model) {
         User user = userService.selectByActiveCode(token);
