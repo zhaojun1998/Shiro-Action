@@ -91,13 +91,13 @@
             ptable = treeGrid.render({
                 id: tableId
                 , elem: '#' + tableId
-                , url: '/menus/list'
+                , url: '/menu/list'
                 , idField: 'id' //必須字段
                 , treeId: 'id' //树形id字段名称
                 , treeUpId: 'pid'//树形父id字段名称
                 , treeShowName: 'name'//以树形式显示的字段
-                , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-                , height: '100%'
+                // , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
+                , height: '80%'
                 , isFilter: false
                 , iconOpen: false //是否显示图标【默认显示】
                 , isOpenDefault: false//节点默认是展开还是折叠【默认展开】
@@ -143,11 +143,11 @@
                 var data = obj.data;
                 if (obj.event === 'edit') {//删除行
                     if (data.type === '0') {
-                        x_admin_show("编辑", 'menu/' + data.id, 500);
+                        x_admin_show("编辑", '/menu/' + data.id, 500);
                     } else if (data.type === '1') {
-                        x_admin_show("编辑", 'menu/page/' + data.id, 500);
+                        x_admin_show("编辑", '/menu/page/' + data.id, 500);
                     } else if (data.type === '2') {
-                        x_admin_show("编辑", 'menu/api/' + data.id, 500);
+                        x_admin_show("编辑", '/menu/api/' + data.id, 500);
                     }
                 } else if (obj.event === "del") {//添加行
                     del(obj);

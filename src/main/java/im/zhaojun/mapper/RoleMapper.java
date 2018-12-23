@@ -2,7 +2,6 @@ package im.zhaojun.mapper;
 
 import im.zhaojun.model.Role;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +20,6 @@ public interface RoleMapper {
     int updateByPrimaryKey(Role record);
 
     List<Role> selectAll();
+
+    int count();
 }

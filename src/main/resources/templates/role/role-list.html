@@ -47,7 +47,7 @@
 
                 table.render({
                     elem: '#role-table'
-                    , url: '/roles/list'
+                    , url: '/role/list'
                     , cellMinWidth: 80
                     , page: true
                     , toolbar: '#toolbar'
@@ -75,7 +75,7 @@
                     var event = obj.event;
 
                     if (event === 'edit') {
-                        x_admin_show("编辑角色", "role/" + data.roleId);
+                        x_admin_show("编辑角色", "/role/" + data.roleId);
                     } else if (event === 'del') {
                         layer.msg("del...");
                     }

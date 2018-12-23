@@ -24,13 +24,13 @@ public class UserController {
     @Resource
     private RoleService roleService;
 
-    @GetMapping("/users")
+    @GetMapping("/user/index")
     public String index() {
         return "user/user-list";
     }
 
     @Log("获取用户列表")
-    @GetMapping("/users/page")
+    @GetMapping("/user/list")
     @ResponseBody
     public PageResultBean<User> getList(@RequestParam(value = "page", defaultValue = "1") int page,
                                           @RequestParam(value = "limit", defaultValue = "10")int limit) {

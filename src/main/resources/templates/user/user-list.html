@@ -60,7 +60,7 @@
 
                 table.render({
                     elem: '#user-table'
-                    , url: '/users/page'
+                    , url: '/user/list'
                     , page: true
                     , toolbar: '#toolbar'
                     , cols: [
@@ -102,9 +102,6 @@
                         });
                     } else if (event === 'del') {
                         layer.msg("删除...");
-                        // $.post('/user/' + data.userId +'/disable', function (data) {
-                        //     handlerResult(data, disableDone);
-                        // });
                     }
                 });
 

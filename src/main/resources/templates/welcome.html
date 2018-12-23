@@ -28,50 +28,50 @@
                                     <div carousel-item="">
                                         <ul class="layui-row layui-col-space10 layui-this">
                                             <li class="layui-col-xs2">
-                                                <a href="javascript:;" class="x-admin-backlog-body">
+                                                <a href="#" onclick="openTab('用户管理', '/user/index')" class="x-admin-backlog-body">
                                                     <h3>用户数</h3>
                                                     <p>
-                                                        <cite>66</cite>
+                                                        <cite th:text="${userCount}"></cite>
                                                     </p>
                                                 </a>
                                             </li>
                                             <li class="layui-col-xs2">
-                                                <a href="javascript:;" class="x-admin-backlog-body">
+                                                <a href="#" onclick="openTab('角色管理', '/role/index')" class="x-admin-backlog-body">
                                                     <h3>角色数</h3>
                                                     <p>
-                                                        <cite>12</cite>
+                                                        <cite th:text="${roleCount}"></cite>
                                                     </p>
                                                 </a>
                                             </li>
                                             <li class="layui-col-xs2">
-                                                <a href="javascript:;" class="x-admin-backlog-body">
+                                                <a href="#" onclick="openTab('菜单管理', '/menu/index')" class="x-admin-backlog-body">
                                                     <h3>菜单数</h3>
                                                     <p>
-                                                        <cite>99</cite>
+                                                        <cite th:text="${menuCount}"></cite>
                                                     </p>
                                                 </a>
                                             </li>
                                             <li class="layui-col-xs2">
-                                                <a href="javascript:;" class="x-admin-backlog-body">
-                                                    <h3>XXX</h3>
+                                                <a href="#" onclick="openTab('用户管理', '/log/login/index')" class="x-admin-backlog-body">
+                                                    <h3>登录日志</h3>
                                                     <p>
-                                                        <cite>67</cite>
+                                                        <cite th:text="${loginLogCount}"></cite>
                                                     </p>
                                                 </a>
                                             </li>
                                             <li class="layui-col-xs2">
-                                                <a href="javascript:;" class="x-admin-backlog-body">
-                                                    <h3>XXX</h3>
+                                                <a href="#" onclick="openTab('用户管理', '/log/sys/index')" class="x-admin-backlog-body">
+                                                    <h3>操作日志</h3>
                                                     <p>
-                                                        <cite>67</cite>
+                                                        <cite th:text="${sysLogCount}"></cite>
                                                     </p>
                                                 </a>
                                             </li>
                                             <li class="layui-col-xs2">
-                                                <a href="javascript:;" class="x-admin-backlog-body">
-                                                    <h3>XXX</h3>
+                                                <a href="#" onclick="openTab('用户管理', '/online/index')" class="x-admin-backlog-body">
+                                                    <h3>在线人数</h3>
                                                     <p>
-                                                        <cite>6766</cite>
+                                                        <cite th:text="${userOnlineCount}"></cite>
                                                     </p>
                                                 </a>
                                             </li>

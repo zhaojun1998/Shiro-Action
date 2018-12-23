@@ -337,3 +337,22 @@ function dateFormat(fmt, date) {
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+function openTab(title, url) {
+    var id = url;
+    iframe = parent.$('.x-iframe');
+    for (var i = 0; i < iframe.length; i++) {
+        if (iframe.eq(i).attr('tab-id') == url) {
+            parent.element.tabChange('tab', url);
+            return;
+        }
+    }
+    parent.element.tabAdd('tab', {
+        title: title
+        ,
+        content: '<iframe tab-id="' + id + '" frameborder="0" src="' + url + '" scrolling="yes" class="x-iframe"></iframe>'
+        ,
+        id: id
+    });
+    parent.element.tabChange('tab', url);
+}

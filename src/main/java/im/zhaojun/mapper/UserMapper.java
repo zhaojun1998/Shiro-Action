@@ -53,4 +53,6 @@ public interface UserMapper<findByActiveCode> {
     Integer[] selectRoleIdsById(@Param("userId") Integer userId);
 
     User selectByActiveCode(@Param("activeCode") String activeCode);
+
+    int count();
 }

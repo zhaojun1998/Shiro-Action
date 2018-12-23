@@ -41,4 +41,8 @@ public class LoginLogService {
         PageHelper.startPage(page, limit);
         return loginLogMapper.selectAll();
     }
+
+    public int count() {
+        return loginLogMapper.count();
+    }
 }

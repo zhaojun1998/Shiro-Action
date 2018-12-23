@@ -60,4 +60,16 @@ public class UserOnlineService {
         }
         return true;
     }
+
+    public int count() {
+        int count = 0;
+        Collection<Session> sessions = redisSessionDAO.getActiveSessions();
+        for (Session session : sessions) {
+            SimplePrincipalCollection principalCollection = new SimplePrincipalCollection();
+            if (session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY) != null) {
+                count++;
+            }
+        }
+        return count;
+    }
 }

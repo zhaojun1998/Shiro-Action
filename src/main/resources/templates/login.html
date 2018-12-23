@@ -30,22 +30,22 @@
             <input type="password" name="password" lay-verify="required" placeholder="密码" autocomplete="off"
                    class="layui-input">
         </div>
-        <div class="layui-input-inline">
-            <input name="captcha" lay-verify="required" placeholder="验证码" style="width:50%;" type="text"
-                   class="layui-input-inline layui-input">
-            <img style="margin-bottom: 15px;" onclick="generateCaptcha(this)"
-                 th:src="@{/captcha(timestamp=${new java.util.Date().getTime()})}"/>
-        </div>
+        <!--<div class="layui-input-inline">-->
+            <!--<input name="captcha" lay-verify="required" placeholder="验证码" style="width:50%;" type="text"-->
+                   <!--class="layui-input-inline layui-input">-->
+            <!--<img style="margin-bottom: 15px;" onclick="generateCaptcha(this)"-->
+                 <!--th:src="@{/captcha(timestamp=${new java.util.Date().getTime()})}"/>-->
+        <!--</div>-->
         <div class="layui-input-inline login-btn">
             <button lay-submit lay-filter="login" class="layui-btn">登录</button>
         </div>
         <hr/>
-        <div class="layui-input-inline">
-            <button type="button" class="layui-btn layui-btn-primary">QQ登录</button>
-        </div>
-        <div class="layui-input-inline">
-            <button type="button" class="layui-btn layui-btn-normal">微信登录</button>
-        </div>
+        <!--<div class="layui-input-inline">-->
+            <!--<button type="button" class="layui-btn layui-btn-primary">QQ登录</button>-->
+        <!--</div>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<button type="button" class="layui-btn layui-btn-normal">微信登录</button>-->
+        <!--</div>-->
         <p><a th:href="@{/register}" class="fl">立即注册</a><a href="javascript:" class="fr">忘记密码？</a></p>
     </form>
 </div>

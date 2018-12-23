@@ -2,8 +2,7 @@ package im.zhaojun.controller;
 
 import im.zhaojun.annotation.Log;
 import im.zhaojun.model.vo.MenuTreeVO;
-import im.zhaojun.service.LoginLogService;
-import im.zhaojun.service.MenuService;
+import im.zhaojun.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +20,18 @@ public class IndexController {
     @Resource
     private LoginLogService loginLogService;
 
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private RoleService roleService;
+
+    @Resource
+    private SysLogService sysLogService;
+
+    @Resource
+    private UserOnlineService userOnlineService;
+
     @GetMapping(value = {"/", "/main"})
     public String index(Model model) {
         List<MenuTreeVO> menuTreeVOS = menuService.selectCurrentUserMenuTreeVO();
@@ -30,7 +41,20 @@ public class IndexController {
 
     @Log("访问我的桌面")
     @GetMapping("/welcome")
-    public String welcome() {
+    public String welcome(Model model) {
+        int userCount = userService.count();
+        int roleCount = roleService.count();
+        int menuCount = menuService.count();
+        int loginLogCount = loginLogService.count();
+        int sysLogCount = sysLogService.count();
+        int userOnlineCount = userOnlineService.count();
+
+        model.addAttribute("userCount", userCount);
+        model.addAttribute("roleCount", roleCount);
+        model.addAttribute("menuCount", menuCount);
+        model.addAttribute("loginLogCount", loginLogCount);
+        model.addAttribute("sysLogCount", sysLogCount);
+        model.addAttribute("userOnlineCount", userOnlineCount);
         return "welcome";
     }
 

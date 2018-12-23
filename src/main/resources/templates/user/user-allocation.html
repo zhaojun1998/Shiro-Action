@@ -30,7 +30,7 @@
                     <div class="layui-input-block">
                         <th:block th:each="role:${roles}">
                             <input th:checked="${#arrays.contains(roleIds, role.roleId)}" type="checkbox" name="role" th:value="${role.roleId}"
-                                   th:title="${role.roleName} + ${role.roleId}" title="角色名称">
+                                   th:title="${role.roleName}" title="角色名称">
                         </th:block>
                     </div>
                 </div>

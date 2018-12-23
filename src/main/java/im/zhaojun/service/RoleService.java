@@ -64,4 +64,8 @@ public class RoleService {
     public List<Integer> selectMenuIdByRoleId(Integer roleId) {
         return menuMapper.selectMenuIdByRoleId(roleId);
     }
+
+    public int count() {
+        return roleMapper.count();
+    }
 }

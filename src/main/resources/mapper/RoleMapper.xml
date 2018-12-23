@@ -75,4 +75,10 @@
         <include refid="Base_Column_List"/>
         from role
     </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select
+        count(1)
+        from role
+    </select>
 </mapper>

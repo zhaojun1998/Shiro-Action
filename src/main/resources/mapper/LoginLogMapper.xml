@@ -150,4 +150,8 @@
       group by date(login_time)
     ) b on a.login_time = b.datetime order by login_time;
   </select>
+
+  <select id="count" resultType="int">
+    select count(1) from login_log
+  </select>
 </mapper>

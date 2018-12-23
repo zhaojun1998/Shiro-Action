@@ -23,4 +23,6 @@ public interface LoginLogMapper {
     List<LoginLog> selectAll();
 
     List<Integer> recentlyWeekLoginCount(@Param("username") String username);
+
+    int count();
 }

@@ -1,6 +1,5 @@
 package im.zhaojun.controller;
 
-import im.zhaojun.util.ResultBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

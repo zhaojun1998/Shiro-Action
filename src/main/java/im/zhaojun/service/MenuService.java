@@ -127,4 +127,8 @@ public class MenuService {
         filterChainDefinitionMap.put("/**", "authc");
         return filterChainDefinitionMap;
     }
+
+    public int count() {
+        return menuMapper.count();
+    }
 }

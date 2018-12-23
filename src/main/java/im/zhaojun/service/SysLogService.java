@@ -18,4 +18,8 @@ public class SysLogService {
         PageHelper.startPage(page, rows);
         return sysLogMapper.selectAll();
     }
+
+    public int count() {
+        return sysLogMapper.count();
+    }
 }

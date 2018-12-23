@@ -120,4 +120,8 @@ public class UserService {
     public User selectByActiveCode(String activeCode) {
         return userMapper.selectByActiveCode(activeCode);
     }
+
+    public int count() {
+        return userMapper.count();
+    }
 }

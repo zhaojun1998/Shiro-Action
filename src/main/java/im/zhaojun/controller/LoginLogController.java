@@ -19,13 +19,13 @@ public class LoginLogController {
     @Resource
     private LoginLogService loginLogService;
 
-    @GetMapping("/log/login")
+    @GetMapping("/log/login/index")
     public String index() {
         return "log/login-logs";
     }
 
     @Log("查看登录日志")
-    @GetMapping("/log/login/page")
+    @GetMapping("/log/login/list")
     @ResponseBody
     public PageResultBean<LoginLog> getList(@RequestParam(value = "page", defaultValue = "1") int page,
                                         @RequestParam(value = "limit", defaultValue = "10")int limit) {

@@ -196,4 +196,8 @@
     <select id="selectByActiveCode" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/> from user where active_code = #{activeCode}
     </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(1) from user
+    </select>
 </mapper>

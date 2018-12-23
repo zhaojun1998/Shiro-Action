@@ -157,4 +157,8 @@
     <include refid="Base_Column_List"/>
     from sys_log order by create_time desc
   </select>
+
+  <select id="count" resultType="int">
+    select count(1) from sys_log;
+  </select>
 </mapper>

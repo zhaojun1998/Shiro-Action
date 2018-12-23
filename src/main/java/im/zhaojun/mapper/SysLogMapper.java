@@ -20,4 +20,6 @@ public interface SysLogMapper {
     int updateByPrimaryKey(SysLog record);
 
     List<SysLog> selectAll();
+
+    int count();
 }

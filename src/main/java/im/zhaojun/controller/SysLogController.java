@@ -19,13 +19,13 @@ public class SysLogController {
     @Resource
     private SysLogService sysLogService;
 
-    @GetMapping("/log/sys")
+    @GetMapping("/log/sys/index")
     public String index() {
         return "log/sys-logs";
     }
 
     @Log("查看操作日志")
-    @GetMapping("/log/sys/page")
+    @GetMapping("/log/sys/list")
     @ResponseBody
     public PageResultBean<SysLog> getList(@RequestParam(value = "page", defaultValue = "1") int page,
                                           @RequestParam(value = "limit", defaultValue = "10")int limit) {

@@ -52,11 +52,13 @@
 <div class="page-content">
     <div class="layui-tab tab" lay-filter="tab" lay-allowclose="false">
         <ul class="layui-tab-title">
-            <li class="home"><i class="layui-icon">&#xe68e;</i>我的桌面</li>
+            <li lay-id="/home" class="home layui-this">
+                我的桌面
+            </li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <iframe src='./welcome.html' th:src="@{/welcome}" frameborder="0" scrolling="yes"
+                <iframe tab-id="/home" src='./welcome.html' th:src="@{/welcome}" frameborder="0" scrolling="yes"
                         class="x-iframe"></iframe>
             </div>
         </div>
@@ -67,7 +69,7 @@
 <!-- 中部结束 -->
 <!-- 底部开始 -->
 <div class="footer">
-    <div class="copyright">Copyright ©2017 x-admin v2.3 All Rights Reserved</div>
+    <div class="copyright">Copyright ©2018 Shiro-Action All Rights Reserved</div>
 </div>
 <!-- 底部结束 -->
 

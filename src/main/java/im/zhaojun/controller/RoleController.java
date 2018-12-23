@@ -19,13 +19,13 @@ public class RoleController {
     @Resource
     private RoleService roleService;
 
-    @GetMapping("/roles")
+    @GetMapping("/role/index")
     public String index() {
         return "role/role-list";
     }
 
     @Log("获取角色列表")
-    @GetMapping(value = "/roles/list")
+    @GetMapping(value = "/role/list")
     @ResponseBody
     public PageResultBean<Role> getList(@RequestParam(value = "page", defaultValue = "1") int page,
                                         @RequestParam(value = "limit", defaultValue = "10")int limit) {

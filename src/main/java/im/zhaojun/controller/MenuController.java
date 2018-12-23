@@ -20,13 +20,13 @@ public class MenuController {
     @Resource
     private MenuService menuService;
 
-    @GetMapping("/menus")
+    @GetMapping("/menu/index")
     public String index() {
         return "menu/menu-list";
     }
 
     @Log("获取菜单列表")
-    @GetMapping("/menus/list")
+    @GetMapping("/menu/list")
     @ResponseBody
     public ResultBean<Collection<Menu>> getList() {
         return new ResultBean<>(menuService.selectAll());
