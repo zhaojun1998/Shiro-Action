@@ -6,12 +6,16 @@ import im.zhaojun.mapper.RoleMapper;
 import im.zhaojun.mapper.RoleMenuMapper;
 import im.zhaojun.model.Role;
 import im.zhaojun.shiro.realm.UserNameRealm;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = "role", keyGenerator = "springCacheKeyGenerator")
 public class RoleService {
 
     @Resource
@@ -30,21 +34,25 @@ public class RoleService {
         return roleMapper.selectByPrimaryKey(roleId);
     }
 
+    @Cacheable
     public List<Role> selectAll(int page, int limit) {
         PageHelper.startPage(page, limit);
         return selectAll();
     }
 
+    @Cacheable
     public List<Role> selectAll() {
         return roleMapper.selectAll();
     }
 
+    @CacheEvict(allEntries = true)
     public int add(Role role, Integer[] menuIds) {
         roleMapper.insert(role);
         roleMenuMapper.insertList(role.getRoleId(), menuIds);
         return role.getRoleId();
     }
 
+    @CacheEvict(allEntries = true)
     public int update(Role role, Integer[] menuIds) {
         roleMapper.updateByPrimaryKey(role);
         roleMenuMapper.deleteRoleMenuByRoleId(role.getRoleId());

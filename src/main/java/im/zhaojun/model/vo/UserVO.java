@@ -1,8 +1,12 @@
 package im.zhaojun.model.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserVO {
+public class UserVO implements Serializable {
+
+    private static final long serialVersionUID = 8572826955489005982L;
+
     private Integer userId;
 
     private String username;

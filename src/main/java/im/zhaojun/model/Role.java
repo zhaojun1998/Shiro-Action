@@ -1,8 +1,12 @@
 package im.zhaojun.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Role {
+public class Role implements Serializable {
+
+    private static final long serialVersionUID = 974112931550748619L;
+
     private Integer roleId;
 
     private String roleName;

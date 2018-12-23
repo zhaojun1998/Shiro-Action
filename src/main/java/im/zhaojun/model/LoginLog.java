@@ -2,7 +2,7 @@ package im.zhaojun.model;
 
 import java.util.Date;
 
-public class LoginLog {
+public class LoginLog{
     private Integer id;
 
     private Date loginTime;

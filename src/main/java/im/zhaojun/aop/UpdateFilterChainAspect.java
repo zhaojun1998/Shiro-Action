@@ -1,7 +1,7 @@
 package im.zhaojun.aop;
 
 import im.zhaojun.service.ShiroService;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public class UpdateFilterChainAspect {
     @Pointcut("@annotation(im.zhaojun.annotation.UpdateFilterChain)")
     public void updateFilterChain() {}
 
-    @After("updateFilterChain()")
+    @AfterReturning("updateFilterChain()")
     public void doAfter() {
         log.info("更新 Shiro 过滤器链");
         shiroService.updateFilterChain();

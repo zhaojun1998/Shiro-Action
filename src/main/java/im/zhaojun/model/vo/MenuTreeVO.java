@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MenuTreeVO {
+public class MenuTreeVO implements Serializable {
+
+    private static final long serialVersionUID = -47759575689227687L;
 
     @JsonProperty("id")
     private Integer menuId;

@@ -3,9 +3,12 @@ package im.zhaojun.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Menu {
+public class Menu implements Serializable {
+    private static final long serialVersionUID = 5561561457068906366L;
+
     @JsonProperty("id")
     private Integer menuId;
 

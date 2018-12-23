@@ -7,6 +7,9 @@ import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.util.MenuVOConvert;
 import im.zhaojun.util.TreeUtil;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@CacheConfig(cacheNames = "menu", keyGenerator = "springCacheKeyGenerator")
 public class MenuService {
 
     @Resource
@@ -23,6 +27,7 @@ public class MenuService {
     /**
      * 获取所有菜单(导航菜单和按钮)
      */
+    @Cacheable
     public List<Menu> selectAll() {
         return menuMapper.selectAll();
     }
@@ -30,6 +35,7 @@ public class MenuService {
     /**
      * 获取所有导航菜单
      */
+    @Cacheable
     public List<Menu> selectAllMenuAndPage() {
         return menuMapper.selectAllMenu();
     }
@@ -41,6 +47,7 @@ public class MenuService {
     /**
      * 获取所有菜单 (树形结构)
      */
+    @Cacheable
     public List<MenuTreeVO> getALLMenuTreeVO() {
         List<Menu> menus = selectAllMenuAndPage();
         List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
@@ -50,42 +57,36 @@ public class MenuService {
     /**
      * 获取当前登陆用户拥有的树形菜单
      */
+    @Cacheable
     public List<MenuTreeVO> selectCurrentUserMenuTreeVO() {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
-        List<Menu> menus = selectMenuByUserName(user.getUsername());
+        List<Menu> menus = menuMapper.selectMenuByUserName(user.getUsername());
         List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
         return TreeUtil.toTree(menuTreeVOS);
     }
 
-    /**
-     * 根据用户名获取所拥有的树形菜单
-     */
-    private List<Menu> selectMenuByUserName(String userName) {
-        return menuMapper.selectMenuByUserName(userName);
-    }
-
+    @CacheEvict(allEntries = true)
     public int add(Menu menu) {
         menuMapper.insert(menu);
         return menu.getMenuId();
     }
 
+    @CacheEvict(allEntries = true)
     public boolean update(Menu menu) {
         return menuMapper.updateByPrimaryKey(menu) == 1;
     }
 
-    public boolean delete(Integer id) {
-        return menuMapper.deleteByPrimaryKey(id) == 1;
-    }
 
     /**
      * 删除当前菜单以及其子菜单
      */
+    @CacheEvict(allEntries = true)
     public boolean deleteByIDAndChildren(Integer id) {
         List<Integer> childIDList = menuMapper.selectChildrenID(id);
         for (Integer childID : childIDList) {
             deleteByIDAndChildren(childID);
         }
-        return delete(id);
+        return menuMapper.deleteByPrimaryKey(id) == 1;
     }
 
     /**
