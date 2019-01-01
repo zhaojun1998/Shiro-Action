@@ -630,3 +630,41 @@ table th, table td {
     }
 }
 
+/* layui 蓝色风格 */
+.layui-form-checked span{
+    background-color: #02a7f0;
+}
+
+.layui-form-checked i, .layui-form-checked:hover i {
+    color: #02a7f0;
+}
+
+.layui-form-select dl dd.layui-this {
+    background-color: #02a7f0;
+}
+
+.layui-btn-blue {
+    background-color: #02a7f0;
+}
+
+.layui-form-onswitch {
+    border-color: #02a7f0;
+    background-color: #02a7f0;
+}
+
+.layui-form-radio > i:hover, .layui-form-radioed > i {
+    color: #02a7f0;
+}
+
+.layui-form-checked[lay-skin=primary] i {
+    border-color: #02a7f0;
+    background-color: #02a7f0;
+}
+
+.layui-form-checkbox[lay-skin=primary]:hover i {
+    border-color: #02a7f0;
+}
+
+.layui-treeSelect .ztree li a.curSelectedNode {
+    color: #02a7f0 !important;
+}

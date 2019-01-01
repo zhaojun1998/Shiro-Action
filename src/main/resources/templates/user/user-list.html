@@ -32,7 +32,7 @@
         </div>
 
         <script type="text/html" id="toolbar">
-            <a class="layui-btn layui-btn-xs" lay-event="add">新增</a>
+            <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
         </script>
 
         <script type="text/html" id="column-toolbar">
@@ -58,7 +58,7 @@
                 var table = layui.table;
                 var $ = layui.$;
 
-                table.render({
+                var tableIns =table.render({
                     elem: '#user-table'
                     , url: '/user/list'
                     , page: true

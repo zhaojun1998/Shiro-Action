@@ -32,7 +32,7 @@
         </div>
 
         <script type="text/html" id="toolbar">
-            <a class="layui-btn layui-btn-xs" lay-event="add">新增</a>
+            <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
         </script>
 
         <script type="text/html" id="column-toolbar">
@@ -66,7 +66,7 @@
                     var event = obj.event;
 
                     if (event === 'add') {
-                        x_admin_show("/新增角色", "role");
+                        x_admin_show("/新增角色", "/role");
                     }
                 });
 
