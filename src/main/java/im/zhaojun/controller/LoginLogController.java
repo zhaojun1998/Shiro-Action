@@ -1,7 +1,7 @@
 package im.zhaojun.controller;
 
 import com.github.pagehelper.PageInfo;
-import im.zhaojun.annotation.Log;
+import im.zhaojun.annotation.OperationLog;
 import im.zhaojun.model.LoginLog;
 import im.zhaojun.service.LoginLogService;
 import im.zhaojun.util.PageResultBean;
@@ -24,7 +24,7 @@ public class LoginLogController {
         return "log/login-logs";
     }
 
-    @Log("查看登录日志")
+    @OperationLog("查看登录日志")
     @GetMapping("/log/login/list")
     @ResponseBody
     public PageResultBean<LoginLog> getList(@RequestParam(value = "page", defaultValue = "1") int page,

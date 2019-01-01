@@ -6,12 +6,10 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
-@ResponseBody
+@RestControllerAdvice
 public class WebExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(WebExceptionHandler.class);
@@ -41,7 +39,7 @@ public class WebExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResultBean lockedAccount(UserAlreadyExistsException e) {
+    public ResultBean lockedAccount(DuplicateNameException e) {
         log.error("用户名已存在");
         return ResultBean.error(ResultBean.FAIL, "用户名已存在");
     }

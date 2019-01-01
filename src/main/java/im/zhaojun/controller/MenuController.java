@@ -1,6 +1,6 @@
 package im.zhaojun.controller;
 
-import im.zhaojun.annotation.Log;
+import im.zhaojun.annotation.OperationLog;
 import im.zhaojun.annotation.UpdateFilterChain;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.vo.MenuTreeVO;
@@ -25,7 +25,7 @@ public class MenuController {
         return "menu/menu-list";
     }
 
-    @Log("获取菜单列表")
+    @OperationLog("获取菜单列表")
     @GetMapping("/menu/list")
     @ResponseBody
     public ResultBean<Collection<Menu>> getList() {
@@ -53,14 +53,14 @@ public class MenuController {
         return "menu/api-add";
     }
 
-    @Log("获取菜单列表")
+    @OperationLog("获取菜单列表")
     @GetMapping("/menu/tree")
     @ResponseBody
     public List<MenuTreeVO> tree() {
         return menuService.getALLMenuTreeVO();
     }
 
-    @Log("新增菜单")
+    @OperationLog("新增菜单")
     @UpdateFilterChain
     @PostMapping("/menu")
     @ResponseBody
@@ -71,7 +71,7 @@ public class MenuController {
         return new ResultBean<>(menuService.add(menu));
     }
 
-    @Log("删除菜单")
+    @OperationLog("删除菜单")
     @UpdateFilterChain
     @DeleteMapping("/menu/{id}")
     @ResponseBody
@@ -100,7 +100,7 @@ public class MenuController {
         return "menu/api-add";
     }
 
-    @Log("修改菜单")
+    @OperationLog("修改菜单")
     @UpdateFilterChain
     @PutMapping("/menu")
     @ResponseBody

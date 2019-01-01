@@ -1,7 +1,7 @@
 package im.zhaojun.controller;
 
 import com.github.pagehelper.PageInfo;
-import im.zhaojun.annotation.Log;
+import im.zhaojun.annotation.OperationLog;
 import im.zhaojun.model.Role;
 import im.zhaojun.service.RoleService;
 import im.zhaojun.util.PageResultBean;
@@ -24,7 +24,7 @@ public class RoleController {
         return "role/role-list";
     }
 
-    @Log("获取角色列表")
+    @OperationLog("获取角色列表")
     @GetMapping(value = "/role/list")
     @ResponseBody
     public PageResultBean<Role> getList(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -39,7 +39,7 @@ public class RoleController {
         return "role/role-add";
     }
 
-    @Log("新增角色")
+    @OperationLog("新增角色")
     @PostMapping("/role")
     @ResponseBody
     public ResultBean<Integer> add(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
@@ -56,7 +56,7 @@ public class RoleController {
         return "role/role-add";
     }
 
-    @Log("修改角色")
+    @OperationLog("修改角色")
     @PutMapping("/role")
     @ResponseBody
     public ResultBean<Integer> update(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {

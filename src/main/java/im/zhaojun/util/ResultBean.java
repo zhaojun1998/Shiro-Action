@@ -29,6 +29,11 @@ public class ResultBean<T> implements Serializable {
         this.data = data;
     }
 
+    public ResultBean(String msg) {
+        super();
+        this.msg = msg;
+    }
+
     public static ResultBean error(int code, String message) {
         ResultBean resultBean = new ResultBean();
         resultBean.setCode(code);

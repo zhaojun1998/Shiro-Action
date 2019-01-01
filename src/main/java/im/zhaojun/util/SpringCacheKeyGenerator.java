@@ -1,4 +1,4 @@
-package im.zhaojun.config;
+package im.zhaojun.util;
 
 import cn.hutool.json.JSONUtil;
 import org.springframework.cache.interceptor.KeyGenerator;

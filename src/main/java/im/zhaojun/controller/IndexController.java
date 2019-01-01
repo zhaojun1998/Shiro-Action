@@ -1,6 +1,6 @@
 package im.zhaojun.controller;
 
-import im.zhaojun.annotation.Log;
+import im.zhaojun.annotation.OperationLog;
 import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.service.*;
 import org.springframework.stereotype.Controller;
@@ -39,7 +39,7 @@ public class IndexController {
         return "index";
     }
 
-    @Log("访问我的桌面")
+    @OperationLog("访问我的桌面")
     @GetMapping("/welcome")
     public String welcome(Model model) {
         int userCount = userService.count();
@@ -58,7 +58,7 @@ public class IndexController {
         return "welcome";
     }
 
-    @Log("查看近七日登录统计图")
+    @OperationLog("查看近七日登录统计图")
     @GetMapping("/weekLoginCount")
     @ResponseBody
     public List<Integer> recentlyWeekLoginCount() {

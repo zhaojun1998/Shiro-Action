@@ -1,8 +1,8 @@
 package im.zhaojun.controller;
 
 import cn.hutool.core.util.IdUtil;
-import im.zhaojun.annotation.Log;
-import im.zhaojun.exception.UserAlreadyExistsException;
+import im.zhaojun.annotation.OperationLog;
+import im.zhaojun.exception.DuplicateNameException;
 import im.zhaojun.model.User;
 import im.zhaojun.service.MailService;
 import im.zhaojun.service.UserService;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -47,7 +48,7 @@ public class LoginController {
 
     @PostMapping("login")
     @ResponseBody
-    public ResultBean<Boolean> login(User user, String captcha) {
+    public ResultBean<Boolean> login(User user, @RequestParam(value = "captcha", required = false) String captcha) {
         Subject subject = SecurityUtils.getSubject();
 //        String realCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute("captcha");
 //        // session 中的验证码过期了
@@ -56,10 +57,11 @@ public class LoginController {
 //        }
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         subject.login(token);
-        return new ResultBean<>(userService.updateLastLoginTimeByUsername(user.getUsername()));
+        userService.updateLastLoginTimeByUsername(user.getUsername());
+        return new ResultBean<>("登录成功");
     }
 
-    @Log("注销")
+    @OperationLog("注销")
     @GetMapping("logout")
     public String logout() {
         SecurityUtils.getSubject().logout();
@@ -76,7 +78,7 @@ public class LoginController {
     @ResponseBody
     public ResultBean<Integer> register(User user) {
         if (userService.checkUserNameExist(user.getUsername())) {
-            throw new UserAlreadyExistsException();
+            throw new DuplicateNameException();
         }
         String activeCode = IdUtil.fastSimpleUUID();
         user.setActiveCode(activeCode);
@@ -113,7 +115,7 @@ public class LoginController {
 //        ImageIO.write(shearCaptcha.getImage(), "png", os);
 //    }
 
-    @Log("激活注册账号")
+    @OperationLog("激活注册账号")
     @GetMapping("active")
     public String active(String token, Model model) {
         User user = userService.selectByActiveCode(token);

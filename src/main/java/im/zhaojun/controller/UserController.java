@@ -1,8 +1,8 @@
 package im.zhaojun.controller;
 
 import com.github.pagehelper.PageInfo;
-import im.zhaojun.annotation.Log;
-import im.zhaojun.exception.UserAlreadyExistsException;
+import im.zhaojun.annotation.OperationLog;
+import im.zhaojun.exception.DuplicateNameException;
 import im.zhaojun.model.User;
 import im.zhaojun.service.RoleService;
 import im.zhaojun.service.UserService;
@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -29,7 +30,7 @@ public class UserController {
         return "user/user-list";
     }
 
-    @Log("获取用户列表")
+    @OperationLog("获取用户列表")
     @GetMapping("/user/list")
     @ResponseBody
     public PageResultBean<User> getList(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -45,12 +46,12 @@ public class UserController {
         return "user/user-add";
     }
 
-    @Log("新增用户")
+    @OperationLog("新增用户")
     @PostMapping("/user")
     @ResponseBody
-    public ResultBean<Integer> add(User user,  @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
+    public ResultBean<Integer> add(@Valid User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
         if (userService.checkUserNameExist(user.getUsername())) {
-            throw new UserAlreadyExistsException();
+            throw new DuplicateNameException();
         }
         return new ResultBean<>(userService.add(user, roleIds));
     }
@@ -64,7 +65,7 @@ public class UserController {
         return "user/user-allocation";
     }
 
-    @Log("为用户授予角色")
+    @OperationLog("为用户授予角色")
     @PostMapping("/user/{id}/allocation")
     @ResponseBody
     public ResultBean allocation(@PathVariable("id") Integer userId,
@@ -73,14 +74,14 @@ public class UserController {
         return new ResultBean();
     }
 
-    @Log("禁用账号")
+    @OperationLog("禁用账号")
     @PostMapping("/user/{id}/disable")
     @ResponseBody
     public ResultBean<Boolean> disable(@PathVariable("id") Integer id) {
         return new ResultBean<>(userService.disableUserByID(id));
     }
 
-    @Log("激活账号")
+    @OperationLog("激活账号")
     @PostMapping("/user/{id}/enable")
     @ResponseBody
     public ResultBean<Boolean> enable(@PathVariable("id") Integer id) {

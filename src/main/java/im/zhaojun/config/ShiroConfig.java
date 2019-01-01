@@ -1,7 +1,8 @@
-package im.zhaojun.shiro;
+package im.zhaojun.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import im.zhaojun.service.MenuService;
+import im.zhaojun.shiro.RestShiroFilterFactoryBean;
 import im.zhaojun.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import im.zhaojun.shiro.filter.RestAuthorizationFilter;
 import im.zhaojun.shiro.filter.RestFormAuthenticationFilter;
