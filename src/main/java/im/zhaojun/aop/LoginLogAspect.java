@@ -10,12 +10,14 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
 @Aspect
 @Component
+@ConditionalOnProperty(value = "log.login", havingValue = "true")
 public class LoginLogAspect {
 
     @Resource

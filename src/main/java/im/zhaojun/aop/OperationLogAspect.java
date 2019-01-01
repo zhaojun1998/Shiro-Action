@@ -1,6 +1,6 @@
 package im.zhaojun.aop;
 
-import im.zhaojun.annotation.Log;
+import im.zhaojun.annotation.OperationLog;
 import im.zhaojun.mapper.SysLogMapper;
 import im.zhaojun.model.SysLog;
 import im.zhaojun.model.User;
@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.stereotype.Component;
 
@@ -19,25 +20,22 @@ import java.lang.reflect.Method;
 
 @Aspect
 @Component
-public class LogAspect {
+@ConditionalOnProperty(value = "log.operation", havingValue = "true")
+public class OperationLogAspect {
 
     @Resource
     private SysLogMapper sysLogMapper;
 
-    @Pointcut("@annotation(im.zhaojun.annotation.Log)")
+    @Pointcut("@annotation(im.zhaojun.annotation.OperationLog)")
     public void pointcut() {
     }
 
-    @Around("pointcut()")
-    public Object around(ProceedingJoinPoint point) {
+    @Around(value = "pointcut()")
+    public Object around(ProceedingJoinPoint point) throws Throwable {
         Object result = null;
         long beginTime = System.currentTimeMillis();
-        try {
-            // 执行方法
-            result = point.proceed();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+        // 执行方法
+        result = point.proceed();
         // 执行时长(毫秒)
         long time = System.currentTimeMillis() - beginTime;
         // 保存日志
@@ -49,10 +47,10 @@ public class LogAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         SysLog sysLog = new SysLog();
-        Log logAnnotation = method.getAnnotation(Log.class);
-        if (logAnnotation != null) {
+        OperationLog operationLogAnnotation = method.getAnnotation(OperationLog.class);
+        if (operationLogAnnotation != null) {
             // 注解上的描述
-            sysLog.setOperation(logAnnotation.value());
+            sysLog.setOperation(operationLogAnnotation.value());
         }
         // 请求的方法名
         String className = joinPoint.getTarget().getClass().getName();
