@@ -12,10 +12,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.thymeleaf.TemplateEngine;
@@ -89,7 +86,7 @@ public class LoginController {
                 + request.getServerName()
                 + ":"
                 + request.getServerPort()
-                + "/active?token="
+                + "/active/"
                 + activeCode;
         Context context = new Context();
         context.setVariable("url", url);
@@ -116,8 +113,8 @@ public class LoginController {
 //    }
 
     @OperationLog("激活注册账号")
-    @GetMapping("active")
-    public String active(String token, Model model) {
+    @GetMapping("active/{token}")
+    public String active(@PathVariable("token") String token, Model model) {
         User user = userService.selectByActiveCode(token);
         String msg = "";
         if (user == null) {

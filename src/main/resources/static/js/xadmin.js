@@ -20,14 +20,11 @@ $(function () {
         }
         , tabDelete: function (othis) {
             //删除指定Tab项
-            element.tabDelete('tab', '44'); //删除：“商品管理”
-
-
             othis.addClass('layui-btn-disabled');
         }
         , tabChange: function (id) {
             //切换到指定Tab项
-            element.tabChange('tab', id); //切换到：用户管理
+            element.tabChange('tab', id);
         }
     };
 

@@ -33,7 +33,7 @@
                         用户名
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="username" name="username" lay-verify="required|username"
+                        <input type="text" id="username" name="username" lay-verify="username"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -83,27 +83,6 @@
                 $ = layui.jquery;
                 var form = layui.form
                     , layer = layui.layer;
-
-                form.verify({
-                    username: function (value) {
-                        if (!value) {
-                            return '昵称不能为空';
-                        }
-                        console.log(1);
-                        $.ajax({
-                            url: 'checkUser',
-                            type: 'get',
-                            async: false,
-                            dataType: 'json',
-                            data: {username: value},
-                            //验证用户名是否可用
-                            success: function (data) {
-                                return '当前用户名已被占用! ';
-                            }
-                        })
-                        console.log(2);
-                    }
-                });
 
                 // 监听提交
                 form.on('submit(add)', function (form) {
