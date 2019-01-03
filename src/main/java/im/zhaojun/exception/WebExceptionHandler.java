@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -49,6 +50,12 @@ public class WebExceptionHandler {
     public ResultBean lockedAccount(DuplicateNameException e) {
         log.error("用户名已存在");
         return ResultBean.error(ResultBean.FAIL, "用户名已存在");
+    }
+
+    @ExceptionHandler
+    public ResultBean missingRequestParameter(MissingServletRequestParameterException e) {
+        log.error("请求参数无效");
+        return ResultBean.error(ResultBean.FAIL, "请求参数缺失");
     }
 
     @ExceptionHandler
