@@ -328,7 +328,7 @@ body {
 .left-nav {
     position: absolute;
     top: 46px;
-    bottom: 42px;
+    bottom: 0px;
     left: 0;
     z-index: 2;
     padding-top: 10px;
@@ -431,7 +431,7 @@ body {
     position: absolute;
     top: 46px;
     right: 0;
-    bottom: 42px;
+    bottom: 0px;
     left: 221px;
     overflow: hidden;
     z-index: 1;
@@ -441,7 +441,7 @@ body {
     position: absolute;
     top: 46px;
     right: 0;
-    bottom: 42px;
+    bottom: 0px;
     left: 221px;
     background: rgba(0, 0, 0, 0.5);
 url() 0 0 no-repeat;
