@@ -48,15 +48,15 @@ public class RoleService {
     @CacheEvict(allEntries = true)
     public int add(Role role, Integer[] menuIds) {
         roleMapper.insert(role);
-        roleMenuMapper.insertList(role.getRoleId(), menuIds);
+        roleMenuMapper.insertMenusWithRole(role.getRoleId(), menuIds);
         return role.getRoleId();
     }
 
     @CacheEvict(allEntries = true)
     public int update(Role role, Integer[] menuIds) {
         roleMapper.updateByPrimaryKey(role);
-        roleMenuMapper.deleteRoleMenuByRoleId(role.getRoleId());
-        roleMenuMapper.insertList(role.getRoleId(), menuIds);
+        roleMenuMapper.deleteByRoleId(role.getRoleId());
+        roleMenuMapper.insertMenusWithRole(role.getRoleId(), menuIds);
         userNameRealm.clearAuthorizationCache();
         return role.getRoleId();
     }

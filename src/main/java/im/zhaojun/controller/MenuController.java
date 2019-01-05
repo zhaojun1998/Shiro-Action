@@ -4,6 +4,7 @@ import im.zhaojun.annotation.OperationLog;
 import im.zhaojun.annotation.UpdateFilterChain;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.vo.MenuTreeVO;
+import im.zhaojun.model.vo.RoleMenuVO;
 import im.zhaojun.service.MenuService;
 import im.zhaojun.util.ResultBean;
 import org.springframework.stereotype.Controller;
@@ -109,5 +110,23 @@ public class MenuController {
             menu.setParentId(0);
         }
         return new ResultBean<>(menuService.update(menu));
+    }
+
+
+    @GetMapping("/menu/{id}/allocation")
+    public String allocation(@PathVariable("id") Integer menuId, Model model) {
+        List<RoleMenuVO> roleMenuVOS = menuService.selectAllRoleByMenuId(menuId);
+        model.addAttribute("roles", roleMenuVOS);
+        model.addAttribute("menuId", menuId);
+        return "menu/role-allocation";
+    }
+
+
+    @PostMapping("/menu/{id}/allocation/role")
+    @ResponseBody
+    public ResultBean allocation(@PathVariable("id") Integer menuId, @RequestParam("role[]") Integer roleIds[]) {
+        List<RoleMenuVO> roleMenuVOS = menuService.selectAllRoleByMenuId(menuId);
+        menuService.allocationRole(menuId, roleIds);
+        return new ResultBean();
     }
 }

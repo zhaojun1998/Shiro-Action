@@ -1,6 +1,7 @@
 package im.zhaojun.mapper;
 
 import im.zhaojun.model.Menu;
+import im.zhaojun.model.vo.RoleMenuVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -51,4 +52,6 @@ public interface MenuMapper {
     List<Integer> selectMenuIdByRoleId(@Param("roleId") Integer roleId);
 
     int count();
+
+    List<RoleMenuVO> selectAllRoleByMenuId(@Param("menuId") Integer menuId);
 }

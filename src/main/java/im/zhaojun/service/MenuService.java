@@ -1,9 +1,11 @@
 package im.zhaojun.service;
 
 import im.zhaojun.mapper.MenuMapper;
+import im.zhaojun.mapper.RoleMenuMapper;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.User;
 import im.zhaojun.model.vo.MenuTreeVO;
+import im.zhaojun.model.vo.RoleMenuVO;
 import im.zhaojun.util.MenuVOConvert;
 import im.zhaojun.util.TreeUtil;
 import org.apache.shiro.SecurityUtils;
@@ -23,6 +25,9 @@ public class MenuService {
 
     @Resource
     private MenuMapper menuMapper;
+
+    @Resource
+    private RoleMenuMapper roleMenuMapper;
 
     /**
      * 获取所有菜单(导航菜单和按钮)
@@ -130,5 +135,15 @@ public class MenuService {
 
     public int count() {
         return menuMapper.count();
+    }
+
+
+    public List<RoleMenuVO> selectAllRoleByMenuId(Integer menuId) {
+        return menuMapper.selectAllRoleByMenuId(menuId);
+    }
+
+    public void allocationRole(Integer menuId, Integer[] roleIds) {
+        roleMenuMapper.deleteByMenuId(menuId);
+        roleMenuMapper.insertRolesWithMenu(menuId, roleIds);
     }
 }

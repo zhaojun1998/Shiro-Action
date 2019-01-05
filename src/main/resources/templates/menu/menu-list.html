@@ -50,6 +50,10 @@
             font-size: 12px;
         }
         .layui-table-body{overflow-x: hidden;}
+
+        /* 去掉表格内容超出的提示*/
+        .layui-table-tips-main{display:none}
+        .layui-table-tips-c{display:none}
     </style>
 
     <body class="layui-anim layui-anim-fadein">
@@ -76,6 +80,12 @@
             <a class="layui-btn layui-btn-xs layui-btn-normal" onclick="closeAll()">全部收起</a>
         </script>
 
+        <script type="text/html" id="column-toolbar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation">授予角色</a>
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+
     </body>
 
     <script>
@@ -97,7 +107,7 @@
                 , treeUpId: 'pid'//树形父id字段名称
                 , treeShowName: 'name'//以树形式显示的字段
                 // , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-                , height: '80%'
+                , height: '50%'
                 , isFilter: false
                 , iconOpen: false //是否显示图标【默认显示】
                 , isOpenDefault: false//节点默认是展开还是折叠【默认展开】
@@ -115,16 +125,9 @@
                         }, width: "5%"}
                         , {field: 'url', title: '地址', width: "20%"}
                         , {field: 'method', title: '方法', width: "10%"}
-                        , {field: 'perms', title: '权限标识符', width: "20%"}
-                        , {field: 'orderNum', title: '排序', width: "10%"}
-                        , {title: '操作', align: 'center'/*toolbar: '#barDemo'*/
-                            , templet: function (d) {
-                                var html = '';
-                                var addBtn = '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>';
-                                var delBtn = '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
-                                return addBtn + delBtn;
-                            }, width: "15%"
-                        }
+                        , {field: 'perms', title: '权限标识符', width: "15%"}
+                        , {field: 'orderNum', title: '排序'}
+                        , {title: '操作', align: 'center', templet: "#column-toolbar", width: "20%"}
                     ]
                 ]
                 , isPage: false
@@ -141,7 +144,9 @@
 
             treeGrid.on('tool(' + tableId + ')', function (obj) {
                 var data = obj.data;
-                if (obj.event === 'edit') {//删除行
+                if (obj.event === 'allocation') {
+                    x_admin_show("可访问的角色", '/menu/' + data.id + "/allocation", 500);
+                } else if (obj.event === 'edit') {//删除行
                     if (data.type === '0') {
                         x_admin_show("编辑", '/menu/' + data.id, 500);
                     } else if (data.type === '1') {

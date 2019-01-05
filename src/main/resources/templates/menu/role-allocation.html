@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>用户授权</title>
+        <title>为角色授权</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport"
@@ -34,13 +34,13 @@
                     </label>
                     <div class="layui-input-block">
                         <th:block th:each="role:${roles}">
-                            <input th:checked="${#arrays.contains(roleIds, role.roleId)}" type="checkbox" name="role" th:value="${role.roleId}"
-                                   th:title="${role.roleName}" title="角色名称">
+                            <input th:checked="${role.own}" type="checkbox" name="role" th:value="${role.roleId}"
+                                   th:title="${role.roleName}">
                         </th:block>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <input type="hidden" name="userId" th:value="${userId}">
+                    <input type="hidden" name="menuId" th:value="${menuId}">
                     <button class="layui-btn layui-btn-blue" lay-submit="" lay-filter="allocation">授权</button>
                 </div>
             </form>
@@ -56,14 +56,13 @@
                 form.on('submit(allocation)', function (form) {
                     form.field.role = getCheckBoxValueByName('role');
                     var data = form.field;
-                    $.post('/user/' + data.userId + "/allocation", data, function (result) {
-                        handlerResult(result, allocationDone);
+                    $.post('/menu/' + data.menuId + "/allocation/role", data, function (result) {
+                        handlerResult(result, allocationRoleDone);
                     });
                     return false;
                 });
 
-                function allocationDone(data) {
-                    console.log("allocation result id : ", data);
+                function allocationRoleDone(data) {
                     layer.msg("授权成功", {icon: 6}, function () {
                         // 获得frame索引
                         var index = parent.layer.getFrameIndex(window.name);

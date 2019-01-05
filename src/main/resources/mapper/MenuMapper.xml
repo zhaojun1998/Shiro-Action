@@ -243,4 +243,20 @@
     select count(1)
     from menu
   </select>
+
+  <select id="selectAllRoleByMenuId" resultType="im.zhaojun.model.vo.RoleMenuVO">
+    SELECT
+      role_id,
+      role_name,
+      ( SELECT
+          role_id
+        FROM
+          role_menu
+        WHERE
+          menu_id = #{menuId}
+          AND role.role_id = role_menu.role_id
+      ) IS NOT NULL AS own
+    FROM
+      role
+  </select>
 </mapper>
