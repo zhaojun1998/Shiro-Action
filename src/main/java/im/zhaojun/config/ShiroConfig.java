@@ -105,7 +105,7 @@ public class ShiroConfig {
     @Bean
     public RedisSessionDAO redisSessionDAO() {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-        redisSessionDAO.setExpire(600000);
+        redisSessionDAO.setExpire(1800);
         redisSessionDAO.setRedisManager(redisManager());
         return redisSessionDAO;
     }
