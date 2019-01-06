@@ -12,6 +12,7 @@ import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -40,6 +41,7 @@ public class UserService {
         return userMapper.selectRoleIdsById(userId);
     }
 
+    @Transactional
     public Integer add(User user, Integer[] roleIds) {
         String salt = String.valueOf(System.currentTimeMillis());
         String encryptPassword = new Md5Hash(user.getPassword(), salt).toString();
@@ -111,6 +113,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void allocation(Integer userId, Integer[] roleIds) {
         // 清空原有的角色, 赋予新角色.
         userRoleMapper.deleteUserMenuByUserId(userId);

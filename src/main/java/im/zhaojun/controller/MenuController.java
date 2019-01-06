@@ -122,6 +122,7 @@ public class MenuController {
     }
 
 
+    @UpdateFilterChain
     @PostMapping("/menu/{id}/allocation/role")
     @ResponseBody
     public ResultBean allocation(@PathVariable("id") Integer menuId, @RequestParam("role[]") Integer roleIds[]) {
