@@ -14,7 +14,7 @@ public class ResultBean<T> implements Serializable {
 
     public static final int NO_PERMISSION = 2;
 
-    private String msg = "success";
+    private String msg = "操作成功";
 
     private int code = SUCCESS;
 

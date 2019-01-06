@@ -73,4 +73,10 @@ public class WebExceptionHandler {
         return ResultBean.error(ResultBean.FAIL, errorMessage.toString());
     }
 
+    @ExceptionHandler
+    public ResultBean all(Exception e) {
+        log.error("出现其他异常:", e);
+        return ResultBean.error(ResultBean.FAIL, "系统出现错误, 请重试");
+    }
+
 }
