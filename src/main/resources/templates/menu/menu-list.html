@@ -26,22 +26,33 @@
             -ms-box-sizing: border-box; /*IE8*/
             box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
         }
-        .dHead {
-            height:85px;
-            width:100%;
-            position: fixed;
-            z-index:5;
-            top:0;
-            overflow-x: auto;
-            padding: 10px;
+
+
+        .x-nav {
+            padding: 0 20px;
+            position: relative;
+            z-index: 99;
+            line-height: 39px;
+            border-bottom: 1px solid #e5e5e5;
+            height: 39px;
+            overflow: hidden;
         }
+
+        .dHead {
+            height: 75px;
+            width: 100%;
+            position: fixed;
+            z-index: 5;
+            top: 0;
+            overflow-x: auto;
+        }
+
         .dBody {
-            width:100%;
-            overflow:auto;
-            top:90px;
-            position:absolute;
-            z-index:10;
-            bottom:5px;
+            width: 100%;
+            overflow: auto;
+            top: 40px;
+            position: absolute;
+            z-index: 10;
         }
         .layui-btn-xstree {
             height: 35px;
@@ -57,7 +68,7 @@
     </style>
 
     <body class="layui-anim layui-anim-fadein">
-        <div class="x-nav">
+        <div class="x-nav dHead" id="my-nav">
             <span class="layui-breadcrumb">
             <a href="#">首页</a>
             <a href="#">权限管理</a>
@@ -67,25 +78,25 @@
                style="float:right"
                href="javascript:location.replace(location.href);" title="刷新"></a>
         </div>
+        <div style="height: 100%">
+            <div class="dBody" style="padding: 20px;">
+                <table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table>
+            </div>
 
-        <div class="x-body">
-            <table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table>
+            <script type="text/html" id="toolbar">
+                <a class="layui-btn layui-btn-xs" onclick="x_admin_show('菜单添加', '/menu', 500)">新增菜单</a>
+                <a class="layui-btn layui-btn-xs" onclick="x_admin_show('页面添加', '/menu/page', 500)">新增页面</a>
+                <a class="layui-btn layui-btn-xs" onclick="x_admin_show('API添加', '/menu/api', 500)">新增API</a>
+                <a class="layui-btn layui-btn-xs layui-btn-normal" onclick="openAll()">全部展开</a>
+                <a class="layui-btn layui-btn-xs layui-btn-normal" onclick="closeAll()">全部收起</a>
+            </script>
+
+            <script type="text/html" id="column-toolbar">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation">授予角色</a>
+                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
         </div>
-
-        <script type="text/html" id="toolbar">
-            <a class="layui-btn layui-btn-xs" onclick="x_admin_show('菜单添加', '/menu', 500)">新增菜单</a>
-            <a class="layui-btn layui-btn-xs" onclick="x_admin_show('页面添加', '/menu/page', 500)">新增页面</a>
-            <a class="layui-btn layui-btn-xs" onclick="x_admin_show('API添加', '/menu/api', 500)">新增API</a>
-            <a class="layui-btn layui-btn-xs layui-btn-normal" onclick="openAll()">全部展开</a>
-            <a class="layui-btn layui-btn-xs layui-btn-normal" onclick="closeAll()">全部收起</a>
-        </script>
-
-        <script type="text/html" id="column-toolbar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation">授予角色</a>
-            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-        </script>
-
     </body>
 
     <script>
@@ -106,11 +117,11 @@
                 , treeId: 'id' //树形id字段名称
                 , treeUpId: 'pid'//树形父id字段名称
                 , treeShowName: 'name'//以树形式显示的字段
-                // , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-                , height: '50%'
+                , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
+                , height: '100%'
                 , isFilter: false
                 , iconOpen: false //是否显示图标【默认显示】
-                , isOpenDefault: false//节点默认是展开还是折叠【默认展开】
+                , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
                 , loading: true
                 , toolbar: '#toolbar'
                 , method: 'get'
@@ -132,6 +143,7 @@
                 ]
                 , isPage: false
                 , parseData: function (res) {//数据加载后回调
+                    $("#my-nav").height(40);
                     return res;
                 }
                 , onClickRow: function (index, o) {
@@ -178,7 +190,6 @@
                 function (index) {//确定回调
                     var id = obj.data.id;
                     $.post('/menu/' + id, {_method: "DELETE"}, function (data) {
-                        obj.del();
                         layer.close(index);
                         handlerResult(data, deleteDone);
                     });

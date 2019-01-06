@@ -353,3 +353,12 @@ function openTab(title, url) {
     });
     parent.element.tabChange('tab', url);
 }
+
+
+function getCheckBoxValueByName(name) {
+    var checkedValue =[];
+    $('input[name="' + name + '"]:checked').each(function(){
+        checkedValue.push($(this).val());
+    });
+    return checkedValue;
+}

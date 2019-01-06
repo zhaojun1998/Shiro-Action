@@ -63,20 +63,7 @@
                 });
 
                 function allocationRoleDone(data) {
-                    layer.msg("授权成功", {icon: 6}, function () {
-                        // 获得frame索引
-                        var index = parent.layer.getFrameIndex(window.name);
-                        //关闭当前frame
-                        parent.layer.close(index);
-                    });
-                }
-
-                function getCheckBoxValueByName(name) {
-                    var checkedValue =[];
-                    $('input[name="' + name + '"]:checked').each(function(){
-                        checkedValue.push($(this).val());
-                    });
-                    return checkedValue;
+                    layer.msg("授权成功", {icon: 6});
                 }
             });
         </script>

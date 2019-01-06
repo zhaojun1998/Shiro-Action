@@ -86,7 +86,6 @@
 
                 // 监听提交
                 form.on('submit(add)', function (form) {
-                    console.log('1');
                     form.field.role = getCheckBoxValueByName('role');
                     $.post('/user', form.field, function (result) {
                         handlerResult(result, addDone);
@@ -95,21 +94,7 @@
                 });
 
                 function addDone(data) {
-                    console.log("add result id : ", data);
-                    layer.msg("添加成功", {icon: 6}, function () {
-                        // 获得frame索引
-                        var index = parent.layer.getFrameIndex(window.name);
-                        //关闭当前frame
-                        parent.layer.close(index);
-                    });
-                }
-
-                function getCheckBoxValueByName(name) {
-                    var checkedValue = [];
-                    $('input[name="' + name + '"]:checked').each(function(){
-                        checkedValue.push($(this).val());
-                    });
-                    return checkedValue;
+                    layer.msg("添加成功", {icon: 6});
                 }
             });
         </script>
