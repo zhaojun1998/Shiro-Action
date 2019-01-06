@@ -68,4 +68,10 @@ public class RoleService {
     public int count() {
         return roleMapper.count();
     }
+
+    @Transactional
+    public void delete(Integer roleId) {
+        roleMapper.deleteByPrimaryKey(roleId);
+        roleMenuMapper.deleteByRoleId(roleId);
+    }
 }

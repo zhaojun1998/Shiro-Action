@@ -87,4 +87,12 @@ public class UserController {
     public ResultBean<Boolean> enable(@PathVariable("id") Integer id) {
         return new ResultBean<>(userService.enableUserByID(id));
     }
+
+    @OperationLog("删除账号")
+    @DeleteMapping("/user/{id}")
+    @ResponseBody
+    public ResultBean delete(@PathVariable("id") Integer userId) {
+        userService.delete(userId);
+        return new ResultBean();
+    }
 }

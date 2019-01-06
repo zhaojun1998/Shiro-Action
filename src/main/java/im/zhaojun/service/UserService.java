@@ -124,4 +124,11 @@ public class UserService {
     public int count() {
         return userMapper.count();
     }
+
+    @Transactional
+    public void delete(Integer userId) {
+        userMapper.deleteByPrimaryKey(userId);
+        int i = 1 / 0;
+        userRoleMapper.deleteUserMenuByUserId(userId);
+    }
 }

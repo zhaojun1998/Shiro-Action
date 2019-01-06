@@ -77,9 +77,29 @@
                     if (event === 'edit') {
                         x_admin_show("编辑角色", "/role/" + data.roleId);
                     } else if (event === 'del') {
-                        layer.msg("del...");
+                        del(obj);
                     }
                 });
+
+
+                function del(obj) {
+                    layer.confirm("确定删除角色吗?", {icon: 3, title: '提示'},
+                        function (index) {// 确定回调
+                            var id = obj.data.roleId;
+                            $.post('/role/' + id, {_method: "DELETE"}, function (data) {
+                                layer.close(index);
+                                handlerResult(data, deleteDone);
+                            });
+                        }, function (index) {//取消回调
+                            layer.close(index);
+                        }
+                    );
+                }
+
+                function deleteDone(data) {
+                    parent.layer.msg("删除成功");
+                    table.reload('role-table');
+                }
             });
         </script>
     </body>

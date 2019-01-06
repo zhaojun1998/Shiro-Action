@@ -101,7 +101,7 @@
                             handlerResult(data, enableDone);
                         });
                     } else if (event === 'del') {
-                        layer.msg("删除...");
+                        del(obj);
                     }
                 });
 
@@ -112,6 +112,25 @@
 
                 function enableDone(data) {
                     parent.layer.msg("激活成功");
+                    table.reload('user-table');
+                }
+
+                function del(obj) {
+                    layer.confirm("确定删除用户吗?", {icon: 3, title: '提示'},
+                        function (index) {//确定回调
+                            var id = obj.data.userId;
+                            $.post('/user/' + id, {_method: "DELETE"}, function (data) {
+                                layer.close(index);
+                                handlerResult(data, deleteDone);
+                            });
+                        }, function (index) {//取消回调
+                            layer.close(index);
+                        }
+                    );
+                }
+
+                function deleteDone(data) {
+                    parent.layer.msg("删除成功");
                     table.reload('user-table');
                 }
             });

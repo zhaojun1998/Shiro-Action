@@ -62,4 +62,13 @@ public class RoleController {
     public ResultBean<Integer> update(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
         return new ResultBean<>(roleService.update(role, menuIds));
     }
+
+
+    @OperationLog("删除角色")
+    @DeleteMapping("/role/{id}")
+    @ResponseBody
+    public ResultBean delete(@PathVariable("id") Integer roleId) {
+        roleService.delete(roleId);
+        return new ResultBean<>();
+    }
 }
