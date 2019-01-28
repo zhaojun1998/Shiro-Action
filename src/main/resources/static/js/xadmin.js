@@ -162,8 +162,9 @@ function getCateId(cateId) {
  * @param url   请求的url
  * @param w     弹出层宽度（缺省调默认值）
  * @param h     弹出层高度（缺省调默认值）
+ * @param fn    关闭后回调事件
  */
-function x_admin_show(title, url, w, h) {
+function x_admin_show(title, url, w, h, fn) {
     if (title == null || title === '') {
         title = false;
     }
@@ -190,7 +191,11 @@ function x_admin_show(title, url, w, h) {
         title: title,
         content: url,
         end: function () {
-            $(".layui-laypage-btn")[0].click()
+            if (typeof (fn) == "undefined") {
+                $(".layui-laypage-btn")[0].click()
+            } else {
+                fn();
+            }
         }
     });
 }
@@ -200,7 +205,6 @@ function x_admin_close() {
     var index = parent.layer.getFrameIndex(window.name);
     parent.layer.close(index);
 }
-
 
 
 /**
@@ -220,22 +224,8 @@ function handlerResult(result, fn) {
     // 成功执行操作，失败提示原因
     if (result.code === 0) {
         fn(result.data);
-    }
-    // 没有登陆异常，重定向到登陆页面
-    else if (result.code === -1) {
-        showError("登录已失效");
-        // $("#logindlg").modal('show');
-    }
-    // 参数校验出错，直接提示
-    else if (result.code === 1) {
-        showError(result.msg);
-    }
-    // 没有权限，显示申请权限电子流
-    else if (result.code === 2) {
-        showError("没有权限");
     } else {
-        // 不应该出现的异常，应该重点关注
-        showError(result.msg);
+        showError(result.message);
     }
 }
 
@@ -255,7 +245,7 @@ function treeUtil(data, key, parentKey, map) {
     if (map) {
         if (map[key]) this.treeKey = map[key];
     }
-    this.toTree = function() {
+    this.toTree = function () {
         var data = this.data;
         var pos = {};
         var tree = [];
@@ -288,7 +278,7 @@ function treeUtil(data, key, parentKey, map) {
         }
         return tree;
     }
-    this.copy = function(item) {
+    this.copy = function (item) {
         var _temp = {
             children: []
         };
@@ -356,9 +346,15 @@ function openTab(title, url) {
 
 
 function getCheckBoxValueByName(name) {
-    var checkedValue =[];
-    $('input[name="' + name + '"]:checked').each(function(){
+    var checkedValue = [];
+    $('input[name="' + name + '"]:checked').each(function () {
         checkedValue.push($(this).val());
     });
     return checkedValue;
 }
+
+$(document).ajaxError(function(event, response){
+    console.log("错误响应状态码: ",response.status);
+    console.log("错误响应结果: ",response.responseJSON);
+    showError(response.responseJSON.message);
+});

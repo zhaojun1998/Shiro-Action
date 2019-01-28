@@ -1,65 +1,74 @@
 package im.zhaojun.exception;
 
 import im.zhaojun.util.ResultBean;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@RestControllerAdvice
-@ResponseBody
-public class WebExceptionHandler {
+@ControllerAdvice
+public class WebExceptionHandler{
 
     private static final Logger log = LoggerFactory.getLogger(WebExceptionHandler.class);
 
     @ExceptionHandler
-    public ResultBean unknownAccount(UnknownAccountException e) {
+    public String unknownAccount(UnknownAccountException e) {
         log.error("账号不存在");
-        return ResultBean.error(ResultBean.FAIL, "账号不存在");
+        return generateErrorInfo(ResultBean.FAIL, "账号不存在");
     }
 
     @ExceptionHandler
-    public ResultBean incorrectCredentials(IncorrectCredentialsException e) {
+    public String incorrectCredentials(IncorrectCredentialsException e) {
         log.error("密码错误");
-        return ResultBean.error(ResultBean.FAIL, "密码错误");
+        return generateErrorInfo(ResultBean.FAIL, "密码错误");
     }
 
     @ExceptionHandler
-    public ResultBean lockedAccount(LockedAccountException e) {
+    public String excessiveAttemptsException(ExcessiveAttemptsException e) {
+        log.error("登录次数过多");
+        return generateErrorInfo(ResultBean.FAIL, "登录次数过多");
+    }
+
+    @ExceptionHandler
+    public String lockedAccount(LockedAccountException e) {
         log.error("账号已锁定");
-        return ResultBean.error(ResultBean.FAIL, "账号已锁定");
+        return generateErrorInfo(ResultBean.FAIL, "账号已锁定");
     }
 
     @ExceptionHandler
-    public ResultBean lockedAccount(CaptchaIncorrectException e) {
+    public String lockedAccount(CaptchaIncorrectException e) {
         log.error("验证码错误");
-        return ResultBean.error(ResultBean.FAIL, "验证码错误");
+        return generateErrorInfo(ResultBean.FAIL, "验证码错误");
     }
 
     @ExceptionHandler
-    public ResultBean lockedAccount(DuplicateNameException e) {
+    public String lockedAccount(DuplicateNameException e) {
         log.error("用户名已存在");
-        return ResultBean.error(ResultBean.FAIL, "用户名已存在");
+        return generateErrorInfo(ResultBean.FAIL, "用户名已存在");
     }
 
     @ExceptionHandler
-    public ResultBean missingRequestParameter(MissingServletRequestParameterException e) {
+    public String missingRequestParameter(MissingServletRequestParameterException e) {
         log.error("请求参数无效");
-        return ResultBean.error(ResultBean.FAIL, "请求参数缺失");
+        return generateErrorInfo(ResultBean.FAIL, "请求参数缺失");
     }
 
     @ExceptionHandler
-    public ResultBean methodArgumentNotValid(BindException e) {
+    public String methodArgumentNotValid(BindException e) {
         log.error("参数校验失败", e);
         List<ObjectError> allErrors = ((BeanPropertyBindingResult) e.getBindingResult()).getAllErrors();
         StringBuilder errorMessage = new StringBuilder();
@@ -70,13 +79,31 @@ public class WebExceptionHandler {
                errorMessage.append(",");
             }
         }
-        return ResultBean.error(ResultBean.FAIL, errorMessage.toString());
+        return generateErrorInfo(ResultBean.FAIL, errorMessage.toString());
     }
 
     @ExceptionHandler
-    public ResultBean all(Exception e) {
-        log.error("出现其他异常:", e);
-        return ResultBean.error(ResultBean.FAIL, "系统出现错误, 请重试");
+    public String all(Exception e) {
+        generateErrorInfo(-1, e.getMessage(), 404);
+        return "forward:/error";
     }
 
+    /**
+     * 生成错误信息, 放到 request 域中.
+     * @param code          错误码
+     * @param message       错误信息
+     * @param httpStatus    HTTP 状态码
+     * @return              SpringBoot 默认提供的 /error Controller 处理器
+     */
+    private String generateErrorInfo(int code, String message, int httpStatus) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        request.setAttribute("code", code);
+        request.setAttribute("message", message);
+        request.setAttribute("javax.servlet.error.status_code", httpStatus);
+        return "forward:/error";
+    }
+
+    private String generateErrorInfo(int code, String message) {
+        return generateErrorInfo(code, message, HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
 }
