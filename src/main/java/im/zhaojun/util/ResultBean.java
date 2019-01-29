@@ -40,12 +40,6 @@ public class ResultBean<T> implements Serializable {
         resultBean.setMsg(message);
         return resultBean;
     }
-//
-//    public ResultBean(Throwable e) {
-//        super();
-//        this.msg = e.getMessage();
-//        this.code = FAIL;
-//    }
 
     public String getMsg() {
         return msg;

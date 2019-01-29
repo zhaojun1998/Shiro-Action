@@ -32,7 +32,6 @@ public class UserNameRealm extends AuthorizingRealm {
         String username = user.getUsername();
 
         Set<String> roles = userMapper.selectRoleNameByUserName(username);
-//        url = userid   select *
         Set<String> perms = userMapper.selectPermsByUserName(username);
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
@@ -57,5 +56,24 @@ public class UserNameRealm extends AuthorizingRealm {
 
     public void clearAuthorizationCache(){
         this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+    }
+
+
+    /**
+     * 超级管理员用户所有权限
+     */
+    @Override
+    public boolean isPermitted(PrincipalCollection principals, String permission) {
+        User user = (User) principals.getPrimaryPrincipal();
+        return "admin".equals(user.getUsername()) || super.isPermitted(principals, permission);
+    }
+
+    /**
+     * 超级管理员用户所有角色
+     */
+    @Override
+    public boolean hasRole(PrincipalCollection principals, String roleIdentifier) {
+        User user = (User) principals.getPrimaryPrincipal();
+        return "admin".equals(user.getUsername()) || super.hasRole(principals, roleIdentifier);
     }
 }
