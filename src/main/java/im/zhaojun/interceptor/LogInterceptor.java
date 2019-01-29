@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class LogInterceptor implements HandlerInterceptor {
- 
+
     private final static String principal = "principal";
     private static final Logger LOGGER = LoggerFactory.getLogger(LogInterceptor.class);
- 
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         Subject subject = SecurityUtils.getSubject();
@@ -28,14 +28,14 @@ public class LogInterceptor implements HandlerInterceptor {
         }
         return true;
     }
- 
+
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-        MDC.remove(MDC.get(principal));
+        MDC.clear();
     }
- 
+
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
- 
+
     }
 }
