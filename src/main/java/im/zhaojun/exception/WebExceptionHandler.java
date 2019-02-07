@@ -84,6 +84,7 @@ public class WebExceptionHandler{
 
     @ExceptionHandler
     public String all(Exception e) {
+        log.error(e.getMessage(), e);
         generateErrorInfo(ResultBean.FAIL, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         return "forward:/error";
     }
