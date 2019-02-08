@@ -47,11 +47,18 @@
                     , cols: [
                         [
                             {type: 'numbers', title: '序号', width: "5%"}
+                            , {field: 'username', title: '用户名', width: "13%", templet: function (d) {
+                                    var username = d.username;
+                                    if (d.id === '[[${#session.id}]]') {
+                                        username += "<span class=\"layui-badge-rim layui-bg-blue\">当前登录</span>";
+                                    }
+                                    return username;
+                                }
+                            }
                             , {field: 'id', title: 'SESSION_ID', width: "25%"}
-                            , {field: 'username', title: '用户名', width: "10%"}
                             , {field: 'startTimestamp', title: '登录时间', width: "15%"}
                             , {field: 'lastAccessTime', title: '最后访问时间', width: "15%"}
-                            , {field: 'ip', title: 'IP', width: "15%"}
+                            , {field: 'ip', title: 'IP', width: "12%"}
                             , {field: 'status', title: '状态', width: "5%"}
                             , {title: '操作', align: 'center', toolbar: '#column-toolbar', width: "10%"}
                         ]
