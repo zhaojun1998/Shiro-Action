@@ -22,12 +22,12 @@
 
     <body class="layui-anim layui-anim-fadein">
         <div class="x-body">
-            <form action="" method="post" class="layui-form">
+            <form action="" method="post" class="layui-form layui-form-pane">
                 <div class="layui-form-item">
                     <label for="menuName" class="layui-form-label">
                         页面名称
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="menuName" name="menuName" th:value="${menu?.menuName}" lay-verify="required"
                                autocomplete="off" placeholder="请输入页面名称" class="layui-input">
                     </div>
@@ -36,20 +36,16 @@
                     <label for="url" class="layui-form-label">
                         菜单URL
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="url" th:value="${menu?.url}" name="url" lay-verify="required"
                                autocomplete="off" class="layui-input" placeholder="需要授权的 URL">
-                        <div class="layui-form-mid layui-word-aux">
-                            外部链接以 http(s):// 开头。 <br>
-                            支持 ?, *, ** 通配符。
-                        </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label for="orderNum" class="layui-form-label">
                         排序
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="orderNum" th:value="${menu?.orderNum}" name="orderNum" lay-verify="number|required"
                                autocomplete="off" class="layui-input" placeholder="序号值越小, 排序越靠前">
                     </div>
@@ -58,7 +54,7 @@
                     <label for="perms" class="layui-form-label">
                         权限标识
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="perms" th:value="${menu?.perms}" name="perms" lay-verify="required"
                                autocomplete="off" class="layui-input" placeholder="">
                     </div>
@@ -67,14 +63,25 @@
                     <label for="tree" class="layui-form-label">
                         上级菜单
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" name="parentId" id="tree" lay-filter="tree" class="layui-input">
                     </div>
                 </div>
+                <fieldset class="layui-elem-field">
+                    <legend>备注</legend>
+                    <div class="layui-field-box">
+                        <div class="layui-form-mid layui-word-aux">
+                            URL 支持 ?, *, ** 通配符。<br>
+                            外部链接以 http(s):// 开头。
+                        </div>
+                    </div>
+                </fieldset>
                 <div class="layui-form-item">
-                    <input type="hidden" name="menuId" th:value="${menu?.menuId}">
-                    <input type="hidden" name="type" value="1">
-                    <button class="layui-btn layui-btn-blue" th:text="${menu}?'修改':'增加'" lay-submit="" data-th-lay-filter="${menu}?'edit':'add'">增加</button>
+                    <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                        <input type="hidden" name="menuId" th:value="${menu?.menuId}">
+                        <input type="hidden" name="type" value="1">
+                        <button class="layui-btn layui-btn-blue" th:text="${menu}?'修改':'增加'" lay-submit="" data-th-lay-filter="${menu}?'edit':'add'">增加</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -88,15 +95,28 @@
                 return null;
             }
 
-            var form, layer, treeSelect;
+            var form, layer, treeSelect, autocomplete;
             layui.config({
                 base: '/lib/layui/extend/'
-            }).extend({
-                treeGrid: 'treeSelect'
-            }).use(['form', 'layer', 'treeSelect'], function () {
+            }).use(['form', 'layer', 'treeSelect', 'autocomplete'], function () {
                 $ = layui.jquery;
                 form = layui.form;
                 layer = layui.layer;
+                autocomplete = layui.autocomplete;
+                autocomplete.render({
+                    elem: $('#url'),
+                    url: '/system/urls',
+                    template_val: '{{d.url}}',
+                    template_txt: '{{d.url}} \
+                        {{#  layui.each(d.type.split(","), function(index, item){ }} \
+                            <span class="layui-badge layui-bg-gray">{{item}}</span>  \
+                        {{#  }); }} \
+                    ',
+                    onselect: function (resp) {
+                        console.log(resp);
+                    }
+                });
+
                 treeSelect = layui.treeSelect;
 
                 treeSelect.render({
