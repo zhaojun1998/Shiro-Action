@@ -13,7 +13,7 @@ $(function () {
             element.tabAdd('tab', {
                 title: title
                 ,
-                content: '<iframe tab-id="' + id + '" frameborder="0" src="' + url + '" scrolling="yes" class="x-iframe"></iframe>'
+                content: '<iframe tab-id="' + id + '" frameborder="0" src="' + url + '" scrolling="yes" title="' + title + '" class="x-iframe"></iframe>'
                 ,
                 id: id
             })
@@ -155,57 +155,6 @@ function getCateId(cateId) {
         getCateId(id);
     });
 }
-
-/**
- *
- * @param title 标题
- * @param url   请求的url
- * @param w     弹出层宽度（缺省调默认值）
- * @param h     弹出层高度（缺省调默认值）
- * @param fn    关闭后回调事件
- */
-function x_admin_show(title, url, w, h, fn) {
-    if (title == null || title === '') {
-        title = false;
-    }
-
-    if (url == null || url === '') {
-        url = "404.html";
-    }
-
-    if (w == null || w === '') {
-        w = ($(window).width() * 0.9);
-    }
-
-    if (h == null || h === '') {
-        h = ($(window).height() - 50);
-    }
-
-    layer.open({
-        type: 2,
-        area: [w + 'px', h + 'px'],
-        fix: false,
-        maxmin: true,
-        shadeClose: true,
-        shade: 0.4,
-        title: title,
-        content: url,
-        end: function () {
-            if (typeof (fn) == "undefined") {
-                $(".layui-laypage-btn")[0].click()
-            } else {
-                fn();
-            }
-        }
-    });
-}
-
-/*关闭弹出框口*/
-function x_admin_close() {
-    var index = parent.layer.getFrameIndex(window.name);
-    parent.layer.close(index);
-}
-
 
 /**
  * 显示错误信息

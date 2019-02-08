@@ -20,7 +20,8 @@
             <a href="#">首页</a>
             <a href="#">权限管理</a>
             <a>
-              <cite>角色管理</cite></a>
+              <cite>角色管理</cite>
+            </a>
             </span>
             <a class="layui-icon layui-icon-refresh"
                style="float:right"
@@ -66,7 +67,7 @@
                     var event = obj.event;
 
                     if (event === 'add') {
-                        x_admin_show("/新增角色", "/role");
+                        add();
                     }
                 });
 
@@ -75,12 +76,39 @@
                     var event = obj.event;
 
                     if (event === 'edit') {
-                        x_admin_show("编辑角色", "/role/" + data.roleId);
+                        edit(data.roleId);
                     } else if (event === 'del') {
                         del(obj);
                     }
                 });
 
+                function add() {
+                    layer.open({
+                        content: "/role",
+                        title: "新增角色",
+                        area: ['500px', '500px'],
+                        type: 2,
+                        maxmin: true,
+                        shadeClose: true,
+                        end: function () {
+                            $(".layui-laypage-btn")[0].click();
+                        }
+                    });
+                }
+
+                function edit(id) {
+                    layer.open({
+                        content: "/role/" + id,
+                        title: "编辑角色",
+                        area: ['500px', '500px'],
+                        type: 2,
+                        maxmin: true,
+                        shadeClose: true,
+                        end: function () {
+                            $(".layui-laypage-btn")[0].click();
+                        }
+                    });
+                }
 
                 function del(obj) {
                     layer.confirm("确定删除角色吗?", {icon: 3, title: '提示'},

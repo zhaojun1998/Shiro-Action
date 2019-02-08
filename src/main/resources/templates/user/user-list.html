@@ -82,7 +82,7 @@
                     var event = obj.event;
 
                     if (event === 'add') {
-                        x_admin_show("新增角色", "/user", 500, 500);
+                        add();
                     }
                 });
 
@@ -91,7 +91,7 @@
                     var data = obj.data;
                     var event = obj.event;
                     if (event === 'allocation') {
-                        x_admin_show("授权", '/user/' + data.userId + "/allocation", 500);
+                        allocation(data.userId);
                     } else if (event === 'disable') {
                         $.post('/user/' + data.userId +'/disable', function (data) {
                             handlerResult(data, disableDone);
@@ -113,6 +113,34 @@
                 function enableDone(data) {
                     parent.layer.msg("激活成功");
                     table.reload('user-table');
+                }
+
+                function add() {
+                    layer.open({
+                        content: "/user",
+                        title: "新增角色",
+                        area: ['500px', '500px'],
+                        type: 2,
+                        maxmin: true,
+                        shadeClose: true,
+                        end: function () {
+                            $(".layui-laypage-btn")[0].click()
+                        }
+                    });
+                }
+
+                function allocation(id) {
+                    layer.open({
+                        content: '/user/' + id + "/allocation",
+                        title: "授权角色",
+                        area: ['500px', '500px'],
+                        type: 2,
+                        maxmin: true,
+                        shadeClose: true,
+                        end: function () {
+                            $(".layui-laypage-btn")[0].click()
+                        }
+                    });
                 }
 
                 function del(obj) {
