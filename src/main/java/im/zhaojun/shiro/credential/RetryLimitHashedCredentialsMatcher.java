@@ -30,17 +30,20 @@ public class RetryLimitHashedCredentialsMatcher extends
 		}
 
 		String username = (String) token.getPrincipal();
-		// retry count + 1
-		AtomicInteger retryCount = passwordRetryCache.get(username);
-		if (retryCount == null) {
-			retryCount = new AtomicInteger(0);
-		}
-		if (retryCount.incrementAndGet() > 5) {
-			// if retry count > 5 throw
-			throw new ExcessiveAttemptsException();
-		}
 
-		passwordRetryCache.put(username, retryCount);
+		// 超级管理员不进行登录次数校验.
+		if ("admin".equals(username) == false) {
+			// retry count + 1
+			AtomicInteger retryCount = passwordRetryCache.get(username);
+			if (retryCount == null) {
+				retryCount = new AtomicInteger(0);
+			}
+			if (retryCount.incrementAndGet() > 5) {
+				// if retry count > 5 throw
+				throw new ExcessiveAttemptsException();
+			}
+			passwordRetryCache.put(username, retryCount);
+		}
 
 		boolean matches = super.doCredentialsMatch(token, info);
 		if (matches) {

@@ -48,7 +48,8 @@ public class UserNameRealm extends AuthorizingRealm {
         if (user == null) {
             throw new UnknownAccountException();
         }
-        if ("0".equals(user.getStatus())) {
+        // 如果账号被锁定, 则抛出异常, (超级管理员除外)
+        if ("0".equals(user.getStatus()) && "admin".equals(username) == false) {
             throw new LockedAccountException();
         }
         return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), super.getName());
