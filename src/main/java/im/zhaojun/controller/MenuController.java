@@ -26,39 +26,54 @@ public class MenuController {
         return "menu/menu-list";
     }
 
+
+    @GetMapping("/menu/add2")
+    public String index2() {
+        return "menu/menu-add2";
+    }
+
     @OperationLog("获取菜单列表")
     @GetMapping("/menu/list")
     @ResponseBody
-    public ResultBean<Collection<Menu>> getList() {
-        return new ResultBean<>(menuService.selectAll());
+    public ResultBean<Collection<Menu>> getList(@RequestParam(required = false) Integer parentId) {
+        List<Menu> roles = menuService.selectByParentId(parentId);
+        return new ResultBean<>(roles);
     }
 
-    @GetMapping("/menu")
-    public String getMenu(Model model) {
-        List<Menu> menus = menuService.selectAllMenuAndPage();
-        model.addAttribute("menus", menus);
-        return "menu/menu-add";
-    }
+//    @GetMapping("/menu")
+//    public String getMenu(Model model) {
+//        List<Menu> menus = menuService.selectAllMenu();
+//        model.addAttribute("menus", menus);
+//        return "menu/menu-add";
+//    }
 
     @GetMapping("/menu/page")
     public String getPage(Model model) {
-        List<Menu> menus = menuService.selectAllMenuAndPage();
+        List<Menu> menus = menuService.selectAllMenu();
         model.addAttribute("menus", menus);
         return "menu/page-add";
     }
 
-    @GetMapping("/menu/api")
-    public String getAPI(Model model) {
-        List<Menu> menus = menuService.selectAllMenuAndPage();
-        model.addAttribute("menus", menus);
-        return "menu/api-add";
-    }
+//    @GetMapping("/menu/api")
+//    public String getAPI(Model model) {
+//        List<Menu> menus = menuService.selectAllMenu();
+//        model.addAttribute("menus", menus);
+//        return "menu/api-add";
+//    }
 
     @OperationLog("获取菜单列表")
     @GetMapping("/menu/tree")
     @ResponseBody
     public List<MenuTreeVO> tree() {
         return menuService.getALLMenuTreeVO();
+    }
+
+
+    @OperationLog("获取菜单列表   layui 风格")
+    @GetMapping("/menu/tree2")
+    @ResponseBody
+    public ResultBean tree2() {
+        return new ResultBean<>(menuService.getALLMenuTreeVO());
     }
 
     @OperationLog("新增菜单")
@@ -80,12 +95,12 @@ public class MenuController {
         return new ResultBean<>(menuService.deleteByIDAndChildren(id));
     }
 
-    @GetMapping("/menu/{id}")
-    public String updateMenu(@PathVariable("id") Integer id, Model model) {
-        Menu menu = menuService.selectOne(id);
-        model.addAttribute("menu", menu);
-        return "menu/menu-add";
-    }
+//    @GetMapping("/menu/{id}")
+//    public String updateMenu(@PathVariable("id") Integer id, Model model) {
+//        Menu menu = menuService.selectOne(id);
+//        model.addAttribute("menu", menu);
+//        return "menu/menu-add";
+//    }
 
     @GetMapping("/menu/page/{id}")
     public String updatePage(@PathVariable("id") Integer id, Model model) {
@@ -94,12 +109,12 @@ public class MenuController {
         return "menu/page-add";
     }
 
-    @GetMapping("/menu/api/{id}")
-    public String updateAPI(@PathVariable("id") Integer id, Model model) {
-        Menu menu = menuService.selectOne(id);
-        model.addAttribute("menu", menu);
-        return "menu/api-add";
-    }
+//    @GetMapping("/menu/api/{id}")
+//    public String updateAPI(@PathVariable("id") Integer id, Model model) {
+//        Menu menu = menuService.selectOne(id);
+//        model.addAttribute("menu", menu);
+//        return "menu/api-add";
+//    }
 
     @OperationLog("修改菜单")
     @UpdateFilterChain

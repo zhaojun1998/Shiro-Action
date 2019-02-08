@@ -22,8 +22,6 @@ public class Menu implements Serializable {
 
     private String perms;
 
-    private String type;
-
     private Integer orderNum;
 
     @JsonIgnore
@@ -31,8 +29,6 @@ public class Menu implements Serializable {
 
     @JsonIgnore
     private Date modifyTime;
-
-    private String method;
 
     public Integer getMenuId() {
         return menuId;
@@ -74,14 +70,6 @@ public class Menu implements Serializable {
         this.perms = perms;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public Integer getOrderNum() {
         return orderNum;
     }
@@ -106,14 +94,6 @@ public class Menu implements Serializable {
         this.modifyTime = modifyTime;
     }
 
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
     @Override
     public String toString() {
         return "Menu{" +
@@ -122,11 +102,9 @@ public class Menu implements Serializable {
                 ", menuName='" + menuName + '\'' +
                 ", url='" + url + '\'' +
                 ", perms='" + perms + '\'' +
-                ", type='" + type + '\'' +
                 ", orderNum=" + orderNum +
                 ", createTime=" + createTime +
                 ", modifyTime=" + modifyTime +
-                ", method='" + method + '\'' +
                 '}';
     }
 }

@@ -6,13 +6,13 @@ import im.zhaojun.model.Menu;
 import im.zhaojun.model.User;
 import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.model.vo.RoleMenuVO;
-import im.zhaojun.util.MenuVOConvert;
 import im.zhaojun.util.TreeUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +34,16 @@ public class MenuService {
     }
 
     /**
+     * 获取所有菜单(导航菜单和按钮)
+     */
+    public List<Menu> selectByParentId(Integer parentId) {
+        return menuMapper.selectByParentId(parentId);
+    }
+
+    /**
      * 获取所有导航菜单
      */
-    public List<Menu> selectAllMenuAndPage() {
+    public List<Menu> selectAllMenu() {
         return menuMapper.selectAllMenu();
     }
 
@@ -48,19 +55,29 @@ public class MenuService {
      * 获取所有菜单 (树形结构)
      */
     public List<MenuTreeVO> getALLMenuTreeVO() {
-        List<Menu> menus = selectAllMenuAndPage();
-        List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
-        return TreeUtil.toTree(menuTreeVOS);
+        List<Menu> menus = selectAllMenu();
+        List<MenuTreeVO> menuTreeVOS = TreeUtil.toTree(menus);
+        MenuTreeVO root = new MenuTreeVO();
+        root.setMenuId(0);
+        root.setMenuName("导航目录");
+        root.setChildren(menuTreeVOS);
+        List<MenuTreeVO> rootList = new ArrayList<>();
+        rootList.add(root);
+        return rootList;
     }
 
     /**
-     * 获取当前登陆用户拥有的树形菜单
+     * 获取当前登陆用户拥有的树形菜单 (admin 账户拥有所有权限.)
      */
     public List<MenuTreeVO> selectCurrentUserMenuTreeVO() {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
-        List<Menu> menus = menuMapper.selectMenuByUserName(user.getUsername());
-        List<MenuTreeVO> menuTreeVOS = MenuVOConvert.menuToTreeVO(menus);
-        return TreeUtil.toTree(menuTreeVOS);
+        List<Menu> menus;
+        if ("admin".equals(user.getUsername())) {
+            menus = menuMapper.selectAllMenu();
+        } else {
+            menus = menuMapper.selectMenuByUserName(user.getUsername());
+        }
+        return TreeUtil.toTree(menus);
     }
 
     public int add(Menu menu) {
@@ -112,9 +129,9 @@ public class MenuService {
         for (Menu menu : menus) {
             String url = menu.getUrl();
             if (url != null) {
-                if (menu.getMethod() != null && !"".equals(menu.getMethod())) {
-                    url += ("==" + menu.getMethod());
-                }
+//                if (menu.getMethod() != null && !"".equals(menu.getMethod())) {
+//                    url += ("==" + menu.getMethod());
+//                }
                 String perms = "perms[" + menu.getPerms() + "]";
                 filterChainDefinitionMap.put(url, perms);
             }

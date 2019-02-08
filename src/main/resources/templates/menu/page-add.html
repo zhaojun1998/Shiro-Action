@@ -20,7 +20,7 @@
         <![endif]-->
     </head>
 
-    <body>
+    <body class="layui-anim layui-anim-fadein">
         <div class="x-body">
             <form action="" method="post" class="layui-form">
                 <div class="layui-form-item">
@@ -80,15 +80,24 @@
         </div>
 
         <script>
+
+            function getQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+
+            var form, layer, treeSelect;
             layui.config({
                 base: '/lib/layui/extend/'
             }).extend({
                 treeGrid: 'treeSelect'
             }).use(['form', 'layer', 'treeSelect'], function () {
                 $ = layui.jquery;
-                var form = layui.form
-                    , layer = layui.layer
-                    , treeSelect = layui.treeSelect;
+                form = layui.form;
+                layer = layui.layer;
+                treeSelect = layui.treeSelect;
 
                 treeSelect.render({
                     // 选择器
@@ -100,6 +109,11 @@
                     // 占位符
                     placeholder: '请选择上级菜单',
                     success: function (d) {
+                        var parentId = getQueryString('parentId');
+                        if (parentId) {
+                            console.log(parentId);
+                            treeSelect.checkNode('tree', parentId);
+                        }
                         if ([[${menu!=null}]]) {
                             // 选中节点，根据id筛选
                             treeSelect.checkNode('tree', [[${menu?.parentId}]]);

@@ -2,15 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>菜单管理</title>
-        <meta name="renderer" content="webkit">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" th:href="@{/favicon.ico}"/>
-        <link rel="stylesheet" href="./css/font.css" th:href="@{/css/font.css}">
-        <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
+        <title>菜单管理22</title>
+        <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}"/>
+        <link rel="stylesheet" th:href="@{/lib/layui/extend/dtree.css}">
+        <link rel="stylesheet" th:href="@{/lib/layui/extend/font/dtreefont.css}">
         <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
-        <script src="./lib/layui/layui.js" charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+        <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+        <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
         <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
     </head>
     <style>
@@ -39,7 +37,6 @@
         }
 
         .dHead {
-            height: 75px;
             width: 100%;
             position: fixed;
             z-index: 5;
@@ -61,147 +58,213 @@
             font-size: 12px;
         }
         .layui-table-body{overflow-x: hidden;}
-
         /* 去掉表格内容超出的提示*/
         .layui-table-tips-main{display:none}
         .layui-table-tips-c{display:none}
+        .layui-table-grid-down{display: none}
+        .layui-table-view .layui-table {width:100%}
     </style>
 
-    <body class="layui-anim layui-anim-fadein">
+    <body class="layui-anim layui-anim-fadein" style="height: 100%">
         <div class="x-nav dHead" id="my-nav">
             <span class="layui-breadcrumb">
-            <a href="#">首页</a>
-            <a href="#">权限管理</a>
-            <a><cite>菜单管理</cite></a>
+                <a href="#">首页</a>
+                <a href="#">权限管理</a>
+                <a><cite>菜单管理</cite></a>
             </span>
             <a class="layui-icon layui-icon-refresh"
                style="float:right"
                href="javascript:location.replace(location.href);" title="刷新"></a>
         </div>
         <div style="height: 100%">
-            <div class="dBody" style="padding: 20px;">
-                <table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table>
+            <div class="dBody">
+                <div style="padding: 20px; background-color: #F2F2F2;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md3">
+                            <div class="layui-card" style="height: 500px;">
+                                <div class="layui-card-header">菜单树</div>
+                                <div class="layui-card-body" id="toolbarDiv">
+                                    <ul id="demoTree" class="dtree" data-id="0"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md9">
+                            <div class="layui-card">
+                                <div class="layui-card-header" id="card-header">菜单列表</div>
+                                <div class="layui-card-body">
+                                    <table class="layui-hide" id="menu-table"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <script type="text/html" id="toolbar">
-                <a class="layui-btn layui-btn-xs" onclick="x_admin_show('菜单添加', '/menu', 500)">新增菜单</a>
-                <a class="layui-btn layui-btn-xs" onclick="x_admin_show('页面添加', '/menu/page', 500)">新增页面</a>
-                <a class="layui-btn layui-btn-xs" onclick="x_admin_show('API添加', '/menu/api', 500)">新增API</a>
-                <a class="layui-btn layui-btn-xs layui-btn-normal" onclick="openAll()">全部展开</a>
-                <a class="layui-btn layui-btn-xs layui-btn-normal" onclick="closeAll()">全部收起</a>
-            </script>
-
-            <script type="text/html" id="column-toolbar">
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation">授予角色</a>
-                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-            </script>
         </div>
     </body>
 
+    <script type="text/html" id="column-toolbar">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation">授予角色</a>
+        <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+
     <script>
-        var ptable = null, treeGrid = null, tableId = 'treeTable', layer = null;
+        var test;
         layui.config({
             base: '/lib/layui/extend/'
         }).extend({
-            treeGrid: 'treeGrid'
-        }).use(['jquery', 'treeGrid', 'layer'], function () {
-            var $ = layui.jquery;
-            treeGrid = layui.treeGrid;//很重要
-            layer = layui.layer;
-            ptable = treeGrid.render({
-                id: tableId
-                , elem: '#' + tableId
+            treeGrid: 'dtree'
+        }).use(['jquery', 'dtree', 'layer', 'table', 'element'], function () {
+            var dtree = layui.dtree;
+            var layer = layui.layer;
+            var table = layui.table;
+
+            var DTree = dtree.render({
+                elem: "#demoTree",
+                url: "/menu/tree2",
+                dataStyle: "layuiStyle",
+                initLevel: 5,   // 初始打开节点级别
+                method: "GET",
+                dot: false,     // 圆点是否显示
+                toolbar: true,  // 右键工具栏
+                menubar: true,  // 树上方工具栏, 展开、收缩、刷新、搜索等
+                toolbarShow: [],
+                toolbarScroll: "#toolbarDiv",
+                toolbarExt: [
+                    {
+                        toolbarId: "add",
+                        icon: "dtree-icon-roundadd",
+                        title: "添加子节点",
+                        handler: function (node, $div) {
+                            layer.open({
+                                content: "/menu/page?parentId=" + node.nodeId,
+                                title: "添加子节点",
+                                area: ['500px', '500px'],
+                                type: 2,
+                                maxmin: true,
+                                shadeClose: true,
+                                end: function () {
+                                    refresh();
+                                }
+                            });
+                        }
+                    },
+                    {
+                        toolbarId: "edit",
+                        icon: "dtree-icon-bianji",
+                        title: "编辑",
+                        handler: function (node, $div) {
+                            edit(node.nodeId);
+                        }
+                    },
+                    {
+                        toolbarId: "remove",
+                        icon: "dtree-icon-roundclose",
+                        title: "删除",
+                        handler: function (node, $div) {
+                            del(node.nodeId);
+                            refresh();
+                        }
+                    }
+                ],
+                response: {
+                    statusCode: 0,
+                    message: "msg",
+                    treeId: "id",
+                    parentId: "parentId",
+                    title: "name"
+                },
+                toolbarFun:{
+                    loadToolbarBefore: function(buttons, param, $div){
+                        if(param.level === "1"){ // 如果是顶级节点, 则取消编辑和删除功能.
+                            buttons.edit = "";  // 取消新增功能
+                            buttons.remove = "";  // 取消新增功能
+                        }
+                        return buttons; // 将按钮对象返回
+                    }
+                }
+            });
+
+            table.render({
+                elem: '#menu-table'
                 , url: '/menu/list'
-                , idField: 'id' //必須字段
-                , treeId: 'id' //树形id字段名称
-                , treeUpId: 'pid'//树形父id字段名称
-                , treeShowName: 'name'//以树形式显示的字段
-                , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-                , height: '100%'
-                , isFilter: false
-                , iconOpen: false //是否显示图标【默认显示】
-                , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
-                , loading: true
+                , cellMinWidth: 80
                 , toolbar: '#toolbar'
-                , method: 'get'
                 , cols: [
                     [
-                        {type: 'numbers', width: "5%"}
-                        , {field: 'name', title: '名称', width: "16%"}
-                        , {title: '类型', align: 'center', templet: function (d) {
-                            // var html = "<a class='layui-btn layui-btn-xs" + (d.type === '0' ? '' : d.type === '1' ? 'layui-btn-primary' : 'layui-btn-warm')
-                            //     + "'>" + (d.type === '0' ? '菜单': d.type === '1' ? '按钮' : ' API ') + "</a>";
-                            return d.type === '0' ? '菜单': d.type === '1' ? '按钮' : ' API ';
-                        }, width: "5%"}
-                        , {field: 'url', title: '地址', width: "20%"}
-                        , {field: 'method', title: '方法', width: "10%"}
+                        {field: 'id', title: 'ID', width: "10%"}
+                        , {field: 'name', title: '名称', width: "10%"}
+                        , {field: 'url', title: '地址', width: "15%"}
                         , {field: 'perms', title: '权限标识符', width: "15%"}
-                        , {field: 'orderNum', title: '排序'}
-                        , {title: '操作', align: 'center', templet: "#column-toolbar", width: "20%"}
+                        , {field: 'orderNum', title: '排序', width: "15%"}
+                        , {title: '操作', align: 'center', toolbar: '#column-toolbar'}
                     ]
                 ]
-                , isPage: false
-                , parseData: function (res) {//数据加载后回调
-                    $("#my-nav").height(40);
-                    return res;
-                }
-                , onClickRow: function (index, o) {
-                    console.log(index, o, "单击！");
-                }
-                , onDblClickRow: function (index, o) {
-                    console.log(index, o, "双击");
-                }
             });
 
-            treeGrid.on('tool(' + tableId + ')', function (obj) {
+            dtree.on("node('demoTree')", function (obj) {
+                table.reload('menu-table', {
+                    where: {
+                        parentId: obj.param.nodeId
+                    }
+                });
+                $("#card-header").html("[" + obj.param.context + "]的子菜单");
+            });
+
+
+            table.on('tool', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'allocation') {
-                    x_admin_show("可访问的角色", '/menu/' + data.id + "/allocation", 500);
+                    layer.open({
+                        content: '/menu/' + data.id + "/allocation",
+                        title: "授权[" + data.name + "]给角色",
+                        area: ['500px','500px'],
+                        type: 2,
+                        maxmin: true,
+                        shadeClose: true
+                    });
                 } else if (obj.event === 'edit') {//删除行
-                    if (data.type === '0') {
-                        x_admin_show("编辑", '/menu/' + data.id, 500);
-                    } else if (data.type === '1') {
-                        x_admin_show("编辑", '/menu/page/' + data.id, 500);
-                    } else if (data.type === '2') {
-                        x_admin_show("编辑", '/menu/api/' + data.id, 500);
-                    }
+                    edit(data.id);
                 } else if (obj.event === "del") {//添加行
-                    del(obj);
+                    del(obj.data.id);
                 }
             });
-            
-
-        });
 
 
-        function openAll() {
-            var treedata = treeGrid.getDataTreeList(tableId);
-            treeGrid.treeOpenAll(tableId, true);
-        }
-
-        function closeAll() {
-            var treedata=treeGrid.getDataTreeList(tableId);
-            treeGrid.treeOpenAll(tableId, false);
-        }
-
-        function del(obj) {
-            layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除，此操作不能撤销！", {icon: 3, title: '提示'},
-                function (index) {//确定回调
-                    var id = obj.data.id;
-                    $.post('/menu/' + id, {_method: "DELETE"}, function (data) {
+            function del(id) {
+                layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除！", {icon: 3, title: '提示'},
+                    function (index) {//确定回调
+                        $.post('/menu/' + id, {_method: "DELETE"}, function (data) {
+                            layer.close(index);
+                            handlerResult(data, function () {
+                                refresh();
+                            });
+                        });
+                    }, function (index) {//取消回调
                         layer.close(index);
-                        handlerResult(data, deleteDone);
-                    });
-                }, function (index) {//取消回调
-                    layer.close(index);
-                }
-            );
-        }
+                    }
+                );
+            }
 
-        function deleteDone() {
-            layer.msg("删除成功!");
-            table.reload('treeTable');
-        }
+            function refresh() {
+                table.reload("menu-table");
+                DTree.menubarMethod().refreshTree();
+            }
+
+
+            function edit(id) {
+                layer.open({
+                    content: '/menu/page/' + id,
+                    title: "编辑",
+                    area: ['500px', '500px'],
+                    type: 2,
+                    maxmin: true,
+                    shadeClose: true,
+                    end: function () {
+                        refresh();
+                    }
+                });
+            }
+        });
     </script>
 </html>

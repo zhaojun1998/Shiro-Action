@@ -1,5 +1,6 @@
 package im.zhaojun.util;
 
+import im.zhaojun.model.Menu;
 import im.zhaojun.model.vo.MenuTreeVO;
 
 import java.util.ArrayList;
@@ -14,10 +15,11 @@ public class TreeUtil {
 
     /**
      * 转换为树形
-     * @param list 所有节点
+     * @param menus 所有节点
      * @return 转换后的树结构菜单
      */
-    public static List<MenuTreeVO> toTree(List<MenuTreeVO> list) {
+    public static List<MenuTreeVO> toTree(List<Menu> menus) {
+        List<MenuTreeVO> list = MenuVOConvert.menuToTreeVO(menus);
         if (list == null || list.isEmpty()) {
             return new ArrayList<>();
         }

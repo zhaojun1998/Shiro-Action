@@ -26,6 +26,9 @@ public interface MenuMapper {
      */
     List<Menu> selectAll();
 
+
+    List<Menu> selectByParentId(Integer parentId);
+
     /**
      * 获取所有导航菜单
      */
