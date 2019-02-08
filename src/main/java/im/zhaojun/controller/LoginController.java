@@ -45,7 +45,7 @@ public class LoginController {
 
     @PostMapping("login")
     @ResponseBody
-    public ResultBean<Boolean> login(User user, @RequestParam(value = "captcha", required = false) String captcha) {
+    public ResultBean<String> login(User user, @RequestParam(value = "captcha", required = false) String captcha) {
         Subject subject = SecurityUtils.getSubject();
 //        String realCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute("captcha");
 //        // session 中的验证码过期了
