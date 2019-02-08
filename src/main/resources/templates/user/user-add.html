@@ -27,12 +27,12 @@
 
     <body>
         <div class="x-body">
-            <form action="" method="post" class="layui-form">
+            <form action="" method="post" class="layui-form layui-form-pane">
                 <div class="layui-form-item">
                     <label for="username" class="layui-form-label">
                         用户名
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="username" name="username" lay-verify="username"
                                autocomplete="off" class="layui-input">
                     </div>
@@ -41,7 +41,7 @@
                     <label for="email" class="layui-form-label">
                         邮箱
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="email" name="email" lay-verify="required"
                                autocomplete="off" class="layui-input">
                     </div>
@@ -50,12 +50,12 @@
                     <label for="password" class="layui-form-label">
                         用户密码
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="password" name="password" lay-verify="required"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <div class="layui-form-item" pane="">
                     <label class="layui-form-label">
                         状态
                     </label>
@@ -64,7 +64,7 @@
                         <input type="radio" name="status" value="0" title="禁用">
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <div class="layui-form-item" pane="">
                     <label class="layui-form-label">
                         角色
                     </label>
@@ -73,7 +73,9 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-blue" type="button" lay-submit="" lay-filter="add">添加</button>
+                    <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                        <button type="button"  class="layui-btn layui-btn-normal btn-w100" lay-submit="" lay-filter="add">添加</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -84,7 +86,6 @@
                 var form = layui.form
                     , layer = layui.layer;
 
-                // 监听提交
                 form.on('submit(add)', function (form) {
                     form.field.role = getCheckBoxValueByName('role');
                     $.post('/user', form.field, function (result) {

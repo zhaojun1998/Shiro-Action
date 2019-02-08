@@ -40,8 +40,10 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <input type="hidden" name="userId" th:value="${userId}">
-                    <button class="layui-btn layui-btn-blue" lay-submit="" lay-filter="allocation">授权</button>
+                    <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                        <input type="hidden" name="userId" th:value="${userId}">
+                        <button class="layui-btn layui-btn-blue" lay-submit="" lay-filter="allocation">授权</button>
+                    </div>
                 </div>
             </form>
         </div>

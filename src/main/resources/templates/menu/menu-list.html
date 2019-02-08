@@ -109,11 +109,8 @@
     </script>
 
     <script>
-        var test;
         layui.config({
             base: '/lib/layui/extend/'
-        }).extend({
-            treeGrid: 'dtree'
         }).use(['jquery', 'dtree', 'layer', 'table', 'element'], function () {
             var dtree = layui.dtree;
             var layer = layui.layer;
@@ -139,7 +136,7 @@
                             layer.open({
                                 content: "/menu/page?parentId=" + node.nodeId,
                                 title: "添加子节点",
-                                area: ['500px', '500px'],
+                                area: ['600px', '600px'],
                                 type: 2,
                                 maxmin: true,
                                 shadeClose: true,

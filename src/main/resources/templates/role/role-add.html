@@ -27,7 +27,7 @@
                     <label for="roleName" class="layui-form-label">
                         角色名称
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="roleName" name="roleName" th:value="${role?.roleName}" lay-verify="required"
                                autocomplete="off" class="layui-input">
                     </div>
@@ -36,7 +36,7 @@
                     <label for="remark" class="layui-form-label">
                         角色描述
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="remark" name="remark" th:value="${role?.remark}" lay-verify="required"
                                autocomplete="off" class="layui-input">
                     </div>
@@ -50,8 +50,10 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <input type="hidden" name="roleId" th:value="${role?.roleId}">
-                    <button class="layui-btn layui-btn-blue" th:text="${role}?'修改':'添加'" lay-submit="" data-th-lay-filter="${role}?'edit':'add'">添加</button>
+                    <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                        <input type="hidden" name="roleId" th:value="${role?.roleId}">
+                        <button class="layui-btn layui-btn-blue" th:text="${role}?'修改':'添加'" lay-submit="" data-th-lay-filter="${role}?'edit':'add'">添加</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -59,8 +61,6 @@
         <script>
             layui.config({
                 base: '/lib/layui/extend/'
-            }).extend({
-                treeGrid: 'authtree'
             }).use(['form', 'layer', 'authtree'], function () {
                 $ = layui.jquery;
                 var form = layui.form
