@@ -431,7 +431,7 @@ body {
     position: absolute;
     top: 46px;
     right: 0;
-    bottom: 0px;
+    bottom: 0;
     left: 221px;
     overflow: hidden;
     z-index: 1;
@@ -441,7 +441,7 @@ body {
     position: absolute;
     top: 46px;
     right: 0;
-    bottom: 0px;
+    bottom: 0;
     left: 221px;
     background: rgba(0, 0, 0, 0.5);
 url() 0 0 no-repeat;

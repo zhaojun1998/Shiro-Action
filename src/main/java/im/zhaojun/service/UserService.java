@@ -62,12 +62,12 @@ public class UserService {
         return user.getUserId();
     }
 
-    public boolean updateLastLoginTimeByUsername(String username) {
-        return userMapper.updateLastLoginTimeByUsername(username) == 1;
+    public void updateLastLoginTimeByUsername(String username) {
+        userMapper.updateLastLoginTimeByUsername(username);
     }
 
     public boolean disableUserByID(Integer id) {
-        offlineByUserId(id);
+//        offlineByUserId(id); // 加上这段代码, 禁用用户后, 会将当前在线的用户立即踢出.
         return userMapper.updateStatusByPrimaryKey(id, 0) == 1;
     }
 
