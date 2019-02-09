@@ -28,7 +28,8 @@
                         菜单名称
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="menuName" name="menuName" th:value="${menu?.menuName}" lay-verify="required"
+                        <input type="text" id="menuName" name="menuName" th:value="${menu?.menuName}"
+                               lay-verify="required" lay-vertype="tips"
                                autocomplete="off" placeholder="请输入菜单名称" class="layui-input">
                     </div>
                 </div>
@@ -37,7 +38,8 @@
                         排序
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="orderNum" th:value="${menu?.orderNum}" name="orderNum" lay-verify="number|required"
+                        <input type="text" id="orderNum" th:value="${menu?.orderNum}" name="orderNum"
+                               lay-verify="number|required" lay-vertype="tips"
                                autocomplete="off" class="layui-input" placeholder="序号值越小, 排序越靠前">
                     </div>
                 </div>

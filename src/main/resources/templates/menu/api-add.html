@@ -28,7 +28,8 @@
                         API 名称
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="menuName" name="menuName" th:value="${menu?.menuName}" lay-verify="required"
+                        <input type="text" id="menuName" name="menuName" th:value="${menu?.menuName}"
+                               lay-verify="required" lay-vertype="tips"
                                autocomplete="off" placeholder="请输入API名称" class="layui-input">
                     </div>
                 </div>
@@ -37,7 +38,8 @@
                         菜单URL
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="url" th:value="${menu?.url}" name="url" lay-verify="required"
+                        <input type="text" id="url" th:value="${menu?.url}" name="url"
+                               lay-verify="required" lay-vertype="tips"
                                autocomplete="off" class="layui-input" placeholder="需要授权的 URL">
                         <div class="layui-form-mid layui-word-aux">
                             外部链接以 http(s):// 开头。 <br>
@@ -61,7 +63,8 @@
                         排序
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="orderNum" th:value="${menu?.orderNum}" name="orderNum" lay-verify="number|required"
+                        <input type="text" id="orderNum" th:value="${menu?.orderNum}" name="orderNum"
+                               lay-verify="number|required" lay-vertype="tips"
                                autocomplete="off" class="layui-input" placeholder="序号值越小, 排序越靠前">
                     </div>
                 </div>
@@ -70,7 +73,8 @@
                         权限标识
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="perms" th:value="${menu?.perms}" name="perms" lay-verify="required"
+                        <input type="text" id="perms" th:value="${menu?.perms}" name="perms"
+                               lay-verify="required" lay-vertype="tips"
                                autocomplete="off" class="layui-input" placeholder="">
                     </div>
                 </div>

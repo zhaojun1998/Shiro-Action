@@ -37,27 +37,29 @@
         </script>
 
         <script type="text/html" id="column-toolbar">
-
-
             {{#  if('<shiro:principal property="username"/>' !== d.username) { }}
                 <a class="layui-btn layui-btn-xs" lay-event="allocation">授权</a>
-
-                {{#  if(d.status === '0') { }}
-                    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="enable">激活</a>
-                {{#  } }}
-
-                {{#  if(d.status === '1') { }}
-                    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="disable">禁用</a>
-                {{#  } }}
 
                 <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
             {{#  } }}
         </script>
 
+
+        <script type="text/html" id="statusTpl">
+            {{#  if('<shiro:principal property="username"/>' == d.username) { }}
+                <input type="checkbox" disabled name="status" value="{{d.userId}}" lay-skin="switch" lay-text="正常|锁定" lay-filter="status" {{ d.status == '1' ? 'checked' : '' }}>
+            {{#  } }}
+
+            {{#  if('<shiro:principal property="username"/>' !== d.username) { }}
+            <input type="checkbox" name="status" value="{{d.userId}}" lay-skin="switch" lay-text="正常|锁定" lay-filter="status" {{ d.status == '1' ? 'checked' : '' }}>
+            {{#  } }}
+        </script>
+
         <script>
-            layui.use(['table', 'element', 'laydate'], function () {
+            layui.use(['table', 'element', 'laydate', 'form'], function () {
                 var table = layui.table;
                 var $ = layui.$;
+                var form = layui.form;
 
                 var tableIns =table.render({
                     elem: '#user-table'
@@ -70,14 +72,26 @@
                             , {field: 'username', title: '用户名', width: "20%"}
                             , {field: 'email', title: '邮箱', width: "20%"}
                             , {field: 'lastLoginTime', title: '最后登陆时间', width: "15%"}
-                            , {field: 'status', title: '状态', templet: function (d) {
-                                return d.status === '1' ? "正常" : "锁定";
-                            }, width: "15%"}
+                            , {field: 'status', title: '状态', templet: "#statusTpl", width: "15%"}
                             , {title: '操作', align: 'center', toolbar: '#column-toolbar', width: "15%"}
                         ]
                     ]
                 });
 
+                // 账号状态(正常/锁定)点击事件
+                form.on('switch(status)', function(data){
+                    if (data.elem.checked) {
+                        $.post('/user/' + data.value + '/enable', function (data) {
+                            handlerResult(data, enableDone);
+                        });
+                    } else {
+                        $.post('/user/' + data.value +'/disable', function (data) {
+                            handlerResult(data, disableDone);
+                        });
+                    }
+                });
+
+                // 工具条点击事件
                 table.on('toolbar', function (obj) {
                     var data = obj.data;
                     var event = obj.event;
@@ -93,34 +107,24 @@
                     var event = obj.event;
                     if (event === 'allocation') {
                         allocation(data.userId);
-                    } else if (event === 'disable') {
-                        $.post('/user/' + data.userId +'/disable', function (data) {
-                            handlerResult(data, disableDone);
-                        });
-                    } else if (event === 'enable') {
-                        $.post('/user/' + data.userId + '/enable', function (data) {
-                            handlerResult(data, enableDone);
-                        });
                     } else if (event === 'del') {
                         del(obj);
                     }
                 });
 
                 function disableDone(data) {
-                    parent.layer.msg("禁用成功");
-                    table.reload('user-table');
+                    parent.layer.msg("禁用成功", {icon: 6});
                 }
 
                 function enableDone(data) {
-                    parent.layer.msg("激活成功");
-                    table.reload('user-table');
+                    parent.layer.msg("激活成功", {icon: 6});
                 }
 
                 function add() {
                     layer.open({
                         content: "/user",
                         title: "新增角色",
-                        area: ['500px', '500px'],
+                        area: ['500px', '550px'],
                         type: 2,
                         maxmin: true,
                         shadeClose: true,
@@ -134,7 +138,7 @@
                     layer.open({
                         content: '/user/' + id + "/allocation",
                         title: "授权角色",
-                        area: ['500px', '500px'],
+                        area: ['550px', '550px'],
                         type: 2,
                         maxmin: true,
                         shadeClose: true,
@@ -159,7 +163,7 @@
                 }
 
                 function deleteDone(data) {
-                    parent.layer.msg("删除成功");
+                    parent.layer.msg("删除成功", {icon: 6});
                     table.reload('user-table');
                 }
             });

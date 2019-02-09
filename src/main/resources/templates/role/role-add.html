@@ -28,7 +28,8 @@
                         角色名称
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" id="roleName" name="roleName" th:value="${role?.roleName}" lay-verify="required"
+                        <input type="text" id="roleName" name="roleName" th:value="${role?.roleName}"
+                               lay-verify="required" lay-vertype="tips"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -37,7 +38,8 @@
                         角色描述
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" id="remark" name="remark" th:value="${role?.remark}" lay-verify="required"
+                        <input type="text" id="remark" name="remark" th:value="${role?.remark}"
+                               lay-verify="required" lay-vertype="tips"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>

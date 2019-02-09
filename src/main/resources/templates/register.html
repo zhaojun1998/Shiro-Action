@@ -25,25 +25,28 @@
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 100%">
                 <input type="text" class="layui-input" placeholder="请输入用户名" autocomplete="off"
-                       lay-verify="required|username" id="username" name="username">
+                       lay-verify="required" lay-vertype="tips" id="username" name="username">
             </div>
         </div>
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 100%">
                 <input type="text" class="layui-input" placeholder="请输入邮箱" autocomplete="off"
-                       lay-verify="required|email" id="email" name="email">
+                       lay-verify="required|email" lay-vertype="tips" id="email" name="email">
             </div>
         </div>
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 100%">
-                <input type="password" id="password" name="password" lay-verify="required|password"
+                <input type="password" id="password" name="password"
+                       lay-verify="required|password" lay-vertype="tips"
                        placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 100%">
-                <input type="password" id="repassword" lay-verify="repassword" placeholder="请确认密码"
+                <input type="password" id="repassword"
+                       lay-verify="repassword" lay-vertype="tips"
+                       placeholder="请确认密码"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -90,7 +93,7 @@
     });
 
     function registerDone(data) {
-        layer.msg("注册成功, 请检查邮箱进行激活!");
+        layer.msg("注册成功, 请检查邮箱进行激活!", {icon: 6});
     }
 </script>
 </body>
