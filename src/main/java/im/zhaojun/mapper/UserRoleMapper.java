@@ -20,4 +20,10 @@ public interface UserRoleMapper {
      * 清空用户所拥有的所有角色
      */
     int deleteUserMenuByUserId(@Param("userId") Integer userId);
+
+    /**
+     * 清空此角色与所有角色的关联关系
+     */
+    int deleteUserMenuByRoleId(@Param("roleId") Integer roleId);
+
 }

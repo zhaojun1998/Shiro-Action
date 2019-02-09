@@ -47,4 +47,10 @@
         from user_role
         where user_id = #{userId}
     </delete>
+
+    <delete id="deleteUserMenuByRoleId">
+        delete
+        from user_role
+        where role_id = #{roleId}
+    </delete>
 </mapper>

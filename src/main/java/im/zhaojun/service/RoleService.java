@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import im.zhaojun.mapper.MenuMapper;
 import im.zhaojun.mapper.RoleMapper;
 import im.zhaojun.mapper.RoleMenuMapper;
+import im.zhaojun.mapper.UserRoleMapper;
 import im.zhaojun.model.Role;
 import im.zhaojun.shiro.realm.UserNameRealm;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ import java.util.List;
 
 @Service
 public class RoleService {
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
 
     @Resource
     private RoleMapper roleMapper;
@@ -66,6 +70,7 @@ public class RoleService {
 
     @Transactional
     public void delete(Integer roleId) {
+        userRoleMapper.deleteUserMenuByRoleId(roleId);
         roleMapper.deleteByPrimaryKey(roleId);
         roleMenuMapper.deleteByRoleId(roleId);
     }
