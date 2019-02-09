@@ -10,9 +10,11 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" th:href="@{/favicon.ico}"/>
         <link rel="stylesheet" href="./css/font.css" th:href="@{/css/font.css}">
         <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
+        <link rel="stylesheet" th:href="@{/lib/layui/extend/formSelects-v4.css}" />
         <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
         <script src="./lib/layui/layui.js" charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-        <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
+        <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+        <script type="text/javascript" th:src="@{/js/js-pinyin.js}"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
         <!--[if lt IE 9]>
         <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -33,7 +35,8 @@
                         用户名
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" id="username" name="username" lay-verify="username"
+                        <input type="text" id="username" name="username"
+                               lay-verify="username" lay-vertype="tips"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -42,7 +45,8 @@
                         邮箱
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" id="email" name="email" lay-verify="required"
+                        <input type="text" id="email" name="email"
+                               lay-verify="required|email" lay-vertype="tips"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -51,7 +55,8 @@
                         用户密码
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" id="password" name="password" lay-verify="required"
+                        <input type="text" id="password" name="password"
+                               lay-verify="required" lay-vertype="tips"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -64,12 +69,18 @@
                         <input type="radio" name="status" value="0" title="禁用">
                     </div>
                 </div>
-                <div class="layui-form-item" pane="">
+                <div class="layui-form-item">
                     <label class="layui-form-label">
                         角色
                     </label>
                     <div class="layui-input-block">
-                        <input th:each="role:${roles}" type="checkbox" name="role" th:value="${role.roleId}" th:title="${role.roleName}" title="角色名称">
+                        <select name="role" xm-select="role-select"
+                                lay-verify="required"
+                                lay-vertype="tips"
+                                xm-select-search="">
+                            <option value="">请选择角色</option>
+                            <option th:each="role:${roles}" th:value="${role.roleId}" th:text="${role.roleName}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -81,17 +92,28 @@
         </div>
 
         <script>
-            layui.use(['form', 'layer'], function () {
+            layui.config({
+                base: '/lib/layui/extend/'
+            }).extend({
+                formSelects: 'formSelects-v4'
+            }).use(['form', 'layer', 'formSelects'], function () {
                 $ = layui.jquery;
                 var form = layui.form
-                    , layer = layui.layer;
+                    , layer = layui.layer
+                    , formSelects = layui.formSelects;
 
                 form.on('submit(add)', function (form) {
-                    form.field.role = getCheckBoxValueByName('role');
+                    form.field.role = formSelects.value('role-select', 'val');
                     $.post('/user', form.field, function (result) {
                         handlerResult(result, addDone);
                     });
                     return false;
+                });
+
+                formSelects.filter('role-select', function (id, inputVal, val, isDisabled) {
+                    return !(PY.fullPY(val.name).toLowerCase().indexOf(inputVal) !== -1 ||    //拼音全拼是否包含
+                        PY.fullPY(val.name, true).indexOf(inputVal) !== -1 ||            //拼音简拼是否包含
+                        val.name.indexOf(inputVal) !== -1);
                 });
 
                 function addDone(data) {
