@@ -107,7 +107,8 @@ $(function () {
     //左侧菜单效果
     // $('#content').bind("click",function(event){
     $('.left-nav #nav li').click(function (event) {
-
+        $(".left-nav .layui-this").removeClass('layui-this');
+        $(this).first().addClass('layui-this');
         if ($(this).children('.sub-menu').length) {
             if ($(this).hasClass('open')) {
                 $(this).removeClass('open');
