@@ -25,8 +25,6 @@ public class MenuTreeVO implements Serializable {
 
     private String perms;
 
-    private String type;
-
     private Integer orderNum;
 
     private Integer parentId;
@@ -69,14 +67,6 @@ public class MenuTreeVO implements Serializable {
 
     public void setPerms(String perms) {
         this.perms = perms;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Integer getOrderNum() {

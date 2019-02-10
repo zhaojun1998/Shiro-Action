@@ -104,7 +104,7 @@
 
     <script type="text/html" id="column-toolbar">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation">授予角色</a>
-        <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
 
@@ -194,7 +194,7 @@
                         , {field: 'url', title: '地址', width: "15%"}
                         , {field: 'perms', title: '权限标识符', width: "15%"}
                         , {field: 'orderNum', title: '排序', width: "15%"}
-                        , {title: '操作', align: 'center', toolbar: '#column-toolbar'}
+                        , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
                     ]
                 ]
             });

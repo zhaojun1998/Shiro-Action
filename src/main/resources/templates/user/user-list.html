@@ -68,12 +68,12 @@
                     , toolbar: '#toolbar'
                     , cols: [
                         [
-                            {field: 'userId', title: 'ID', sort: true, width: "15%"}
+                            {field: 'userId', title: 'ID', width: "15%"}
                             , {field: 'username', title: '用户名', width: "20%"}
                             , {field: 'email', title: '邮箱', width: "20%"}
                             , {field: 'lastLoginTime', title: '最后登陆时间', width: "15%"}
                             , {field: 'status', title: '状态', templet: "#statusTpl", width: "15%"}
-                            , {title: '操作', align: 'center', toolbar: '#column-toolbar', width: "15%"}
+                            , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar', width: "15%"}
                         ]
                     ]
                 });

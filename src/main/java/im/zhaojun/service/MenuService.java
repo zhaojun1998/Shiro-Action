@@ -117,13 +117,10 @@ public class MenuService {
         filterChainDefinitionMap.put("/lib/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/register", "anon");
-
         // 验证码
         filterChainDefinitionMap.put("/captcha", "anon");
         // 检查用户名是否存在
         filterChainDefinitionMap.put("/checkUser", "anon");
-        // 激活账号
-        filterChainDefinitionMap.put("/active", "anon");
         List<Menu> menus = selectAll();
         for (Menu menu : menus) {
             String url = menu.getUrl();
