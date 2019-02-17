@@ -40,17 +40,7 @@
                     <div class="layui-input-block">
                         <input type="text" id="url" th:value="${menu?.url}" name="url"
                                lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" class="layui-input" placeholder="需要授权的 URL">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="orderNum" class="layui-form-label">
-                        排序
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" id="orderNum" th:value="${menu?.orderNum}" name="orderNum"
-                               lay-verify="number|required" lay-vertype="tips"
-                               autocomplete="off" class="layui-input" placeholder="序号值越小, 排序越靠前">
+                               autocomplete="off" class="layui-input" placeholder="请输入需要授权的 URL">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -91,14 +81,6 @@
         </div>
 
         <script>
-
-            function getQueryString(name) {
-                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-                var r = window.location.search.substr(1).match(reg);
-                if (r != null) return unescape(r[2]);
-                return null;
-            }
-
             var form, layer, treeSelect, autocomplete;
             layui.config({
                 base: '/lib/layui/extend/'

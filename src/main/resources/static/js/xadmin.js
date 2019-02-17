@@ -303,8 +303,24 @@ function getCheckBoxValueByName(name) {
     return checkedValue;
 }
 
+/**
+ * 全局 AJAX error 处理事件.
+ */
 $(document).ajaxError(function(event, response){
     console.log("错误响应状态码: ",response.status);
     console.log("错误响应结果: ",response.responseJSON);
     showError(response.responseJSON.message);
 });
+
+
+/**
+ * 获取 URL 中查询条件部分的参数
+ * @param name      参数名称
+ * @returns         参数值
+ */
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+}

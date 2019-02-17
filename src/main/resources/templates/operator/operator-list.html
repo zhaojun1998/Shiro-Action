@@ -90,7 +90,7 @@
                         </div>
                         <div class="layui-col-md9">
                             <div class="layui-card">
-                                <div class="layui-card-header" id="card-header">菜单列表</div>
+                                <div class="layui-card-header" id="card-header">操作列表</div>
                                 <div class="layui-card-body">
                                     <table class="layui-hide" id="operator-table"></table>
                                 </div>
@@ -118,7 +118,7 @@
 
             var DTree = dtree.render({
                 elem: "#demoTree",
-                url: "/menu/tree2",
+                url: "/menu/tree3",
                 dataStyle: "layuiStyle",
                 initLevel: 5,   // 初始打开节点级别
                 method: "GET",
@@ -131,11 +131,11 @@
                     {
                         toolbarId: "add",
                         icon: "dtree-icon-roundadd",
-                        title: "添加功能点",
+                        title: "添加操作点",
                         handler: function (node, $div) {
                             layer.open({
                                 content: "/operator?parentId=" + node.nodeId,
-                                title: "添加功能点",
+                                title: "添加操作点",
                                 area: ['600px', '600px'],
                                 type: 2,
                                 maxmin: true,
@@ -151,7 +151,7 @@
                         icon: "dtree-icon-bianji",
                         title: "编辑",
                         handler: function (node, $div) {
-                            edit(node.nodeId);
+                            editMenu(node.nodeId);
                         }
                     },
                     {
@@ -159,8 +159,7 @@
                         icon: "dtree-icon-roundclose",
                         title: "删除",
                         handler: function (node, $div) {
-                            del(node.nodeId);
-                            refresh();
+                            delMenu(node.nodeId);
                         }
                     }
                 ],
@@ -206,7 +205,6 @@
                         menuId: obj.param.nodeId
                     }
                 });
-                $("#card-header").html("[" + obj.param.context + "]的功能点");
             });
 
 
@@ -222,14 +220,29 @@
                         shadeClose: true
                     });
                 } else if (obj.event === 'edit') {//删除行
-                    edit(data.operatorId);
+                    editOperator(data.operatorId);
                 } else if (obj.event === "del") {//添加行
-                    del(obj.data.operatorId);
+                    delOperator(obj.data.operatorId);
                 }
             });
 
 
-            function del(id) {
+            function delMenu(id) {
+                layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除！", {icon: 3, title: '提示'},
+                    function (index) {//确定回调
+                        $.post('/menu/' + id, {_method: "DELETE"}, function (data) {
+                            layer.close(index);
+                            handlerResult(data, function () {
+                                refresh();
+                            });
+                        });
+                    }, function (index) {//取消回调
+                        layer.close(index);
+                    }
+                );
+            }
+
+            function delOperator(id) {
                 layer.confirm("是否确定删除?", {icon: 3, title: '提示'},
                     function (index) {//确定回调
                         $.post('/operator/' + id, {_method: "DELETE"}, function (data) {
@@ -250,7 +263,21 @@
             }
 
 
-            function edit(id) {
+            function editMenu(id) {
+                layer.open({
+                    content: '/menu/page/' + id,
+                    title: "编辑",
+                    area: ['500px', '500px'],
+                    type: 2,
+                    maxmin: true,
+                    shadeClose: true,
+                    end: function () {
+                        DTree.menubarMethod().refreshTree();
+                    }
+                });
+            }
+
+            function editOperator(id) {
                 layer.open({
                     content: '/operator/' + id,
                     title: "编辑",
@@ -259,7 +286,7 @@
                     maxmin: true,
                     shadeClose: true,
                     end: function () {
-                        refresh();
+                        table.reload("operator-table");
                     }
                 });
             }
