@@ -1,5 +1,6 @@
 package im.zhaojun.controller;
 
+import im.zhaojun.annotation.UpdateFilterChain;
 import im.zhaojun.model.Operator;
 import im.zhaojun.service.OperatorService;
 import im.zhaojun.util.ResultBean;
@@ -31,6 +32,7 @@ public class OperatorController {
         return "operator/operator-add";
     }
 
+    @UpdateFilterChain
     @PostMapping
     @ResponseBody
     public ResultBean add(Operator operator) {
@@ -45,6 +47,7 @@ public class OperatorController {
         return "operator/operator-add";
     }
 
+    @UpdateFilterChain
     @PutMapping
     @ResponseBody
     public ResultBean edit(Operator operator) {
@@ -59,6 +62,7 @@ public class OperatorController {
         return new ResultBean<>(operatorList);
     }
 
+    @UpdateFilterChain
     @DeleteMapping("{id}")
     @ResponseBody
     public ResultBean delete(@PathVariable("id") Integer operatorId) {

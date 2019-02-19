@@ -21,4 +21,6 @@ public interface OperatorMapper {
     int updateByPrimaryKey(Operator record);
 
     List<Operator> selectByMenuId(@Param("menuId")Integer menuId);
+
+    List<Operator> selectAll();
 }

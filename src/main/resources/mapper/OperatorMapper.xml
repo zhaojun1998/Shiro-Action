@@ -158,4 +158,10 @@
     from operator
     where menu_id = #{menuId,jdbcType=INTEGER}
   </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from operator
+  </select>
 </mapper>

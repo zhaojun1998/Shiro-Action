@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class OperatorService{
+public class OperatorService {
 
     @Resource
     private OperatorMapper operatorMapper;
@@ -39,5 +39,9 @@ public class OperatorService{
 
     public List<Operator> selectByMenuId(Integer menuId) {
         return operatorMapper.selectByMenuId(menuId);
+    }
+
+    public List<Operator> selectAll() {
+        return operatorMapper.selectAll();
     }
 }
