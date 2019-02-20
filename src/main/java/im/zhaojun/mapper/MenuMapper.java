@@ -22,17 +22,13 @@ public interface MenuMapper {
     int updateByPrimaryKey(Menu record);
 
     /**
-     * 获取所有菜单(导航菜单和按钮)
+     * 获取所有菜单
      */
     List<Menu> selectAll();
 
+    List<Menu> selectAllMenuAndCountOperator();
 
     List<Menu> selectByParentId(Integer parentId);
-
-    /**
-     * 获取所有导航菜单
-     */
-    List<Menu> selectAllMenu();
 
     /**
      * 删除当前菜单的所有子菜单
@@ -57,4 +53,14 @@ public interface MenuMapper {
     int count();
 
     List<RoleMenuVO> selectAllRoleByMenuId(@Param("menuId") Integer menuId);
+
+    /**
+     * 交换两个菜单的顺序
+     */
+    int swapSort(@Param("currentId")Integer currentId, @Param("swapId")Integer swapId);
+
+    int selectMaxOrderNum();
+
+
+
 }

@@ -1,7 +1,7 @@
 package im.zhaojun.shiro.realm;
 
-import im.zhaojun.mapper.UserMapper;
 import im.zhaojun.model.User;
+import im.zhaojun.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -22,7 +22,7 @@ public class UserNameRealm extends AuthorizingRealm {
     private static final Logger log = LoggerFactory.getLogger(UserNameRealm.class);
 
     @Resource
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -31,8 +31,8 @@ public class UserNameRealm extends AuthorizingRealm {
 
         String username = user.getUsername();
 
-        Set<String> roles = userMapper.selectRoleNameByUserName(username);
-        Set<String> perms = userMapper.selectPermsByUserName(username);
+        Set<String> roles = userService.selectRoleNameByUserName(username);
+        Set<String> perms = userService.selectPermsByUsername(username);
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(roles);
@@ -44,7 +44,7 @@ public class UserNameRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         log.info("从数据库获取认证信息");
         String username = (String) token.getPrincipal();
-        User user = userMapper.selectOneByUserName(username);
+        User user = userService.selectOneByUserName(username);
         if (user == null) {
             throw new UnknownAccountException();
         }

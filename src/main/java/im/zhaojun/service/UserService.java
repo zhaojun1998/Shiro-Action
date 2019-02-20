@@ -3,7 +3,10 @@ package im.zhaojun.service;
 import com.github.pagehelper.PageHelper;
 import im.zhaojun.mapper.UserMapper;
 import im.zhaojun.mapper.UserRoleMapper;
+import im.zhaojun.model.Menu;
 import im.zhaojun.model.User;
+import im.zhaojun.model.vo.MenuTreeVO;
+import im.zhaojun.util.MenuVOConvert;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -16,13 +19,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
 
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private MenuService menuService;
+
+    @Resource
+    private OperatorService operatorService;
 
     @Resource
     private UserRoleMapper userRoleMapper;
@@ -30,7 +43,6 @@ public class UserService {
     @Resource
     private RedisSessionDAO redisSessionDAO;
 
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     public List<User> selectAll(int page, int rows) {
         PageHelper.startPage(page, rows);
@@ -38,7 +50,7 @@ public class UserService {
     }
 
     public Integer[] selectRoleIdsById(Integer userId) {
-        return userMapper.selectRoleIdsById(userId);
+        return userMapper.selectRoleIdsByUserId(userId);
     }
 
     @Transactional
@@ -132,5 +144,29 @@ public class UserService {
     public void delete(Integer userId) {
         userMapper.deleteByPrimaryKey(userId);
         userRoleMapper.deleteUserMenuByUserId(userId);
+    }
+
+    /**
+     * 获取用户拥有的所有菜单权限和操作权限.
+     * @param username      用户名
+     * @return              权限标识符号列表
+     */
+    public Set<String> selectPermsByUsername(String username) {
+        Set<String> perms = new HashSet<>();
+        List<MenuTreeVO> menuTreeVOS = menuService.selectCurrentUserMenuTreeVO();
+        List<Menu> leafNodeMenuList = MenuVOConvert.getLeafNodeMenuByMenuTreeVO(menuTreeVOS);
+        for (Menu menu : leafNodeMenuList) {
+            perms.add(menu.getPerms());
+        }
+        perms.addAll(userMapper.selectOperatorPermsByUserName());
+        return perms;
+    }
+
+    public Set<String> selectRoleNameByUserName(String username) {
+        return userMapper.selectRoleNameByUserName(username);
+    }
+
+    public User selectOneByUserName(String username) {
+        return userMapper.selectOneByUserName(username);
     }
 }
