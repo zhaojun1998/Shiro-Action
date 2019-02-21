@@ -2,37 +2,50 @@ package im.zhaojun.util;
 
 import java.io.Serializable;
 
-public class ResultBean<T> implements Serializable {
+public class ResultBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8276264968757808344L;
 
-    public static final int NO_LOGIN = -1;
+    private static final int SUCCESS = 0;
 
-    public static final int SUCCESS = 0;
-
-    public static final int FAIL = 1;
-
-    public static final int NO_PERMISSION = 2;
+    public static final int FAIL = -1;
 
     private String msg = "操作成功";
 
     private int code = SUCCESS;
 
-    private T data;
+    private Object data;
 
-    public ResultBean() {
+    private ResultBean() {
         super();
     }
 
-    public ResultBean(T data) {
-        super();
+    private ResultBean(String msg, Object data, int code) {
+        this.msg = msg;
         this.data = data;
+        this.code = code;
     }
 
-    public static ResultBean error(int code, String message) {
+    public static ResultBean success() {
+        return success("操作成功");
+    }
+
+    public static ResultBean success(String msg) {
+        return success(msg, null);
+    }
+
+    public static ResultBean success(Object data) {
+        return success("操作成功", data);
+    }
+
+    public static ResultBean success(String msg, Object data) {
+        return new ResultBean(msg, data, SUCCESS);
+    }
+
+    public static ResultBean error(String msg) {
         ResultBean resultBean = new ResultBean();
-        resultBean.setCode(code);
-        resultBean.setMsg(message);
+        resultBean.setCode(FAIL);
+        resultBean.setMsg(msg);
         return resultBean;
     }
 
@@ -52,11 +65,11 @@ public class ResultBean<T> implements Serializable {
         this.code = code;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }
