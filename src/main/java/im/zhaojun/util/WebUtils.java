@@ -1,12 +1,11 @@
 package im.zhaojun.util;
 
-import com.alibaba.druid.support.json.JSONUtils;
+import cn.hutool.json.JSONUtil;
 
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
 
 public class WebUtils {
 
@@ -21,13 +20,13 @@ public class WebUtils {
     /**
      * 输出JSON
      */
-    public static void writeJson(Map<String, Object> map, ServletResponse response) {
+    public static void writeJson(Object object, ServletResponse response) {
         PrintWriter out = null;
         try {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
             out = response.getWriter();
-            out.write(JSONUtils.toJSONString(map));
+            out.write(JSONUtil.toJsonStr(object));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
