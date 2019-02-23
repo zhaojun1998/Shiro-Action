@@ -49,11 +49,11 @@ public class UserController {
     @OperationLog("新增用户")
     @PostMapping("/user")
     @ResponseBody
-    public ResultBean<Integer> add(@Valid User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
+    public ResultBean add(@Valid User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
         if (userService.checkUserNameExist(user.getUsername())) {
             throw new DuplicateNameException();
         }
-        return new ResultBean<>(userService.add(user, roleIds));
+        return ResultBean.success(userService.add(user, roleIds));
     }
 
     @GetMapping("/user/{id}/allocation")
@@ -71,21 +71,21 @@ public class UserController {
     public ResultBean allocation(@PathVariable("id") Integer userId,
                                          @RequestParam("role[]") Integer roleIds[]) {
         userService.allocation(userId, roleIds);
-        return new ResultBean();
+        return ResultBean.success();
     }
 
     @OperationLog("禁用账号")
     @PostMapping("/user/{id}/disable")
     @ResponseBody
-    public ResultBean<Boolean> disable(@PathVariable("id") Integer id) {
-        return new ResultBean<>(userService.disableUserByID(id));
+    public ResultBean disable(@PathVariable("id") Integer id) {
+        return ResultBean.success(userService.disableUserByID(id));
     }
 
     @OperationLog("激活账号")
     @PostMapping("/user/{id}/enable")
     @ResponseBody
-    public ResultBean<Boolean> enable(@PathVariable("id") Integer id) {
-        return new ResultBean<>(userService.enableUserByID(id));
+    public ResultBean enable(@PathVariable("id") Integer id) {
+        return ResultBean.success(userService.enableUserByID(id));
     }
 
     @OperationLog("删除账号")
@@ -93,6 +93,6 @@ public class UserController {
     @ResponseBody
     public ResultBean delete(@PathVariable("id") Integer userId) {
         userService.delete(userId);
-        return new ResultBean();
+        return ResultBean.success();
     }
 }

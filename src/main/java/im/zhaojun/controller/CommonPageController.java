@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +23,7 @@ import java.util.Set;
 public class CommonPageController {
 
     @Resource
-    WebApplicationContext applicationContext;
+    private WebApplicationContext applicationContext;
 
     @GetMapping("/403")
     public String forbidden() {
@@ -44,11 +43,11 @@ public class CommonPageController {
     /**
      * 获取 @RequestMapping 中配置的所有 URL.
      * @param keyword   关键字: 过滤条件
-     * @return  URL 列表.
+     * @return          URL 列表.
      */
     @GetMapping("/system/urls")
     @ResponseBody
-    public ResultBean<Collection> getUrl(@RequestParam(defaultValue = "") String keyword) {
+    public ResultBean getUrl(@RequestParam(defaultValue = "") String keyword) {
         RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
         // 获取url与类和方法的对应信息
         Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
@@ -71,6 +70,6 @@ public class CommonPageController {
                 }
             }
         }
-        return new ResultBean<>(urlSet);
+        return ResultBean.success(urlSet);
     }
 }

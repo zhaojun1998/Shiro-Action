@@ -15,9 +15,9 @@ public class MyErrorAttributes extends DefaultErrorAttributes {
     public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
         Map<String, Object> map = new HashMap<>();
         Object code = webRequest.getAttribute("code", RequestAttributes.SCOPE_REQUEST);
-        Object message = webRequest.getAttribute("message", RequestAttributes.SCOPE_REQUEST);
+        Object message = webRequest.getAttribute("msg", RequestAttributes.SCOPE_REQUEST);
         map.put("code", code);
-        map.put("message", message);
+        map.put("msg", message);
         return map;
     }
 }

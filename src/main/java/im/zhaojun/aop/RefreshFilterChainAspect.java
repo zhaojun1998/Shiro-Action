@@ -12,14 +12,14 @@ import javax.annotation.Resource;
 
 @Aspect
 @Component
-public class UpdateFilterChainAspect {
+public class RefreshFilterChainAspect {
 
     @Resource
     private ShiroService shiroService;
 
-    private static final Logger log = LoggerFactory.getLogger(UpdateFilterChainAspect.class);
+    private static final Logger log = LoggerFactory.getLogger(RefreshFilterChainAspect.class);
 
-    @Pointcut("@annotation(im.zhaojun.annotation.UpdateFilterChain)")
+    @Pointcut("@annotation(im.zhaojun.annotation.RefreshFilterChain)")
     public void updateFilterChain() {}
 
     @AfterReturning("updateFilterChain()")

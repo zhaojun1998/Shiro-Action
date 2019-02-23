@@ -159,10 +159,10 @@ function getCateId(cateId) {
 
 /**
  * 显示错误信息
- * @param message： 错误信息
+ * @param msg： 错误信息
  */
-function showError(message) {
-    layer.msg(message, {icon: 2});
+function showError(msg) {
+    layer.msg(msg, {icon: 2});
 }
 
 /**
@@ -175,7 +175,7 @@ function handlerResult(result, fn) {
     if (result.code === 0) {
         fn(result.data);
     } else {
-        showError(result.message);
+        showError(result.msg);
     }
 }
 
@@ -309,7 +309,7 @@ function getCheckBoxValueByName(name) {
 $(document).ajaxError(function(event, response){
     console.log("错误响应状态码: ",response.status);
     console.log("错误响应结果: ",response.responseJSON);
-    showError(response.responseJSON.message);
+    showError(response.responseJSON.msg);
 });
 
 

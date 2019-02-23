@@ -1,5 +1,7 @@
 package im.zhaojun.shiro.filter;
 
+import im.zhaojun.util.IPUtils;
+import im.zhaojun.util.ResultBean;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -8,8 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -44,7 +45,7 @@ public class RestFormAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request,
                                      ServletResponse response) throws Exception {
         Subject subject = getSubject(request, response);
-
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         if (isLoginRequest(request, response)) {
             if (isLoginSubmission(request, response)) {
                 if (log.isTraceEnabled()) {
@@ -66,12 +67,11 @@ public class RestFormAuthenticationFilter extends FormAuthenticationFilter {
 
             if (im.zhaojun.util.WebUtils.isAjaxRequest(WebUtils.toHttp(request))) {
                 if (log.isDebugEnabled()) {
-                    log.debug("用户: [{}] 请求 restful url : {}, 无权限被拦截.", subject.getPrincipal(), this.getPathWithinApplication(request));
+                    log.debug("sessionId: [{}], ip: [{}] 请求 restful url : {}, 未登录被拦截.", httpServletRequest.getRequestedSessionId(), IPUtils.getIpAddr(),
+                    this.getPathWithinApplication(request));
                 }
 
-                Map<String, Object> map = new HashMap<>();
-                map.put("code", -1);
-                im.zhaojun.util.WebUtils.writeJson(map, response);
+                im.zhaojun.util.WebUtils.writeJson(ResultBean.error("未登录"), response);
             } else {
                 saveRequestAndRedirectToLogin(request, response);
             }

@@ -1,7 +1,7 @@
 package im.zhaojun.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import im.zhaojun.service.MenuService;
+import im.zhaojun.service.ShiroService;
 import im.zhaojun.shiro.RestShiroFilterFactoryBean;
 import im.zhaojun.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import im.zhaojun.shiro.filter.RestAuthorizationFilter;
@@ -20,6 +20,7 @@ import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
@@ -28,8 +29,9 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+    @Lazy
     @Resource
-    private MenuService menuService;
+    private ShiroService shiroService;
 
     @Value("${spring.redis.host}")
     private String redisHost;
@@ -47,7 +49,8 @@ public class ShiroConfig {
         filters.put("authc", new RestFormAuthenticationFilter());
         filters.put("perms", new RestAuthorizationFilter());
 
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(menuService.getUrlPermsMap());
+        Map<String, String> urlPermsMap = shiroService.getUrlPermsMap();
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(urlPermsMap);
         return shiroFilterFactoryBean;
     }
 

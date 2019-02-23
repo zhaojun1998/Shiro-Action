@@ -186,7 +186,7 @@
         from user where username = #{username}
     </select>
 
-    <select id="selectRoleIdsById" resultType="java.lang.Integer">
+    <select id="selectRoleIdsByUserId" resultType="java.lang.Integer">
         select role_id from user_role where user_id = #{userId}
     </select>
 
@@ -197,4 +197,25 @@
     <select id="count" resultType="java.lang.Integer">
         select count(1) from user
     </select>
+
+    <select id="selectOperatorPermsByUserName" resultType="String" parameterType="String">
+        select operator.perms
+        from
+            user,
+            role,
+            user_role,
+            operator,
+            role_operator
+        where
+            user.user_id = user_role.user_id
+          and
+            role.role_id = user_role.role_id
+          and
+            role.role_id = role_operator.role_id
+          and
+            operator.operator_id = role_operator.operator_id
+          and
+            user.username = #{username, jdbcType=VARCHAR}
+    </select>
+
 </mapper>

@@ -42,8 +42,8 @@ public class RoleController {
     @OperationLog("新增角色")
     @PostMapping("/role")
     @ResponseBody
-    public ResultBean<Integer> add(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
-        return new ResultBean<>(roleService.add(role, menuIds));
+    public ResultBean add(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
+        return ResultBean.success(roleService.add(role, menuIds));
     }
 
     @GetMapping("/role/{id}")
@@ -59,8 +59,8 @@ public class RoleController {
     @OperationLog("修改角色")
     @PutMapping("/role")
     @ResponseBody
-    public ResultBean<Integer> update(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
-        return new ResultBean<>(roleService.update(role, menuIds));
+    public ResultBean update(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
+        return ResultBean.success(roleService.update(role, menuIds));
     }
 
 
@@ -69,6 +69,6 @@ public class RoleController {
     @ResponseBody
     public ResultBean delete(@PathVariable("id") Integer roleId) {
         roleService.delete(roleId);
-        return new ResultBean<>();
+        return ResultBean.success();
     }
 }

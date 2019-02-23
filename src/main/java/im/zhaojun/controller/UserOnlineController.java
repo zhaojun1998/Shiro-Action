@@ -34,7 +34,8 @@ public class UserOnlineController {
 
     @PostMapping("/kickout")
     @ResponseBody
-    public ResultBean<Boolean> forceLogout(String sessionId) {
-        return new ResultBean<>(userOnlineService.forceLogout(sessionId));
+    public ResultBean forceLogout(String sessionId) {
+        userOnlineService.forceLogout(sessionId);
+        return ResultBean.success();
     }
 }

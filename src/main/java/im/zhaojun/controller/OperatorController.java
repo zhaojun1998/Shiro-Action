@@ -1,6 +1,6 @@
 package im.zhaojun.controller;
 
-import im.zhaojun.annotation.UpdateFilterChain;
+import im.zhaojun.annotation.RefreshFilterChain;
 import im.zhaojun.model.Operator;
 import im.zhaojun.service.OperatorService;
 import im.zhaojun.util.ResultBean;
@@ -32,12 +32,12 @@ public class OperatorController {
         return "operator/operator-add";
     }
 
-    @UpdateFilterChain
+    @RefreshFilterChain
     @PostMapping
     @ResponseBody
     public ResultBean add(Operator operator) {
         operatorService.insert(operator);
-        return new ResultBean<>();
+        return ResultBean.success();
     }
 
     @GetMapping("{id}")
@@ -47,27 +47,27 @@ public class OperatorController {
         return "operator/operator-add";
     }
 
-    @UpdateFilterChain
+    @RefreshFilterChain
     @PutMapping
     @ResponseBody
     public ResultBean edit(Operator operator) {
         operatorService.updateByPrimaryKey(operator);
-        return new ResultBean<>();
+        return ResultBean.success();
     }
 
     @GetMapping("list")
     @ResponseBody
     public ResultBean getList(@RequestParam(required = false) Integer menuId) {
         List<Operator> operatorList = operatorService.selectByMenuId(menuId);
-        return new ResultBean<>(operatorList);
+        return ResultBean.success(operatorList);
     }
 
-    @UpdateFilterChain
+    @RefreshFilterChain
     @DeleteMapping("{id}")
     @ResponseBody
     public ResultBean delete(@PathVariable("id") Integer operatorId) {
         operatorService.deleteByPrimaryKey(operatorId);
-        return new ResultBean();
+        return ResultBean.success();
     }
 
 }

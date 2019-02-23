@@ -1,7 +1,7 @@
 package im.zhaojun.controller;
 
 import im.zhaojun.annotation.OperationLog;
-import im.zhaojun.annotation.UpdateFilterChain;
+import im.zhaojun.annotation.RefreshFilterChain;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.model.vo.RoleMenuVO;
@@ -35,9 +35,9 @@ public class MenuController {
     @OperationLog("获取菜单列表")
     @GetMapping("/menu/list")
     @ResponseBody
-    public ResultBean<Collection<Menu>> getList(@RequestParam(required = false) Integer parentId) {
-        List<Menu> roles = menuService.selectByParentId(parentId);
-        return new ResultBean<>(roles);
+    public ResultBean getList(@RequestParam(required = false) Integer parentId) {
+        List<Menu> menuList = menuService.selectByParentId(parentId);
+        return ResultBean.success(menuList);
     }
 
 //    @GetMapping("/menu")
@@ -77,10 +77,10 @@ public class MenuController {
     }
 
     @OperationLog("新增菜单")
-    @UpdateFilterChain
+    @RefreshFilterChain
     @PostMapping("/menu")
     @ResponseBody
-    public ResultBean<Integer> add(Menu menu) {
+    public ResultBean add(Menu menu) {
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }
@@ -91,8 +91,8 @@ public class MenuController {
     @UpdateFilterChain
     @DeleteMapping("/menu/{id}")
     @ResponseBody
-    public ResultBean<Boolean> delete(@PathVariable("id") Integer id) {
-        return new ResultBean<>(menuService.deleteByIDAndChildren(id));
+    public ResultBean delete(@PathVariable("id") Integer id) {
+        return ResultBean.success(menuService.deleteByIDAndChildren(id));
     }
 
 //    @GetMapping("/menu/{id}")
@@ -117,10 +117,10 @@ public class MenuController {
 //    }
 
     @OperationLog("修改菜单")
-    @UpdateFilterChain
+    @RefreshFilterChain
     @PutMapping("/menu")
     @ResponseBody
-    public ResultBean<Boolean> update(Menu menu) {
+    public ResultBean update(Menu menu) {
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }
@@ -143,6 +143,14 @@ public class MenuController {
     public ResultBean allocation(@PathVariable("id") Integer menuId, @RequestParam("role[]") Integer roleIds[]) {
         List<RoleMenuVO> roleMenuVOS = menuService.selectAllRoleByMenuId(menuId);
         menuService.allocationRole(menuId, roleIds);
-        return new ResultBean();
+        return ResultBean.success();
+    }
+
+    @OperationLog("菜单交换顺序")
+    @PostMapping("/menu/swap")
+    @ResponseBody
+    public ResultBean swapSort(Integer currentId, Integer swapId) {
+        menuService.swapSort(currentId, swapId);
+        return ResultBean.success();
     }
 }

@@ -1,5 +1,7 @@
 package im.zhaojun.shiro.filter;
 
+import im.zhaojun.util.IPUtils;
+import im.zhaojun.util.ResultBean;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.StringUtils;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
@@ -9,10 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 修改后的 perms 过滤器, 添加对 AJAX 请求的支持.
@@ -48,15 +49,18 @@ public class RestAuthorizationFilter extends PermissionsAuthorizationFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
         Subject subject = getSubject(request, response);
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         // 如果未登录
         if (subject.getPrincipal() == null) {
             // AJAX 请求返回 JSON
             if (im.zhaojun.util.WebUtils.isAjaxRequest(WebUtils.toHttp(request))) {
                 if (log.isDebugEnabled()) {
-                    log.debug("用户: [{}] 请求 restful url : {}, 未登录被拦截.", subject.getPrincipal(), this.getPathWithinApplication(request));                }
-                Map<String, Object> map = new HashMap<>();
-                map.put("code", -1);
-                im.zhaojun.util.WebUtils.writeJson(map, response);
+                    log.debug("sessionId: [{}], ip: [{}] 请求 restful url : {}, 未登录被拦截.",
+                            httpServletRequest.getRequestedSessionId(),
+                            IPUtils.getIpAddr(),
+                            this.getPathWithinApplication(request));
+                }
+                im.zhaojun.util.WebUtils.writeJson(ResultBean.error("未登录"), response);
             } else {
                 // 其他请求跳转到登陆页面
                 saveRequestAndRedirectToLogin(request, response);
@@ -69,10 +73,7 @@ public class RestAuthorizationFilter extends PermissionsAuthorizationFilter {
                     log.debug("用户: [{}] 请求 restful url : {}, 无权限被拦截.", subject.getPrincipal(), this.getPathWithinApplication(request));
                 }
 
-                Map<String, Object> map = new HashMap<>();
-                map.put("code", -2);
-                map.put("msg", "没有权限啊!");
-                im.zhaojun.util.WebUtils.writeJson(map, response);
+                im.zhaojun.util.WebUtils.writeJson(ResultBean.error("无权限"), response);
             } else {
                 // 对于普通请求, 跳转到配置的 UnauthorizedUrl 页面.
                 // 如果未设置 UnauthorizedUrl, 则返回 401 状态码

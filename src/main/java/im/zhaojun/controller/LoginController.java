@@ -45,17 +45,19 @@ public class LoginController {
 
     @PostMapping("login")
     @ResponseBody
-    public ResultBean<String> login(User user, @RequestParam(value = "captcha", required = false) String captcha) {
+    public ResultBean login(User user, @RequestParam(value = "captcha", required = false) String captcha) {
         Subject subject = SecurityUtils.getSubject();
 //        String realCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute("captcha");
 //        // session 中的验证码过期了
 //        if (realCaptcha == null || realCaptcha.equals(captcha.toLowerCase()) == false) {
 //            throw new CaptchaIncorrectException();
 //        }
+
+
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         subject.login(token);
         userService.updateLastLoginTimeByUsername(user.getUsername());
-        return new ResultBean<>("登录成功");
+        return ResultBean.success("登录成功");
     }
 
     @OperationLog("注销")
@@ -67,13 +69,13 @@ public class LoginController {
 
     @GetMapping("checkUser")
     @ResponseBody
-    public ResultBean<Boolean> checkUser(String username) {
-        return new ResultBean<>(userService.checkUserNameExist(username));
+    public ResultBean checkUser(String username) {
+        return ResultBean.success(userService.checkUserNameExist(username));
     }
 
     @PostMapping("register")
     @ResponseBody
-    public ResultBean<Integer> register(User user) {
+    public ResultBean register(User user) {
         if (userService.checkUserNameExist(user.getUsername())) {
             throw new DuplicateNameException();
         }

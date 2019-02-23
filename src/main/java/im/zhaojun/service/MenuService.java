@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MenuService {
@@ -44,7 +42,7 @@ public class MenuService {
      * 获取所有导航菜单
      */
     public List<Menu> selectAllMenu() {
-        return menuMapper.selectAllMenu();
+        return menuMapper.selectAll();
     }
 
     public Menu selectOne(Integer id) {
@@ -73,14 +71,24 @@ public class MenuService {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         List<Menu> menus;
         if ("admin".equals(user.getUsername())) {
-            menus = menuMapper.selectAllMenu();
+            menus = menuMapper.selectAll();
         } else {
             menus = menuMapper.selectMenuByUserName(user.getUsername());
         }
         return TreeUtil.toTree(menus);
     }
 
+    /**
+     * 获取导航菜单中的所有叶子节点
+     */
+    public List<Menu> getLeafNodeMenu() {
+        List<MenuTreeVO> allMenuTreeVO = getALLMenuTreeVO();
+        return MenuVOConvert.getLeafNodeMenuByMenuTreeVO(allMenuTreeVO);
+    }
+
     public int add(Menu menu) {
+        int maxOrderNum = menuMapper.selectMaxOrderNum();
+        menu.setOrderNum(maxOrderNum + 1);
         menuMapper.insert(menu);
         return menu.getMenuId();
     }
@@ -102,41 +110,6 @@ public class MenuService {
         return menuMapper.deleteByPrimaryKey(id) == 1;
     }
 
-    /**
-     * 从数据库加载权限列表
-     */
-    public Map<String, String> getUrlPermsMap() {
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-
-        // 系统默认过滤器
-        filterChainDefinitionMap.put("/favicon.ico", "anon");
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/fonts/**", "anon");
-        filterChainDefinitionMap.put("/images/**", "anon");
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/lib/**", "anon");
-        filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/register", "anon");
-        // 验证码
-        filterChainDefinitionMap.put("/captcha", "anon");
-        // 检查用户名是否存在
-        filterChainDefinitionMap.put("/checkUser", "anon");
-        List<Menu> menus = selectAll();
-        for (Menu menu : menus) {
-            String url = menu.getUrl();
-            if (url != null) {
-//                if (menu.getMethod() != null && !"".equals(menu.getMethod())) {
-//                    url += ("==" + menu.getMethod());
-//                }
-                String perms = "perms[" + menu.getPerms() + "]";
-                filterChainDefinitionMap.put(url, perms);
-            }
-        }
-
-        filterChainDefinitionMap.put("/**", "authc");
-        return filterChainDefinitionMap;
-    }
-
     public int count() {
         return menuMapper.count();
     }
@@ -150,5 +123,9 @@ public class MenuService {
     public void allocationRole(Integer menuId, Integer[] roleIds) {
         roleMenuMapper.deleteByMenuId(menuId);
         roleMenuMapper.insertRolesWithMenu(menuId, roleIds);
+    }
+
+    public void swapSort(Integer currentId, Integer swapId) {
+        menuMapper.swapSort(currentId, swapId);
     }
 }

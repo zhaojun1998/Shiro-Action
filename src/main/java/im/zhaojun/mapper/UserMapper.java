@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 @Mapper
-public interface UserMapper<findByActiveCode> {
+public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
 
     int insert(User record);
@@ -21,10 +21,11 @@ public interface UserMapper<findByActiveCode> {
 
     int updateByPrimaryKey(User record);
 
+
     /**
      * 获取用户所拥有的所有权限
      */
-    Set<String> selectPermsByUserName(@Param("username")String username);
+    Set<String> selectPermsByUserName(@Param("username") String username);
 
     /**
      * 获取用户所拥有的所有角色
@@ -46,13 +47,35 @@ public interface UserMapper<findByActiveCode> {
      */
     int updateStatusByPrimaryKey(@Param("id") Integer id, @Param("status") int status);
 
+    /**
+     * 更新用户最后登录事件
+     */
     int updateLastLoginTimeByUsername(@Param("username") String username);
 
+    /**
+     * 统计已经有几个此用户名, 用来检测用户名是否重复.
+     */
     int countByUserName(@Param("username") String username);
 
-    Integer[] selectRoleIdsById(@Param("userId") Integer userId);
+    /**
+     * 查询此用户拥有的所有角色的 ID
+     * @param userId        用户 ID
+     * @return              拥有的角色 ID 数组
+     */
+    Integer[] selectRoleIdsByUserId(@Param("userId") Integer userId);
 
+    /**
+     * 根据邮箱激活码, 查询要被激活的用户.
+     */
     User selectByActiveCode(@Param("activeCode") String activeCode);
 
+    /**
+     * 统计系统中有多少个用户.
+     */
     int count();
+
+    /**
+     * 获取用户所拥有的操作权限
+     */
+    Set<String> selectOperatorPermsByUserName();
 }

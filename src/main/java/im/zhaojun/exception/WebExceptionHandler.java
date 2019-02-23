@@ -5,6 +5,7 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,12 @@ import java.util.List;
 public class WebExceptionHandler{
 
     private static final Logger log = LoggerFactory.getLogger(WebExceptionHandler.class);
+
+    @ExceptionHandler(value = { UnauthorizedException.class })
+    public String unauthorized(Exception e) {
+        log.error("无权限");
+        return generateErrorInfo(ResultBean.FAIL, "无权限", HttpStatus.UNAUTHORIZED.value());
+    }
 
     @ExceptionHandler
     public String unknownAccount(UnknownAccountException e) {
@@ -84,27 +91,28 @@ public class WebExceptionHandler{
 
     @ExceptionHandler
     public String all(Exception e) {
-        log.error(e.getMessage(), e);
-        generateErrorInfo(ResultBean.FAIL, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        String msg = e.getMessage() == null ? "系统出现异常" : e.getMessage();
+        log.error(msg, e);
+        generateErrorInfo(ResultBean.FAIL, msg, HttpStatus.INTERNAL_SERVER_ERROR.value());
         return "forward:/error";
     }
 
     /**
      * 生成错误信息, 放到 request 域中.
      * @param code          错误码
-     * @param message       错误信息
+     * @param msg       错误信息
      * @param httpStatus    HTTP 状态码
      * @return              SpringBoot 默认提供的 /error Controller 处理器
      */
-    private String generateErrorInfo(int code, String message, int httpStatus) {
+    private String generateErrorInfo(int code, String msg, int httpStatus) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         request.setAttribute("code", code);
-        request.setAttribute("message", message);
+        request.setAttribute("msg", msg);
         request.setAttribute("javax.servlet.error.status_code", httpStatus);
         return "forward:/error";
     }
 
-    private String generateErrorInfo(int code, String message) {
-        return generateErrorInfo(code, message, HttpStatus.INTERNAL_SERVER_ERROR.value());
+    private String generateErrorInfo(int code, String msg) {
+        return generateErrorInfo(code, msg, HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 }

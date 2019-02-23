@@ -51,14 +51,13 @@ public class UserOnlineService {
         return list;
     }
 
-    public boolean forceLogout(String sessionId) {
+    public void forceLogout(String sessionId) {
         Session session = redisSessionDAO.readSession(sessionId);
         if (session != null) {
             session.stop();
             session.stop();
             redisSessionDAO.delete(session);
         }
-        return true;
     }
 
     public int count() {
