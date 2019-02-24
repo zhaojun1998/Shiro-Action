@@ -36,21 +36,6 @@
             overflow: hidden;
         }
 
-        .dHead {
-            width: 100%;
-            position: fixed;
-            z-index: 5;
-            top: 0;
-            overflow-x: auto;
-        }
-
-        .dBody {
-            width: 100%;
-            overflow: auto;
-            top: 40px;
-            position: absolute;
-            z-index: 10;
-        }
         .layui-btn-xstree {
             height: 35px;
             line-height: 35px;
@@ -76,12 +61,12 @@
                style="float:right"
                href="javascript:location.replace(location.href);" title="刷新"></a>
         </div>
-        <div style="height: 100%">
-            <div class="dBody">
-                <div style="padding: 20px; background-color: #F2F2F2;">
+        <div style="height: calc(100% - 39px)">
+            <div style="height: 100%">
+                <div style="padding: 20px; background-color: #F2F2F2;height: 100%;">
                     <div class="layui-row layui-col-space15">
                         <div class="layui-col-md3">
-                            <div class="layui-card" style="height: 500px;">
+                            <div class="layui-card">
                                 <div class="layui-card-header">菜单树</div>
                                 <div class="layui-card-body" id="toolbarDiv">
                                     <ul id="demoTree" class="dtree" data-id="0"></ul>
@@ -265,7 +250,7 @@
 
             function editMenu(id) {
                 layer.open({
-                    content: '/menu/page/' + id,
+                    content: '/menu/' + id,
                     title: "编辑",
                     area: ['500px', '500px'],
                     type: 2,

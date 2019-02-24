@@ -33,7 +33,6 @@
             box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
         }
 
-
         .x-nav {
             padding: 0 20px;
             position: relative;
@@ -46,7 +45,7 @@
         .layui-btn-xstree {
             height: 35px;
             line-height: 35px;
-            padding: 0px 5px;
+            padding: 0 5px;
             font-size: 12px;
         }
         .layui-table-body{overflow-x: hidden;}
@@ -58,7 +57,7 @@
     </style>
 
     <body class="layui-anim layui-anim-fadein" style="height: 100%">
-        <div class="x-nav dHead" id="my-nav">
+        <div class="x-nav" id="my-nav">
             <span class="layui-breadcrumb">
                 <a href="#">首页</a>
                 <a href="#">权限管理</a>
@@ -68,9 +67,9 @@
                style="float:right"
                href="javascript:location.replace(location.href);" title="刷新"></a>
         </div>
-        <div style="height: 100%">
-            <div class="dBody">
-                <div style="padding: 20px; background-color: #F2F2F2;">
+        <div style="height: calc(100% - 39px)">
+            <div style="height: 100%">
+                <div style="padding: 20px; background-color: #F2F2F2;height:100%;">
                     <div class="layui-row layui-col-space15">
                         <div class="layui-col-md3">
                             <div class="layui-card">
@@ -141,7 +140,7 @@
                         title: "添加子节点",
                         handler: function (node, $div) {
                             layer.open({
-                                content: "/menu/page?parentId=" + node.nodeId,
+                                content: "/menu?parentId=" + node.nodeId,
                                 title: "添加子节点",
                                 area: ['600px', '600px'],
                                 type: 2,
@@ -293,7 +292,7 @@
 
             function edit(id) {
                 layer.open({
-                    content: '/menu/page/' + id,
+                    content: '/menu/' + id,
                     title: "编辑",
                     area: ['500px', '500px'],
                     type: 2,
