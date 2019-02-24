@@ -159,6 +159,6 @@
   </select>
 
   <select id="count" resultType="int">
-    select count(1) from sys_log;
+    select count(*) from sys_log;
   </select>
 </mapper>

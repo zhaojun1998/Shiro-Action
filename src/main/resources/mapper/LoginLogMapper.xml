@@ -152,6 +152,6 @@
   </select>
 
   <select id="count" resultType="int">
-    select count(1) from login_log
+    select count(*) from login_log
   </select>
 </mapper>

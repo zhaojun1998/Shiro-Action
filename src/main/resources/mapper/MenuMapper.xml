@@ -230,7 +230,7 @@
     </select>
 
   <select id="count" resultType="int">
-    select count(1)
+    select count(*)
     from menu
   </select>
 

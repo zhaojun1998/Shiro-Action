@@ -195,7 +195,7 @@
     </select>
 
     <select id="count" resultType="java.lang.Integer">
-        select count(1) from user
+        select count(*) from user
     </select>
 
     <select id="selectOperatorPermsByUserName" resultType="String" parameterType="String">

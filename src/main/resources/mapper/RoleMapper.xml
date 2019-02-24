@@ -78,7 +78,7 @@
 
     <select id="count" resultType="java.lang.Integer">
         select
-        count(1)
+        count(*)
         from role
     </select>
 </mapper>
