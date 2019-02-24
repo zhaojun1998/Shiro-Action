@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>菜单添加</title>
+        <title>页面添加</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport"
@@ -20,53 +20,90 @@
         <![endif]-->
     </head>
 
-    <body>
+    <body class="layui-anim layui-anim-fadein">
         <div class="x-body">
-            <form action="" method="post" class="layui-form">
+            <form action="" method="post" class="layui-form layui-form-pane">
                 <div class="layui-form-item">
                     <label for="menuName" class="layui-form-label">
-                        菜单名称
+                        页面名称
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" id="menuName" name="menuName" th:value="${menu?.menuName}"
                                lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" placeholder="请输入菜单名称" class="layui-input">
+                               autocomplete="off" placeholder="请输入页面名称" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="orderNum" class="layui-form-label">
-                        排序
+                    <label for="url" class="layui-form-label">
+                        菜单URL
                     </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="orderNum" th:value="${menu?.orderNum}" name="orderNum"
-                               lay-verify="number|required" lay-vertype="tips"
-                               autocomplete="off" class="layui-input" placeholder="序号值越小, 排序越靠前">
+                    <div class="layui-input-block">
+                        <input type="text" id="url" th:value="${menu?.url}" name="url"
+                               lay-verify="required" lay-vertype="tips"
+                               autocomplete="off" class="layui-input" placeholder="请输入需要授权的 URL">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="perms" class="layui-form-label">
+                        权限标识
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" id="perms" th:value="${menu?.perms}" name="perms"
+                               lay-verify="required" lay-vertype="tips"
+                               autocomplete="off" class="layui-input" placeholder="">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label for="tree" class="layui-form-label">
                         上级菜单
                     </label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="text" name="parentId" id="tree" lay-filter="tree" class="layui-input">
                     </div>
                 </div>
+                <fieldset class="layui-elem-field">
+                    <legend>备注</legend>
+                    <div class="layui-field-box">
+                        <div class="layui-form-mid layui-word-aux">
+                            URL 支持 ?, *, ** 通配符。<br>
+                            外部链接以 http(s):// 开头。
+                        </div>
+                    </div>
+                </fieldset>
                 <div class="layui-form-item">
-                    <input type="hidden" name="menuId" th:value="${menu?.menuId}">
-                    <input type="hidden" name="type" value="0">
-                    <button class="layui-btn layui-btn-blue" th:text="${menu}?'修改':'增加'" lay-submit="" data-th-lay-filter="${menu}?'edit':'add'">增加</button>
+                    <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                        <input type="hidden" name="menuId" th:value="${menu?.menuId}">
+                        <input type="hidden" name="type" value="1">
+                        <button class="layui-btn layui-btn-blue" th:text="${menu}?'修改':'增加'" lay-submit="" data-th-lay-filter="${menu}?'edit':'add'">增加</button>
+                    </div>
                 </div>
             </form>
         </div>
 
         <script>
+            var form, layer, treeSelect, autocomplete;
             layui.config({
                 base: '/lib/layui/extend/'
-            }).use(['form', 'layer', 'treeSelect'], function () {
+            }).use(['form', 'layer', 'treeSelect', 'autocomplete'], function () {
                 $ = layui.jquery;
-                var form = layui.form
-                    , layer = layui.layer
-                    , treeSelect = layui.treeSelect;
+                form = layui.form;
+                layer = layui.layer;
+                autocomplete = layui.autocomplete;
+                autocomplete.render({
+                    elem: $('#url'),
+                    url: '/system/urls',
+                    template_val: '{{d.url}}',
+                    template_txt: '{{d.url}} \
+                        {{#  layui.each(d.type.split(","), function(index, item){ }} \
+                            <span class="layui-badge layui-bg-gray">{{item}}</span>  \
+                        {{#  }); }} \
+                    ',
+                    onselect: function (resp) {
+                        console.log(resp);
+                    }
+                });
+
+                treeSelect = layui.treeSelect;
 
                 treeSelect.render({
                     // 选择器
@@ -78,6 +115,11 @@
                     // 占位符
                     placeholder: '请选择上级菜单',
                     success: function (d) {
+                        var parentId = getQueryString('parentId');
+                        if (parentId) {
+                            console.log(parentId);
+                            treeSelect.checkNode('tree', parentId);
+                        }
                         if ([[${menu!=null}]]) {
                             // 选中节点，根据id筛选
                             treeSelect.checkNode('tree', [[${menu?.parentId}]]);
@@ -111,6 +153,7 @@
                     return false;
                 });
 
+                
                 function addDone(data) {
                     console.log("add result id : ", data);
                     layer.msg("添加成功", {icon: 6});
