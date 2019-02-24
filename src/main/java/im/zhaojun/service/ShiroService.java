@@ -97,7 +97,7 @@ public class ShiroService {
             manager.getFilterChains().clear();
             shiroFilterFactoryBean.getFilterChainDefinitionMap().clear();
             shiroFilterFactoryBean
-                    .setFilterChainDefinitionMap(menuService.getUrlPermsMap());
+                    .setFilterChainDefinitionMap(getUrlPermsMap());
             // 重新构建生成
             Map<String, String> chains = shiroFilterFactoryBean
                     .getFilterChainDefinitionMap();
