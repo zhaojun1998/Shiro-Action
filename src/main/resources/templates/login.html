@@ -30,12 +30,12 @@
             <input type="password" name="password" lay-verify="required" lay-vertype="tips" placeholder="密码" autocomplete="off"
                    class="layui-input">
         </div>
-        <!--<div class="layui-input-inline">-->
-            <!--<input name="captcha" lay-verify="required" placeholder="验证码" style="width:50%;" type="text"-->
-                   <!--class="layui-input-inline layui-input">-->
-            <!--<img style="margin-bottom: 15px;" onclick="generateCaptcha(this)"-->
-                 <!--th:src="@{/captcha(timestamp=${new java.util.Date().getTime()})}"/>-->
-        <!--</div>-->
+        <div class="layui-input-inline">
+            <input name="captcha" lay-verify="required" placeholder="验证码" style="width:50%;" type="text"
+                   class="layui-input-inline layui-input">
+            <img style="margin-bottom: 15px;" onclick="generateCaptcha(this)"
+                 th:src="@{/captcha(timestamp=${new java.util.Date().getTime()})}"/>
+        </div>
         <div class="layui-input-inline login-btn">
             <button lay-submit lay-filter="login" class="layui-btn layui-btn-blue">登录</button>
         </div>

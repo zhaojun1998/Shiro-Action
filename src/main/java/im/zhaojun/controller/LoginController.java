@@ -2,13 +2,16 @@ package im.zhaojun.controller;
 
 import cn.hutool.core.util.IdUtil;
 import im.zhaojun.annotation.OperationLog;
+import im.zhaojun.exception.CaptchaIncorrectException;
 import im.zhaojun.exception.DuplicateNameException;
 import im.zhaojun.model.User;
 import im.zhaojun.service.MailService;
 import im.zhaojun.service.UserService;
+import im.zhaojun.util.CaptchaUtil;
 import im.zhaojun.util.ResultBean;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +22,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 
 @Controller
 public class LoginController {
@@ -47,12 +54,11 @@ public class LoginController {
     @ResponseBody
     public ResultBean login(User user, @RequestParam(value = "captcha", required = false) String captcha) {
         Subject subject = SecurityUtils.getSubject();
-//        String realCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute("captcha");
-//        // session 中的验证码过期了
-//        if (realCaptcha == null || realCaptcha.equals(captcha.toLowerCase()) == false) {
-//            throw new CaptchaIncorrectException();
-//        }
-
+        String realCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute("captcha");
+        // session 中的验证码过期了
+        if (realCaptcha == null || realCaptcha.equals(captcha.toLowerCase()) == false) {
+            throw new CaptchaIncorrectException();
+        }
 
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         subject.login(token);
@@ -99,20 +105,21 @@ public class LoginController {
 
         // 注册后默认的角色, 根据自己数据库的角色表 ID 设置
         Integer[] initRoleIds = {2};
-        return new ResultBean<>(userService.add(user, initRoleIds));
+        return ResultBean.success(userService.add(user, initRoleIds));
     }
 
-//    @GetMapping("captcha")
-//    public void captcha(HttpServletResponse response) throws IOException {
-//        //定义图形验证码的长、宽、验证码字符数、干扰元素个数
-//        CircleCaptcha shearCaptcha = CaptchaUtil.createCircleCaptcha(160, 38, 4, 0);
-//        Session session = SecurityUtils.getSubject().getSession();
-//        session.setAttribute("captcha", shearCaptcha.getCode());
-//
-//        response.setContentType("image/png");
-//        OutputStream os = response.getOutputStream();
-//        ImageIO.write(shearCaptcha.getImage(), "png", os);
-//    }
+    @GetMapping("captcha")
+    public void captcha(HttpServletResponse response) throws IOException {
+        //定义图形验证码的长、宽、验证码字符数、干扰元素个数
+        CaptchaUtil.Captcha captcha = CaptchaUtil.createCaptcha(140, 38, 4, 10, 30);
+        Session session = SecurityUtils.getSubject().getSession();
+        System.out.println(captcha.getCode());
+        session.setAttribute("captcha", captcha.getCode());
+
+        response.setContentType("image/png");
+        OutputStream os = response.getOutputStream();
+        ImageIO.write(captcha.getImage(), "png", os);
+    }
 
     @OperationLog("激活注册账号")
     @GetMapping("active/{token}")
@@ -131,4 +138,5 @@ public class LoginController {
         model.addAttribute("msg", msg);
         return "active";
     }
+
 }
