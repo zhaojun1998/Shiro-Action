@@ -18,6 +18,12 @@
         <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
         <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <style>
+            .eleTree{
+                border: 1px solid #ccc;
+                overflow: hidden;
+            }
+        </style>
     </head>
 
     <body class="layui-anim layui-anim-fadein">
@@ -54,13 +60,17 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="tree" class="layui-form-label">
+                    <label for="parentId" class="layui-form-label">
                         上级菜单
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" name="parentId" id="tree" lay-filter="tree" class="layui-input">
+                        <input type="text" id="parentName" lay-verify="required"
+                               placeholder="请输入标题" autocomplete="off" class="layui-input" readonly>
+                        <input type="hidden" name="parentId" id="parentId">
+                        <div class="eleTree" id="parentTree" lay-filter="parentTree" style="display: none"></div>
                     </div>
                 </div>
+
                 <fieldset class="layui-elem-field">
                     <legend>备注</legend>
                     <div class="layui-field-box">
@@ -81,14 +91,15 @@
         </div>
 
         <script>
-            var form, layer, treeSelect, autocomplete;
             layui.config({
                 base: '/lib/layui/extend/'
-            }).use(['form', 'layer', 'treeSelect', 'autocomplete'], function () {
-                $ = layui.jquery;
-                form = layui.form;
-                layer = layui.layer;
-                autocomplete = layui.autocomplete;
+            }).use(['form', 'layer', 'autocomplete', 'eleTree'], function () {
+                var $ = layui.jquery,
+                    form = layui.form,
+                    layer = layui.layer,
+                    autocomplete = layui.autocomplete,
+                    eleTree = layui.eleTree;
+
                 autocomplete.render({
                     elem: $('#url'),
                     url: '/system/urls',
@@ -103,38 +114,44 @@
                     }
                 });
 
-                treeSelect = layui.treeSelect;
+                eleTree.render({
+                    elem: '#parentTree',
+                    url: "/menu/tree",
+                    defaultExpandAll: true,
+                    expandOnClickNode: false,
+                    highlightCurrent: true,
+                    defaultCheckedKeys: [2],
+                    request: {
+                        name: "name",
+                        key: "id",
+                        children: "children"
+                    },
+                    done: function(res) {
+                        var parentId = getQueryString('parentId') ? getQueryString('parentId') : [[${menu?.parentId + ''}]] ;
 
-                treeSelect.render({
-                    // 选择器
-                    elem: '#tree',
-                    // 数据
-                    data: '/menu/tree',
-                    // 异步加载方式：get/post，默认get
-                    type: 'get',
-                    // 占位符
-                    placeholder: '请选择上级菜单',
-                    success: function (d) {
-                        var parentId = getQueryString('parentId');
-                        if (parentId) {
-                            console.log(parentId);
-                            treeSelect.checkNode('tree', parentId);
-                        }
-                        if ([[${menu!=null}]]) {
-                            // 选中节点，根据id筛选
-                            treeSelect.checkNode('tree', [[${menu?.parentId}]]);
-                            // 获取zTree对象，可以调用zTree方法
-                            var treeObj = treeSelect.zTree('tree');
-                            // 刷新树结构
-                            treeSelect.refresh('tree');
+                        var parent = getMenuTreeById(res.data, parentId);
+                        if (parent) {
+                            $("#parentName").val(parent.name);
+                            $("#parentId").val(parent.id);
                         }
                     }
                 });
 
+                $("#parentName").on("click",function (e) {
+                    e.stopPropagation();
+                    $("#parentTree").toggle();
+                });
+                eleTree.on("nodeClick(parentTree)",function(d) {
+                    $("#parentName").val(d.data.currentData.name);
+                    $("#parentId").val(d.data.currentData.id);
+                    $("#parentTree").hide();
+                });
+                $(document).on("click",function() {
+                    $("#parentTree").hide();
+                });
+
                 //监听提交
                 form.on('submit(add)', function (form) {
-                    console.log(form.field);
-                    //发异步，把数据提交给php
                     $.post('/menu', form.field, function (result) {
                         handlerResult(result, addDone);
                     });
@@ -143,10 +160,7 @@
 
                 //监听提交
                 form.on('submit(edit)', function (form) {
-                    console.log(form.field);
-                    //发异步，把数据提交给php
                     form.field._method = 'PUT';
-                    console.log(form.field);
                     $.post('/menu', form.field, function (result) {
                         handlerResult(result, editDone);
                     });

@@ -6,6 +6,7 @@ import im.zhaojun.model.Menu;
 import im.zhaojun.model.User;
 import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.model.vo.RoleMenuVO;
+import im.zhaojun.util.MenuVOConvert;
 import im.zhaojun.util.TreeUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -54,14 +55,15 @@ public class MenuService {
      */
     public List<MenuTreeVO> getALLMenuTreeVO() {
         List<Menu> menus = selectAllMenu();
-        List<MenuTreeVO> menuTreeVOS = TreeUtil.toTree(menus);
-        MenuTreeVO root = new MenuTreeVO();
-        root.setMenuId(0);
-        root.setMenuName("导航目录");
-        root.setChildren(menuTreeVOS);
-        List<MenuTreeVO> rootList = new ArrayList<>();
-        rootList.add(root);
-        return rootList;
+        return menuListToMenuTree(menus);
+    }
+
+    /**
+     * 获取所有菜单 (树形结构)
+     */
+    public List<MenuTreeVO> getALLMenuAndCountOperatorTreeVO() {
+        List<Menu> menus = menuMapper.selectAllMenuAndCountOperator();
+        return menuListToMenuTree(menus);
     }
 
     /**
@@ -127,5 +129,16 @@ public class MenuService {
 
     public void swapSort(Integer currentId, Integer swapId) {
         menuMapper.swapSort(currentId, swapId);
+    }
+
+    private List<MenuTreeVO> menuListToMenuTree(List<Menu> menus) {
+        List<MenuTreeVO> menuTreeVOS = TreeUtil.toTree(menus);
+        MenuTreeVO root = new MenuTreeVO();
+        root.setMenuId(0);
+        root.setMenuName("导航目录");
+        root.setChildren(menuTreeVOS);
+        List<MenuTreeVO> rootList = new ArrayList<>();
+        rootList.add(root);
+        return rootList;
     }
 }

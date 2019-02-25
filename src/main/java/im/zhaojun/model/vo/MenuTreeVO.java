@@ -23,10 +23,13 @@ public class MenuTreeVO implements Serializable {
     @JsonIgnore
     private String url;
 
+    @JsonIgnore
     private String perms;
 
+    @JsonIgnore
     private Integer orderNum;
 
+    @JsonIgnore
     private Integer parentId;
 
     public Integer getParentId() {
