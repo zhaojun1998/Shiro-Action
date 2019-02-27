@@ -218,4 +218,10 @@
             user.username = #{username, jdbcType=VARCHAR}
     </select>
 
+    <update id="updatePasswordByUserId">
+        update user
+        set password = #{password}, salt = #{salt}
+        where user_id = #{userId}
+    </update>
+
 </mapper>

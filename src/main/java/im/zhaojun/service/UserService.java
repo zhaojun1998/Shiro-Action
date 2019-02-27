@@ -55,7 +55,7 @@ public class UserService {
 
     @Transactional
     public Integer add(User user, Integer[] roleIds) {
-        String salt = String.valueOf(System.currentTimeMillis());
+        String salt = generateSalt();
         String encryptPassword = new Md5Hash(user.getPassword(), salt).toString();
 
         if (user.getStatus() == null) {
@@ -168,5 +168,16 @@ public class UserService {
 
     public User selectOneByUserName(String username) {
         return userMapper.selectOneByUserName(username);
+    }
+
+    public void updatePasswordByUserId(Integer userId, String password) {
+        String salt = generateSalt();
+        String encryptPassword = new Md5Hash(password, salt).toString();
+        userMapper.updatePasswordByUserId(userId, encryptPassword, salt);
+    }
+
+
+    private String generateSalt() {
+        return String.valueOf(System.currentTimeMillis());
     }
 }

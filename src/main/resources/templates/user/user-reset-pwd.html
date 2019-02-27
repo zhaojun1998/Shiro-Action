@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>重置密码</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport"
+              content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+        <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+        <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+        <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+
+    </head>
+
+    <body>
+        <div class="x-body">
+            <form action="" method="post" class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label for="password" class="layui-form-label">
+                        新密码
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="password" id="password" name="password"
+                               lay-verify="required" lay-vertype="tips"
+                               autocomplete="off" class="layui-input">
+                        <input type="hidden" name="userId" th:value="${userId}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                        <button type="button"  class="layui-btn layui-btn-normal btn-w100" lay-submit="" lay-filter="reset-password">确定</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            layui.use(['form', 'layer'], function () {
+                $ = layui.jquery;
+                var form = layui.form
+                    , layer = layui.layer;
+
+                form.on('submit(reset-password)', function (form) {
+                    var data = form.field;
+                    $.post('/user/' + data.userId + "/reset", form.field, function (result) {
+                        handlerResult(result, function (data) {
+                            layer.msg("重置成功", {icon: 6});
+                        });
+                    });
+                    return false;
+                });
+            });
+        </script>
+    </body>
+
+</html>

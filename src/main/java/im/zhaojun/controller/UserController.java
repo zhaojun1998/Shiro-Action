@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Resource
@@ -25,13 +26,13 @@ public class UserController {
     @Resource
     private RoleService roleService;
 
-    @GetMapping("/user/index")
+    @GetMapping("/index")
     public String index() {
         return "user/user-list";
     }
 
     @OperationLog("获取用户列表")
-    @GetMapping("/user/list")
+    @GetMapping("/list")
     @ResponseBody
     public PageResultBean<User> getList(@RequestParam(value = "page", defaultValue = "1") int page,
                                           @RequestParam(value = "limit", defaultValue = "10")int limit) {
@@ -40,14 +41,14 @@ public class UserController {
         return new PageResultBean<>(userPageInfo.getTotal(), userPageInfo.getList());
     }
 
-    @GetMapping("/user")
+    @GetMapping
     public String add(Model model) {
         model.addAttribute("roles", roleService.selectAll());
         return "user/user-add";
     }
 
     @OperationLog("新增用户")
-    @PostMapping("/user")
+    @PostMapping
     @ResponseBody
     public ResultBean add(@Valid User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
         if (userService.checkUserNameExist(user.getUsername())) {
@@ -56,7 +57,7 @@ public class UserController {
         return ResultBean.success(userService.add(user, roleIds));
     }
 
-    @GetMapping("/user/{id}/allocation")
+    @GetMapping("/{id}/allocation")
     public String allocation(@PathVariable("id") Integer userId, Model model) {
         User user = userService.selectOne(userId);
         model.addAttribute("roleIds", userService.selectRoleIdsById(userId));
@@ -66,7 +67,7 @@ public class UserController {
     }
 
     @OperationLog("为用户授予角色")
-    @PostMapping("/user/{id}/allocation")
+    @PostMapping("/{id}/allocation")
     @ResponseBody
     public ResultBean allocation(@PathVariable("id") Integer userId,
                                          @RequestParam("role[]") Integer roleIds[]) {
@@ -75,24 +76,38 @@ public class UserController {
     }
 
     @OperationLog("禁用账号")
-    @PostMapping("/user/{id}/disable")
+    @PostMapping("/{id}/disable")
     @ResponseBody
     public ResultBean disable(@PathVariable("id") Integer id) {
         return ResultBean.success(userService.disableUserByID(id));
     }
 
     @OperationLog("激活账号")
-    @PostMapping("/user/{id}/enable")
+    @PostMapping("/{id}/enable")
     @ResponseBody
     public ResultBean enable(@PathVariable("id") Integer id) {
         return ResultBean.success(userService.enableUserByID(id));
     }
 
     @OperationLog("删除账号")
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")
     @ResponseBody
     public ResultBean delete(@PathVariable("id") Integer userId) {
         userService.delete(userId);
         return ResultBean.success();
     }
+
+    @GetMapping("/{id}/reset")
+    public String resetPassword(@PathVariable("id") Integer userId, Model model) {
+        model.addAttribute("userId", userId);
+        return "user/user-reset-pwd";
+    }
+
+    @PostMapping("/{id}/reset")
+    @ResponseBody
+    public ResultBean resetPassword(@PathVariable("id") Integer userId, String password) {
+        userService.updatePasswordByUserId(userId, password);
+        return ResultBean.success();
+    }
+
 }
