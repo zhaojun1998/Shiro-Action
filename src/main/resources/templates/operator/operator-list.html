@@ -8,8 +8,8 @@
         <link rel="stylesheet" th:href="@{/lib/layui/extend/font/dtreefont.css}">
         <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
         <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-        <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
-        <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
+        <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+        <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
     </head>
     <style>
         html, body {
@@ -69,7 +69,7 @@
                             <div class="layui-card">
                                 <div class="layui-card-header">菜单树</div>
                                 <div class="layui-card-body" id="toolbarDiv">
-                                    <ul id="demoTree" class="dtree" data-id="0"></ul>
+                                    <ul id="menuTree" class="dtree" data-id="0"></ul>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
             var table = layui.table;
 
             var DTree = dtree.render({
-                elem: "#demoTree",
+                elem: "#menuTree",
                 url: "/menu/tree/operator",
                 dataStyle: "layuiStyle",
                 initLevel: 5,   // 初始打开节点级别
@@ -184,7 +184,7 @@
                 ]
             });
 
-            dtree.on("node('demoTree')", function (obj) {
+            dtree.on("node('menuTree')", function (obj) {
                 table.reload('operator-table', {
                     where: {
                         menuId: obj.param.nodeId

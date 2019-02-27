@@ -7,6 +7,10 @@
     
  */
 layui.define(['jquery','layer','form'], function(exports) {
+
+	layui.link('/lib/layui/extend/dtree.css');
+	layui.link('/lib/layui/extend/font/dtreefont.css');
+
 	var $ = layui.$,
 		layer = layui.layer,
 		form = layui.form;
