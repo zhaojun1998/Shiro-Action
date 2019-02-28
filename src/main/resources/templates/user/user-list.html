@@ -39,9 +39,7 @@
         <script type="text/html" id="column-toolbar">
             <a class="layui-btn layui-btn-xs" lay-event="allocation">授权</a>
             <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
-            {{#  if('<shiro:principal property="username"/>' !== d.username) { }}
             <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
-            {{#  } }}
         </script>
 
 
