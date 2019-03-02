@@ -57,8 +57,8 @@ public class UserController {
         return ResultBean.success(userService.add(user, roleIds));
     }
 
-    @GetMapping("/{id}/allocation")
-    public String allocation(@PathVariable("id") Integer userId, Model model) {
+    @GetMapping("/{userId}/allocation")
+    public String allocation(@PathVariable("userId") Integer userId, Model model) {
         User user = userService.selectOne(userId);
         model.addAttribute("roleIds", userService.selectRoleIdsById(userId));
         model.addAttribute("userId", userId);
@@ -67,45 +67,45 @@ public class UserController {
     }
 
     @OperationLog("为用户授予角色")
-    @PostMapping("/{id}/allocation")
+    @PostMapping("/{userId}/allocation")
     @ResponseBody
-    public ResultBean allocation(@PathVariable("id") Integer userId,
+    public ResultBean allocation(@PathVariable("userId") Integer userId,
                                          @RequestParam("role[]") Integer roleIds[]) {
         userService.allocation(userId, roleIds);
         return ResultBean.success();
     }
 
     @OperationLog("禁用账号")
-    @PostMapping("/{id}/disable")
+    @PostMapping("/{userId}/disable")
     @ResponseBody
-    public ResultBean disable(@PathVariable("id") Integer id) {
-        return ResultBean.success(userService.disableUserByID(id));
+    public ResultBean disable(@PathVariable("id") Integer userId) {
+        return ResultBean.success(userService.disableUserByID(userId));
     }
 
     @OperationLog("激活账号")
-    @PostMapping("/{id}/enable")
+    @PostMapping("/{userId}/enable")
     @ResponseBody
-    public ResultBean enable(@PathVariable("id") Integer id) {
-        return ResultBean.success(userService.enableUserByID(id));
+    public ResultBean enable(@PathVariable("id") Integer userId) {
+        return ResultBean.success(userService.enableUserByID(userId));
     }
 
     @OperationLog("删除账号")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{userId}")
     @ResponseBody
-    public ResultBean delete(@PathVariable("id") Integer userId) {
+    public ResultBean delete(@PathVariable("userId") Integer userId) {
         userService.delete(userId);
         return ResultBean.success();
     }
 
-    @GetMapping("/{id}/reset")
-    public String resetPassword(@PathVariable("id") Integer userId, Model model) {
+    @GetMapping("/{userId}/reset")
+    public String resetPassword(@PathVariable("userId") Integer userId, Model model) {
         model.addAttribute("userId", userId);
         return "user/user-reset-pwd";
     }
 
-    @PostMapping("/{id}/reset")
+    @PostMapping("/{userId}/reset")
     @ResponseBody
-    public ResultBean resetPassword(@PathVariable("id") Integer userId, String password) {
+    public ResultBean resetPassword(@PathVariable("userId") Integer userId, String password) {
         userService.updatePasswordByUserId(userId, password);
         return ResultBean.success();
     }

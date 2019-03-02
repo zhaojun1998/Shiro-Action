@@ -14,18 +14,19 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Controller
+@RequestMapping("/role")
 public class RoleController {
 
     @Resource
     private RoleService roleService;
 
-    @GetMapping("/role/index")
+    @GetMapping("/index")
     public String index() {
         return "role/role-list";
     }
 
     @OperationLog("获取角色列表")
-    @GetMapping(value = "/role/list")
+    @GetMapping("/list")
     @ResponseBody
     public PageResultBean<Role> getList(@RequestParam(value = "page", defaultValue = "1") int page,
                                         @RequestParam(value = "limit", defaultValue = "10")int limit) {
@@ -34,20 +35,20 @@ public class RoleController {
         return new PageResultBean<>(rolePageInfo.getTotal(), rolePageInfo.getList());
     }
 
-    @GetMapping("/role")
+    @GetMapping
     public String add() {
         return "role/role-add";
     }
 
     @OperationLog("新增角色")
-    @PostMapping("/role")
+    @PostMapping
     @ResponseBody
     public ResultBean add(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
         return ResultBean.success(roleService.add(role, menuIds));
     }
 
-    @GetMapping("/role/{id}")
-    public String update(@PathVariable("id") Integer roleId, Model model) {
+    @GetMapping("/{roleId}")
+    public String update(@PathVariable("roleId") Integer roleId, Model model) {
         Role role = roleService.selectOne(roleId);
         model.addAttribute("role", role);
 
@@ -57,7 +58,7 @@ public class RoleController {
     }
 
     @OperationLog("修改角色")
-    @PutMapping("/role")
+    @PutMapping
     @ResponseBody
     public ResultBean update(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
         return ResultBean.success(roleService.update(role, menuIds));
@@ -65,10 +66,21 @@ public class RoleController {
 
 
     @OperationLog("删除角色")
-    @DeleteMapping("/role/{id}")
+    @DeleteMapping("/{roleId}")
     @ResponseBody
-    public ResultBean delete(@PathVariable("id") Integer roleId) {
+    public ResultBean delete(@PathVariable("roleId") Integer roleId) {
         roleService.delete(roleId);
+        return ResultBean.success();
+    }
+
+    @GetMapping("/allocation/{roleId}/menu")
+    public String allocationMenu(@PathVariable("roleId") Integer roleId) {
+        return "role/role-allocation-menu";
+    }
+
+    @PostMapping("/allocation/{roleId}/menu")
+    @ResponseBody
+    public ResultBean allocationMenu(@PathVariable("roleId") Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
         return ResultBean.success();
     }
 }

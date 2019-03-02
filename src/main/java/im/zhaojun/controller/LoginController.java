@@ -40,17 +40,17 @@ public class LoginController {
     @Resource
     private TemplateEngine templateEngine;
 
-    @GetMapping("login")
+    @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    @GetMapping("register")
+    @GetMapping("/register")
     public String register() {
         return "register";
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     @ResponseBody
     public ResultBean login(User user, @RequestParam(value = "captcha", required = false) String captcha) {
         Subject subject = SecurityUtils.getSubject();
@@ -67,19 +67,19 @@ public class LoginController {
     }
 
     @OperationLog("注销")
-    @GetMapping("logout")
+    @GetMapping("/logout")
     public String logout() {
         SecurityUtils.getSubject().logout();
         return "redirect:login";
     }
 
-    @GetMapping("checkUser")
+    @GetMapping("/checkUser")
     @ResponseBody
     public ResultBean checkUser(String username) {
         return ResultBean.success(userService.checkUserNameExist(username));
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     @ResponseBody
     public ResultBean register(User user) {
         if (userService.checkUserNameExist(user.getUsername())) {
@@ -108,7 +108,7 @@ public class LoginController {
         return ResultBean.success(userService.add(user, initRoleIds));
     }
 
-    @GetMapping("captcha")
+    @GetMapping("/captcha")
     public void captcha(HttpServletResponse response) throws IOException {
         //定义图形验证码的长、宽、验证码字符数、干扰元素个数
         CaptchaUtil.Captcha captcha = CaptchaUtil.createCaptcha(140, 38, 4, 10, 30);
@@ -122,7 +122,7 @@ public class LoginController {
     }
 
     @OperationLog("激活注册账号")
-    @GetMapping("active/{token}")
+    @GetMapping("/active/{token}")
     public String active(@PathVariable("token") String token, Model model) {
         User user = userService.selectByActiveCode(token);
         String msg = "";

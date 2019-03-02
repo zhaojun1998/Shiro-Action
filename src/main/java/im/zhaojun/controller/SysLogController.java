@@ -7,6 +7,7 @@ import im.zhaojun.service.SysLogService;
 import im.zhaojun.util.PageResultBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -14,18 +15,19 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Controller
+@RequestMapping("/log/sys")
 public class SysLogController {
 
     @Resource
     private SysLogService sysLogService;
 
-    @GetMapping("/log/sys/index")
+    @GetMapping("/index")
     public String index() {
         return "log/sys-logs";
     }
 
     @OperationLog("查看操作日志")
-    @GetMapping("/log/sys/list")
+    @GetMapping("/list")
     @ResponseBody
     public PageResultBean<SysLog> getList(@RequestParam(value = "page", defaultValue = "1") int page,
                                           @RequestParam(value = "limit", defaultValue = "10")int limit) {
