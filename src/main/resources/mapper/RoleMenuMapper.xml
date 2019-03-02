@@ -40,11 +40,11 @@
         delete from role_menu where role_id = #{roleId}
     </delete>
 
-    <insert id="insertRolesWithMenu">
+    <insert id="insertRoleMenus">
         INSERT INTO role_menu(
         role_id, menu_id
         )VALUES
-        <foreach collection="roleIds" item="roleId" index="index" separator=",">
+        <foreach collection="menuIds" item="menuId" index="index" separator=",">
             (
             #{roleId}
             ,#{menuId}
@@ -55,7 +55,5 @@
     <delete id="deleteByMenuId">
         delete from role_menu where menu_id = #{menuId}
     </delete>
-
-
 
 </mapper>

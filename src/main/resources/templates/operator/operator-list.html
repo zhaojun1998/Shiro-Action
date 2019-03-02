@@ -88,7 +88,6 @@
     </body>
 
     <script type="text/html" id="column-toolbar">
-        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation">授予角色</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
@@ -195,18 +194,9 @@
 
             table.on('tool', function (obj) {
                 var data = obj.data;
-                if (obj.event === 'allocation') {
-                    layer.open({
-                        content: '/operator/' + data.operatorId + "/allocation",
-                        title: "授权[" + data.name + "]给角色",
-                        area: ['500px','500px'],
-                        type: 2,
-                        maxmin: true,
-                        shadeClose: true
-                    });
-                } else if (obj.event === 'edit') {//删除行
+                if (obj.event === 'edit') {
                     editOperator(data.operatorId);
-                } else if (obj.event === "del") {//添加行
+                } else if (obj.event === "del") {
                     delOperator(obj.data.operatorId);
                 }
             });
@@ -214,14 +204,14 @@
 
             function delMenu(id) {
                 layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除！", {icon: 3, title: '提示'},
-                    function (index) {//确定回调
+                    function (index) {
                         $.post('/menu/' + id, {_method: "DELETE"}, function (data) {
                             layer.close(index);
                             handlerResult(data, function () {
                                 refresh();
                             });
                         });
-                    }, function (index) {//取消回调
+                    }, function (index) {
                         layer.close(index);
                     }
                 );
@@ -229,14 +219,14 @@
 
             function delOperator(id) {
                 layer.confirm("是否确定删除?", {icon: 3, title: '提示'},
-                    function (index) {//确定回调
+                    function (index) {
                         $.post('/operator/' + id, {_method: "DELETE"}, function (data) {
                             layer.close(index);
                             handlerResult(data, function () {
                                 refresh();
                             });
                         });
-                    }, function (index) {//取消回调
+                    }, function (index) {
                         layer.close(index);
                     }
                 );
@@ -252,7 +242,7 @@
                 layer.open({
                     content: '/menu/' + id,
                     title: "编辑",
-                    area: ['500px', '500px'],
+                    area: ['600px', '700px'],
                     type: 2,
                     maxmin: true,
                     shadeClose: true,
@@ -266,7 +256,7 @@
                 layer.open({
                     content: '/operator/' + id,
                     title: "编辑",
-                    area: ['500px', '500px'],
+                    area: ['600px', '700px'],
                     type: 2,
                     maxmin: true,
                     shadeClose: true,

@@ -6,12 +6,12 @@
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" th:href="@{/favicon.ico}"/>
-        <link rel="stylesheet" href="./css/font.css" th:href="@{/css/font.css}">
-        <link rel="stylesheet" href="./css/xadmin.css" th:href="@{/css/xadmin.css}">
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+        <link rel="stylesheet" th:href="@{/css/font.css}">
+        <link rel="stylesheet" th:href="@{/css/xadmin.css}">
         <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
-        <script src="./lib/layui/layui.js" charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-        <script type="text/javascript" src="./js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
+        <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+        <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
     </head>
 
     <body class="layui-anim layui-anim-fadein">
@@ -38,13 +38,18 @@
 
         <script type="text/html" id="column-toolbar">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation-menu">授权菜单</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation-operator">授权功能</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         </script>
 
         <script>
-            layui.use(['table', 'element'], function () {
+            layui.config({
+                base: '/lib/layui/extend/'
+            }).use(['table', 'element', 'dtree'], function () {
                 var table = layui.table;
                 var $ = layui.$;
+                var dtree = layui.dtree;
 
                 table.render({
                     elem: '#role-table'
@@ -63,9 +68,7 @@
                 });
 
                 table.on('toolbar', function (obj) {
-                    var data = obj.data;
                     var event = obj.event;
-
                     if (event === 'add') {
                         add();
                     }
@@ -77,6 +80,60 @@
 
                     if (event === 'edit') {
                         edit(data.roleId);
+                    } else if (event === 'allocation-menu') {
+                        layer.open({
+                            type: 1,
+                            title: "授权菜单",
+                            area: ["350px", "70%"],
+                            content: '<ul id="openTree5" class="dtree" data-id="0"></ul>',
+                            btn: ['确认选择'],
+                            success: function(layero, index){
+                                dtree.render({
+                                    obj: $(layero).find("#openTree5"),
+                                    url: "/menu/tree",
+                                    dataStyle: "layuiStyle",
+                                    method: "GET",
+                                    checkbar: true, // 开启复选框
+                                    response: {
+                                        statusCode: 0,
+                                        message: "msg",
+                                        treeId: "id",
+                                        parentId: "parentId",
+                                        title: "name"
+                                    },
+                                    done: function(data, obj){  //使用异步加载回调
+                                        var reportId = $("#reportId5").val();
+                                        dtree.chooseDataInit("openTree5", reportId); // 初始化复选框的值
+                                    }
+                                });
+                            },
+                            yes: function(index, layero) {
+                                var flag = true;
+                                var nodes = dtree.getCheckbarNodesParam("openTree5"); // 获取选中值
+                                if (nodes.length == 0) {
+                                    layer.msg("请至少选择一个节点", {icon: 2});
+                                    return flag;
+                                }
+                                console.log(nodes);
+                                var ids = [];
+                                for (var key in nodes) {
+                                    var node = nodes[key];
+                                    ids.push(node.nodeId);
+                                }
+                                console.log(ids);
+                                $.post('/role/' + data.roleId + '/allocation/menu', {
+                                    menuIds: ids
+                                }, function (result) {
+                                    handlerResult(result, function () {
+                                        layer.msg("授权成功", {icon: 6});
+                                        layer.close(index);
+                                    });
+                                });
+
+                            }
+                        });
+                    } else if (event === 'allocation-operator') {
+                        del(obj);
                     } else if (event === 'del') {
                         del(obj);
                     }

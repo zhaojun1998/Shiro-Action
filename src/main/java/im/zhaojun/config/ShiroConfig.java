@@ -96,11 +96,7 @@ public class ShiroConfig {
 
     @Bean
     public RedisManager redisManager() {
-        RedisManager redisManager = new RedisManager();
-        redisManager.setHost(redisHost);
-        redisManager.setPort(redisPort);
-        redisManager.setTimeout(600);
-        return redisManager;
+        return new RedisManager();
     }
 
     @Bean

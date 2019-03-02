@@ -18,12 +18,6 @@
         <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
         <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-        <style>
-            .eleTree{
-                border: 1px solid #ccc;
-                overflow: hidden;
-            }
-        </style>
     </head>
 
     <body class="layui-anim layui-anim-fadein">
@@ -60,14 +54,25 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="parentId" class="layui-form-label">
+                    <label class="layui-form-label">
                         上级菜单
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" id="parentName" lay-verify="required"
-                               placeholder="请输入标题" autocomplete="off" class="layui-input" readonly>
-                        <input type="hidden" name="parentId" id="parentId">
-                        <div class="eleTree" id="parentTree" lay-filter="parentTree" style="display: none"></div>
+                        <div class="layui-unselect layui-form-select" id="parentNameDiv">
+                            <div class="layui-select-title">
+                                <input type="text" id="parentName"
+                                       placeholder="请选择" class="layui-input layui-unselect" readonly>
+                                <input type="hidden" name="parentId" id="parentId">
+                                <i class="layui-edge"></i>
+                            </div>
+                        </div>
+                        <div class="layui-card dtree-select" id="parentTreeDiv">
+                            <div class="layui-card-body">
+                                <div id="toolbarDiv">
+                                    <ul id="parentTree" class="dtree" data-id="0" style="width: 100%;"></ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -93,12 +98,12 @@
         <script>
             layui.config({
                 base: '/lib/layui/extend/'
-            }).use(['form', 'layer', 'autocomplete', 'eleTree'], function () {
+            }).use(['form', 'layer', 'autocomplete', 'dtree'], function () {
                 var $ = layui.jquery,
                     form = layui.form,
                     layer = layui.layer,
                     autocomplete = layui.autocomplete,
-                    eleTree = layui.eleTree;
+                    dtree = layui.dtree;
 
                 autocomplete.render({
                     elem: $('#url'),
@@ -114,22 +119,26 @@
                     }
                 });
 
-                eleTree.render({
-                    elem: '#parentTree',
+                dtree.render({
+                    elem: "#parentTree",
                     url: "/menu/tree",
-                    defaultExpandAll: true,
-                    expandOnClickNode: false,
-                    highlightCurrent: true,
-                    defaultCheckedKeys: [2],
-                    request: {
-                        name: "name",
-                        key: "id",
-                        children: "children"
+                    dataStyle: "layuiStyle",
+                    method: "GET",
+                    dot: false,     // 圆点是否显示
+                    icon: "2",
+                    accordion: true,
+                    menubar: true,
+                    response: {
+                        statusCode: 0,
+                        message: "msg",
+                        treeId: "id",
+                        parentId: "parentId",
+                        title: "name"
                     },
-                    done: function(res) {
+                    done: function (response, obj) {
                         var parentId = getQueryString('parentId') ? getQueryString('parentId') : [[${menu?.parentId + ''}]] ;
 
-                        var parent = getMenuTreeById(res.data, parentId);
+                        var parent = getMenuTreeById(response.data, parentId);
                         if (parent) {
                             $("#parentName").val(parent.name);
                             $("#parentId").val(parent.id);
@@ -137,17 +146,17 @@
                     }
                 });
 
-                $("#parentName").on("click",function (e) {
-                    e.stopPropagation();
-                    $("#parentTree").toggle();
+                $("#parentName").on("click",function(){
+                    $(this).toggleClass("layui-form-selected");
+                    $("#parentTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
                 });
-                eleTree.on("nodeClick(parentTree)",function(d) {
-                    $("#parentName").val(d.data.currentData.name);
-                    $("#parentId").val(d.data.currentData.id);
-                    $("#parentTree").hide();
-                });
-                $(document).on("click",function() {
-                    $("#parentTree").hide();
+
+                dtree.on("node(parentTree)", function(obj){
+                    console.log(obj);
+                    $("#parentName").val(obj.param.context);
+                    $("#parentId").val(obj.param.nodeId);
+                    $("#parentNameDiv").toggleClass("layui-form-selected");
+                    $("#parentTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
                 });
 
                 //监听提交

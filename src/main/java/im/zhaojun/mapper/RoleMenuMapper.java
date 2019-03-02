@@ -13,7 +13,7 @@ public interface RoleMenuMapper<insertList> {
     /**
      * 插入多条 角色-菜单 关联关系
      */
-    int insertMenusWithRole(@Param("roleId") Integer roleId, @Param("menuIds") Integer[] menuIds);
+    int insertRoleMenus(@Param("roleId") Integer roleId, @Param("menuIds") Integer[] menuIds);
 
     /**
      * 清空角色所拥有的所有菜单
@@ -24,9 +24,4 @@ public interface RoleMenuMapper<insertList> {
      * 取消某个菜单的所有授权用户
      */
     int deleteByMenuId(@Param("menuId") Integer menuId);
-
-    /**
-     * 插入多条 角色-菜单 关联关系
-     */
-    int insertRolesWithMenu(@Param("menuId") Integer menuId, @Param("roleIds") Integer[] roleIds);
 }

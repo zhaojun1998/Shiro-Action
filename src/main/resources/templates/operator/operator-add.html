@@ -18,13 +18,6 @@
         <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
         <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-
-        <style>
-            .eleTree{
-                border: 1px solid #ccc;
-                overflow: hidden;
-            }
-        </style>
     </head>
 
     <body>
@@ -77,15 +70,36 @@
                 </div>
                 <div class="layui-form-item">
                     <label for="menuId" class="layui-form-label">
-                        上级菜单
+                        所属菜单
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" id="menuName" lay-verify="required"
-                               placeholder="请输入标题" autocomplete="off" class="layui-input" readonly>
-                        <input type="hidden" name="menuId" id="menuId">
-                        <div class="eleTree" id="menuTree" lay-filter="menuTree" style="display: none"></div>
+
+                        <div class="layui-unselect layui-form-select" id="menuNameDiv">
+                            <div class="layui-select-title">
+                                <input type="text" id="menuName"
+                                       placeholder="请选择所属菜单" class="layui-input layui-unselect" readonly>
+                                <input type="hidden" name="parentId" id="menuId">
+                                <i class="layui-edge"></i>
+                            </div>
+                            <div class="layui-card dtree-select" id="menuTreeDiv">
+                                <div class="layui-card-body">
+                                    <div id="toolbarDiv">
+                                        <ul id="menuTree" class="dtree" data-id="0" style="width: 100%;"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <fieldset class="layui-elem-field">
+                    <legend>备注</legend>
+                    <div class="layui-field-box">
+                        <div class="layui-form-mid layui-word-aux">
+                            URL 支持 ?, *, ** 通配符。<br>
+                            外部链接以 http(s):// 开头。
+                        </div>
+                    </div>
+                </fieldset>
                 <div class="layui-form-item">
                     <div class="layui-input-block" style="margin-left:0;text-align:center;">
                         <input type="hidden" name="operatorId" th:value="${operator?.operatorId}">
@@ -98,13 +112,12 @@
         <script>
             layui.config({
                 base: '/lib/layui/extend/'
-            }).use(['form', 'layer', 'autocomplete', 'eleTree'], function () {
+            }).use(['form', 'layer', 'autocomplete', 'dtree'], function () {
                 $ = layui.jquery;
                 var form = layui.form
                     , layer = layui.layer
-                    , treeSelect = layui.treeSelect
                     , autocomplete = layui.autocomplete
-                    , eleTree = layui.eleTree;
+                    , dtree = layui.dtree;
 
 
                 autocomplete.render({
@@ -124,22 +137,26 @@
                 });
 
 
-                eleTree.render({
-                    elem: '#menuTree',
+                dtree.render({
+                    elem: "#menuTree",
                     url: "/menu/tree",
-                    defaultExpandAll: true,
-                    expandOnClickNode: false,
-                    highlightCurrent: true,
-                    defaultCheckedKeys: [2],
-                    request: {
-                        name: "name",
-                        key: "id",
-                        children: "children"
+                    dataStyle: "layuiStyle",
+                    method: "GET",
+                    dot: false,     // 圆点是否显示
+                    icon: "2",
+                    accordion: true,
+                    menubar: true,
+                    response: {
+                        statusCode: 0,
+                        message: "msg",
+                        treeId: "id",
+                        menuId: "menuId",
+                        title: "name"
                     },
-                    done: function(res) {
-                        var menuId = getQueryString('parentId') ? getQueryString('parentId') : [[${menu?.menuId + ''}]] ;
+                    done: function (response, obj) {
+                        var menuId = getQueryString('menuId') ? getQueryString('menuId') : [[${menu?.menuId + ''}]] ;
 
-                        var menu = getMenuTreeById(res.data, menuId);
+                        var menu = getMenuTreeById(response.data, menuId);
                         if (menu) {
                             $("#menuName").val(menu.name);
                             $("#menuId").val(menu.id);
@@ -147,17 +164,17 @@
                     }
                 });
 
-                $("#menuName").on("click",function (e) {
-                    e.stopPropagation();
-                    $("#menuTree").toggle();
+                $("#menuName").on("click",function(){
+                    $(this).toggleClass("layui-form-selected");
+                    $("#menuTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
                 });
-                eleTree.on("nodeClick(menuTree)",function(d) {
-                    $("#menuName").val(d.data.currentData.name);
-                    $("#menuId").val(d.data.currentData.id);
-                    $("#menuTree").hide();
-                });
-                $(document).on("click",function() {
-                    $("#menuTree").hide();
+
+                dtree.on("node(menuTree)", function(obj){
+                    console.log(obj);
+                    $("#menuName").val(obj.param.context);
+                    $("#menuId").val(obj.param.nodeId);
+                    $("#menuNameDiv").toggleClass("layui-form-selected");
+                    $("#menuTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
                 });
                 
                 // 监听提交

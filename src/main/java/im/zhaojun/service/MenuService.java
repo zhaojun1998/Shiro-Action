@@ -121,12 +121,6 @@ public class MenuService {
         return menuMapper.selectAllRoleByMenuId(menuId);
     }
 
-    @Transactional
-    public void allocationRole(Integer menuId, Integer[] roleIds) {
-        roleMenuMapper.deleteByMenuId(menuId);
-        roleMenuMapper.insertRolesWithMenu(menuId, roleIds);
-    }
-
     public void swapSort(Integer currentId, Integer swapId) {
         menuMapper.swapSort(currentId, swapId);
     }

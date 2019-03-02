@@ -94,7 +94,6 @@
     </body>
 
     <script type="text/html" id="column-toolbar">
-        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation">授予角色</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
@@ -220,42 +219,35 @@
 
             table.on('tool', function (obj) {
                 var data = obj.data;
-                if (obj.event === 'allocation') {
-                    layer.open({
-                        content: '/menu/' + data.id + "/allocation",
-                        title: "授权[" + data.name + "]给角色",
-                        area: ['500px','500px'],
-                        type: 2,
-                        maxmin: true,
-                        shadeClose: true
-                    });
-                } else if (obj.event === 'edit') {
+                var swapId;
+                var currentId;
+                if (obj.event === 'edit') {
                     edit(data.id);
                 } else if (obj.event === 'del') {
                     del(data.id);
                 } else if (obj.event === "up") {
-                    var swapId = $(obj.tr).prev().find("td[data-field='id'] div").html();
-                    var currentId = data.id;
+                    swapId = $(obj.tr).prev().find("td[data-field='id'] div").html();
+                    currentId = data.id;
                     if (typeof swapId == 'undefined') {
                         layer.msg("已是第一层");
                         return;
                     }
                     swapSort(currentId, swapId);
                 } else if (obj.event === "down") {
-                    var swapId = $(obj.tr).next().find("td[data-field='id'] div").html();
-                    var currentId = data.id;
+                    swapId = $(obj.tr).next().find("td[data-field='id'] div").html();
+                    currentId = data.id;
                     if (typeof swapId == 'undefined') {
                         layer.msg("已是最后一层");
                         return;
                     }
                     swapSort(currentId, swapId);
                 } else if (obj.event === "top") {
-                    var swapId = $("tr[data-index='0']").first().parent().children().first().find("td[data-field='id'] div").html();
-                    var currentId = data.id;
+                    swapId = $("tr[data-index='0']").first().parent().children().first().find("td[data-field='id'] div").html();
+                    currentId = data.id;
                     swapSort(currentId, swapId);
                 } else if (obj.event === "bottom") {
-                    var swapId = $("tr[data-index='0']").first().parent().children().last().find("td[data-field='id'] div").html();
-                    var currentId = data.id;
+                    swapId = $("tr[data-index='0']").first().parent().children().last().find("td[data-field='id'] div").html();
+                    currentId = data.id;
                     swapSort(currentId, swapId);
                 }
             });
@@ -271,14 +263,14 @@
 
             function del(id) {
                 layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除！", {icon: 3, title: '提示'},
-                    function (index) {//确定回调
+                    function (index) {
                         $.post('/menu/' + id, {_method: "DELETE"}, function (data) {
                             layer.close(index);
                             handlerResult(data, function () {
                                 refresh();
                             });
                         });
-                    }, function (index) {//取消回调
+                    }, function (index) {
                         layer.close(index);
                     }
                 );
@@ -294,7 +286,7 @@
                 layer.open({
                     content: '/menu/' + id,
                     title: "编辑",
-                    area: ['500px', '500px'],
+                    area: ['600px', '700px'],
                     type: 2,
                     maxmin: true,
                     shadeClose: true,
