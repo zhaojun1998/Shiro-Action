@@ -57,21 +57,21 @@ public class UserController {
         return ResultBean.success(userService.add(user, roleIds));
     }
 
-    @GetMapping("/{userId}/allocation")
-    public String allocation(@PathVariable("userId") Integer userId, Model model) {
+    @GetMapping("/{userId}/grant/role")
+    public String grant(@PathVariable("userId") Integer userId, Model model) {
         User user = userService.selectOne(userId);
         model.addAttribute("roleIds", userService.selectRoleIdsById(userId));
         model.addAttribute("userId", userId);
         model.addAttribute("roles", roleService.selectAll());
-        return "user/user-allocation";
+        return "user/user-grant-role";
     }
 
     @OperationLog("为用户授予角色")
-    @PostMapping("/{userId}/allocation")
+    @PostMapping("/{userId}/grant/role")
     @ResponseBody
-    public ResultBean allocation(@PathVariable("userId") Integer userId,
+    public ResultBean grant(@PathVariable("userId") Integer userId,
                                          @RequestParam("role[]") Integer roleIds[]) {
-        userService.allocation(userId, roleIds);
+        userService.grantRole(userId, roleIds);
         return ResultBean.success();
     }
 

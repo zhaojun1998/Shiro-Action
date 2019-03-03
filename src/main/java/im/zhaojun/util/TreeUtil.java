@@ -3,8 +3,10 @@ package im.zhaojun.util;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.vo.MenuTreeVO;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class TreeUtil {
 
@@ -71,4 +73,43 @@ public class TreeUtil {
         }
         return childList;
     }
+
+
+    public static List<MenuTreeVO> menuListToMenuTree(List<Menu> menus) {
+        List<MenuTreeVO> menuTreeVOS = TreeUtil.toTree(menus);
+        MenuTreeVO root = new MenuTreeVO();
+        root.setMenuId(0);
+        root.setMenuName("导航目录");
+        root.setChildren(menuTreeVOS);
+        List<MenuTreeVO> rootList = new ArrayList<>();
+        rootList.add(root);
+        return rootList;
+    }
+
+    /**
+     * 获取导航菜单中的所有叶子节点
+     */
+    public static List<MenuTreeVO> getLeafNodeMenuByMenuTreeVO(List<MenuTreeVO> menuTreeVOList) {
+        List<MenuTreeVO> menuList = new ArrayList<>();
+
+        Queue<MenuTreeVO> queue = new ArrayDeque<>();
+        for (MenuTreeVO menuTreeVO : menuTreeVOList) {
+            if (menuTreeVO.getChildren().isEmpty()) {
+                menuList.add(menuTreeVO);
+            } else {
+                queue.addAll(menuTreeVO.getChildren());
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            MenuTreeVO menuTreeVO = queue.poll();
+            if (menuTreeVO.getChildren().isEmpty()) {
+                menuList.add(menuTreeVO);
+            } else {
+                queue.addAll(menuTreeVO.getChildren());
+            }
+        }
+        return menuList;
+    }
+
 }

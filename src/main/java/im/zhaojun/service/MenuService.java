@@ -1,19 +1,18 @@
 package im.zhaojun.service;
 
 import im.zhaojun.mapper.MenuMapper;
+import im.zhaojun.mapper.OperatorMapper;
 import im.zhaojun.mapper.RoleMenuMapper;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.User;
 import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.model.vo.RoleMenuVO;
-import im.zhaojun.util.MenuVOConvert;
 import im.zhaojun.util.TreeUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +23,9 @@ public class MenuService {
 
     @Resource
     private RoleMenuMapper roleMenuMapper;
+
+    @Resource
+    private OperatorMapper operatorMapper;
 
     /**
      * 获取所有菜单(导航菜单和按钮)
@@ -55,15 +57,18 @@ public class MenuService {
      */
     public List<MenuTreeVO> getALLMenuTreeVO() {
         List<Menu> menus = selectAllMenu();
-        return menuListToMenuTree(menus);
+        for (Menu menu : menus) {
+            menu.setCheckArr("0");
+        }
+        return TreeUtil.menuListToMenuTree(menus);
     }
 
     /**
-     * 获取所有菜单 (树形结构)
+     * 获取所有菜单并统计菜单下的操作权限数 (树形结构)
      */
     public List<MenuTreeVO> getALLMenuAndCountOperatorTreeVO() {
         List<Menu> menus = menuMapper.selectAllMenuAndCountOperator();
-        return menuListToMenuTree(menus);
+        return TreeUtil.menuListToMenuTree(menus);
     }
 
     /**
@@ -83,20 +88,19 @@ public class MenuService {
     /**
      * 获取导航菜单中的所有叶子节点
      */
-    public List<Menu> getLeafNodeMenu() {
+    public List<MenuTreeVO> getLeafNodeMenu() {
         List<MenuTreeVO> allMenuTreeVO = getALLMenuTreeVO();
-        return MenuVOConvert.getLeafNodeMenuByMenuTreeVO(allMenuTreeVO);
+        return TreeUtil.getLeafNodeMenuByMenuTreeVO(allMenuTreeVO);
     }
 
-    public int add(Menu menu) {
+    public void add(Menu menu) {
         int maxOrderNum = menuMapper.selectMaxOrderNum();
         menu.setOrderNum(maxOrderNum + 1);
         menuMapper.insert(menu);
-        return menu.getMenuId();
     }
 
-    public boolean update(Menu menu) {
-        return menuMapper.updateByPrimaryKey(menu) == 1;
+    public void update(Menu menu) {
+        menuMapper.updateByPrimaryKey(menu);
     }
 
 
@@ -104,12 +108,18 @@ public class MenuService {
      * 删除当前菜单以及其子菜单
      */
     @Transactional
-    public boolean deleteByIDAndChildren(Integer id) {
-        List<Integer> childIDList = menuMapper.selectChildrenID(id);
+    public void deleteByIDAndChildren(Integer menuId) {
+        // 删除子菜单
+        List<Integer> childIDList = menuMapper.selectChildrenID(menuId);
         for (Integer childID : childIDList) {
             deleteByIDAndChildren(childID);
         }
-        return menuMapper.deleteByPrimaryKey(id) == 1;
+        // 删除子操作权限
+        operatorMapper.deleteByMenuId(menuId);
+        // 删除分配给用户的菜单
+        roleMenuMapper.deleteByMenuId(menuId);
+        // 删除自身
+        menuMapper.deleteByPrimaryKey(menuId);
     }
 
     public int count() {
@@ -123,16 +133,5 @@ public class MenuService {
 
     public void swapSort(Integer currentId, Integer swapId) {
         menuMapper.swapSort(currentId, swapId);
-    }
-
-    private List<MenuTreeVO> menuListToMenuTree(List<Menu> menus) {
-        List<MenuTreeVO> menuTreeVOS = TreeUtil.toTree(menus);
-        MenuTreeVO root = new MenuTreeVO();
-        root.setMenuId(0);
-        root.setMenuName("导航目录");
-        root.setChildren(menuTreeVOS);
-        List<MenuTreeVO> rootList = new ArrayList<>();
-        rootList.add(root);
-        return rootList;
     }
 }

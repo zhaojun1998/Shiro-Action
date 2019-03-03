@@ -43,25 +43,24 @@ public class RoleController {
     @OperationLog("新增角色")
     @PostMapping
     @ResponseBody
-    public ResultBean add(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
-        return ResultBean.success(roleService.add(role, menuIds));
+    public ResultBean add(Role role) {
+        roleService.add(role);
+        return ResultBean.success();
     }
 
     @GetMapping("/{roleId}")
     public String update(@PathVariable("roleId") Integer roleId, Model model) {
         Role role = roleService.selectOne(roleId);
         model.addAttribute("role", role);
-
-        List<Integer> checkedKey = roleService.selectMenuIdByRoleId(roleId);
-        model.addAttribute("checkedKey", checkedKey);
         return "role/role-add";
     }
 
     @OperationLog("修改角色")
     @PutMapping
     @ResponseBody
-    public ResultBean update(Role role, @RequestParam("menuIds[]") Integer[] menuIds) {
-        return ResultBean.success(roleService.update(role, menuIds));
+    public ResultBean update(Role role) {
+        roleService.update(role);
+        return ResultBean.success();
     }
 
 
@@ -73,14 +72,31 @@ public class RoleController {
         return ResultBean.success();
     }
 
-    @GetMapping("/allocation/{roleId}/menu")
-    public String allocationMenu(@PathVariable("roleId") Integer roleId) {
-        return "role/role-allocation-menu";
+    @OperationLog("为角色授予菜单")
+    @PostMapping("/{roleId}/grant/menu")
+    @ResponseBody
+    public ResultBean grantMenu(@PathVariable("roleId") Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
+        roleService.grantMenu(roleId, menuIds);
+        return ResultBean.success();
     }
 
-    @PostMapping("/allocation/{roleId}/menu")
+    @OperationLog("为角色授予菜单")
+    @PostMapping("/{roleId}/grant/operator")
     @ResponseBody
-    public ResultBean allocationMenu(@PathVariable("roleId") Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
+    public ResultBean grantOperator(@PathVariable("roleId") Integer roleId, @RequestParam("operatorIds[]") Integer[] operatorIds) {
+        roleService.grantOperator(roleId, operatorIds);
         return ResultBean.success();
+    }
+    
+    @GetMapping("/{roleId}/own/menu")
+    @ResponseBody
+    public ResultBean getRoleOwnMenu(@PathVariable("roleId") Integer roleId) {
+        return ResultBean.success(roleService.getMenusByRoleId(roleId));
+    }
+
+    @GetMapping("/{roleId}/own/operator")
+    @ResponseBody
+    public ResultBean getOperatorOwnMenu(@PathVariable("roleId") Integer roleId) {
+        return ResultBean.success(roleService.getOperatorsByRoleId(roleId));
     }
 }

@@ -42,7 +42,7 @@
                 <div class="layui-form-item">
                     <div class="layui-input-block" style="margin-left:0;text-align:center;">
                         <input type="hidden" name="userId" th:value="${userId}">
-                        <button class="layui-btn layui-btn-blue" lay-submit="" lay-filter="allocation">授权</button>
+                        <button class="layui-btn layui-btn-blue" lay-submit="" lay-filter="grant">授权</button>
                     </div>
                 </div>
             </form>
@@ -55,16 +55,16 @@
                     , layer = layui.layer;
 
                 // 监听提交
-                form.on('submit(allocation)', function (form) {
+                form.on('submit(grant)', function (form) {
                     form.field.role = getCheckBoxValueByName('role');
                     var data = form.field;
-                    $.post('/user/' + data.userId + "/allocation", data, function (result) {
-                        handlerResult(result, allocationDone);
+                    $.post('/user/' + data.userId + "/grant/role", data, function (result) {
+                        handlerResult(result, grantDone);
                     });
                     return false;
                 });
 
-                function allocationDone(data) {
+                function grantDone(data) {
                     layer.msg("授权成功", {icon: 6});
                 }
             });

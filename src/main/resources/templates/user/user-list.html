@@ -37,7 +37,7 @@
         </script>
 
         <script type="text/html" id="column-toolbar">
-            <a class="layui-btn layui-btn-xs" lay-event="allocation">授权</a>
+            <a class="layui-btn layui-btn-xs" lay-event="grant">授予角色</a>
             <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
         </script>
@@ -103,8 +103,8 @@
                 table.on('tool', function (obj) {
                     var data = obj.data;
                     var event = obj.event;
-                    if (event === 'allocation') {
-                        allocation(data.userId);
+                    if (event === 'grant') {
+                        grant(data.userId);
                     } if (event === 'reset') {
                         layer.open({
                             content: '/user/' + data.userId + "/reset",
@@ -144,9 +144,9 @@
                     });
                 }
 
-                function allocation(id) {
+                function grant(id) {
                     layer.open({
-                        content: '/user/' + id + "/allocation",
+                        content: '/user/' + id + "/grant/role",
                         title: "授权角色",
                         area: ['550px', '550px'],
                         type: 2,

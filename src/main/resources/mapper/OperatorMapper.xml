@@ -164,4 +164,10 @@
     <include refid="Base_Column_List"/>
     from operator
   </select>
+
+  <delete id="deleteByMenuId">
+    delete
+    from operator
+    where menu_id = #{menuId}
+  </delete>
 </mapper>

@@ -1,6 +1,7 @@
 package im.zhaojun.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -29,8 +30,13 @@ public class MenuTreeVO implements Serializable {
     @JsonIgnore
     private Integer orderNum;
 
-    @JsonIgnore
     private Integer parentId;
+
+    /**
+     * 辅助属性, 用于记录
+     */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String checkArr;
 
     public Integer getParentId() {
         return parentId;
@@ -86,5 +92,13 @@ public class MenuTreeVO implements Serializable {
 
     public void setChildren(List<MenuTreeVO> children) {
         this.children = children;
+    }
+
+    public String getCheckArr() {
+        return checkArr;
+    }
+
+    public void setCheckArr(String checkArr) {
+        this.checkArr = checkArr;
     }
 }

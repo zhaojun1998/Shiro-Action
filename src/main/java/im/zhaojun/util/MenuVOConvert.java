@@ -4,10 +4,8 @@ import im.zhaojun.model.Menu;
 import im.zhaojun.model.vo.MenuTreeVO;
 import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 public class MenuVOConvert {
 
@@ -29,32 +27,5 @@ public class MenuVOConvert {
         Menu menu = new Menu();
         BeanUtils.copyProperties(menuTreeVO, menu);
         return menu;
-    }
-
-
-    /**
-     * 获取导航菜单中的所有叶子节点
-     */
-    public static List<Menu> getLeafNodeMenuByMenuTreeVO(List<MenuTreeVO> menuTreeVOList) {
-        List<Menu> menuList = new ArrayList<>();
-
-        Queue<MenuTreeVO> queue = new ArrayDeque<>();
-        for (MenuTreeVO menuTreeVO : menuTreeVOList) {
-            if (menuTreeVO.getChildren().isEmpty()) {
-                menuList.add(MenuVOConvert.menuTreeVoToMenu(menuTreeVO));
-            } else {
-                queue.addAll(menuTreeVO.getChildren());
-            }
-        }
-
-        while (!queue.isEmpty()) {
-            MenuTreeVO menuTreeVO = queue.poll();
-            if (menuTreeVO.getChildren().isEmpty()) {
-                menuList.add(MenuVOConvert.menuTreeVoToMenu(menuTreeVO));
-            } else {
-                queue.addAll(menuTreeVO.getChildren());
-            }
-        }
-        return menuList;
     }
 }

@@ -1,7 +1,7 @@
 package im.zhaojun.service;
 
-import im.zhaojun.model.Menu;
 import im.zhaojun.model.Operator;
+import im.zhaojun.model.vo.MenuTreeVO;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
@@ -50,8 +50,8 @@ public class ShiroService {
         filterChainDefinitionMap.put("/captcha", "anon");
         // 检查用户名是否存在
         filterChainDefinitionMap.put("/checkUser", "anon");
-        List<Menu> menuList = menuService.getLeafNodeMenu();
-        for (Menu menu : menuList) {
+        List<MenuTreeVO> menuList = menuService.getLeafNodeMenu();
+        for (MenuTreeVO menu : menuList) {
             String url = menu.getUrl();
             if (url != null) {
                 String perms = "perms[" + menu.getPerms() + "]";

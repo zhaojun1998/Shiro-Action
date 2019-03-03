@@ -23,4 +23,6 @@ public interface OperatorMapper {
     List<Operator> selectByMenuId(@Param("menuId")Integer menuId);
 
     List<Operator> selectAll();
+
+    int deleteByMenuId(Integer menuId);
 }

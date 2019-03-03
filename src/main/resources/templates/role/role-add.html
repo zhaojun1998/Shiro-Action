@@ -44,14 +44,6 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">
-                        选择权限
-                    </label>
-                    <div class="layui-input-block">
-                        <div id="LAY-auth-tree-index"></div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <div class="layui-input-block" style="margin-left:0;text-align:center;">
                         <input type="hidden" name="roleId" th:value="${role?.roleId}">
                         <button class="layui-btn layui-btn-blue" th:text="${role}?'修改':'添加'" lay-submit="" data-th-lay-filter="${role}?'edit':'add'">添加</button>
@@ -61,36 +53,13 @@
         </div>
 
         <script>
-            layui.config({
-                base: '/lib/layui/extend/'
-            }).use(['form', 'layer', 'authtree'], function () {
+            layui.use(['form', 'layer'], function () {
                 $ = layui.jquery;
                 var form = layui.form
-                    , layer = layui.layer
-                    , authtree = layui.authtree;
-
-                $.get('/menu/list', function (data) {
-                    var trees = authtree.listConvert(data.data, {
-                        primaryKey: 'id'
-                        , startPid: 0
-                        , parentKey: 'pid'
-                        , nameKey: 'name'
-                        , valueKey: 'id'
-                        , checkedKey: [[${checkedKey == null? '[]' : checkedKey}]]
-                    });
-                    // 如果后台返回的不是树结构，请使用 authtree.listConvert 转换
-                    authtree.render('#LAY-auth-tree-index', trees, {
-                        inputname: 'menuIds[]',
-                        layfilter: 'lay-check-auth',
-                        openall: true,
-                        autowidth: true,
-                        autoclose: false
-                    });
-                });
+                    , layer = layui.layer;
 
                 // 监听提交
                 form.on('submit(add)', function (form) {
-                    form.field.menuIds = authtree.getChecked('#LAY-auth-tree-index');
                     $.post('/role', form.field, function (result) {
                         handlerResult(result, addDone);
                     });
@@ -99,7 +68,6 @@
 
                 // 监听提交
                 form.on('submit(edit)', function (form) {
-                    form.field.menuIds = authtree.getChecked('#LAY-auth-tree-index');
                     form.field._method = 'PUT';
                     $.post('/role', form.field, function (result) {
                         handlerResult(result, editDone);

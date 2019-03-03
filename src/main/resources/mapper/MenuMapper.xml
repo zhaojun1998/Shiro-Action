@@ -221,14 +221,6 @@
         order by order_num
     </select>
 
-    <select id="selectMenuIdByRoleId" resultType="int">
-        select role_menu.menu_id
-        from menu,
-             role_menu
-        where role_menu.menu_id = menu.menu_id
-          and role_menu.role_id = #{roleId}
-    </select>
-
   <select id="count" resultType="int">
     select count(*)
     from menu

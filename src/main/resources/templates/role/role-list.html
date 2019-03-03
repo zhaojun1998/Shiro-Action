@@ -38,8 +38,8 @@
 
         <script type="text/html" id="column-toolbar">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation-menu">授权菜单</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="allocation-operator">授权功能</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-menu">授权菜单</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-operator">授权功能</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         </script>
 
@@ -80,20 +80,23 @@
 
                     if (event === 'edit') {
                         edit(data.roleId);
-                    } else if (event === 'allocation-menu') {
+                    } else if (event === 'grant-menu') {
                         layer.open({
                             type: 1,
                             title: "授权菜单",
                             area: ["350px", "70%"],
-                            content: '<ul id="openTree5" class="dtree" data-id="0"></ul>',
+                            shadeClose: true,
+                            content: '<ul id="menuTree" class="dtree" data-id="0"></ul>',
                             btn: ['确认选择'],
                             success: function(layero, index){
                                 dtree.render({
-                                    obj: $(layero).find("#openTree5"),
+                                    obj: $(layero).find("#menuTree"),
                                     url: "/menu/tree",
                                     dataStyle: "layuiStyle",
                                     method: "GET",
+                                    dot: false,
                                     checkbar: true, // 开启复选框
+                                    menubar: true,
                                     response: {
                                         statusCode: 0,
                                         message: "msg",
@@ -101,15 +104,16 @@
                                         parentId: "parentId",
                                         title: "name"
                                     },
-                                    done: function(data, obj){  //使用异步加载回调
-                                        var reportId = $("#reportId5").val();
-                                        dtree.chooseDataInit("openTree5", reportId); // 初始化复选框的值
+                                    done: function(response, obj){  //使用异步加载回调
+                                        layui.$.get('/role/' + data.roleId + '/own/menu', function (data) {
+                                            dtree.chooseDataInit("menuTree", data.data.toString()); // 初始化复选框的值
+                                        });
                                     }
                                 });
                             },
                             yes: function(index, layero) {
                                 var flag = true;
-                                var nodes = dtree.getCheckbarNodesParam("openTree5"); // 获取选中值
+                                var nodes = dtree.getCheckbarNodesParam("menuTree"); // 获取选中值
                                 if (nodes.length == 0) {
                                     layer.msg("请至少选择一个节点", {icon: 2});
                                     return flag;
@@ -121,7 +125,7 @@
                                     ids.push(node.nodeId);
                                 }
                                 console.log(ids);
-                                $.post('/role/' + data.roleId + '/allocation/menu', {
+                                $.post('/role/' + data.roleId + '/grant/menu', {
                                     menuIds: ids
                                 }, function (result) {
                                     handlerResult(result, function () {
@@ -132,8 +136,63 @@
 
                             }
                         });
-                    } else if (event === 'allocation-operator') {
-                        del(obj);
+                    } else if (event === 'grant-operator') {
+                        layer.open({
+                            type: 1,
+                            title: "授权功能",
+                            area: ["350px", "70%"],
+                            shadeClose: true,
+                            content: '<ul id="operatorTree" class="dtree" data-id="0"></ul>',
+                            btn: ['确认选择'],
+                            success: function(layero, index){
+                                dtree.render({
+                                    obj: $(layero).find("#operatorTree"),
+                                    url: "/operator/tree",
+                                    dataStyle: "layuiStyle",
+                                    initLevel: 5,   // 初始打开节点级别
+                                    method: "GET",
+                                    dot: false,
+                                    checkbar: true, // 开启复选框
+                                    menubar: true,
+                                    response: {
+                                        statusCode: 0,
+                                        message: "msg",
+                                        treeId: "id",
+                                        parentId: "parentId",
+                                        title: "name"
+                                    },
+                                    done: function(response, obj){  //使用异步加载回调
+                                        layui.$.get('/role/' + data.roleId + '/own/operator', function (data) {
+                                            dtree.chooseDataInit("operatorTree", data.data.toString()); // 初始化复选框的值
+                                        });
+                                    }
+                                });
+                            },
+                            yes: function(index, layero) {
+                                var flag = true;
+                                var nodes = dtree.getCheckbarNodesParam("operatorTree"); // 获取选中值
+                                if (nodes.length == 0) {
+                                    layer.msg("请至少选择一个节点", {icon: 2});
+                                    return flag;
+                                }
+                                console.log(nodes);
+                                var ids = [];
+                                for (var key in nodes) {
+                                    var node = nodes[key];
+                                    ids.push(node.nodeId);
+                                }
+                                console.log(ids);
+                                $.post('/role/' + data.roleId + '/grant/operator', {
+                                    operatorIds: ids
+                                }, function (result) {
+                                    handlerResult(result, function () {
+                                        layer.msg("授权成功", {icon: 6});
+                                        layer.close(index);
+                                    });
+                                });
+
+                            }
+                        });
                     } else if (event === 'del') {
                         del(obj);
                     }

@@ -118,7 +118,7 @@
                         title: "添加操作点",
                         handler: function (node, $div) {
                             layer.open({
-                                content: "/operator?parentId=" + node.nodeId,
+                                content: "/operator?menuId=" + node.nodeId,
                                 title: "添加操作点",
                                 area: ['600px', '600px'],
                                 type: 2,
@@ -177,6 +177,7 @@
                         {field: 'operatorId', title: 'ID', width: "7%"}
                         , {field: 'operatorName', title: '功能名称', width: "15%"}
                         , {field: 'url', title: '地址', width: "25%"}
+                        , {field: 'httpMethod', title: '请求方法', width: "10%"}
                         , {field: 'perms', title: '权限标识符', width: "12%"}
                         , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
                     ]

@@ -2,6 +2,7 @@ package im.zhaojun.controller;
 
 import im.zhaojun.annotation.RefreshFilterChain;
 import im.zhaojun.model.Operator;
+import im.zhaojun.service.MenuService;
 import im.zhaojun.service.OperatorService;
 import im.zhaojun.util.ResultBean;
 import org.slf4j.Logger;
@@ -22,7 +23,10 @@ public class OperatorController {
     @Resource
     private OperatorService operatorService;
 
-    @GetMapping("index")
+    @Resource
+    private MenuService menuService;
+
+    @GetMapping("/index")
     public String index() {
         return "operator/operator-list";
     }
@@ -36,12 +40,12 @@ public class OperatorController {
     @PostMapping
     @ResponseBody
     public ResultBean add(Operator operator) {
-        operatorService.insert(operator);
+        operatorService.add(operator);
         return ResultBean.success();
     }
 
-    @GetMapping("{id}")
-    public String edit(Model model, @PathVariable("id") Integer operatorId) {
+    @GetMapping("/{operatorId}")
+    public String edit(Model model, @PathVariable("operatorId") Integer operatorId) {
         Operator operator = operatorService.selectByPrimaryKey(operatorId);
         model.addAttribute("operator", operator);
         return "operator/operator-add";
@@ -55,7 +59,7 @@ public class OperatorController {
         return ResultBean.success();
     }
 
-    @GetMapping("list")
+    @GetMapping("/list")
     @ResponseBody
     public ResultBean getList(@RequestParam(required = false) Integer menuId) {
         List<Operator> operatorList = operatorService.selectByMenuId(menuId);
@@ -63,11 +67,18 @@ public class OperatorController {
     }
 
     @RefreshFilterChain
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{operatorId}")
     @ResponseBody
-    public ResultBean delete(@PathVariable("id") Integer operatorId) {
+    public ResultBean delete(@PathVariable("operatorId") Integer operatorId) {
         operatorService.deleteByPrimaryKey(operatorId);
         return ResultBean.success();
+    }
+
+
+    @GetMapping("/tree")
+    @ResponseBody
+    public ResultBean tree() {
+        return ResultBean.success(operatorService.getALLMenuAndOperatorTreeVO());
     }
 
 }

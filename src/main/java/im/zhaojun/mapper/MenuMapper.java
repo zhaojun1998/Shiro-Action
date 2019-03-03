@@ -45,10 +45,6 @@ public interface MenuMapper {
      */
     List<Menu> selectMenuByUserName(@Param("userName") String userName);
 
-    /**
-     * 根据角色获取所有的权限ID
-     */
-    List<Integer> selectMenuIdByRoleId(@Param("roleId") Integer roleId);
 
     int count();
 

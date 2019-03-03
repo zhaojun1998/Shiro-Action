@@ -56,4 +56,8 @@
         delete from role_menu where menu_id = #{menuId}
     </delete>
 
+    <select id="getMenusByRoleId" resultType="java.lang.Integer">
+        select menu_id from role_menu where role_id = #{roleId}
+    </select>
+
 </mapper>

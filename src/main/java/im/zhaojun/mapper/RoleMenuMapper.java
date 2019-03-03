@@ -24,4 +24,6 @@ public interface RoleMenuMapper<insertList> {
      * 取消某个菜单的所有授权用户
      */
     int deleteByMenuId(@Param("menuId") Integer menuId);
+
+    Integer[] getMenusByRoleId(@Param("roleId")Integer roleId);
 }

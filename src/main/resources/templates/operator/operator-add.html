@@ -78,7 +78,7 @@
                             <div class="layui-select-title">
                                 <input type="text" id="menuName"
                                        placeholder="请选择所属菜单" class="layui-input layui-unselect" readonly>
-                                <input type="hidden" name="parentId" id="menuId">
+                                <input type="hidden" name="menuId" id="menuId">
                                 <i class="layui-edge"></i>
                             </div>
                             <div class="layui-card dtree-select" id="menuTreeDiv">
@@ -154,7 +154,7 @@
                         title: "name"
                     },
                     done: function (response, obj) {
-                        var menuId = getQueryString('menuId') ? getQueryString('menuId') : [[${menu?.menuId + ''}]] ;
+                        var menuId = getQueryString('menuId') ? getQueryString('menuId') : [[${operator?.menuId + ''}]] ;
 
                         var menu = getMenuTreeById(response.data, menuId);
                         if (menu) {

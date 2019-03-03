@@ -30,6 +30,9 @@ public class Menu implements Serializable {
     @JsonIgnore
     private Date modifyTime;
 
+    @JsonIgnore
+    private String checkArr;
+
     public Integer getMenuId() {
         return menuId;
     }
@@ -92,6 +95,14 @@ public class Menu implements Serializable {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getCheckArr() {
+        return checkArr;
+    }
+
+    public void setCheckArr(String checkArr) {
+        this.checkArr = checkArr;
     }
 
     @Override
