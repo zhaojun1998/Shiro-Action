@@ -1,6 +1,7 @@
 package im.zhaojun.exception;
 
 import im.zhaojun.util.ResultBean;
+import org.apache.catalina.connector.ClientAbortException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -15,8 +16,11 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,6 +29,12 @@ import java.util.List;
 public class WebExceptionHandler{
 
     private static final Logger log = LoggerFactory.getLogger(WebExceptionHandler.class);
+
+    @ExceptionHandler
+    public String unauthorized(NoHandlerFoundException e) {
+        log.error("请求的地址不存在", e);
+        return generateErrorInfo(ResultBean.FAIL, "请求的地址不存在", HttpStatus.NOT_FOUND.value());
+    }
 
     @ExceptionHandler(value = { UnauthorizedException.class })
     public String unauthorized(Exception e) {
@@ -110,6 +120,17 @@ public class WebExceptionHandler{
         request.setAttribute("msg", msg);
         request.setAttribute("javax.servlet.error.status_code", httpStatus);
         return "forward:/error";
+    }
+
+
+    /**
+     * 捕获 ClientAbortException 异常, 不做任何处理, 防止出现大量堆栈日志输出, 此异常不影响功能.
+     */
+    @ExceptionHandler
+    @ResponseBody
+    @ResponseStatus
+    public void test(ClientAbortException ex) {
+        log.error("出现了断开异常:", ex);
     }
 
     private String generateErrorInfo(int code, String msg) {
