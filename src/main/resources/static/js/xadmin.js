@@ -288,3 +288,29 @@ function getMenuTreeById(node, id) {
         }
     }
 }
+
+function dtreeAddRootNode(treeId, orginal, isDisabled, isChecked, done) {
+    if (orginal instanceof Array) {
+        console.log(0);
+        var jsonData = [{
+            "id": 0,
+            "name": "导航目录",
+            "parentId": "0",
+            "disabled": isDisabled,
+            "children": orginal
+        }];
+        console.log("result", jsonData);
+        layui.dtree.reload(treeId, {data: jsonData, done: done});
+    } else if (orginal.id !== 0) {
+        console.log(1);
+        var jsonData = [{
+            "id": 0,
+            "name": "导航目录",
+            "parentId": "0",
+            "disabled": isDisabled,
+            "children": orginal
+        }];
+        console.log("result", jsonData);
+        layui.dtree.reload(treeId, {data: jsonData, done: done});
+    }
+}

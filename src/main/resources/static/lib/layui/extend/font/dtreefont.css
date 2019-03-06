@@ -2,9 +2,9 @@
   font-family: 'dtreefont';
   src:  url('dtreefont.eot?x3m8fp');
   src:  url('dtreefont.eot?x3m8fp#iefix') format('embedded-opentype'),
-    url('dtreefont.ttf?x3m8fp') format('truetype'),
-    url('dtreefont.woff?x3m8fp') format('woff'),
-    url('dtreefont.svg?x3m8fp#dtreefont') format('svg');
+  url('dtreefont.ttf?x3m8fp') format('truetype'),
+  url('dtreefont.woff?x3m8fp') format('woff'),
+  url('dtreefont.svg?x3m8fp#dtreefont') format('svg');
   font-weight: normal;
   font-style: normal;
 }
