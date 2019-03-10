@@ -258,37 +258,6 @@ function getQueryString(name) {
 }
 
 
-/**
- * 查找菜单树中某个节点的对象.
- * @param node      菜单树
- * @param id        要查找的节点 ID
- * @returns         节点对象
- */
-function getMenuTreeById(node, id) {
-    if (typeof id === "string") {
-        id = parseInt(id);
-    }
-    if (!node) {
-        return;
-    }
-
-    var stack = [];
-    stack.push(node[0]);
-    var tmpNode;
-    while (stack.length > 0) {
-        tmpNode = stack.pop();
-        if (tmpNode.id === id) {
-            return tmpNode;
-        }
-        if (tmpNode.children && tmpNode.children.length > 0) {
-            var i = tmpNode.children.length - 1;
-            for (i = tmpNode.children.length - 1; i >= 0; i--) {
-                stack.push(tmpNode.children[i]);
-            }
-        }
-    }
-}
-
 function dtreeAddRootNode(treeId, orginal, isDisabled, isChecked, done) {
     if (orginal instanceof Array) {
         console.log(0);

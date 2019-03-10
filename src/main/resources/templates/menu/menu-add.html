@@ -119,13 +119,12 @@
                     }
                 });
 
-                dtree.render({
+                var MenuDTree = dtree.render({
                     elem: "#parentTree",
-                    url: "/menu/tree",
+                    url: "/menu/tree/root",
                     dataStyle: "layuiStyle",
                     method: "GET",
                     dot: false,     // 圆点是否显示
-                    icon: "2",
                     accordion: true,
                     menubar: true,
                     response: {
@@ -137,11 +136,10 @@
                     },
                     done: function (response, obj) {
                         var parentId = getQueryString('parentId') ? getQueryString('parentId') : [[${menu?.parentId + ''}]] ;
-
-                        var parent = getMenuTreeById(response.data, parentId);
+                        var parent = MenuDTree.getParam(parentId);
                         if (parent) {
-                            $("#parentName").val(parent.name);
-                            $("#parentId").val(parent.id);
+                            $("#parentName").val(parent.context);
+                            $("#parentId").val(parent.nodeId);
                         }
                     }
                 });

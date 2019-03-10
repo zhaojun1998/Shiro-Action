@@ -152,12 +152,12 @@ public class UserService {
      */
     public Set<String> selectPermsByUsername(String username) {
         Set<String> perms = new HashSet<>();
-        List<MenuTreeVO> menuTreeVOS = menuService.selectCurrentUserMenuTreeVO();
+        List<MenuTreeVO> menuTreeVOS = menuService.selectMenuTreeVOByUsername(username);
         List<MenuTreeVO> leafNodeMenuList = TreeUtil.getLeafNodeMenuByMenuTreeVO(menuTreeVOS);
         for (MenuTreeVO menu : leafNodeMenuList) {
             perms.add(menu.getPerms());
         }
-        perms.addAll(userMapper.selectOperatorPermsByUserName());
+        perms.addAll(userMapper.selectOperatorPermsByUserName(username));
         return perms;
     }
 

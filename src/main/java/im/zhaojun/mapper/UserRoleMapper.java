@@ -4,6 +4,8 @@ import im.zhaojun.model.UserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface UserRoleMapper {
     int insert(UserRole record);
@@ -25,5 +27,8 @@ public interface UserRoleMapper {
      * 清空此角色与所有角色的关联关系
      */
     int deleteUserMenuByRoleId(@Param("roleId") Integer roleId);
+
+
+    List<Integer> selectUserIdByRoleId(@Param("roleId")Integer roleId);
 
 }

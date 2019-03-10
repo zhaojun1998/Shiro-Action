@@ -46,6 +46,13 @@ public class MenuController {
     }
 
     @OperationLog("获取菜单树形数据")
+    @GetMapping("/tree/root")
+    @ResponseBody
+    public ResultBean treeAndRoot() {
+        return ResultBean.success(menuService.getALLMenuTreeVOAndRoot());
+    }
+
+    @OperationLog("获取菜单树形数据")
     @GetMapping("/tree/operator")
     @ResponseBody
     public ResultBean menuAndCountOperatorTree() {

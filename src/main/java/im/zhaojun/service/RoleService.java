@@ -62,16 +62,9 @@ public class RoleService {
      */
     @Transactional
     public void grantMenu(Integer roleId, Integer[] menuIds) {
-        // 获取该角色下的所有用户.
-        List<Integer> userIds = userRoleMapper.selectUserIdByRoleId(roleId);
-
         roleMenuMapper.deleteByRoleId(roleId);
         roleMenuMapper.insertRoleMenus(roleId, menuIds);
-
-        // 将该角色下所有用户的认证信息缓存清空, 以到达刷新认证信息的目的.
-        for (Integer userId : userIds) {
-            userNameRealm.clearAuthCacheByUserId(userId);
-        }
+        clearRoleAuthCache(roleId);
     }
 
     /**
@@ -81,16 +74,9 @@ public class RoleService {
      */
     @Transactional
     public void grantOperator(Integer roleId, Integer[] operatorIds) {
-        // 获取该角色下的所有用户.
-        List<Integer> userIds = userRoleMapper.selectUserIdByRoleId(roleId);
-
         roleOperatorMapper.deleteByRoleId(roleId);
         roleOperatorMapper.insertRoleOperators(roleId, operatorIds);
-
-        // 将该角色下所有用户的认证信息缓存清空, 以到达刷新认证信息的目的.
-        for (Integer userId : userIds) {
-            userNameRealm.clearAuthCacheByUserId(userId);
-        }
+        clearRoleAuthCache(roleId);
     }
 
     public int count() {
@@ -113,5 +99,15 @@ public class RoleService {
         return roleOperatorMapper.getOperatorsByRoleId(roleId);
     }
 
+
+    private void clearRoleAuthCache(Integer roleId) {
+        // 获取该角色下的所有用户.
+        List<Integer> userIds = userRoleMapper.selectUserIdByRoleId(roleId);
+
+        // 将该角色下所有用户的认证信息缓存清空, 以到达刷新认证信息的目的.
+        for (Integer userId : userIds) {
+            userNameRealm.clearAuthCacheByUserId(userId);
+        }
+    }
 
 }

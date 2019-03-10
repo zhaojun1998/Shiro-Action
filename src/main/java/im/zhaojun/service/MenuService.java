@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,6 +65,20 @@ public class MenuService {
     }
 
     /**
+     * 获取所有菜单并添加一个根节点 (树形结构)
+     */
+    public List<MenuTreeVO> getALLMenuTreeVOAndRoot() {
+        List<MenuTreeVO> allMenuTreeVO = getALLMenuTreeVO();
+        MenuTreeVO root = new MenuTreeVO();
+        root.setMenuId(0);
+        root.setMenuName("导航目录");
+        root.setChildren(allMenuTreeVO);
+        List<MenuTreeVO> rootList = new ArrayList<>();
+        rootList.add(root);
+        return rootList;
+    }
+
+    /**
      * 获取所有菜单并统计菜单下的操作权限数 (树形结构)
      */
     public List<MenuTreeVO> getALLMenuAndCountOperatorTreeVO() {
@@ -81,6 +96,19 @@ public class MenuService {
             menus = menuMapper.selectAll();
         } else {
             menus = menuMapper.selectMenuByUserName(user.getUsername());
+        }
+        return TreeUtil.toTree(menus);
+    }
+
+    /**
+     * 获取指定用户拥有的树形菜单 (admin 账户拥有所有权限.)
+     */
+    public List<MenuTreeVO> selectMenuTreeVOByUsername(String username) {
+        List<Menu> menus;
+        if ("admin".equals(username)) {
+            menus = menuMapper.selectAll();
+        } else {
+            menus = menuMapper.selectMenuByUserName(username);
         }
         return TreeUtil.toTree(menus);
     }

@@ -77,7 +77,7 @@ public interface UserMapper {
     /**
      * 获取用户所拥有的操作权限
      */
-    Set<String> selectOperatorPermsByUserName();
+    Set<String> selectOperatorPermsByUserName(@Param("username")String username);
 
     int updatePasswordByUserId(@Param("userId")Integer userId, @Param("password")String password, @Param("salt")String salt);
 }

@@ -27,16 +27,13 @@ public class MenuTreeVO implements Serializable {
     @JsonIgnore
     private String perms;
 
-    @JsonIgnore
-    private Integer orderNum;
-
     private Integer parentId;
 
     /**
      * 辅助属性, 用于记录
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String checkArr;
+    private String checkArr = "0";
 
     public Integer getParentId() {
         return parentId;
@@ -76,14 +73,6 @@ public class MenuTreeVO implements Serializable {
 
     public void setPerms(String perms) {
         this.perms = perms;
-    }
-
-    public Integer getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
     }
 
     public List<MenuTreeVO> getChildren() {

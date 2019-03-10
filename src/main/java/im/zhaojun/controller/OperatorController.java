@@ -1,5 +1,6 @@
 package im.zhaojun.controller;
 
+import im.zhaojun.annotation.OperationLog;
 import im.zhaojun.annotation.RefreshFilterChain;
 import im.zhaojun.model.Operator;
 import im.zhaojun.service.MenuService;
@@ -26,6 +27,7 @@ public class OperatorController {
     @Resource
     private MenuService menuService;
 
+    @OperationLog("查看操作日志")
     @GetMapping("/index")
     public String index() {
         return "operator/operator-list";

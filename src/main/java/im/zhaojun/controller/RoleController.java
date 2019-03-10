@@ -84,6 +84,9 @@ public class RoleController {
     @PostMapping("/{roleId}/grant/operator")
     @ResponseBody
     public ResultBean grantOperator(@PathVariable("roleId") Integer roleId, @RequestParam("operatorIds[]") Integer[] operatorIds) {
+        for (int i = 0; i < operatorIds.length; i++) {
+            operatorIds[i] = operatorIds[i] - 10000;
+        }
         roleService.grantOperator(roleId, operatorIds);
         return ResultBean.success();
     }
@@ -97,6 +100,10 @@ public class RoleController {
     @GetMapping("/{roleId}/own/operator")
     @ResponseBody
     public ResultBean getOperatorOwnMenu(@PathVariable("roleId") Integer roleId) {
-        return ResultBean.success(roleService.getOperatorsByRoleId(roleId));
+        Integer[] operatorIds = roleService.getOperatorsByRoleId(roleId);
+        for (int i = 0; i < operatorIds.length; i++) {
+            operatorIds[i] = operatorIds[i] + 10000;
+        }
+        return ResultBean.success(operatorIds);
     }
 }

@@ -137,7 +137,7 @@
                 });
 
 
-                dtree.render({
+                var OperatorDTree = dtree.render({
                     elem: "#menuTree",
                     url: "/menu/tree",
                     dataStyle: "layuiStyle",
@@ -155,11 +155,10 @@
                     },
                     done: function (response, obj) {
                         var menuId = getQueryString('menuId') ? getQueryString('menuId') : [[${operator?.menuId + ''}]] ;
-
-                        var menu = getMenuTreeById(response.data, menuId);
+                        var menu = OperatorDTree.getParam(menuId);
                         if (menu) {
-                            $("#menuName").val(menu.name);
-                            $("#menuId").val(menu.id);
+                            $("#menuName").val(menu.context);
+                            $("#menuId").val(menu.nodeId);
                         }
                     }
                 });

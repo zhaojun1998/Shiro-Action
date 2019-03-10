@@ -69,15 +69,17 @@ public class OperatorService {
 
         List<MenuTreeVO> leafNodeMenuByMenuTreeVO = TreeUtil.getLeafNodeMenuByMenuTreeVO(menuTreeVOS);
 
+        // 将操作权限拼接到页面的树形结构下.
         for (MenuTreeVO menuTreeVO : leafNodeMenuByMenuTreeVO) {
             List<MenuTreeVO> children = menuTreeVO.getChildren();
             for (Operator operator : operators) {
                 if (menuTreeVO.getMenuId().equals(operator.getMenuId())) {
+
+                    // 将操作权限转化为 Menu 结构. 由于操作权限可能与菜单权限的 ID 值冲突, 故将操作权限的 ID + 10000. 使用操作权限的 ID 时再减去这个数
                     MenuTreeVO temp = new MenuTreeVO();
-                    temp.setMenuId(operator.getOperatorId());
+                    temp.setMenuId(operator.getOperatorId() + 10000);
                     temp.setParentId(operator.getMenuId());
                     temp.setMenuName(operator.getOperatorName());
-                    temp.setCheckArr("0"); // 允许复选框
                     children.add(temp);
                 }
             }

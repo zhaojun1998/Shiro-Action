@@ -78,14 +78,14 @@ public class UserController {
     @OperationLog("禁用账号")
     @PostMapping("/{userId}/disable")
     @ResponseBody
-    public ResultBean disable(@PathVariable("id") Integer userId) {
+    public ResultBean disable(@PathVariable("userId") Integer userId) {
         return ResultBean.success(userService.disableUserByID(userId));
     }
 
     @OperationLog("激活账号")
     @PostMapping("/{userId}/enable")
     @ResponseBody
-    public ResultBean enable(@PathVariable("id") Integer userId) {
+    public ResultBean enable(@PathVariable("userId") Integer userId) {
         return ResultBean.success(userService.enableUserByID(userId));
     }
 
@@ -103,6 +103,7 @@ public class UserController {
         return "user/user-reset-pwd";
     }
 
+    @OperationLog("重置密码")
     @PostMapping("/{userId}/reset")
     @ResponseBody
     public ResultBean resetPassword(@PathVariable("userId") Integer userId, String password) {

@@ -76,14 +76,7 @@ public class TreeUtil {
 
 
     public static List<MenuTreeVO> menuListToMenuTree(List<Menu> menus) {
-        List<MenuTreeVO> menuTreeVOS = TreeUtil.toTree(menus);
-        MenuTreeVO root = new MenuTreeVO();
-        root.setMenuId(0);
-        root.setMenuName("导航目录");
-        root.setChildren(menuTreeVOS);
-        List<MenuTreeVO> rootList = new ArrayList<>();
-        rootList.add(root);
-        return rootList;
+        return TreeUtil.toTree(menus);
     }
 
     /**

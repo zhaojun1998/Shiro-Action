@@ -118,13 +118,11 @@
                                     layer.msg("请至少选择一个节点", {icon: 2});
                                     return flag;
                                 }
-                                console.log(nodes);
                                 var ids = [];
                                 for (var key in nodes) {
                                     var node = nodes[key];
                                     ids.push(node.nodeId);
                                 }
-                                console.log(ids);
                                 $.post('/role/' + data.roleId + '/grant/menu', {
                                     menuIds: ids
                                 }, function (result) {
@@ -175,13 +173,11 @@
                                     layer.msg("请至少选择一个节点", {icon: 2});
                                     return flag;
                                 }
-                                console.log(nodes);
                                 var ids = [];
                                 for (var key in nodes) {
                                     var node = nodes[key];
                                     ids.push(node.nodeId);
                                 }
-                                console.log(ids);
                                 $.post('/role/' + data.roleId + '/grant/operator', {
                                     operatorIds: ids
                                 }, function (result) {
