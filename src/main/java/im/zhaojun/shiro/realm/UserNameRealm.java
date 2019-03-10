@@ -2,18 +2,23 @@ package im.zhaojun.shiro.realm;
 
 import im.zhaojun.model.User;
 import im.zhaojun.service.UserService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.util.ByteSource;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Set;
 
 @Component
@@ -23,6 +28,9 @@ public class UserNameRealm extends AuthorizingRealm {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private RedisSessionDAO redisSessionDAO;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -55,13 +63,28 @@ public class UserNameRealm extends AuthorizingRealm {
         return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), super.getName());
     }
 
-    public void clearAuthorizationCache(){
-        this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+    public void clearAuthCacheByUserId(Integer userId) {
+        //获取所有session
+        Collection<Session> sessions = redisSessionDAO.getActiveSessions();
+        for (Session session : sessions) {
+            //获取session登录信息。
+            Object obj = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+            if (obj instanceof SimplePrincipalCollection) {
+                // 强转
+                SimplePrincipalCollection spc = (SimplePrincipalCollection) obj;
+                User user = new User();
+                BeanUtils.copyProperties(spc.getPrimaryPrincipal(), user);
+                //判断用户，匹配用户ID。
+                if (userId.equals(user.getUserId())) {
+                    this.clearCachedAuthorizationInfo(spc);
+                }
+            }
+        }
     }
 
 
     /**
-     * 超级管理员用户所有权限
+     * 超级管理员拥有所有权限
      */
     @Override
     public boolean isPermitted(PrincipalCollection principals, String permission) {
@@ -70,7 +93,7 @@ public class UserNameRealm extends AuthorizingRealm {
     }
 
     /**
-     * 超级管理员用户所有角色
+     * 超级管理员拥有所有角色
      */
     @Override
     public boolean hasRole(PrincipalCollection principals, String roleIdentifier) {
