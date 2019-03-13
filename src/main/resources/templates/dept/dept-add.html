@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>页面添加</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport"
+              content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+        <link rel="stylesheet" th:href="@{/css/font.css}">
+        <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+        <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
+        <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+        <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
+        <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+        <!--[if lt IE 9]>
+        <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+        <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body class="layui-anim layui-anim-fadein">
+        <div class="x-body">
+            <form action="" method="post" class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label for="deptName" class="layui-form-label">
+                        页面名称
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" id="deptName" name="deptName" th:value="${dept?.deptName}"
+                               lay-verify="required" lay-vertype="tips"
+                               autocomplete="off" placeholder="请输入页面名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="url" class="layui-form-label">
+                        菜单URL
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" id="url" th:value="${dept?.url}" name="url"
+                               lay-verify="required" lay-vertype="tips"
+                               autocomplete="off" class="layui-input" placeholder="请输入需要授权的 URL">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="perms" class="layui-form-label">
+                        权限标识
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" id="perms" th:value="${dept?.perms}" name="perms"
+                               lay-verify="required" lay-vertype="tips"
+                               autocomplete="off" class="layui-input" placeholder="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        上级菜单
+                    </label>
+                    <div class="layui-input-block">
+                        <div class="layui-unselect layui-form-select" id="parentNameDiv">
+                            <div class="layui-select-title">
+                                <input type="text" id="parentName"
+                                       placeholder="请选择" class="layui-input layui-unselect" readonly>
+                                <input type="hidden" name="parentId" id="parentId">
+                                <i class="layui-edge"></i>
+                            </div>
+                        </div>
+                        <div class="layui-card dtree-select" id="parentTreeDiv">
+                            <div class="layui-card-body">
+                                <div id="toolbarDiv">
+                                    <ul id="parentTree" class="dtree" data-id="0" style="width: 100%;"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <fieldset class="layui-elem-field">
+                    <legend>备注</legend>
+                    <div class="layui-field-box">
+                        <div class="layui-form-mid layui-word-aux">
+                            URL 支持 ?, *, ** 通配符。<br>
+                            外部链接以 http(s):// 开头。
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                        <input type="hidden" name="deptId" th:value="${dept?.deptId}">
+                        <input type="hidden" name="type" value="1">
+                        <button class="layui-btn layui-btn-blue" th:text="${dept}?'修改':'增加'" lay-submit="" data-th-lay-filter="${dept}?'edit':'add'">增加</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            layui.config({
+                base: '/lib/layui/extend/'
+            }).use(['form', 'layer', 'autocomplete', 'dtree'], function () {
+                var $ = layui.jquery,
+                    form = layui.form,
+                    layer = layui.layer,
+                    autocomplete = layui.autocomplete,
+                    dtree = layui.dtree;
+
+                autocomplete.render({
+                    elem: $('#url'),
+                    url: '/system/urls',
+                    template_val: '{{d.url}}',
+                    template_txt: '{{d.url}} \
+                        {{#  layui.each(d.type.split(","), function(index, item){ }} \
+                            <span class="layui-badge layui-bg-gray">{{item}}</span>  \
+                        {{#  }); }} \
+                    ',
+                    onselect: function (resp) {
+                        console.log(resp);
+                    }
+                });
+
+                var deptDTree = dtree.render({
+                    elem: "#parentTree",
+                    url: "/dept/tree/root",
+                    dataStyle: "layuiStyle",
+                    method: "GET",
+                    dot: false,     // 圆点是否显示
+                    accordion: true,
+                    menubar: true,
+                    response: {
+                        statusCode: 0,
+                        message: "msg",
+                        treeId: "id",
+                        parentId: "parentId",
+                        title: "name"
+                    },
+                    done: function (response, obj) {
+                        var parentId = getQueryString('parentId') ? getQueryString('parentId') : [[${dept?.parentId + ''}]] ;
+                        var parent = deptDTree.getParam(parentId);
+                        if (parent) {
+                            $("#parentName").val(parent.context);
+                            $("#parentId").val(parent.nodeId);
+                        }
+                    }
+                });
+
+                $("#parentName").on("click",function(){
+                    $(this).toggleClass("layui-form-selected");
+                    $("#parentTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
+                });
+
+                dtree.on("node(parentTree)", function(obj){
+                    console.log(obj);
+                    $("#parentName").val(obj.param.context);
+                    $("#parentId").val(obj.param.nodeId);
+                    $("#parentNameDiv").toggleClass("layui-form-selected");
+                    $("#parentTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
+                });
+
+                //监听提交
+                form.on('submit(add)', function (form) {
+                    $.post('/dept', form.field, function (result) {
+                        handlerResult(result, addDone);
+                    });
+                    return false;
+                });
+
+                //监听提交
+                form.on('submit(edit)', function (form) {
+                    form.field._method = 'PUT';
+                    $.post('/dept', form.field, function (result) {
+                        handlerResult(result, editDone);
+                    });
+                    return false;
+                });
+
+                
+                function addDone(data) {
+                    console.log("add result id : ", data);
+                    layer.msg("添加成功", {icon: 6});
+                }
+
+                function editDone(data) {
+                    console.log("edit result id : ", data);
+                    layer.msg("修改成功", {icon: 6});
+                }
+            });
+        </script>
+    </body>
+
+</html>
