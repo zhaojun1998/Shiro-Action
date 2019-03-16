@@ -39,6 +39,8 @@ public class User implements Serializable {
     @JsonIgnore
     private String activeCode;
 
+    private Integer deptId;
+
     public Integer getUserId() {
         return userId;
     }
@@ -119,6 +121,14 @@ public class User implements Serializable {
         this.activeCode = activeCode;
     }
 
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -132,6 +142,7 @@ public class User implements Serializable {
                 ", createTime=" + createTime +
                 ", modifyTime=" + modifyTime +
                 ", activeCode='" + activeCode + '\'' +
+                ", deptId=" + deptId +
                 '}';
     }
 }

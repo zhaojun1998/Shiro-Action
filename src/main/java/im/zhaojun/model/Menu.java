@@ -2,9 +2,11 @@ package im.zhaojun.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Menu implements Serializable {
     private static final long serialVersionUID = 5561561457068906366L;
@@ -12,7 +14,6 @@ public class Menu implements Serializable {
     @JsonProperty("id")
     private Integer menuId;
 
-    @JsonProperty("pid")
     private Integer parentId;
 
     @JsonProperty("name")
@@ -32,6 +33,9 @@ public class Menu implements Serializable {
 
     @JsonIgnore
     private String checkArr;
+
+    @JsonSerialize(include = JsonSerialize.Inclusion.NON_EMPTY)
+    private List<Menu> children;
 
     public Integer getMenuId() {
         return menuId;
@@ -105,17 +109,11 @@ public class Menu implements Serializable {
         this.checkArr = checkArr;
     }
 
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "menuId=" + menuId +
-                ", parentId=" + parentId +
-                ", menuName='" + menuName + '\'' +
-                ", url='" + url + '\'' +
-                ", perms='" + perms + '\'' +
-                ", orderNum=" + orderNum +
-                ", createTime=" + createTime +
-                ", modifyTime=" + modifyTime +
-                '}';
+    public List<Menu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Menu> children) {
+        this.children = children;
     }
 }

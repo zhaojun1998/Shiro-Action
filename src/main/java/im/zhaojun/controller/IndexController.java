@@ -1,7 +1,7 @@
 package im.zhaojun.controller;
 
 import im.zhaojun.annotation.OperationLog;
-import im.zhaojun.model.vo.MenuTreeVO;
+import im.zhaojun.model.Menu;
 import im.zhaojun.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +34,7 @@ public class IndexController {
 
     @GetMapping(value = {"/", "/main"})
     public String index(Model model) {
-        List<MenuTreeVO> menuTreeVOS = menuService.selectCurrentUserMenuTreeVO();
+        List<Menu> menuTreeVOS = menuService.selectCurrentUserMenuTree();
         model.addAttribute("menus", menuTreeVOS);
         return "index";
     }

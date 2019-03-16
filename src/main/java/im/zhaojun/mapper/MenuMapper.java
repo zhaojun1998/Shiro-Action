@@ -1,7 +1,6 @@
 package im.zhaojun.mapper;
 
 import im.zhaojun.model.Menu;
-import im.zhaojun.model.vo.RoleMenuVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -45,10 +44,7 @@ public interface MenuMapper {
      */
     List<Menu> selectMenuByUserName(@Param("userName") String userName);
 
-
     int count();
-
-    List<RoleMenuVO> selectAllRoleByMenuId(@Param("menuId") Integer menuId);
 
     /**
      * 交换两个菜单的顺序

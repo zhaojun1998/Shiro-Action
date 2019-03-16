@@ -80,7 +80,7 @@ public class OperatorController {
     @GetMapping("/tree")
     @ResponseBody
     public ResultBean tree() {
-        return ResultBean.success(operatorService.getALLMenuAndOperatorTreeVO());
+        return ResultBean.success(operatorService.getALLMenuAndOperatorTree());
     }
 
 }

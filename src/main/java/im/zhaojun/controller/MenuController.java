@@ -33,7 +33,7 @@ public class MenuController {
     }
 
     @GetMapping
-    public String getPage(Model model) {
+    public String add(Model model) {
         List<Menu> menus = menuService.selectAllMenu();
         return "menu/menu-add";
     }
@@ -42,7 +42,7 @@ public class MenuController {
     @GetMapping("/tree")
     @ResponseBody
     public ResultBean tree() {
-        return ResultBean.success(menuService.getALLMenuTreeVO());
+        return ResultBean.success(menuService.getALLMenuTree());
     }
 
     @OperationLog("获取菜单树形数据")
@@ -56,7 +56,7 @@ public class MenuController {
     @GetMapping("/tree/operator")
     @ResponseBody
     public ResultBean menuAndCountOperatorTree() {
-        return ResultBean.success(menuService.getALLMenuAndCountOperatorTreeVO());
+        return ResultBean.success(menuService.getALLMenuAndCountOperatorTree());
     }
 
     @OperationLog("新增菜单")
@@ -67,7 +67,7 @@ public class MenuController {
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }
-        menuService.add(menu);
+        menuService.insert(menu);
         return ResultBean.success();
     }
 
@@ -95,7 +95,7 @@ public class MenuController {
         if (menu.getParentId() == null) {
             menu.setParentId(0);
         }
-        menuService.update(menu);
+        menuService.updateByPrimaryKey(menu);
         return ResultBean.success();
     }
 

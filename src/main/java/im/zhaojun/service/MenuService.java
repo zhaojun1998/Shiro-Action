@@ -5,8 +5,6 @@ import im.zhaojun.mapper.OperatorMapper;
 import im.zhaojun.mapper.RoleMenuMapper;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.User;
-import im.zhaojun.model.vo.MenuTreeVO;
-import im.zhaojun.model.vo.RoleMenuVO;
 import im.zhaojun.util.TreeUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -56,24 +54,24 @@ public class MenuService {
     /**
      * 获取所有菜单 (树形结构)
      */
-    public List<MenuTreeVO> getALLMenuTreeVO() {
+    public List<Menu> getALLMenuTree() {
         List<Menu> menus = selectAllMenu();
         for (Menu menu : menus) {
             menu.setCheckArr("0");
         }
-        return TreeUtil.menuListToMenuTree(menus);
+        return toTree(menus);
     }
 
     /**
      * 获取所有菜单并添加一个根节点 (树形结构)
      */
-    public List<MenuTreeVO> getALLMenuTreeVOAndRoot() {
-        List<MenuTreeVO> allMenuTreeVO = getALLMenuTreeVO();
-        MenuTreeVO root = new MenuTreeVO();
+    public List<Menu> getALLMenuTreeVOAndRoot() {
+        List<Menu> allMenuTreeVO = getALLMenuTree();
+        Menu root = new Menu();
         root.setMenuId(0);
         root.setMenuName("导航目录");
         root.setChildren(allMenuTreeVO);
-        List<MenuTreeVO> rootList = new ArrayList<>();
+        List<Menu> rootList = new ArrayList<>();
         rootList.add(root);
         return rootList;
     }
@@ -81,15 +79,15 @@ public class MenuService {
     /**
      * 获取所有菜单并统计菜单下的操作权限数 (树形结构)
      */
-    public List<MenuTreeVO> getALLMenuAndCountOperatorTreeVO() {
+    public List<Menu> getALLMenuAndCountOperatorTree() {
         List<Menu> menus = menuMapper.selectAllMenuAndCountOperator();
-        return TreeUtil.menuListToMenuTree(menus);
+        return toTree(menus);
     }
 
     /**
      * 获取当前登陆用户拥有的树形菜单 (admin 账户拥有所有权限.)
      */
-    public List<MenuTreeVO> selectCurrentUserMenuTreeVO() {
+    public List<Menu> selectCurrentUserMenuTree() {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         List<Menu> menus;
         if ("admin".equals(user.getUsername())) {
@@ -97,37 +95,37 @@ public class MenuService {
         } else {
             menus = menuMapper.selectMenuByUserName(user.getUsername());
         }
-        return TreeUtil.toTree(menus);
+        return toTree(menus);
     }
 
     /**
      * 获取指定用户拥有的树形菜单 (admin 账户拥有所有权限.)
      */
-    public List<MenuTreeVO> selectMenuTreeVOByUsername(String username) {
+    public List<Menu> selectMenuTreeVOByUsername(String username) {
         List<Menu> menus;
         if ("admin".equals(username)) {
             menus = menuMapper.selectAll();
         } else {
             menus = menuMapper.selectMenuByUserName(username);
         }
-        return TreeUtil.toTree(menus);
+        return toTree(menus);
     }
 
     /**
      * 获取导航菜单中的所有叶子节点
      */
-    public List<MenuTreeVO> getLeafNodeMenu() {
-        List<MenuTreeVO> allMenuTreeVO = getALLMenuTreeVO();
-        return TreeUtil.getLeafNodeMenuByMenuTreeVO(allMenuTreeVO);
+    public List<Menu> getLeafNodeMenu() {
+        List<Menu> allMenuTreeVO = getALLMenuTree();
+        return TreeUtil.getAllLeafNode(allMenuTreeVO);
     }
 
-    public void add(Menu menu) {
+    public void insert(Menu menu) {
         int maxOrderNum = menuMapper.selectMaxOrderNum();
         menu.setOrderNum(maxOrderNum + 1);
         menuMapper.insert(menu);
     }
 
-    public void update(Menu menu) {
+    public void updateByPrimaryKey(Menu menu) {
         menuMapper.updateByPrimaryKey(menu);
     }
 
@@ -154,12 +152,14 @@ public class MenuService {
         return menuMapper.count();
     }
 
-
-    public List<RoleMenuVO> selectAllRoleByMenuId(Integer menuId) {
-        return menuMapper.selectAllRoleByMenuId(menuId);
-    }
-
     public void swapSort(Integer currentId, Integer swapId) {
         menuMapper.swapSort(currentId, swapId);
+    }
+
+    /**
+     * 转换为树形结构
+     */
+    private List<Menu> toTree(List<Menu> menuList) {
+        return TreeUtil.toTree(menuList, "menuId", "parentId", "children", Menu.class);
     }
 }

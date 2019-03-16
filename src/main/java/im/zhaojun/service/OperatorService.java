@@ -5,7 +5,6 @@ import im.zhaojun.mapper.OperatorMapper;
 import im.zhaojun.mapper.RoleOperatorMapper;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.Operator;
-import im.zhaojun.model.vo.MenuTreeVO;
 import im.zhaojun.util.TreeUtil;
 import org.springframework.stereotype.Service;
 
@@ -59,24 +58,24 @@ public class OperatorService {
         return operatorMapper.selectAll();
     }
 
-    public List<MenuTreeVO> getALLMenuAndOperatorTreeVO() {
+    public List<Menu> getALLMenuAndOperatorTree() {
 
         // 获取用户拥有的所在操作权限
         List<Operator> operators = operatorMapper.selectAll();
 
         List<Menu> menus = menuMapper.selectAll();
-        List<MenuTreeVO> menuTreeVOS = TreeUtil.menuListToMenuTree(menus);
+        List<Menu> menuTree = TreeUtil.toTree(menus, "menuId", "parentId", "children", Menu.class);
 
-        List<MenuTreeVO> leafNodeMenuByMenuTreeVO = TreeUtil.getLeafNodeMenuByMenuTreeVO(menuTreeVOS);
+        List<Menu> menuLeafNode = TreeUtil.getAllLeafNode(menuTree);
 
         // 将操作权限拼接到页面的树形结构下.
-        for (MenuTreeVO menuTreeVO : leafNodeMenuByMenuTreeVO) {
-            List<MenuTreeVO> children = menuTreeVO.getChildren();
+        for (Menu menuTreeVO : menuLeafNode) {
+            List<Menu> children = menuTreeVO.getChildren();
             for (Operator operator : operators) {
                 if (menuTreeVO.getMenuId().equals(operator.getMenuId())) {
 
                     // 将操作权限转化为 Menu 结构. 由于操作权限可能与菜单权限的 ID 值冲突, 故将操作权限的 ID + 10000. 使用操作权限的 ID 时再减去这个数
-                    MenuTreeVO temp = new MenuTreeVO();
+                    Menu temp = new Menu();
                     temp.setMenuId(operator.getOperatorId() + 10000);
                     temp.setParentId(operator.getMenuId());
                     temp.setMenuName(operator.getOperatorName());
@@ -85,6 +84,6 @@ public class OperatorService {
             }
         }
 
-        return menuTreeVOS;
+        return menuTree;
     }
 }
