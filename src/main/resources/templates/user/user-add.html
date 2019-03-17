@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>用户添加</title>
+        <title>用户编辑</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport"
@@ -35,7 +35,7 @@
                         用户名
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" id="username" name="username"
+                        <input type="text" id="username" name="username" th:value="${user?.username}"
                                lay-verify="username" lay-vertype="tips"
                                autocomplete="off" class="layui-input">
                     </div>
@@ -45,12 +45,13 @@
                         邮箱
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" id="email" name="email"
+                        <input type="text" id="email" name="email"  th:value="${user?.email}"
                                lay-verify="required|email" lay-vertype="tips"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <!-- 编辑时不显示密码框 -->
+                <div th:if="${user == null}" class="layui-form-item">
                     <label for="password" class="layui-form-label">
                         用户密码
                     </label>
@@ -65,8 +66,8 @@
                         状态
                     </label>
                     <div class="layui-input-block">
-                        <input type="radio" name="status" value="1" checked title="正常">
-                        <input type="radio" name="status" value="0" title="禁用">
+                        <input type="radio" name="status" value="1" th:checked="${user?.status == '1'}" title="正常">
+                        <input type="radio" name="status" value="0" th:checked="${user?.status == '0'}" title="锁定">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -76,16 +77,38 @@
                     <div class="layui-input-block">
                         <select name="role" xm-select="role-select"
                                 lay-verify="required"
-                                lay-vertype="tips"
-                                xm-select-search="">
+                                lay-vertype="tips">
                             <option value="">请选择角色</option>
-                            <option th:each="role:${roles}" th:value="${role.roleId}" th:text="${role.roleName}"></option>
+                            <option th:each="role:${roles}" th:value="${role.roleId}" th:text="${role.roleName}"
+                                    th:selected="${#arrays.contains((roleIds == null ? #arrays.toIntegerArray(new Integer[]{}) : roleIds), role.roleId)}"></option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        上级部门
+                    </label>
+                    <div class="layui-input-block">
+                        <div class="layui-unselect layui-form-select" id="deptNameDiv">
+                            <div class="layui-select-title">
+                                <input type="text" id="deptName"
+                                       placeholder="请选择" class="layui-input layui-unselect" readonly>
+                                <input type="hidden" name="deptId" id="deptId">
+                                <i class="layui-edge"></i>
+                            </div>
+                        </div>
+                        <div class="layui-card dtree-select" id="deptTreeDiv">
+                            <div class="layui-card-body">
+                                <div id="toolbarDiv">
+                                    <ul id="deptTree" class="dtree" data-id="0" style="width: 100%;"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <div class="layui-input-block" style="margin-left:0;text-align:center;">
-                        <button type="button"  class="layui-btn layui-btn-normal btn-w100" lay-submit="" lay-filter="add">添加</button>
+                        <button type="button"  th:text="${user}?'修改':'增加'"  class="layui-btn layui-btn-normal btn-w100" lay-submit="" data-th-lay-filter="${user}?'edit':'add'"></button>
                     </div>
                 </div>
             </form>
@@ -96,16 +119,65 @@
                 base: '/lib/layui/extend/'
             }).extend({
                 formSelects: 'formSelects-v4'
-            }).use(['form', 'layer', 'formSelects'], function () {
+            }).use(['form', 'layer', 'formSelects', 'dtree'], function () {
                 $ = layui.jquery;
                 var form = layui.form
                     , layer = layui.layer
-                    , formSelects = layui.formSelects;
+                    , formSelects = layui.formSelects
+                    , dtree = layui.dtree;
+
+                var deptDTree = dtree.render({
+                    elem: "#deptTree",
+                    url: "/dept/tree",
+                    dataStyle: "layuiStyle",
+                    method: "GET",
+                    dot: false,     // 圆点是否显示
+                    accordion: true,
+                    menubar: true,
+                    response: {
+                        statusCode: 0,
+                        message: "msg",
+                        treeId: "id",
+                        parentId: "parentId",
+                        title: "name"
+                    },
+                    done: function (response, obj) {
+                        var deptId = [[${user?.deptId + ''}]] ;
+                        var dept = deptDTree.getParam(deptId);
+                        if (dept) {
+                            $("#deptName").val(dept.context);
+                            $("#deptId").val(dept.nodeId);
+                        }
+                    }
+                });
+
+                $("#deptName").on("click",function(){
+                    $(this).toggleClass("layui-form-selected");
+                    $("#deptTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
+                });
+
+                dtree.on("node(deptTree)", function(obj){
+                    console.log(obj);
+                    $("#deptName").val(obj.param.context);
+                    $("#deptId").val(obj.param.nodeId);
+                    $("#deptNameDiv").toggleClass("layui-form-selected");
+                    $("#deptTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
+                });
 
                 form.on('submit(add)', function (form) {
                     form.field.role = formSelects.value('role-select', 'val');
                     $.post('/user', form.field, function (result) {
                         handlerResult(result, addDone);
+                    });
+                    return false;
+                });
+
+                //监听提交
+                form.on('submit(edit)', function (form) {
+                    form.field._method = 'PUT';
+                    form.field.role = formSelects.value('role-select', 'val');
+                    $.post('/user', form.field, function (result) {
+                        handlerResult(result, editDone);
                     });
                     return false;
                 });
@@ -118,6 +190,10 @@
 
                 function addDone(data) {
                     layer.msg("添加成功", {icon: 6});
+                }
+
+                function editDone(data) {
+                    layer.msg("修改成功", {icon: 6});
                 }
             });
         </script>

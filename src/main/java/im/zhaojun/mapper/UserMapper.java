@@ -43,6 +43,11 @@ public interface UserMapper {
     List<User> selectAll();
 
     /**
+     * 获取所有用户
+     */
+    List<User> selectAllWithDept();
+
+    /**
      * 更改用户的状态为某项值
      */
     int updateStatusByPrimaryKey(@Param("id") Integer id, @Param("status") int status);

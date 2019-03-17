@@ -11,6 +11,7 @@
         <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="dept_id" jdbcType="INTEGER" property="deptId"/>
     </resultMap>
     <sql id="Base_Column_List">
         user_id,
@@ -22,7 +23,8 @@
         last_login_time,
         create_time,
         modify_time,
-        active_code
+        active_code,
+        dept_id
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -38,9 +40,9 @@
     <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.model.User"
             useGeneratedKeys="true">
         insert into user (username, password, salt,
-                          email, status, last_login_time, active_code)
+                          email, status, last_login_time, active_code, dept_id)
         values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
-                #{email,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{activeCode,jdbcType=VARCHAR} )
+                #{email,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{activeCode,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}  )
     </insert>
     <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.model.User"
             useGeneratedKeys="true">
@@ -64,6 +66,9 @@
             <if test="lastLoginTime != null">
                 last_login_time,
             </if>
+            <if test="deptId != null">
+                dept_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="username != null">
@@ -83,6 +88,9 @@
             </if>
             <if test="lastLoginTime != null">
                 #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deptId != null">
+                #{deptId,jdbcType=INTEGER}
             </if>
         </trim>
     </insert>
@@ -107,6 +115,9 @@
             <if test="lastLoginTime != null">
                 last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="deptId != null">
+                dept_id = #{deptId,jdbcType=INTEGER}
+            </if>
         </set>
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
@@ -117,7 +128,8 @@
             salt            = #{salt,jdbcType=VARCHAR},
             email           = #{email,jdbcType=VARCHAR},
             status          = #{status,jdbcType=CHAR},
-            last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
+            last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            dept_id = #{deptId,jdbcType=INTEGER}
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
 
@@ -223,5 +235,24 @@
         set password = #{password}, salt = #{salt}
         where user_id = #{userId}
     </update>
+
+
+    <select id="selectAllWithDept" resultMap="BaseResultMap">
+        select
+               u.user_id,
+               u.username,
+               u.password,
+               u.salt,
+               u.email,
+               u.status,
+               u.last_login_time,
+               u.create_time,
+               u.modify_time,
+               u.active_code,
+               u.dept_id,
+               d.dept_name
+        from user u
+        left join dept d on u.dept_id = d.dept_id
+    </select>
 
 </mapper>

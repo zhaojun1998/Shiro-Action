@@ -25,7 +25,7 @@
             <form action="" method="post" class="layui-form layui-form-pane">
                 <div class="layui-form-item">
                     <label for="deptName" class="layui-form-label">
-                        页面名称
+                        部门名称
                     </label>
                     <div class="layui-input-block">
                         <input type="text" id="deptName" name="deptName" th:value="${dept?.deptName}"
@@ -34,28 +34,8 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="url" class="layui-form-label">
-                        菜单URL
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" id="url" th:value="${dept?.url}" name="url"
-                               lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" class="layui-input" placeholder="请输入需要授权的 URL">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="perms" class="layui-form-label">
-                        权限标识
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" id="perms" th:value="${dept?.perms}" name="perms"
-                               lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" class="layui-input" placeholder="">
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label">
-                        上级菜单
+                        上级部门
                     </label>
                     <div class="layui-input-block">
                         <div class="layui-unselect layui-form-select" id="parentNameDiv">

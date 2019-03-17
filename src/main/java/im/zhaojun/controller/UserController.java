@@ -2,7 +2,6 @@ package im.zhaojun.controller;
 
 import com.github.pagehelper.PageInfo;
 import im.zhaojun.annotation.OperationLog;
-import im.zhaojun.exception.DuplicateNameException;
 import im.zhaojun.model.User;
 import im.zhaojun.service.RoleService;
 import im.zhaojun.service.UserService;
@@ -36,7 +35,7 @@ public class UserController {
     @ResponseBody
     public PageResultBean<User> getList(@RequestParam(value = "page", defaultValue = "1") int page,
                                           @RequestParam(value = "limit", defaultValue = "10")int limit) {
-        List<User> users = userService.selectAll(page, limit);
+        List<User> users = userService.selectAllWithDept(page, limit);
         PageInfo<User> userPageInfo = new PageInfo<>(users);
         return new PageResultBean<>(userPageInfo.getTotal(), userPageInfo.getList());
     }
@@ -47,13 +46,26 @@ public class UserController {
         return "user/user-add";
     }
 
+    @GetMapping("/{userId}")
+    public String edit(@PathVariable("userId") Integer userId, Model model) {
+        model.addAttribute("roleIds", userService.selectRoleIdsById(userId));
+        model.addAttribute("user", userService.selectOne(userId));
+        model.addAttribute("roles", roleService.selectAll());
+        return "user/user-add";
+    }
+
+    @OperationLog("编辑角色")
+    @PutMapping
+    @ResponseBody
+    public ResultBean edit(User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
+        userService.update(user, roleIds);
+        return ResultBean.success();
+    }
+
     @OperationLog("新增用户")
     @PostMapping
     @ResponseBody
     public ResultBean add(@Valid User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
-        if (userService.checkUserNameExist(user.getUsername())) {
-            throw new DuplicateNameException();
-        }
         return ResultBean.success(userService.add(user, roleIds));
     }
 

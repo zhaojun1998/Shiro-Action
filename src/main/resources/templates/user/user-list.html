@@ -37,6 +37,7 @@
         </script>
 
         <script type="text/html" id="column-toolbar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-xs" lay-event="grant">授予角色</a>
             <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
@@ -66,8 +67,9 @@
                     , toolbar: '#toolbar'
                     , cols: [
                         [
-                            {field: 'userId', title: 'ID', width: "15%"}
-                            , {field: 'username', title: '用户名', width: "20%"}
+                            {field: 'userId', title: 'ID', width: "10%"}
+                            , {field: 'username', title: '用户名', width: "15%"}
+                            , {field: 'deptName', title: '部门', width: "10%"}
                             , {field: 'email', title: '邮箱', width: "20%"}
                             , {field: 'lastLoginTime', title: '最后登陆时间', width: "15%"}
                             , {field: 'status', title: '状态', templet: "#statusTpl", width: "15%"}
@@ -103,9 +105,11 @@
                 table.on('tool', function (obj) {
                     var data = obj.data;
                     var event = obj.event;
-                    if (event === 'grant') {
+                    if (event === 'edit') {
+                        edit(data.userId);
+                    } else if (event === 'grant') {
                         grant(data.userId);
-                    } if (event === 'reset') {
+                    } else if (event === 'reset') {
                         layer.open({
                             content: '/user/' + data.userId + "/reset",
                             title: "重置密码",
@@ -175,6 +179,20 @@
                 function deleteDone(data) {
                     parent.layer.msg("删除成功", {icon: 6});
                     table.reload('user-table');
+                }
+
+                function edit(id) {
+                    layer.open({
+                        content: '/user/' + id,
+                        title: "编辑",
+                        area: ['600px', '700px'],
+                        type: 2,
+                        maxmin: true,
+                        shadeClose: true,
+                        end: function () {
+                            table.reload('user-table');
+                        }
+                    });
                 }
             });
         </script>

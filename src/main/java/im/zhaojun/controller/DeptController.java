@@ -30,10 +30,21 @@ public class DeptController {
         return ResultBean.success(deptList);
     }
 
+    @GetMapping("/tree/root")
+    @ResponseBody
+    public ResultBean treeAndRoot() {
+        return ResultBean.success(deptService.selectAllDeptTreeAndRoot());
+    }
+
     @GetMapping("/tree")
     @ResponseBody
     public ResultBean tree() {
-        return ResultBean.success();
+        return ResultBean.success(deptService.selectAllDeptTree());
+    }
+
+    @GetMapping
+    public String add() {
+        return "dept/dept-add";
     }
 
     @OperationLog("新增部门")

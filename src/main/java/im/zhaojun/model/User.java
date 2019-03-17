@@ -1,6 +1,7 @@
 package im.zhaojun.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import im.zhaojun.validate.constraints.UserNameNotDuplicate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +15,7 @@ public class User implements Serializable {
     private Integer userId;
 
     @NotBlank(message = "用户名不能为空")
+    @UserNameNotDuplicate
     private String username;
 
     @JsonIgnore
@@ -40,6 +42,8 @@ public class User implements Serializable {
     private String activeCode;
 
     private Integer deptId;
+
+    private String deptName;
 
     public Integer getUserId() {
         return userId;
@@ -129,6 +133,14 @@ public class User implements Serializable {
         this.deptId = deptId;
     }
 
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -143,6 +155,7 @@ public class User implements Serializable {
                 ", modifyTime=" + modifyTime +
                 ", activeCode='" + activeCode + '\'' +
                 ", deptId=" + deptId +
+                ", deptName='" + deptName + '\'' +
                 '}';
     }
 }

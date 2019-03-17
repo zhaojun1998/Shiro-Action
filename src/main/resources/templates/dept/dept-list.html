@@ -123,7 +123,7 @@
 
             var DTree = dtree.render({
                 elem: "#deptTree",
-                url: "/dept/tree",
+                url: "/dept/tree/root",
                 dataStyle: "layuiStyle",
                 initLevel: 5,   // 初始打开节点级别
                 method: "GET",
@@ -199,8 +199,6 @@
                     [
                         {field: 'id', title: 'ID', width: "7%"}
                         , {field: 'name', title: '名称', width: "15%"}
-                        , {field: 'url', title: '地址', width: "25%"}
-                        , {field: 'perms', title: '权限标识符', width: "12%"}
                         , {title: '操作', align: 'center', toolbar: '#column-toolbar'}
                         , {title: '排序', fixed: 'right', width: "15%", align: 'center', toolbar: '#column-toolbar2'}
                     ]

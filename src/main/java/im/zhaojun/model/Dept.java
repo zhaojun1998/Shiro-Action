@@ -1,18 +1,27 @@
 package im.zhaojun.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class Dept {
+public class Dept implements Serializable {
+
+    private static final long serialVersionUID = -194076170058276436L;
+
     /**
-	* 部门ID
+ 	* 部门ID
 	*/
+    @JsonProperty("id")
     private Integer deptId;
 
     /**
 	* 部门名称
 	*/
+    @JsonProperty("name")
     private String deptName;
 
     /**
@@ -39,6 +48,9 @@ public class Dept {
 
     @JsonIgnore
     private String checkArr;
+
+    @JsonSerialize(include = JsonSerialize.Inclusion.NON_EMPTY)
+    private List<Dept> children;
 
     public Integer getDeptId() {
         return deptId;
@@ -94,5 +106,13 @@ public class Dept {
 
     public void setCheckArr(String checkArr) {
         this.checkArr = checkArr;
+    }
+
+    public List<Dept> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Dept> children) {
+        this.children = children;
     }
 }

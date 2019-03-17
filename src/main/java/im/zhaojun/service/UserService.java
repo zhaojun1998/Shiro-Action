@@ -43,9 +43,9 @@ public class UserService {
     private RedisSessionDAO redisSessionDAO;
 
 
-    public List<User> selectAll(int page, int rows) {
+    public List<User> selectAllWithDept(int page, int rows) {
         PageHelper.startPage(page, rows);
-        return userMapper.selectAll();
+        return userMapper.selectAllWithDept();
     }
 
     public Integer[] selectRoleIdsById(Integer userId) {
@@ -57,18 +57,11 @@ public class UserService {
         String salt = generateSalt();
         String encryptPassword = new Md5Hash(user.getPassword(), salt).toString();
 
-        if (user.getStatus() == null) {
-            user.setStatus("1");
-        }
-
         user.setSalt(salt);
         user.setPassword(encryptPassword);
         userMapper.insert(user);
 
-        // 赋予角色.
-        if (roleIds.length > 0) {
-            userRoleMapper.insertList(user.getUserId(), roleIds);
-        }
+        grantRole(user.getUserId(), roleIds);
 
         return user.getUserId();
     }
@@ -87,7 +80,13 @@ public class UserService {
     }
 
     public boolean update(User user) {
-        return userMapper.updateByPrimaryKey(user) == 1;
+        return userMapper.updateByPrimaryKeySelective(user) == 1;
+    }
+
+    @Transactional
+    public boolean update(User user, Integer[] roleIds) {
+        grantRole(user.getUserId(), roleIds);
+        return userMapper.updateByPrimaryKeySelective(user) == 1;
     }
 
     public User selectOne(Integer id) {
@@ -126,6 +125,9 @@ public class UserService {
 
     @Transactional
     public void grantRole(Integer userId, Integer[] roleIds) {
+        if (roleIds == null || roleIds.length == 0) {
+            throw new IllegalArgumentException("赋予的角色数组不能为空.");
+        }
         // 清空原有的角色, 赋予新角色.
         userRoleMapper.deleteUserMenuByUserId(userId);
         userRoleMapper.insertList(userId, roleIds);

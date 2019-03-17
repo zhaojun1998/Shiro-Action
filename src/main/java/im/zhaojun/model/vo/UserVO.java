@@ -15,6 +15,8 @@ public class UserVO implements Serializable {
 
     private String status;
 
+    private String deptName;
+
     private Date lastLoginTime;
 
     public Integer getUserId() {
