@@ -38,7 +38,6 @@
 
         <script type="text/html" id="column-toolbar">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-xs" lay-event="grant">授予角色</a>
             <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
         </script>
@@ -73,7 +72,7 @@
                             , {field: 'email', title: '邮箱', width: "20%"}
                             , {field: 'lastLoginTime', title: '最后登陆时间', width: "15%"}
                             , {field: 'status', title: '状态', templet: "#statusTpl", width: "15%"}
-                            , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar', width: "15%"}
+                            , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
                         ]
                     ]
                 });
@@ -107,8 +106,6 @@
                     var event = obj.event;
                     if (event === 'edit') {
                         edit(data.userId);
-                    } else if (event === 'grant') {
-                        grant(data.userId);
                     } else if (event === 'reset') {
                         layer.open({
                             content: '/user/' + data.userId + "/reset",
@@ -139,20 +136,6 @@
                         content: "/user",
                         title: "新增用户",
                         area: ['500px', '550px'],
-                        type: 2,
-                        maxmin: true,
-                        shadeClose: true,
-                        end: function () {
-                            $(".layui-laypage-btn")[0].click()
-                        }
-                    });
-                }
-
-                function grant(id) {
-                    layer.open({
-                        content: '/user/' + id + "/grant/role",
-                        title: "授权角色",
-                        area: ['550px', '550px'],
                         type: 2,
                         maxmin: true,
                         shadeClose: true,

@@ -69,24 +69,6 @@ public class UserController {
         return ResultBean.success(userService.add(user, roleIds));
     }
 
-    @GetMapping("/{userId}/grant/role")
-    public String grant(@PathVariable("userId") Integer userId, Model model) {
-        User user = userService.selectOne(userId);
-        model.addAttribute("roleIds", userService.selectRoleIdsById(userId));
-        model.addAttribute("userId", userId);
-        model.addAttribute("roles", roleService.selectAll());
-        return "user/user-grant-role";
-    }
-
-    @OperationLog("为用户授予角色")
-    @PostMapping("/{userId}/grant/role")
-    @ResponseBody
-    public ResultBean grant(@PathVariable("userId") Integer userId,
-                                         @RequestParam("role[]") Integer roleIds[]) {
-        userService.grantRole(userId, roleIds);
-        return ResultBean.success();
-    }
-
     @OperationLog("禁用账号")
     @PostMapping("/{userId}/disable")
     @ResponseBody
