@@ -24,14 +24,12 @@ public class UserOnlineService {
         Collection<Session> sessions = redisSessionDAO.getActiveSessions();
         for (Session session : sessions) {
             UserOnline userOnline = new UserOnline();
-            User user = new User();
-            SimplePrincipalCollection principalCollection = new SimplePrincipalCollection();
             if (session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY) == null) {
                 continue;
             } else {
-                principalCollection = (SimplePrincipalCollection) session
+                SimplePrincipalCollection principalCollection = (SimplePrincipalCollection) session
                         .getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-                user = (User) principalCollection.getPrimaryPrincipal();
+                User user = (User) principalCollection.getPrimaryPrincipal();
                 userOnline.setUsername(user.getUsername());
                 userOnline.setUserId(user.getUserId());
             }

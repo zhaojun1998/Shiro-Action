@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface RoleMenuMapper<insertList> {
+public interface RoleMenuMapper {
     int insert(RoleMenu record);
 
     int insertSelective(RoleMenu record);

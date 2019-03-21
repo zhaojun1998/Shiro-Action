@@ -1,5 +1,6 @@
 package im.zhaojun.util;
 
+import im.zhaojun.exception.TreeCastException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -96,7 +97,7 @@ public class TreeUtil {
             return roots;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new TreeCastException(e);
         }
     }
 
@@ -139,7 +140,7 @@ public class TreeUtil {
         boolean flag = false;
         if (parentId == null) {
             flag = true;
-        } else if (parentId instanceof String && (StringUtils.isEmpty(parentId) || parentId.equals("0"))) {
+        } else if (parentId instanceof String && (StringUtils.isEmpty(parentId) || "0".equals(parentId))) {
             flag = true;
         } else if (parentId instanceof Integer && Integer.valueOf(0).equals(parentId)) {
             flag = true;
@@ -191,7 +192,7 @@ public class TreeUtil {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new TreeCastException(e);
         }
     }
 }

@@ -34,7 +34,6 @@ public class MenuController {
 
     @GetMapping
     public String add(Model model) {
-        List<Menu> menus = menuService.selectAllMenu();
         return "menu/menu-add";
     }
 

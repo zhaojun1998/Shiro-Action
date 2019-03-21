@@ -107,6 +107,7 @@ public class ShiroService {
                         .replace(" ", "");
                 manager.createChain(url, chainDefinition);
             }
+            log.info("更新 Shiro 过滤器链");
         }
     }
 }

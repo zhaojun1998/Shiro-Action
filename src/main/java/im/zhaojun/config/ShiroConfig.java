@@ -7,6 +7,7 @@ import im.zhaojun.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import im.zhaojun.shiro.filter.RestAuthorizationFilter;
 import im.zhaojun.shiro.filter.RestFormAuthenticationFilter;
 import im.zhaojun.shiro.realm.UserNameRealm;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -61,6 +62,7 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(userNameRealm());
         securityManager.setSessionManager(sessionManager());
+        SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
     }
 
@@ -96,6 +98,8 @@ public class ShiroConfig {
 
     @Bean
     public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(redisHost + ":" + redisPort);
         return new RedisManager();
     }
 

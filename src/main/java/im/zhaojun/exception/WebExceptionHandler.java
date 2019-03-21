@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -126,10 +127,10 @@ public class WebExceptionHandler{
     /**
      * 捕获 ClientAbortException 异常, 不做任何处理, 防止出现大量堆栈日志输出, 此异常不影响功能.
      */
-    @ExceptionHandler
+    @ExceptionHandler({HttpMediaTypeNotAcceptableException.class, ClientAbortException.class})
     @ResponseBody
     @ResponseStatus
-    public void test(ClientAbortException ex) {
+    public void test(Exception ex) {
         log.error("出现了断开异常:", ex);
     }
 

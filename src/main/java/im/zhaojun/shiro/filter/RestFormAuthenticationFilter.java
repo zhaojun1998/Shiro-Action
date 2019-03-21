@@ -2,7 +2,6 @@ package im.zhaojun.shiro.filter;
 
 import im.zhaojun.util.IPUtils;
 import im.zhaojun.util.ResultBean;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
@@ -44,7 +43,6 @@ public class RestFormAuthenticationFilter extends FormAuthenticationFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest request,
                                      ServletResponse response) throws Exception {
-        Subject subject = getSubject(request, response);
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         if (isLoginRequest(request, response)) {
             if (isLoginSubmission(request, response)) {
