@@ -32,7 +32,7 @@ public class OperationLogAspect {
 
     @Around(value = "pointcut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        Object result = null;
+        Object result;
         long beginTime = System.currentTimeMillis();
         // 执行方法
         result = point.proceed();

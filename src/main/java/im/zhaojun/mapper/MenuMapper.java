@@ -10,15 +10,15 @@ import java.util.List;
 public interface MenuMapper {
     int deleteByPrimaryKey(Integer menuId);
 
-    int insert(Menu record);
+    int insert(Menu menu);
 
-    int insertSelective(Menu record);
+    int insertSelective(Menu menu);
 
     Menu selectByPrimaryKey(Integer menuId);
 
-    int updateByPrimaryKeySelective(Menu record);
+    int updateByPrimaryKeySelective(Menu menu);
 
-    int updateByPrimaryKey(Menu record);
+    int updateByPrimaryKey(Menu menu);
 
     /**
      * 获取所有菜单
@@ -52,7 +52,5 @@ public interface MenuMapper {
     int swapSort(@Param("currentId")Integer currentId, @Param("swapId")Integer swapId);
 
     int selectMaxOrderNum();
-
-
 
 }

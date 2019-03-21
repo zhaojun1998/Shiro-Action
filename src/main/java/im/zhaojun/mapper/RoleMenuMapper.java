@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface RoleMenuMapper {
-    int insert(RoleMenu record);
+    int insert(RoleMenu roleMenu);
 
-    int insertSelective(RoleMenu record);
+    int insertSelective(RoleMenu roleMenu);
 
     /**
      * 插入多条 角色-菜单 关联关系

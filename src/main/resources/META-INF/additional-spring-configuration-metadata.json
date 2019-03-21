@@ -3,11 +3,11 @@
     {
       "name": "log.operation",
       "type": "java.lang.Boolean",
-      "description": "是否记录操作日志"
+      "description": "是否记录操作日志."
     },
     {
       "name": "log.login",
       "type": "java.lang.Boolean",
-      "description": "是否记录登录日志"
+      "description": "是否记录登录日志."
     }
   ] }

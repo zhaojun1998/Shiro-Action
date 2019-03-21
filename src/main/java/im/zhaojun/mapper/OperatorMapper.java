@@ -10,15 +10,15 @@ import java.util.List;
 public interface OperatorMapper {
     int deleteByPrimaryKey(Integer operatorId);
 
-    int insert(Operator record);
+    int insert(Operator operator);
 
-    int insertSelective(Operator record);
+    int insertSelective(Operator operator);
 
     Operator selectByPrimaryKey(Integer operatorId);
 
-    int updateByPrimaryKeySelective(Operator record);
+    int updateByPrimaryKeySelective(Operator operator);
 
-    int updateByPrimaryKey(Operator record);
+    int updateByPrimaryKey(Operator operator);
 
     List<Operator> selectByMenuId(@Param("menuId")Integer menuId);
 

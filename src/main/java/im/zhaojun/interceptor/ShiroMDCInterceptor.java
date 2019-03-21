@@ -16,7 +16,7 @@ public class ShiroMDCInterceptor implements HandlerInterceptor {
     private final static String MDC_USERNAME = "username";
 
     @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {
         // 如已进行登录, 则获取当前登录者的用户名放入 MDC 中.
         String username = "";
         if (SecurityUtils.getSubject().getPrincipal() != null) {
@@ -27,13 +27,13 @@ public class ShiroMDCInterceptor implements HandlerInterceptor {
     }
  
     @Override
-    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) {
         String username = MDC.get(MDC_USERNAME);
         MDC.remove(username);
     }
  
     @Override
-    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
  
     }
 }

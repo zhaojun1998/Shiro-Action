@@ -10,7 +10,6 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -88,7 +87,7 @@ public class WebExceptionHandler{
     @ExceptionHandler
     public String methodArgumentNotValid(BindException e) {
         log.error("参数校验失败", e);
-        List<ObjectError> allErrors = ((BeanPropertyBindingResult) e.getBindingResult()).getAllErrors();
+        List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
         StringBuilder errorMessage = new StringBuilder();
         for (int i = 0; i < allErrors.size(); i++) {
             ObjectError error = allErrors.get(i);

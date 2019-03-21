@@ -30,24 +30,16 @@ public class OperatorService {
         operatorMapper.deleteByPrimaryKey(operatorId);
     }
 
-    public int add(Operator record){
-        return operatorMapper.insert(record);
-    }
-
-    public int insertSelective(Operator record){
-        return operatorMapper.insertSelective(record);
+    public int add(Operator operator){
+        return operatorMapper.insert(operator);
     }
 
     public Operator selectByPrimaryKey(Integer operatorId){
         return operatorMapper.selectByPrimaryKey(operatorId);
     }
 
-    public int updateByPrimaryKeySelective(Operator record){
-        return operatorMapper.updateByPrimaryKeySelective(record);
-    }
-
-    public int updateByPrimaryKey(Operator record){
-        return operatorMapper.updateByPrimaryKey(record);
+    public int updateByPrimaryKey(Operator operator){
+        return operatorMapper.updateByPrimaryKey(operator);
     }
 
     public List<Operator> selectByMenuId(Integer menuId) {

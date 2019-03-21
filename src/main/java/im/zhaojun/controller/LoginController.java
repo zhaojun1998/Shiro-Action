@@ -125,7 +125,7 @@ public class LoginController {
     @GetMapping("/active/{token}")
     public String active(@PathVariable("token") String token, Model model) {
         User user = userService.selectByActiveCode(token);
-        String msg = "";
+        String msg;
         if (user == null) {
             msg = "请求异常, 激活地址不存在!";
         } else if ("1".equals(user.getStatus())) {

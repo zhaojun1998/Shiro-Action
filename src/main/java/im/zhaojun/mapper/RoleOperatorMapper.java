@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface RoleOperatorMapper {
-    int insert(RoleOperator record);
+    int insert(RoleOperator roleOperator);
 
-    int insertSelective(RoleOperator record);
+    int insertSelective(RoleOperator roleOperator);
 
     Integer[] getOperatorsByRoleId(Integer roleId);
 

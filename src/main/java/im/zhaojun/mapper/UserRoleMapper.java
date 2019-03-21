@@ -8,9 +8,9 @@ import java.util.List;
 
 @Mapper
 public interface UserRoleMapper {
-    int insert(UserRole record);
+    int insert(UserRole userRole);
 
-    int insertSelective(UserRole record);
+    int insertSelective(UserRole userRole);
 
 
     /**

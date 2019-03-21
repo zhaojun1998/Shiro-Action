@@ -108,7 +108,6 @@ public class UserService {
 
     /**
      * 删除所有此用户的在线用户
-     * @param userId
      */
     public void offlineByUserId(Integer userId) {
         Collection<Session> activeSessions = redisSessionDAO.getActiveSessions();

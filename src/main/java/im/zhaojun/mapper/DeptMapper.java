@@ -10,15 +10,15 @@ import java.util.List;
 public interface DeptMapper {
     int deleteByPrimaryKey(Integer deptId);
 
-    int insert(Dept record);
+    int insert(Dept dept);
 
-    int insertSelective(Dept record);
+    int insertSelective(Dept dept);
 
     Dept selectByPrimaryKey(Integer deptId);
 
-    int updateByPrimaryKeySelective(Dept record);
+    int updateByPrimaryKeySelective(Dept dept);
 
-    int updateByPrimaryKey(Dept record);
+    int updateByPrimaryKey(Dept dept);
 
     List<Dept> selectByParentId(@Param("parentId")Integer parentId);
 

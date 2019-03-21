@@ -20,7 +20,7 @@ public class MailService {
 
     public void sendHTMLMail(String to, String subject, String content) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = null;
+        MimeMessageHelper helper;
         try {
             helper = new MimeMessageHelper(mimeMessage, true);
             helper.setTo(to);

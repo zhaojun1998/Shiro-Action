@@ -81,7 +81,7 @@ public class ShiroService {
      */
     public void updateFilterChain() {
         synchronized (shiroFilterFactoryBean) {
-            AbstractShiroFilter shiroFilter = null;
+            AbstractShiroFilter shiroFilter;
             try {
                 shiroFilter = (AbstractShiroFilter) shiroFilterFactoryBean
                         .getObject();

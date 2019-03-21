@@ -10,15 +10,15 @@ import java.util.List;
 public interface LoginLogMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(LoginLog record);
+    int insert(LoginLog loginLog);
 
-    int insertSelective(LoginLog record);
+    int insertSelective(LoginLog loginLog);
 
     LoginLog selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(LoginLog record);
+    int updateByPrimaryKeySelective(LoginLog loginLog);
 
-    int updateByPrimaryKey(LoginLog record);
+    int updateByPrimaryKey(LoginLog loginLog);
 
     List<LoginLog> selectAll();
 

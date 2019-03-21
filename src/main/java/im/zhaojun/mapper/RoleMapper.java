@@ -9,15 +9,15 @@ import java.util.List;
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer roleId);
 
-    int insert(Role record);
+    int insert(Role role);
 
-    int insertSelective(Role record);
+    int insertSelective(Role role);
 
     Role selectByPrimaryKey(Integer roleId);
 
-    int updateByPrimaryKeySelective(Role record);
+    int updateByPrimaryKeySelective(Role role);
 
-    int updateByPrimaryKey(Role record);
+    int updateByPrimaryKey(Role role);
 
     List<Role> selectAll();
 

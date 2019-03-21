@@ -12,12 +12,12 @@ public class RoleOperatorService{
     @Resource
     private RoleOperatorMapper roleOperatorMapper;
 
-    public int insert(RoleOperator record){
-        return roleOperatorMapper.insert(record);
+    public int insert(RoleOperator roleOperator){
+        return roleOperatorMapper.insert(roleOperator);
     }
 
-    public int insertSelective(RoleOperator record){
-        return roleOperatorMapper.insertSelective(record);
+    public int insertSelective(RoleOperator roleOperator){
+        return roleOperatorMapper.insertSelective(roleOperator);
     }
 
 }

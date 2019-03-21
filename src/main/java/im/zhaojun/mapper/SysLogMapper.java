@@ -9,15 +9,15 @@ import java.util.List;
 public interface SysLogMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(SysLog record);
+    int insert(SysLog sysLog);
 
-    int insertSelective(SysLog record);
+    int insertSelective(SysLog sysLog);
 
     SysLog selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(SysLog record);
+    int updateByPrimaryKeySelective(SysLog sysLog);
 
-    int updateByPrimaryKey(SysLog record);
+    int updateByPrimaryKey(SysLog sysLog);
 
     List<SysLog> selectAll();
 
