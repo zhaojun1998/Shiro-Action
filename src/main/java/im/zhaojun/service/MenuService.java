@@ -47,7 +47,7 @@ public class MenuService {
         return menuMapper.selectAll();
     }
 
-    public Menu selectOne(Integer id) {
+    public Menu selectByPrimaryKey(Integer id) {
         return menuMapper.selectByPrimaryKey(id);
     }
 
@@ -136,11 +136,11 @@ public class MenuService {
     @Transactional
     public void deleteByIDAndChildren(Integer menuId) {
         // 删除子菜单
-        List<Integer> childIDList = menuMapper.selectChildrenID(menuId);
+        List<Integer> childIDList = menuMapper.selectChildrenIDByPrimaryKey(menuId);
         for (Integer childID : childIDList) {
             deleteByIDAndChildren(childID);
         }
-        // 删除子操作权限
+        // 删除菜单下的操作权限
         operatorMapper.deleteByMenuId(menuId);
         // 删除分配给用户的菜单
         roleMenuMapper.deleteByMenuId(menuId);

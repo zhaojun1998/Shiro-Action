@@ -30,7 +30,7 @@
                     <div class="layui-input-block">
                         <input type="text" id="deptName" name="deptName" th:value="${dept?.deptName}"
                                lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" placeholder="请输入页面名称" class="layui-input">
+                               autocomplete="off" placeholder="请输入部门名称" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -56,15 +56,6 @@
                     </div>
                 </div>
 
-                <fieldset class="layui-elem-field">
-                    <legend>备注</legend>
-                    <div class="layui-field-box">
-                        <div class="layui-form-mid layui-word-aux">
-                            URL 支持 ?, *, ** 通配符。<br>
-                            外部链接以 http(s):// 开头。
-                        </div>
-                    </div>
-                </fieldset>
                 <div class="layui-form-item">
                     <div class="layui-input-block" style="margin-left:0;text-align:center;">
                         <input type="hidden" name="deptId" th:value="${dept?.deptId}">

@@ -37,7 +37,7 @@ public interface MenuMapper {
     /**
      * 查找某菜单的所有子类 ID
      */
-    List<Integer> selectChildrenID(Integer id);
+    List<Integer> selectChildrenIDByPrimaryKey(@Param("menuId")Integer menuId);
 
     /**
      * 获取某个用户的所拥有的导航菜单

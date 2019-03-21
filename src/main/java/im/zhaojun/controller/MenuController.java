@@ -81,7 +81,7 @@ public class MenuController {
 
     @GetMapping("/{menuId}")
     public String updateMenu(@PathVariable("menuId") Integer menuId, Model model) {
-        Menu menu = menuService.selectOne(menuId);
+        Menu menu = menuService.selectByPrimaryKey(menuId);
         model.addAttribute("menu", menu);
         return "menu/menu-add";
     }

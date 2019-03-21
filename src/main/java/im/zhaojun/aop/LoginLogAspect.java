@@ -2,7 +2,6 @@ package im.zhaojun.aop;
 
 import im.zhaojun.model.User;
 import im.zhaojun.service.LoginLogService;
-import im.zhaojun.service.UserService;
 import im.zhaojun.util.IPUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -22,9 +21,6 @@ public class LoginLogAspect {
 
     @Resource
     private LoginLogService loginLogService;
-
-    @Resource
-    private UserService userService;
 
     @Pointcut("execution(im.zhaojun.util.ResultBean im.zhaojun.controller..LoginController.login(im.zhaojun.model.User, String) )")
     public void loginLogPointCut() {}

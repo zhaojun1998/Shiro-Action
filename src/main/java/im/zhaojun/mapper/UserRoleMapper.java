@@ -21,12 +21,12 @@ public interface UserRoleMapper {
     /**
      * 清空用户所拥有的所有角色
      */
-    int deleteUserMenuByUserId(@Param("userId") Integer userId);
+    int deleteUserRoleByUserId(@Param("userId") Integer userId);
 
     /**
      * 清空此角色与所有角色的关联关系
      */
-    int deleteUserMenuByRoleId(@Param("roleId") Integer roleId);
+    int deleteUserRoleByRoleId(@Param("roleId") Integer roleId);
 
 
     List<Integer> selectUserIdByRoleId(@Param("roleId")Integer roleId);

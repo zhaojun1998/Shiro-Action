@@ -39,7 +39,15 @@ public class DeptService{
         return deptMapper.updateByPrimaryKey(record);
     }
 
-    public void deleteByIDAndChildren(Integer deptId) {}
+    public void deleteByIDAndChildren(Integer deptId) {
+        // 删除子节点
+        List<Integer> childIDList = deptMapper.selectChildrenIDByPrimaryKey(deptId);
+        for (Integer childId : childIDList) {
+            deleteByIDAndChildren(childId);
+        }
+        // 删除自身
+        deleteByPrimaryKey(deptId);
+    }
 
     public List<Dept> selectByParentId(Integer parentId) {
         return deptMapper.selectByParentId(parentId);

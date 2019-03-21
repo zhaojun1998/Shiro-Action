@@ -85,7 +85,7 @@ public class RoleService {
 
     @Transactional
     public void delete(Integer roleId) {
-        userRoleMapper.deleteUserMenuByRoleId(roleId);
+        userRoleMapper.deleteUserRoleByRoleId(roleId);
         roleMapper.deleteByPrimaryKey(roleId);
         roleMenuMapper.deleteByRoleId(roleId);
         roleOperatorMapper.deleteByRoleId(roleId);

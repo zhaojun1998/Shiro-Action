@@ -129,7 +129,7 @@ public class UserService {
             throw new IllegalArgumentException("赋予的角色数组不能为空.");
         }
         // 清空原有的角色, 赋予新角色.
-        userRoleMapper.deleteUserMenuByUserId(userId);
+        userRoleMapper.deleteUserRoleByUserId(userId);
         userRoleMapper.insertList(userId, roleIds);
     }
 
@@ -144,7 +144,7 @@ public class UserService {
     @Transactional
     public void delete(Integer userId) {
         userMapper.deleteByPrimaryKey(userId);
-        userRoleMapper.deleteUserMenuByUserId(userId);
+        userRoleMapper.deleteUserRoleByUserId(userId);
     }
 
     /**
