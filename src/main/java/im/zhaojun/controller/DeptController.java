@@ -5,6 +5,7 @@ import im.zhaojun.model.Dept;
 import im.zhaojun.service.DeptService;
 import im.zhaojun.util.ResultBean;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -76,4 +77,13 @@ public class DeptController {
         deptService.updateByPrimaryKey(dept);
         return ResultBean.success();
     }
+
+
+    @GetMapping("/{deptId}")
+    public String update(@PathVariable("deptId") Integer deptId, Model model) {
+        Dept dept = deptService.selectByPrimaryKey(deptId);
+        model.addAttribute("dept", dept);
+        return "dept/dept-add";
+    }
+
 }

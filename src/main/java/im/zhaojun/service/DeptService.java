@@ -10,33 +10,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DeptService{
+public class DeptService {
 
     @Resource
     private DeptMapper deptMapper;
 
-    public int deleteByPrimaryKey(Integer deptId){
+    public int deleteByPrimaryKey(Integer deptId) {
         return deptMapper.deleteByPrimaryKey(deptId);
     }
 
-    public int insert(Dept record){
-        return deptMapper.insert(record);
+    public int insert(Dept dept) {
+        int maxOrderNum = deptMapper.selectMaxOrderNum();
+        dept.setOrderNum(maxOrderNum + 1);
+        return deptMapper.insert(dept);
     }
 
-    public int insertSelective(Dept record){
-        return deptMapper.insertSelective(record);
+    public int insertSelective(Dept dept) {
+        return deptMapper.insertSelective(dept);
     }
 
-    public Dept selectByPrimaryKey(Integer deptId){
+    public Dept selectByPrimaryKey(Integer deptId) {
         return deptMapper.selectByPrimaryKey(deptId);
     }
 
-    public int updateByPrimaryKeySelective(Dept record){
-        return deptMapper.updateByPrimaryKeySelective(record);
+    public int updateByPrimaryKeySelective(Dept dept) {
+        return deptMapper.updateByPrimaryKeySelective(dept);
     }
 
-    public int updateByPrimaryKey(Dept record){
-        return deptMapper.updateByPrimaryKey(record);
+    public int updateByPrimaryKey(Dept dept) {
+        return deptMapper.updateByPrimaryKey(dept);
     }
 
     public void deleteByIDAndChildren(Integer deptId) {
@@ -68,7 +70,7 @@ public class DeptService{
     }
 
     /**
-     *  获取所有菜单并添加一个根节点 (树形结构)
+     * 获取所有菜单并添加一个根节点 (树形结构)
      */
     public List<Dept> selectAllDeptTreeAndRoot() {
         List<Dept> deptList = toTree(selectAllDept());

@@ -23,4 +23,9 @@ public interface DeptMapper {
     List<Dept> selectByParentId(@Param("parentId")Integer parentId);
 
     List<Dept> selectAll();
+
+    List<Integer> selectChildrenIDByPrimaryKey(Integer deptId);
+
+    int selectMaxOrderNum();
+
 }

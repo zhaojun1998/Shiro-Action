@@ -105,12 +105,6 @@
       <if test="orderNum != null">
         order_num = #{orderNum,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
     </set>
     where dept_id = #{deptId,jdbcType=INTEGER}
   </update>
@@ -122,9 +116,7 @@
     update dept
     set dept_name = #{deptName,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
-      order_num = #{orderNum,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      order_num = #{orderNum,jdbcType=INTEGER}
     where dept_id = #{deptId,jdbcType=INTEGER}
   </update>
 
@@ -138,6 +130,17 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
+    from dept
+  </select>
+
+  <select id="selectChildrenIDByPrimaryKey" resultType="java.lang.Integer">
+    select dept_id
+    from dept
+    where parent_id = #{deptId, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectMaxOrderNum" resultType="int">
+    select ifnull(max(order_num), 0)
     from dept
   </select>
 </mapper>
