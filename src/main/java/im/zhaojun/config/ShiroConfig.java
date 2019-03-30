@@ -108,6 +108,7 @@ public class ShiroConfig {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
         redisSessionDAO.setExpire(1800);
         redisSessionDAO.setRedisManager(redisManager());
+        redisSessionDAO.setSessionInMemoryEnabled(false);
         return redisSessionDAO;
     }
 
