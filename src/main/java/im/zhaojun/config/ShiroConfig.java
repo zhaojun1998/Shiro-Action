@@ -115,7 +115,6 @@ public class ShiroConfig {
     public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionDAO(redisSessionDAO());
-        sessionManager.setSessionIdUrlRewritingEnabled(false);
         return sessionManager;
     }
 }
