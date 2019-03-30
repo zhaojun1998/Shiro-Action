@@ -164,7 +164,7 @@ public class MenuService {
     }
 
     public List<Menu> getALLMenuAndCountOperatorTreeAndRoot() {
-        List<Menu> menus = menuMapper.selectAllMenuAndCountOperator();
+        List<Menu> menus = getALLMenuAndCountOperatorTree();
         Menu root = new Menu();
         root.setMenuId(0);
         root.setMenuName("导航目录");
