@@ -162,4 +162,15 @@ public class MenuService {
     private List<Menu> toTree(List<Menu> menuList) {
         return TreeUtil.toTree(menuList, "menuId", "parentId", "children", Menu.class);
     }
+
+    public List<Menu> getALLMenuAndCountOperatorTreeAndRoot() {
+        List<Menu> menus = menuMapper.selectAllMenuAndCountOperator();
+        Menu root = new Menu();
+        root.setMenuId(0);
+        root.setMenuName("导航目录");
+        root.setChildren(menus);
+        List<Menu> rootList = new ArrayList<>();
+        rootList.add(root);
+        return rootList;
+    }
 }
