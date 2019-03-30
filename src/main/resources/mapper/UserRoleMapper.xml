@@ -46,13 +46,13 @@
         </foreach>
     </insert>
 
-    <delete id="deleteUserMenuByUserId">
+    <delete id="deleteUserRoleByUserId">
         delete
         from user_role
         where user_id = #{userId}
     </delete>
 
-    <delete id="deleteUserMenuByRoleId">
+    <delete id="deleteUserRoleByRoleId">
         delete
         from user_role
         where role_id = #{roleId}

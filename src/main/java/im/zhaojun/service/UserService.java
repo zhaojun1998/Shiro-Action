@@ -8,9 +8,9 @@ import im.zhaojun.model.User;
 import im.zhaojun.util.TreeUtil;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class UserService {
     private UserRoleMapper userRoleMapper;
 
     @Resource
-    private RedisSessionDAO redisSessionDAO;
+    private SessionDAO sessionDAO;
 
 
     public List<User> selectAllWithDept(int page, int rows) {
@@ -98,11 +98,11 @@ public class UserService {
     }
 
     public void offlineBySessionId(String sessionId) {
-        Session session = redisSessionDAO.readSession(sessionId);
+        Session session = sessionDAO.readSession(sessionId);
         if (session != null) {
             log.debug("成功踢出 sessionId 为 :" + sessionId + "的用户.");
             session.stop();
-            redisSessionDAO.delete(session);
+            sessionDAO.delete(session);
         }
     }
 
@@ -110,7 +110,7 @@ public class UserService {
      * 删除所有此用户的在线用户
      */
     public void offlineByUserId(Integer userId) {
-        Collection<Session> activeSessions = redisSessionDAO.getActiveSessions();
+        Collection<Session> activeSessions = sessionDAO.getActiveSessions();
         for (Session session : activeSessions) {
             SimplePrincipalCollection simplePrincipalCollection = (SimplePrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
             if (simplePrincipalCollection != null) {

@@ -127,12 +127,6 @@
       <if test="orderNum != null">
         order_num = #{orderNum,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
     </set>
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
@@ -188,7 +182,7 @@
         where parent_id = #{parentId,jdbcType=INTEGER}
     </delete>
 
-    <select id="selectChildrenID" parameterType="java.lang.Integer" resultType="int">
+    <select id="selectChildrenIDByPrimaryKey" parameterType="java.lang.Integer" resultType="int">
         select
                menu_id
         from menu

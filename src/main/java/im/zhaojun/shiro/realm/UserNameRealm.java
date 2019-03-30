@@ -7,11 +7,11 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.util.ByteSource;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -30,7 +30,7 @@ public class UserNameRealm extends AuthorizingRealm {
     private UserService userService;
 
     @Resource
-    private RedisSessionDAO redisSessionDAO;
+    private SessionDAO sessionDAO;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -65,7 +65,7 @@ public class UserNameRealm extends AuthorizingRealm {
 
     public void clearAuthCacheByUserId(Integer userId) {
         //获取所有session
-        Collection<Session> sessions = redisSessionDAO.getActiveSessions();
+        Collection<Session> sessions = sessionDAO.getActiveSessions();
         for (Session session : sessions) {
             //获取session登录信息。
             Object obj = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);

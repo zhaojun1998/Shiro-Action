@@ -3,9 +3,9 @@ package im.zhaojun.service;
 import im.zhaojun.model.User;
 import im.zhaojun.model.UserOnline;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,11 +17,11 @@ import java.util.List;
 public class UserOnlineService {
 
     @Resource
-    private RedisSessionDAO redisSessionDAO;
+    private SessionDAO sessionDAO;
 
     public List<UserOnline> list() {
         List<UserOnline> list = new ArrayList<>();
-        Collection<Session> sessions = redisSessionDAO.getActiveSessions();
+        Collection<Session> sessions = sessionDAO.getActiveSessions();
         for (Session session : sessions) {
             UserOnline userOnline = new UserOnline();
             if (session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY) == null) {
@@ -50,17 +50,17 @@ public class UserOnlineService {
     }
 
     public void forceLogout(String sessionId) {
-        Session session = redisSessionDAO.readSession(sessionId);
+        Session session = sessionDAO.readSession(sessionId);
         if (session != null) {
             session.stop();
             session.stop();
-            redisSessionDAO.delete(session);
+            sessionDAO.delete(session);
         }
     }
 
     public int count() {
         int count = 0;
-        Collection<Session> sessions = redisSessionDAO.getActiveSessions();
+        Collection<Session> sessions = sessionDAO.getActiveSessions();
         for (Session session : sessions) {
             if (session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY) != null) {
                 count++;

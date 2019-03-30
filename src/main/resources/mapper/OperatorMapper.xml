@@ -127,12 +127,6 @@
       <if test="httpMethod != null">
         http_method = #{httpMethod,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
     </set>
     where operator_id = #{operatorId,jdbcType=INTEGER}
   </update>
@@ -146,9 +140,7 @@
       operator_name = #{operatorName,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       perms = #{perms,jdbcType=VARCHAR},
-      http_method = #{httpMethod,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      http_method = #{httpMethod,jdbcType=VARCHAR}
     where operator_id = #{operatorId,jdbcType=INTEGER}
   </update>
 

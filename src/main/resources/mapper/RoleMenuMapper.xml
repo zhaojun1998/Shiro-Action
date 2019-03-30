@@ -24,18 +24,6 @@
     </trim>
   </insert>
 
-    <insert id="insertMenusWithRole">
-        INSERT INTO role_menu(
-        role_id, menu_id
-        )VALUES
-        <foreach collection="menuIds" item="menuId" index="index" separator=",">
-            (
-            #{roleId}
-            ,#{menuId}
-            )
-        </foreach>
-    </insert>
-
     <delete id="deleteByRoleId">
         delete from role_menu where role_id = #{roleId}
     </delete>
