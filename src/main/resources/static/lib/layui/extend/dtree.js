@@ -2244,28 +2244,28 @@ layui.define(['jquery','layer','form'], function(exports) {
 		var gg = "";
 		switch (menu) {
 			case defaultMenu.moveDown:
-				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.moveDown+"' title='展开全部节点'><i class='"+_this.usefontStyle.menubar.movedown+"'></i></button>";
+				gg = "<button type='button' class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.moveDown+"' title='展开全部节点'><i class='"+_this.usefontStyle.menubar.movedown+"'></i></button>";
 				break;
 			case defaultMenu.moveUp:
-				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.moveUp+"' title='收缩全部节点'><i class='"+_this.usefontStyle.menubar.moveup+"'></i></button>";
+				gg = "<button type='button' class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.moveUp+"' title='收缩全部节点'><i class='"+_this.usefontStyle.menubar.moveup+"'></i></button>";
 				break;
 			case defaultMenu.refresh:
-				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.refresh+"' title='刷新'><i class='"+_this.usefontStyle.menubar.refresh+"'></i></button>";
+				gg = "<button type='button' class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.refresh+"' title='刷新'><i class='"+_this.usefontStyle.menubar.refresh+"'></i></button>";
 				break;
 			case defaultMenu.checkAll:
-				gg = (_this.checkbar && _this.checkbarType != 'only') ? "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.checkAll+"' title='全选节点'><i class='"+_this.usefontStyle.menubar.checkAll+"'></i></button>" : "";
+				gg = (_this.checkbar && _this.checkbarType != 'only') ? "<button type='button' class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.checkAll+"' title='全选节点'><i class='"+_this.usefontStyle.menubar.checkAll+"'></i></button>" : "";
 				break;
 			case defaultMenu.unCheckAll:
-				gg = (_this.checkbar && _this.checkbarType != 'only') ? "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.unCheckAll+"' title='全不选节点'><i class='"+_this.usefontStyle.menubar.unCheckAll+"'></i></button>" : "";
+				gg = (_this.checkbar && _this.checkbarType != 'only') ? "<button type='button' class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.unCheckAll+"' title='全不选节点'><i class='"+_this.usefontStyle.menubar.unCheckAll+"'></i></button>" : "";
 				break;
 			case defaultMenu.invertAll:
-				gg = (_this.checkbar && _this.checkbarType != 'only') ? "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.invertAll+"' title='反选节点'><i class='"+_this.usefontStyle.menubar.invertAll+"'></i></button>" : "";
+				gg = (_this.checkbar && _this.checkbarType != 'only') ? "<button type='button' class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.invertAll+"' title='反选节点'><i class='"+_this.usefontStyle.menubar.invertAll+"'></i></button>" : "";
 				break;
 			case defaultMenu.remove:
-				gg = (_this.checkbar) ? "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.remove+"' title='删除选中节点'><i class='"+_this.usefontStyle.menubar.remove+"'></i></button>" : "";
+				gg = (_this.checkbar) ? "<button type='button' class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.remove+"' title='删除选中节点'><i class='"+_this.usefontStyle.menubar.remove+"'></i></button>" : "";
 				break;
 			case defaultMenu.searchNode:
-				gg = "<button class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.searchNode+"' title='查询节点'><i class='"+_this.usefontStyle.menubar.search+"'></i></button>";
+				gg = "<button type='button' class='layui-btn layui-btn-sm layui-btn-primary' dtree-id='"+rootId+"' d-menu='"+defaultMenu.searchNode+"' title='查询节点'><i class='"+_this.usefontStyle.menubar.search+"'></i></button>";
 				break;
 		}
 		return gg;
