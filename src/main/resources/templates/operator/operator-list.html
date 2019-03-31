@@ -178,7 +178,7 @@
                         , {field: 'operatorName', title: '功能名称', width: "15%"}
                         , {field: 'url', title: '地址', width: "25%"}
                         , {field: 'httpMethod', title: '请求方法', width: "10%"}
-                        , {field: 'perms', title: '权限标识符', width: "12%"}
+                        , {field: 'perms', title: '权限标识符', width: "18%"}
                         , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
                     ]
                 ]
@@ -192,7 +192,6 @@
                 });
             });
 
-
             table.on('tool', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'edit') {
@@ -201,7 +200,6 @@
                     delOperator(obj.data.operatorId);
                 }
             });
-
 
             function delMenu(id) {
                 layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除！", {icon: 3, title: '提示'},
@@ -237,7 +235,6 @@
                 table.reload("operator-table");
                 DTree.menubarMethod().refreshTree();
             }
-
 
             function editMenu(id) {
                 layer.open({

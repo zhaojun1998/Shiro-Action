@@ -13,16 +13,11 @@
         <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
         <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
         <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
-        <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-        <!--[if lt IE 9]>
-        <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-        <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
     </head>
 
     <body>
         <div class="x-body">
-            <form action="" method="post" class="layui-form">
+            <form action="" method="post" class="layui-form layui-form-pane">
                 <div class="layui-form-item">
                     <label for="roleName" class="layui-form-label">
                         角色名称
@@ -75,7 +70,7 @@
                     return false;
                 });
 
-                
+
                 function addDone(data) {
                     layer.msg("添加成功", {icon: 6});
                 }
