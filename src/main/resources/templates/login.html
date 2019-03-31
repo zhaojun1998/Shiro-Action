@@ -73,7 +73,7 @@
 
 
     function generateCaptcha(obj) {
-        $(obj).attr("src", "/captcha?timestamp" + (new Date()).valueOf());
+        $(obj).attr("src", "/captcha?timestamp=" + (new Date()).valueOf());
     }
 
     function loginDone(data) {

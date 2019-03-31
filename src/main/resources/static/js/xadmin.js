@@ -85,24 +85,6 @@ $(function () {
     });
 
     $("tbody.x-cate tr[fid!='0']").hide();
-    // 栏目多级显示效果
-    $('.x-show').click(function () {
-        if ($(this).attr('status') == 'true') {
-            $(this).html('&#xe625;');
-            $(this).attr('status', 'false');
-            cateId = $(this).parents('tr').attr('cate-id');
-            $("tbody tr[fid=" + cateId + "]").show();
-        } else {
-            cateIds = [];
-            $(this).html('&#xe623;');
-            $(this).attr('status', 'true');
-            cateId = $(this).parents('tr').attr('cate-id');
-            getCateId(cateId);
-            for (var i in cateIds) {
-                $("tbody tr[cate-id=" + cateIds[i] + "]").hide().find('.x-show').html('&#xe623;').attr('status', 'true');
-            }
-        }
-    });
 
     //左侧菜单效果
     // $('#content').bind("click",function(event){
@@ -255,31 +237,4 @@ function getQueryString(name) {
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]);
     return null;
-}
-
-
-function dtreeAddRootNode(treeId, orginal, isDisabled, isChecked, done) {
-    if (orginal instanceof Array) {
-        console.log(0);
-        var jsonData = [{
-            "id": 0,
-            "name": "导航目录",
-            "parentId": "0",
-            "disabled": isDisabled,
-            "children": orginal
-        }];
-        console.log("result", jsonData);
-        layui.dtree.reload(treeId, {data: jsonData, done: done});
-    } else if (orginal.id !== 0) {
-        console.log(1);
-        var jsonData = [{
-            "id": 0,
-            "name": "导航目录",
-            "parentId": "0",
-            "disabled": isDisabled,
-            "children": orginal
-        }];
-        console.log("result", jsonData);
-        layui.dtree.reload(treeId, {data: jsonData, done: done});
-    }
 }

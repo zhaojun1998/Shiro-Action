@@ -71,9 +71,6 @@ public class MenuController {
     @PostMapping
     @ResponseBody
     public ResultBean add(Menu menu) {
-        if (menu.getParentId() == null) {
-            menu.setParentId(0);
-        }
         menuService.insert(menu);
         return ResultBean.success();
     }
@@ -99,9 +96,6 @@ public class MenuController {
     @PutMapping
     @ResponseBody
     public ResultBean update(Menu menu) {
-        if (menu.getParentId() == null) {
-            menu.setParentId(0);
-        }
         menuService.updateByPrimaryKey(menu);
         return ResultBean.success();
     }

@@ -52,9 +52,6 @@ public class DeptController {
     @PostMapping
     @ResponseBody
     public ResultBean add(Dept dept) {
-        if (dept.getParentId() == null) {
-            dept.setParentId(0);
-        }
         deptService.insert(dept);
         return ResultBean.success();
     }
@@ -71,9 +68,6 @@ public class DeptController {
     @PutMapping
     @ResponseBody
     public ResultBean update(Dept dept) {
-        if (dept.getParentId() == null) {
-            dept.setParentId(0);
-        }
         deptService.updateByPrimaryKey(dept);
         return ResultBean.success();
     }
