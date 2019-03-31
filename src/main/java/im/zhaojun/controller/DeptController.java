@@ -72,12 +72,19 @@ public class DeptController {
         return ResultBean.success();
     }
 
-
     @GetMapping("/{deptId}")
     public String update(@PathVariable("deptId") Integer deptId, Model model) {
         Dept dept = deptService.selectByPrimaryKey(deptId);
         model.addAttribute("dept", dept);
         return "dept/dept-add";
+    }
+
+    @OperationLog("调整部门排序")
+    @PostMapping("/swap")
+    @ResponseBody
+    public ResultBean swapSort(Integer currentId, Integer swapId) {
+        deptService.swapSort(currentId, swapId);
+        return ResultBean.success();
     }
 
 }

@@ -28,4 +28,5 @@ public interface DeptMapper {
 
     int selectMaxOrderNum();
 
+    int swapSort(@Param("currentId")Integer currentId, @Param("swapId")Integer swapId);
 }

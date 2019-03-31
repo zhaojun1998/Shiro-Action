@@ -125,12 +125,14 @@
     <include refid="Base_Column_List"/>
     from dept
     where parent_id = #{parentId}
+    order by order_num
   </select>
 
   <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from dept
+    order by order_num
   </select>
 
   <select id="selectChildrenIDByPrimaryKey" resultType="java.lang.Integer">
@@ -143,4 +145,17 @@
     select ifnull(max(order_num), 0)
     from dept
   </select>
+
+  <update id="swapSort">
+    UPDATE
+      dept AS per
+        JOIN
+        dept AS next
+        ON
+            (per.`dept_id` = #{currentId} AND next.`dept_id` = #{swapId})
+            OR
+            (per.`dept_id` = #{swapId} AND next.`dept_id` = #{currentId})
+    SET per.`order_num`  = next.`order_num`,
+        next.`order_num` = per.`order_num`
+  </update>
 </mapper>
