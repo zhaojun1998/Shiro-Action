@@ -190,7 +190,8 @@
     </select>
 
     <select id="selectMenuByUserName" resultMap="BaseResultMap">
-        select menu.menu_id,
+        select distinct
+               menu.menu_id,
                menu.parent_id,
                menu.menu_name,
                menu.url,

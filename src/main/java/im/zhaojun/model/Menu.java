@@ -1,6 +1,7 @@
 package im.zhaojun.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -31,8 +32,8 @@ public class Menu implements Serializable {
     @JsonIgnore
     private Date modifyTime;
 
-    @JsonIgnore
-    private String checkArr;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String checkArr = "0";
 
     @JsonSerialize(include = JsonSerialize.Inclusion.NON_EMPTY)
     private List<Menu> children;

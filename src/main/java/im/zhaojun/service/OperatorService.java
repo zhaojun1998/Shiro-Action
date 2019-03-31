@@ -9,6 +9,7 @@ import im.zhaojun.util.TreeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,14 +56,28 @@ public class OperatorService {
         // 获取用户拥有的所在操作权限
         List<Operator> operators = operatorMapper.selectAll();
 
-        List<Menu> menus = menuMapper.selectAll();
-        List<Menu> menuTree = TreeUtil.toTree(menus, "menuId", "parentId", "children", Menu.class);
+        List<Menu> menuList = menuMapper.selectAll();
+
+        // 获取功能权限树时, 菜单应该没有复选框, 不可选.
+        for (Menu menu : menuList) {
+            menu.setCheckArr(null);
+        }
+
+        List<Menu> menuTree = TreeUtil.toTree(menuList,
+                "menuId", "parentId", "children", Menu.class);
+
+
 
         List<Menu> menuLeafNode = TreeUtil.getAllLeafNode(menuTree);
 
         // 将操作权限拼接到页面的树形结构下.
         for (Menu menu : menuLeafNode) {
+
             List<Menu> children = menu.getChildren();
+            if (children == null) {
+                children = new ArrayList<>();
+            }
+
             for (Operator operator : operators) {
                 if (menu.getMenuId().equals(operator.getMenuId())) {
 
@@ -74,6 +89,7 @@ public class OperatorService {
                     children.add(temp);
                 }
             }
+            menu.setChildren(children);
         }
 
         return menuTree;

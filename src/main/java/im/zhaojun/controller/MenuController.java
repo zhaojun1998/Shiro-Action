@@ -37,33 +37,22 @@ public class MenuController {
         return "menu/menu-add";
     }
 
-    @OperationLog("获取菜单树形数据")
     @GetMapping("/tree")
     @ResponseBody
     public ResultBean tree() {
         return ResultBean.success(menuService.getALLMenuTree());
     }
 
-    @OperationLog("获取菜单树形数据")
     @GetMapping("/tree/root")
     @ResponseBody
     public ResultBean treeAndRoot() {
-        return ResultBean.success(menuService.getALLMenuTreeVOAndRoot());
+        return ResultBean.success(menuService.getALLMenuTreeAndRoot());
     }
 
-
-    @OperationLog("获取菜单树形数据")
     @GetMapping("/tree/root/operator")
     @ResponseBody
     public ResultBean menuAndCountOperatorTreeAndRoot() {
         return ResultBean.success(menuService.getALLMenuAndCountOperatorTreeAndRoot());
-    }
-
-    @OperationLog("获取菜单树形数据")
-    @GetMapping("/tree/operator")
-    @ResponseBody
-    public ResultBean menuAndCountOperatorTree() {
-        return ResultBean.success(menuService.getALLMenuAndCountOperatorTree());
     }
 
     @OperationLog("新增菜单")
@@ -100,7 +89,7 @@ public class MenuController {
         return ResultBean.success();
     }
 
-    @OperationLog("菜单交换顺序")
+    @OperationLog("调整部门排序")
     @PostMapping("/swap")
     @ResponseBody
     public ResultBean swapSort(Integer currentId, Integer swapId) {

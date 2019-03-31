@@ -89,4 +89,8 @@ public class DeptService {
     private List<Dept> toTree(List<Dept> depts) {
         return TreeUtil.toTree(depts, "deptId", "parentId", "children", Dept.class);
     }
+
+    public void swapSort(Integer currentId, Integer swapId) {
+        deptMapper.swapSort(currentId, swapId);
+    }
 }

@@ -56,24 +56,15 @@ public class MenuService {
      */
     public List<Menu> getALLMenuTree() {
         List<Menu> menus = selectAllMenu();
-        for (Menu menu : menus) {
-            menu.setCheckArr("0");
-        }
         return toTree(menus);
     }
 
     /**
      * 获取所有菜单并添加一个根节点 (树形结构)
      */
-    public List<Menu> getALLMenuTreeVOAndRoot() {
-        List<Menu> allMenuTreeVO = getALLMenuTree();
-        Menu root = new Menu();
-        root.setMenuId(0);
-        root.setMenuName("导航目录");
-        root.setChildren(allMenuTreeVO);
-        List<Menu> rootList = new ArrayList<>();
-        rootList.add(root);
-        return rootList;
+    public List<Menu> getALLMenuTreeAndRoot() {
+        List<Menu> allMenuTree = getALLMenuTree();
+        return addRootNode("导航目录", 0, allMenuTree);
     }
 
     /**
@@ -165,10 +156,17 @@ public class MenuService {
 
     public List<Menu> getALLMenuAndCountOperatorTreeAndRoot() {
         List<Menu> menus = getALLMenuAndCountOperatorTree();
+        return addRootNode("导航目录", 0, menus);
+    }
+
+    /**
+     * 将树形结构添加到一个根节点下.
+     */
+    private List<Menu> addRootNode(String rootName, Integer rootId, List<Menu> children) {
         Menu root = new Menu();
-        root.setMenuId(0);
-        root.setMenuName("导航目录");
-        root.setChildren(menus);
+        root.setMenuId(rootId);
+        root.setMenuName(rootName);
+        root.setChildren(children);
         List<Menu> rootList = new ArrayList<>();
         rootList.add(root);
         return rootList;
