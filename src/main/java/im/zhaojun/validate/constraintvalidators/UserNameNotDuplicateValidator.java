@@ -14,6 +14,6 @@ public class UserNameNotDuplicateValidator implements ConstraintValidator<UserNa
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return userService.checkUserNameExist(value);
+        return !userService.checkUserNameExist(value);
     }
 }

@@ -94,7 +94,7 @@ public class UserService {
     }
 
     public boolean checkUserNameExist(String username) {
-        return userMapper.countByUserName(username) > 1;
+        return userMapper.countByUserName(username) > 0;
     }
 
     public void offlineBySessionId(String sessionId) {
