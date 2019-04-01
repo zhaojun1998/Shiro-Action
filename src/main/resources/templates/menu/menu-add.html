@@ -105,9 +105,10 @@
                     url: '/system/urls',
                     template_val: '{{d.url}}',
                     template_txt: '{{d.url}} \
-                        {{#  layui.each(d.type.split(","), function(index, item){ }} \
+                        {{#  layui.each(d.method.split(","), function(index, item){ }} \
                             <span class="layui-badge layui-bg-gray">{{item}}</span>  \
                         {{#  }); }} \
+                            <div style="float: right;"><span class="layui-badge layui-bg-cyan">{{d.type}}</span></div>  \
                     ',
                     onselect: function (resp) {
                         console.log(resp);

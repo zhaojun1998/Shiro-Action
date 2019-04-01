@@ -67,7 +67,6 @@ layui.define(['jquery', 'laytpl', 'layer'], function (e) {
                 _elem = _config.elem,
                 _container = _elem.next('.' + container),
                 _dom = _container.find('dl');
-            console.log(_config)
             if (!_config.filter) return _self.renderData([]);
             if (_config.cache && _config.data[_self.index]) return _self.renderData(_config.data[_self.index]);
             (!_config.cache && _config.ajax[_self.index] != undefined) && _config.ajax[_self.index].abort(), _config.ajax[_self.index] = $.ajax({
@@ -105,6 +104,10 @@ layui.define(['jquery', 'laytpl', 'layer'], function (e) {
                     }
                 });
             });
+            if (_list.length === 0) {
+                _list.push(['<dd style="text-align: center" autocomplete-load>', _config.text.none, '</dd>'].join(''));
+            }
+            console.log(_list);
             _dom.html(_list.join('')), _list.length > 0 ? _container.addClass(container_focus) : _container.removeClass(container_focus)
         },
         job.prototype.events = function () {

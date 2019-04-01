@@ -64,26 +64,11 @@
         <script>
             layui.config({
                 base: '/lib/layui/extend/'
-            }).use(['form', 'layer', 'autocomplete', 'dtree'], function () {
+            }).use(['form', 'layer', 'dtree'], function () {
                 var $ = layui.jquery,
                     form = layui.form,
                     layer = layui.layer,
-                    autocomplete = layui.autocomplete,
                     dtree = layui.dtree;
-
-                autocomplete.render({
-                    elem: $('#url'),
-                    url: '/system/urls',
-                    template_val: '{{d.url}}',
-                    template_txt: '{{d.url}} \
-                        {{#  layui.each(d.type.split(","), function(index, item){ }} \
-                            <span class="layui-badge layui-bg-gray">{{item}}</span>  \
-                        {{#  }); }} \
-                    ',
-                    onselect: function (resp) {
-                        console.log(resp);
-                    }
-                });
 
                 var deptDTree = dtree.render({
                     elem: "#parentTree",
