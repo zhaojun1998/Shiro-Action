@@ -25,7 +25,7 @@ public class RoleController {
         return "role/role-list";
     }
 
-    @OperationLog("获取角色列表")
+    @OperationLog("查询角色列表")
     @GetMapping("/list")
     @ResponseBody
     public PageResultBean<Role> getList(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -80,6 +80,7 @@ public class RoleController {
         return ResultBean.success();
     }
 
+
     @OperationLog("为角色授予菜单")
     @PostMapping("/{roleId}/grant/operator")
     @ResponseBody
@@ -90,16 +91,22 @@ public class RoleController {
         roleService.grantOperator(roleId, operatorIds);
         return ResultBean.success();
     }
-    
+
+    /**
+     * 获取角色拥有的菜单
+     */
     @GetMapping("/{roleId}/own/menu")
     @ResponseBody
     public ResultBean getRoleOwnMenu(@PathVariable("roleId") Integer roleId) {
         return ResultBean.success(roleService.getMenusByRoleId(roleId));
     }
 
+    /**
+     * 获取角色拥有的操作权限
+     */
     @GetMapping("/{roleId}/own/operator")
     @ResponseBody
-    public ResultBean getOperatorOwnMenu(@PathVariable("roleId") Integer roleId) {
+    public ResultBean getRoleOwnOperator(@PathVariable("roleId") Integer roleId) {
         Integer[] operatorIds = roleService.getOperatorsByRoleId(roleId);
         for (int i = 0; i < operatorIds.length; i++) {
             operatorIds[i] = operatorIds[i] + 10000;
