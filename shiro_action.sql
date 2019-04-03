@@ -26,8 +26,8 @@ CREATE TABLE `dept`  (
   `dept_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门名称',
   `parent_id` int(11) NOT NULL COMMENT '上级部门ID',
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp COMMENT '修改时间',
   PRIMARY KEY (`dept_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -69,8 +69,8 @@ CREATE TABLE `menu`  (
   `url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单 URL',
   `perms` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限标识符',
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp COMMENT '修改时间',
   PRIMARY KEY (`menu_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -99,8 +99,8 @@ CREATE TABLE `operator`  (
   `url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源 URL',
   `perms` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限标识符',
   `http_method` varchar(7) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源需要的 HTTP 请求方法',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp COMMENT '修改时间',
   PRIMARY KEY (`operator_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -135,8 +135,8 @@ CREATE TABLE `role`  (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `remark` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp,
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp,
   PRIMARY KEY (`role_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -221,7 +221,7 @@ CREATE TABLE `sys_log`  (
   `method` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方法',
   `params` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求参数',
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
@@ -236,9 +236,9 @@ CREATE TABLE `user`  (
   `salt` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '盐',
   `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `status` int(1) NULL DEFAULT NULL COMMENT '账号状态: 0: 未激活, 1: 已激活. ',
-  `last_login_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后登录时间',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+  `last_login_time` timestamp NOT NULL DEFAULT CURRENT_timestamp ON UPDATE CURRENT_timestamp COMMENT '最后登录时间',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp COMMENT '修改时间',
   `active_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '注册激活码',
   `dept_id` int(11) NULL DEFAULT NULL COMMENT '部门ID',
   PRIMARY KEY (`user_id`) USING BTREE
