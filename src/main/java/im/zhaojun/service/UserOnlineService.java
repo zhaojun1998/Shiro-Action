@@ -2,6 +2,7 @@ package im.zhaojun.service;
 
 import im.zhaojun.model.User;
 import im.zhaojun.model.UserOnline;
+import im.zhaojun.util.IPUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -34,7 +35,7 @@ public class UserOnlineService {
                 userOnline.setUserId(user.getUserId());
             }
             userOnline.setId((String) session.getId());
-            userOnline.setIp(session.getHost());
+            userOnline.setIp(IPUtils.getIpAddr());
             userOnline.setStartTimestamp(session.getStartTimestamp());
             userOnline.setLastAccessTime(session.getLastAccessTime());
             Long timeout = session.getTimeout();

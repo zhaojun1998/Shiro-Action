@@ -34,9 +34,6 @@ public class UserService {
     private MenuService menuService;
 
     @Resource
-    private OperatorService operatorService;
-
-    @Resource
     private UserRoleMapper userRoleMapper;
 
     @Resource
