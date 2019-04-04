@@ -27,24 +27,17 @@ public class MenuService {
     private OperatorMapper operatorMapper;
 
     /**
-     * 获取所有菜单(导航菜单和按钮)
+     * 获取所有菜单
      */
     public List<Menu> selectAll() {
         return menuMapper.selectAll();
     }
 
     /**
-     * 获取所有菜单(导航菜单和按钮)
+     * 根据父 ID 获取所有菜单
      */
     public List<Menu> selectByParentId(Integer parentId) {
         return menuMapper.selectByParentId(parentId);
-    }
-
-    /**
-     * 获取所有导航菜单
-     */
-    public List<Menu> selectAllMenu() {
-        return menuMapper.selectAll();
     }
 
     public Menu selectByPrimaryKey(Integer id) {
@@ -55,7 +48,7 @@ public class MenuService {
      * 获取所有菜单 (树形结构)
      */
     public List<Menu> getALLMenuTree() {
-        List<Menu> menus = selectAllMenu();
+        List<Menu> menus = selectAll();
         return toTree(menus);
     }
 

@@ -113,7 +113,6 @@ public class LoginController {
         //定义图形验证码的长、宽、验证码字符数、干扰元素个数
         CaptchaUtil.Captcha captcha = CaptchaUtil.createCaptcha(140, 38, 4, 10, 30);
         Session session = SecurityUtils.getSubject().getSession();
-        System.out.println(captcha.getCode());
         session.setAttribute("captcha", captcha.getCode());
 
         response.setContentType("image/png");
