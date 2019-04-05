@@ -66,3 +66,5 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 ![](https://cdn.jun6.net/201904032327_936.png)
 
 ![](https://cdn.jun6.net/201904032328_32.png)
+
+![](https://cdn.jun6.net/201904051028_493.png)
