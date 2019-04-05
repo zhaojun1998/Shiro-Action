@@ -31,9 +31,4 @@ public class ShiroMDCInterceptor implements HandlerInterceptor {
         String username = MDC.get(MDC_USERNAME);
         MDC.remove(username);
     }
- 
-    @Override
-    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
- 
-    }
 }
