@@ -186,7 +186,7 @@
         select
                menu_id
         from menu
-        where parent_id = #{id, jdbcType=INTEGER}
+        where parent_id = #{menuId, jdbcType=INTEGER}
     </select>
 
     <select id="selectMenuByUserName" resultMap="BaseResultMap">
