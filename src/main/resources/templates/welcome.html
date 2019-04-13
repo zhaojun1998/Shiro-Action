@@ -13,9 +13,10 @@
         <script th:src="@{/lib/layui/layui.js}"></script>
         <script th:src="@{/lib/echarts/echarts.min.js}"></script>
         <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+        <link rel="stylesheet" th:href="@{/css/animate.min.css}">
     </head>
     <body>
-        <div class="x-body layui-anim layui-anim-up">
+        <div class="x-body animated fadeIn">
             <blockquote class="layui-elem-quote">欢迎：
                 <span><shiro:principal property="username"/></span>！当前时间: [[${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')}]]</blockquote>
             <fieldset class="layui-elem-field">
