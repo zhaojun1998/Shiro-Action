@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
     <head>
         <meta charset="UTF-8">
         <title>部门管理</title>
@@ -95,8 +95,12 @@
     </body>
 
     <script type="text/html" id="column-toolbar">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <shiro:hasPermission name="dept:update">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="dept:delete">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </shiro:hasPermission>
     </script>
 
     <script type="text/html" id="column-toolbar2">
@@ -115,6 +119,21 @@
     </script>
 
     <script>
+        // 获取有没有删除, 更新, 和新增的权限.
+        var hasDeptDelete = false;
+        var hasDeptUpdate = false;
+        var hasDeptAdd = false;
+
+        $.get('/security/hasPermission/dept:update', function (data) {
+            hasDeptUpdate = data.data;
+        });
+        $.get('/security/hasPermission/dept:delete', function (data) {
+            hasDeptDelete = data.data;
+        });
+        $.get('/security/hasPermission/dept:add', function (data) {
+            hasDeptAdd = data.data;
+        });
+
         layui.config({
             base: '/lib/layui/extend/'
         }).use(['jquery', 'dtree', 'layer', 'table', 'element'], function () {
@@ -181,6 +200,15 @@
                         if(param.level === "1"){ // 如果是顶级节点, 则取消编辑和删除功能.
                             buttons.edit = "";
                             buttons.remove = "";
+                        }
+                        if (!hasDeptAdd) {
+                            buttons.add = "";
+                        }
+                        if (!hasDeptDelete) {
+                            buttons.remove = "";
+                        }
+                        if (!hasDeptUpdate) {
+                            buttons.edit = "";
                         }
                         return buttons;
                     }

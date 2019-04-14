@@ -34,17 +34,27 @@
         </div>
 
         <script type="text/html" id="toolbar">
-            <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
+            <shiro:hasPermission name="user:add">
+                <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
+            </shiro:hasPermission>
         </script>
 
         <script type="text/html" id="column-toolbar">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
-            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+            <shiro:hasPermission name="user:update">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="user:reset">
+                <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="user:delete">
+                <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+            </shiro:hasPermission>
         </script>
 
 
+
         <script type="text/html" id="statusTpl">
+            <!-- 不能禁用自己 -->
             {{#  if('<shiro:principal property="username"/>' == d.username) { }}
                 <input type="checkbox" disabled name="status" value="{{d.userId}}" lay-skin="switch" lay-text="正常|锁定" lay-filter="status" {{ d.status == '1' ? 'checked' : '' }}>
             {{#  } }}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
     <head>
         <meta charset="UTF-8">
         <title>角色管理</title>
@@ -32,14 +32,24 @@
         </div>
 
         <script type="text/html" id="toolbar">
-            <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
+            <shiro:hasPermission name="role:add">
+                <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
+            </shiro:hasPermission>
         </script>
 
         <script type="text/html" id="column-toolbar">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-menu">授权菜单</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-operator">授权功能</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            <shiro:hasPermission name="role:update">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="role:grant:menu">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-menu">授权菜单</a>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="role:grant:operator">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-operator">授权功能</a>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="role:delete">
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </shiro:hasPermission>
         </script>
 
         <script>

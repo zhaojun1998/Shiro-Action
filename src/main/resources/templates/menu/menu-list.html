@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
     <head>
         <meta charset="UTF-8">
         <title>菜单权限</title>
@@ -95,8 +95,12 @@
     </body>
 
     <script type="text/html" id="column-toolbar">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <shiro:hasPermission name="menu:update">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="menu:delete">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </shiro:hasPermission>
     </script>
 
     <script type="text/html" id="column-toolbar2">
@@ -115,6 +119,22 @@
     </script>
 
     <script>
+
+        // 获取有没有删除, 更新, 和新增的权限.
+        var hasMenuDelete = false;
+        var hasMenuUpdate = false;
+        var hasMenuAdd = false;
+
+        $.get('/security/hasPermission/menu:update', function (data) {
+            hasMenuUpdate = data.data;
+        });
+        $.get('/security/hasPermission/menu:delete', function (data) {
+            hasMenuDelete = data.data;
+        });
+        $.get('/security/hasPermission/menu:add', function (data) {
+            hasMenuAdd = data.data;
+        });
+
         layui.config({
             base: '/lib/layui/extend/'
         }).use(['jquery', 'dtree', 'layer', 'table', 'element'], function () {
@@ -137,11 +157,11 @@
                     {
                         toolbarId: "add",
                         icon: "dtree-icon-roundadd",
-                        title: "添加子节点",
+                        title: "添加子菜单",
                         handler: function (node, $div) {
                             layer.open({
                                 content: "/menu?parentId=" + node.nodeId,
-                                title: "添加子节点",
+                                title: "添加子菜单",
                                 area: ['600px', '600px'],
                                 type: 2,
                                 maxmin: true,
@@ -181,6 +201,15 @@
                         if(param.level === "1"){ // 如果是顶级节点, 则取消编辑和删除功能.
                             buttons.edit = "";
                             buttons.remove = "";
+                        }
+                        if (!hasMenuAdd) {
+                            buttons.add = "";
+                        }
+                        if (!hasMenuDelete) {
+                            buttons.remove = "";
+                        }
+                        if (!hasMenuUpdate) {
+                            buttons.edit = "";
                         }
                         return buttons;
                     }

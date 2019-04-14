@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
     <head>
         <meta charset="UTF-8">
         <title>在线用户管理</title>
@@ -34,7 +34,9 @@
         </div>
 
         <script type="text/html" id="column-toolbar">
-            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="kickout">下线</a>
+            <shiro:hasPermission name="online:kickout">
+                <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="kickout">下线</a>
+            </shiro:hasPermission>
         </script>
 
         <script>
@@ -62,7 +64,7 @@
                             , {field: 'lastAccessTime', title: '最后访问时间', width: "15%"}
                             , {field: 'ip', title: 'IP', width: "12%"}
                             , {field: 'status', title: '状态', width: "5%"}
-                            , {title: '操作', align: 'center', toolbar: '#column-toolbar', width: "10%"}
+                            , {title: '操作', align: 'center', toolbar: '#column-toolbar'}
                         ]
                     ]
                 });

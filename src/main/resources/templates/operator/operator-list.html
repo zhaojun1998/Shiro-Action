@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
     <head>
         <meta charset="UTF-8">
         <title>操作管理</title>
@@ -89,11 +89,31 @@
     </body>
 
     <script type="text/html" id="column-toolbar">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <shiro:hasPermission name="operator:add">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="operator:delete">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </shiro:hasPermission>
     </script>
 
     <script>
+
+        // 获取有没有删除, 更新, 和新增的权限.
+        var hasOperatorDelete = false;
+        var hasOperatorUpdate = false;
+        var hasOperatorAdd = false;
+
+        $.get('/security/hasPermission/operator:update', function (data) {
+            hasOperatorUpdate = data.data;
+        });
+        $.get('/security/hasPermission/operator:delete', function (data) {
+            hasOperatorDelete = data.data;
+        });
+        $.get('/security/hasPermission/operator:add', function (data) {
+            hasOperatorAdd = data.data;
+        });
+
         layui.config({
             base: '/lib/layui/extend/'
         }).use(['jquery', 'dtree', 'layer', 'table', 'element'], function () {
@@ -159,6 +179,15 @@
                     loadToolbarBefore: function(buttons, param, $div){
                         if(!param.isLeaf){ // 只有叶子节点, 即页面, 才能添加页面的功能权限.
                             buttons.add = "";
+                        }
+                        if (!hasOperatorAdd) {
+                            buttons.add = "";
+                        }
+                        if (!hasOperatorDelete) {
+                            buttons.remove = "";
+                        }
+                        if (!hasOperatorUpdate) {
+                            buttons.edit = "";
                         }
                         return buttons; // 将按钮对象返回
                     }
