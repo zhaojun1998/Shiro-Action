@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 
 /**
  * 精确的浮点数运算
- *
- * @author YI
- * @date 2019-1-22 15:14:07
  */
 public class Arith {
 

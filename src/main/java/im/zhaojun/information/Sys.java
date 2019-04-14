@@ -2,9 +2,6 @@ package im.zhaojun.information;
 
 /**
  * 系统相关信息
- *
- * @author YI
- * @date 2019年1月22日15:11:56
  */
 public class Sys {
     /**

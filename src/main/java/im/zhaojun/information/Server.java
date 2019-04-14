@@ -1,6 +1,7 @@
 package im.zhaojun.information;
 
 
+import im.zhaojun.util.IPUtils;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.CentralProcessor.TickType;
@@ -18,9 +19,6 @@ import java.util.Properties;
 
 /**
  * 服务器相关信息
- *
- * @author YI
- * @date 2019年1月22日15:11:56
  */
 public class Server {
 
@@ -145,8 +143,8 @@ public class Server {
      */
     private void setSysInfo() {
         Properties props = System.getProperties();
-        sys.setComputerName(IpUtils.getHostName());
-        sys.setComputerIp(IpUtils.getHostIp());
+        sys.setComputerName(IPUtils.getHostName());
+        sys.setComputerIp(IPUtils.getHostIp());
         sys.setOsName(props.getProperty("os.name"));
         sys.setOsArch(props.getProperty("os.arch"));
         sys.setUserDir(props.getProperty("user.dir"));

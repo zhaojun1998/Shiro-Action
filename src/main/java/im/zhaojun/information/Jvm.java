@@ -1,13 +1,12 @@
 package im.zhaojun.information;
 
 
+import im.zhaojun.util.DateUtils;
+
 import java.lang.management.ManagementFactory;
 
 /**
  * JVM相关信息
- *
- * @author YI
- * @date 2019年1月22日15:11:56
  */
 public class Jvm {
     /**
