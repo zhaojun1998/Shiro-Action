@@ -6,7 +6,8 @@
 
 本项目使用 Spring Boot 搭建, 用于加深对 Spring Boot 与 Shiro 的学习, 项目特色是支持 restful 风格权限控制, 支持对同一 URL, 不同 HTTP Mehtod 的权限控制, 适用于更多的场景.
 
-预览地址: [http://shiro.zhaojun.im/](http://shiro.zhaojun.im/)
+预览地址 (): [http://shiro.zhaojun.im/](http://shiro.zhaojun.im/)
+备用地址 (国内): [https://shiro.jun6.net/](https://shiro.jun6.net/login)
 默认管理员账号: `admin`, 密码: `123456`.
 普通用户账号: `user`, 密码: `123456`.
 
@@ -53,7 +54,7 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 ### 启动项目
 在完成了上述步骤后，找到 ShiroActionApplication 启动类, 启动即可.
 
-启动后访问地址为：http://localhost:8080，用户名：zhaojun，密码：123456.
+启动后访问地址为：http://localhost:8080 , 用户名：admin, 密码：123456.
 
 ## 系统预览
 
@@ -67,4 +68,14 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 
 ![](https://cdn.jun6.net/201904032328_32.png)
 
-![](https://cdn.jun6.net/201904051028_493.png)
+![](https://cdn.jun6.net/201904142201_744.png)
+
+![](https://cdn.jun6.net/2019/04/14/5cb340e86aacb.png)
+
+![](https://cdn.jun6.net/2019/04/14/5cb34129083c8.png)
+
+### 反馈交流
+
+QQ 群号: [850586205](//shang.qq.com/wpa/qunwpa?idkey=b482b2e48a938a993ef54adcff7ed499a45127a73802a68f1238256fb02ed425)
+
+![](https://cdn.jun6.net/201904141340_574.png)
