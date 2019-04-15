@@ -37,7 +37,7 @@ public class ShiroUtil {
     }
 
     @Value("${security.login.verify:false}")
-    public static void setLoginVerify(Boolean loginVerify) {
+    public void setLoginVerify(Boolean loginVerify) {
         ShiroUtil.loginVerify = loginVerify;
     }
 }
