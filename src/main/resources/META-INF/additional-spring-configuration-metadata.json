@@ -3,21 +3,31 @@
     {
       "name": "log.operation",
       "type": "java.lang.Boolean",
+      "defaultValue": false,
       "description": "是否记录操作日志."
     },
     {
       "name": "log.login",
       "type": "java.lang.Boolean",
+      "defaultValue": false,
       "description": "是否记录登录日志."
     },
     {
       "name": "security.super-admin.username",
       "type": "java.lang.String",
+      "defaultValue": "user",
       "description": "超级管理员用户名."
     },
     {
       "name": "security.retry.count",
       "type": "java.lang.Integer",
+      "defaultValue": 5,
       "description": "登录失败重试次数."
+    },
+    {
+      "name": "security.login.verify",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "是否开启登录验证码."
     }
   ] }

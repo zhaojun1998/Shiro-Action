@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShiroUtil {
 
-
     public static final String USER_LOCK = "0";
 
     private static String superAdminUsername;
 
-    @Value("${security.retry.count}")
     private static Integer passwordRetryCount;
+
+    private static Boolean loginVerify;
 
     public static String getSuperAdminUsername() {
         return superAdminUsername;
@@ -22,13 +22,22 @@ public class ShiroUtil {
         return passwordRetryCount;
     }
 
-    @Value("${security.super-admin.username}")
+    public static Boolean getLoginVerify() {
+        return loginVerify;
+    }
+
+    @Value("${security.super-admin.username:admin}")
     public void setSuperAdminUsername(String superAdminUsername) {
         this.superAdminUsername = superAdminUsername;
     }
 
-    @Value("${security.retry.count}")
+    @Value("${security.retry.count:5}")
     public void setPasswordRetryCount(Integer passwordRetryCount) {
         this.passwordRetryCount = passwordRetryCount;
+    }
+
+    @Value("${security.login.verify:false}")
+    public static void setLoginVerify(Boolean loginVerify) {
+        ShiroUtil.loginVerify = loginVerify;
     }
 }

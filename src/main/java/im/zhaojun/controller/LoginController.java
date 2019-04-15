@@ -9,6 +9,7 @@ import im.zhaojun.service.MailService;
 import im.zhaojun.service.UserService;
 import im.zhaojun.util.CaptchaUtil;
 import im.zhaojun.util.ResultBean;
+import im.zhaojun.util.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
@@ -41,7 +42,8 @@ public class LoginController {
     private TemplateEngine templateEngine;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("loginVerify", ShiroUtil.getLoginVerify());
         return "login";
     }
 
@@ -54,10 +56,14 @@ public class LoginController {
     @ResponseBody
     public ResultBean login(User user, @RequestParam(value = "captcha", required = false) String captcha) {
         Subject subject = SecurityUtils.getSubject();
-        String realCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute("captcha");
-        // session 中的验证码过期了
-        if (realCaptcha == null || realCaptcha.equals(captcha.toLowerCase()) == false) {
-            throw new CaptchaIncorrectException();
+
+        // 如果开启了登录校验
+        if (ShiroUtil.getLoginVerify()) {
+            String realCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute("captcha");
+            // session 中的验证码过期了
+            if (realCaptcha == null || !realCaptcha.equals(captcha.toLowerCase())) {
+                throw new CaptchaIncorrectException();
+            }
         }
 
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
