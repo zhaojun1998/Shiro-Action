@@ -2,6 +2,7 @@ package im.zhaojun.shiro.realm;
 
 import im.zhaojun.model.User;
 import im.zhaojun.service.UserService;
+import im.zhaojun.util.ShiroUtil;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -57,7 +58,7 @@ public class UserNameRealm extends AuthorizingRealm {
             throw new UnknownAccountException();
         }
         // 如果账号被锁定, 则抛出异常, (超级管理员除外)
-        if ("0".equals(user.getStatus()) && "admin".equals(username) == false) {
+        if (ShiroUtil.USER_LOCK.equals(user.getStatus()) && !ShiroUtil.getSuperAdminUsername().equals(username)) {
             throw new LockedAccountException();
         }
         return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), super.getName());
@@ -89,7 +90,7 @@ public class UserNameRealm extends AuthorizingRealm {
     @Override
     public boolean isPermitted(PrincipalCollection principals, String permission) {
         User user = (User) principals.getPrimaryPrincipal();
-        return "admin".equals(user.getUsername()) || super.isPermitted(principals, permission);
+        return ShiroUtil.getSuperAdminUsername().equals(user.getUsername()) || super.isPermitted(principals, permission);
     }
 
     /**
@@ -98,6 +99,6 @@ public class UserNameRealm extends AuthorizingRealm {
     @Override
     public boolean hasRole(PrincipalCollection principals, String roleIdentifier) {
         User user = (User) principals.getPrimaryPrincipal();
-        return "admin".equals(user.getUsername()) || super.hasRole(principals, roleIdentifier);
+        return ShiroUtil.getSuperAdminUsername().equals(user.getUsername()) || super.hasRole(principals, roleIdentifier);
     }
 }

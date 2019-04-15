@@ -1,5 +1,6 @@
 package im.zhaojun.shiro.credential;
 
+import im.zhaojun.util.ShiroUtil;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -32,7 +33,7 @@ public class RetryLimitHashedCredentialsMatcher extends
 		String username = (String) token.getPrincipal();
 
 		// 超级管理员不进行登录次数校验.
-		if ("admin".equals(username) == false) {
+		if (!ShiroUtil.getSuperAdminUsername().equals(username)) {
 			// retry count + 1
 			AtomicInteger retryCount = passwordRetryCache.get(username);
 			if (retryCount == null) {

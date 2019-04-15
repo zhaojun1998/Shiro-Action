@@ -5,6 +5,7 @@ import im.zhaojun.mapper.OperatorMapper;
 import im.zhaojun.mapper.RoleMenuMapper;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.User;
+import im.zhaojun.util.ShiroUtil;
 import im.zhaojun.util.TreeUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class MenuService {
 
     @Resource
     private OperatorMapper operatorMapper;
+
+    @Resource
+    private ShiroUtil shiroUtil;
 
     /**
      * 获取所有菜单
@@ -74,7 +78,7 @@ public class MenuService {
     public List<Menu> selectCurrentUserMenuTree() {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         List<Menu> menus;
-        if ("admin".equals(user.getUsername())) {
+        if (ShiroUtil.getSuperAdminUsername().equals(user.getUsername())) {
             menus = menuMapper.selectAll();
         } else {
             menus = menuMapper.selectMenuByUserName(user.getUsername());
@@ -87,7 +91,7 @@ public class MenuService {
      */
     public List<Menu> selectMenuTreeVOByUsername(String username) {
         List<Menu> menus;
-        if ("admin".equals(username)) {
+        if (ShiroUtil.getSuperAdminUsername().equals(username)) {
             menus = menuMapper.selectAll();
         } else {
             menus = menuMapper.selectMenuByUserName(username);

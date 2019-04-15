@@ -9,5 +9,15 @@
       "name": "log.login",
       "type": "java.lang.Boolean",
       "description": "是否记录登录日志."
+    },
+    {
+      "name": "security.super-admin.username",
+      "type": "java.lang.String",
+      "description": "超级管理员用户名."
+    },
+    {
+      "name": "security.retry.count",
+      "type": "java.lang.Integer",
+      "description": "登录失败重试次数."
     }
   ] }
