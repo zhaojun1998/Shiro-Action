@@ -56,8 +56,8 @@ public class WebExceptionHandler{
 
     @ExceptionHandler
     public String excessiveAttemptsException(ExcessiveAttemptsException e) {
-        log.error("登录次数过多");
-        return generateErrorInfo(ResultBean.FAIL, "登录次数过多");
+        log.error("登录失败次数过多");
+        return generateErrorInfo(ResultBean.FAIL, "登录失败次数过多, 请稍后再试");
     }
 
     @ExceptionHandler
