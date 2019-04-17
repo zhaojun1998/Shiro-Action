@@ -6,9 +6,9 @@
 
 本项目使用 Spring Boot 搭建, 用于加深对 Spring Boot 与 Shiro 的学习, 项目特色是支持 restful 风格权限控制, 支持对同一 URL, 不同 HTTP Mehtod 的权限控制, 适用于更多的场景.
 
-预览地址 (国外): [http://shiro.zhaojun.im/](http://shiro.zhaojun.im/)
+预览地址: [http://shiro.zhaojun.im/](http://shiro.zhaojun.im/)
 
-备用地址 (国内 CDN): [https://shiro.jun6.net/](https://shiro.jun6.net/login)
+文档地址: [http://docs.zhaojun.im/shiro/](http://docs.zhaojun.im/shiro/)
 
 默认管理员账号: `admin`, 密码: `123456`.
 
@@ -32,7 +32,6 @@ git clone https://github.com/zhaojun1998/Shiro-Action.git
 ### 导入项目
 
 使用自己的 IDE 导入, Eclipse 和 Intellij IDEA 均可.
-
 
 ### 导入数据库
 
