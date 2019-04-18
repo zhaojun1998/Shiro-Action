@@ -228,6 +228,13 @@ $(document).ajaxError(function(event, response){
 
 
 /**
+ * 禁用 ajax 缓存
+ */
+$.ajaxSetup({
+    cache: false
+});
+
+/**
  * 获取 URL 中查询条件部分的参数
  * @param name      参数名称
  * @returns         参数值
