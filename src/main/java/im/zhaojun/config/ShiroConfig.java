@@ -100,7 +100,7 @@ public class ShiroConfig {
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(redisHost + ":" + redisPort);
-        return new RedisManager();
+        return redisManager;
     }
 
     @Bean
