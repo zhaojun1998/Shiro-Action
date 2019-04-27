@@ -1,5 +1,8 @@
 package im.zhaojun.util;
 
+import im.zhaojun.model.User;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -39,5 +42,17 @@ public class ShiroUtil {
     @Value("${security.login.verify:false}")
     public void setLoginVerify(Boolean loginVerify) {
         ShiroUtil.loginVerify = loginVerify;
+    }
+
+
+    /**
+     * 获取当前登录用户.
+     */
+    public static User getCurrentUser() {
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        if (user == null) {
+            throw new UnauthenticatedException("未登录被拦截");
+        }
+        return user;
     }
 }

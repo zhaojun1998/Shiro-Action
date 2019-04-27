@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import im.zhaojun.mapper.LoginLogMapper;
 import im.zhaojun.model.LoginLog;
 import im.zhaojun.model.User;
-import org.apache.shiro.SecurityUtils;
+import im.zhaojun.util.ShiroUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,7 +33,7 @@ public class LoginLogService {
      * 最近一周登陆次数
      */
     public List<Integer> recentlyWeekLoginCount() {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        User user = ShiroUtil.getCurrentUser();
         return loginLogMapper.recentlyWeekLoginCount(user.getUsername());
     }
 

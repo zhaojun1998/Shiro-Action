@@ -7,7 +7,6 @@ import im.zhaojun.model.Menu;
 import im.zhaojun.model.User;
 import im.zhaojun.util.ShiroUtil;
 import im.zhaojun.util.TreeUtil;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,7 +75,7 @@ public class MenuService {
      * 获取当前登陆用户拥有的树形菜单 (admin 账户拥有所有权限.)
      */
     public List<Menu> selectCurrentUserMenuTree() {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        User user = ShiroUtil.getCurrentUser();
         List<Menu> menus;
         if (ShiroUtil.getSuperAdminUsername().equals(user.getUsername())) {
             menus = menuMapper.selectAll();

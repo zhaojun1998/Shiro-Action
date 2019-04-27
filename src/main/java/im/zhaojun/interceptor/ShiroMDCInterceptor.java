@@ -19,8 +19,9 @@ public class ShiroMDCInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {
         // 如已进行登录, 则获取当前登录者的用户名放入 MDC 中.
         String username = "";
-        if (SecurityUtils.getSubject().getPrincipal() != null) {
-            username = ((User) SecurityUtils.getSubject().getPrincipal()).getUsername();
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        if (user != null) {
+            username = user.getUsername();
         }
         MDC.put(MDC_USERNAME, username);
         return true;

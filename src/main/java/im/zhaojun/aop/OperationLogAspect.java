@@ -5,6 +5,7 @@ import im.zhaojun.mapper.SysLogMapper;
 import im.zhaojun.model.SysLog;
 import im.zhaojun.model.User;
 import im.zhaojun.util.IPUtils;
+import im.zhaojun.util.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -72,7 +73,7 @@ public class OperationLogAspect {
 
         // 登录才获取用户名
         if (SecurityUtils.getSubject().isAuthenticated()) {
-            User user = (User) SecurityUtils.getSubject().getPrincipal();
+            User user = ShiroUtil.getCurrentUser();
             sysLog.setUsername(user.getUsername());
         }
 
