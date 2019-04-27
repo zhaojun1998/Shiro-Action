@@ -5,7 +5,9 @@ import im.zhaojun.mapper.UserMapper;
 import im.zhaojun.mapper.UserRoleMapper;
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.User;
+import im.zhaojun.util.ShiroUtil;
 import im.zhaojun.util.TreeUtil;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
@@ -139,6 +141,11 @@ public class UserService {
 
     @Transactional
     public void delete(Integer userId) {
+        // 检查删除的是否是超级管理员, 如果是, 则不允许删除.
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (ShiroUtil.getSuperAdminUsername().equals(user.getUsername())) {
+            throw new UnauthorizedException("试图删除超级管理员, 被禁止.");
+        }
         userMapper.deleteByPrimaryKey(userId);
         userRoleMapper.deleteUserRoleByUserId(userId);
     }
