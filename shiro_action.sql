@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本机mysql
+ Source Server         : 本机
  Source Server Type    : MySQL
  Source Server Version : 50721
- Source Host           : 127.0.0.1:3306
+ Source Host           : localhost:3306
  Source Schema         : shiro_action
 
  Target Server Type    : MySQL
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 02/04/2019 21:09:24
+ Date: 27/04/2019 23:07:31
 */
 
 SET NAMES utf8mb4;
@@ -26,8 +26,8 @@ CREATE TABLE `dept`  (
   `dept_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门名称',
   `parent_id` int(11) NOT NULL COMMENT '上级部门ID',
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
-  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp COMMENT '修改时间',
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   PRIMARY KEY (`dept_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -56,7 +56,7 @@ CREATE TABLE `login_log`  (
   `login_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '登录状态, 0 表示登录失败, 1 表示登录成功.',
   `ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'IP',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 298 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 299 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for menu
@@ -69,10 +69,10 @@ CREATE TABLE `menu`  (
   `url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单 URL',
   `perms` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限标识符',
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
-  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp COMMENT '修改时间',
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of menu
@@ -87,6 +87,7 @@ INSERT INTO `menu` VALUES (19, 11, '操作日志', '/log/sys/index', 'sys:log:li
 INSERT INTO `menu` VALUES (20, 11, '在线用户', '/online/index', 'user:online', 3, '2018-12-23 15:40:21', '2019-02-10 22:27:00');
 INSERT INTO `menu` VALUES (27, 1, '操作权限', '/operator/index', 'operator:list', 4, '2019-02-10 17:39:08', '2019-02-16 19:49:22');
 INSERT INTO `menu` VALUES (28, 1, '部门管理', '/dept/index', 'dept:list', 6, '2019-03-13 20:58:55', NULL);
+INSERT INTO `menu` VALUES (29, 11, '系统管理', '/system/index', 'system:index', 7, '2019-04-27 23:06:08', NULL);
 
 -- ----------------------------
 -- Table structure for operator
@@ -99,8 +100,8 @@ CREATE TABLE `operator`  (
   `url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源 URL',
   `perms` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限标识符',
   `http_method` varchar(7) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源需要的 HTTP 请求方法',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
-  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp COMMENT '修改时间',
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   PRIMARY KEY (`operator_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -135,8 +136,8 @@ CREATE TABLE `role`  (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `remark` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp,
-  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp,
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`role_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -221,7 +222,7 @@ CREATE TABLE `sys_log`  (
   `method` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方法',
   `params` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求参数',
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
@@ -236,9 +237,9 @@ CREATE TABLE `user`  (
   `salt` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '盐',
   `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `status` int(1) NULL DEFAULT NULL COMMENT '账号状态: 0: 未激活, 1: 已激活. ',
-  `last_login_time` timestamp NOT NULL DEFAULT CURRENT_timestamp ON UPDATE CURRENT_timestamp COMMENT '最后登录时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_timestamp COMMENT '创建时间',
-  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_timestamp COMMENT '修改时间',
+  `last_login_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后登录时间',
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   `active_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '注册激活码',
   `dept_id` int(11) NULL DEFAULT NULL COMMENT '部门ID',
   PRIMARY KEY (`user_id`) USING BTREE
@@ -247,7 +248,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', 'f51703256a38e6bab3d9410a070c32ea', 'salt', 'root@zhaojun.im', 1, '2019-04-02 20:40:15', '2018-12-02 07:30:52', '2019-04-02 20:40:15', NULL, 1);
+INSERT INTO `user` VALUES (1, 'admin', 'f51703256a38e6bab3d9410a070c32ea', 'salt', 'root@zhaojun.im', 1, '2019-04-27 23:05:27', '2018-12-02 07:30:52', '2019-04-27 23:05:27', NULL, 1);
 INSERT INTO `user` VALUES (20, 'user', 'eb2db562d1024f59c8a5b147e2377aba', '1552187306998', 'user@xxx.com', 1, '2019-04-02 21:08:00', '2018-12-02 12:18:59', '2019-04-02 21:08:00', NULL, 6);
 
 -- ----------------------------
