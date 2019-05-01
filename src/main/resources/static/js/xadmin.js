@@ -29,35 +29,35 @@ $(function () {
     };
 
 
-    tableCheck = {
-        init: function () {
-            $(".layui-form-checkbox").click(function (event) {
-                if ($(this).hasClass('layui-form-checked')) {
-                    $(this).removeClass('layui-form-checked');
-                    if ($(this).hasClass('header')) {
-                        $(".layui-form-checkbox").removeClass('layui-form-checked');
-                    }
-                } else {
-                    $(this).addClass('layui-form-checked');
-                    if ($(this).hasClass('header')) {
-                        $(".layui-form-checkbox").addClass('layui-form-checked');
-                    }
-                }
-
-            });
-        },
-        getData: function () {
-            var obj = $(".layui-form-checked").not('.header');
-            var arr = [];
-            obj.each(function (index, el) {
-                arr.push(obj.eq(index).attr('data-id'));
-            });
-            return arr;
-        }
-    };
-
-    //开启表格多选
-    tableCheck.init();
+    // tableCheck = {
+    //     init: function () {
+    //         $(".layui-form-checkbox").click(function (event) {
+    //             if ($(this).hasClass('layui-form-checked')) {
+    //                 $(this).removeClass('layui-form-checked');
+    //                 if ($(this).hasClass('header')) {
+    //                     $(".layui-form-checkbox").removeClass('layui-form-checked');
+    //                 }
+    //             } else {
+    //                 $(this).addClass('layui-form-checked');
+    //                 if ($(this).hasClass('header')) {
+    //                     $(".layui-form-checkbox").addClass('layui-form-checked');
+    //                 }
+    //             }
+    //
+    //         });
+    //     },
+    //     getData: function () {
+    //         var obj = $(".layui-form-checked").not('.header');
+    //         var arr = [];
+    //         obj.each(function (index, el) {
+    //             arr.push(obj.eq(index).attr('data-id'));
+    //         });
+    //         return arr;
+    //     }
+    // };
+    //
+    // //开启表格多选
+    // tableCheck.init();
 
 
     $('.container .left_open i').click(function (event) {
@@ -208,7 +208,6 @@ function openTab(title, url) {
     parent.element.tabChange('tab', url);
 }
 
-
 function getCheckBoxValueByName(name) {
     var checkedValue = [];
     $('input[name="' + name + '"]:checked').each(function () {
@@ -225,7 +224,6 @@ $(document).ajaxError(function(event, response){
     console.log("错误响应结果: ",response.responseJSON);
     showError(response.responseJSON.msg);
 });
-
 
 /**
  * 禁用 ajax 缓存
