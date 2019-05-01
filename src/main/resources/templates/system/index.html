@@ -197,7 +197,7 @@
                                 <td th:text="${sysFile.total}">0GB</td>
                                 <td th:text="${sysFile.free}">0GB</td>
                                 <td th:text="${sysFile.used}">0GB</td>
-                                <td th:class="${sysFile.usage gt 80} ? 'text-danger'">[[${sysFile.usage}]]%</td>
+                                <td th:text="${sysFile.usage} + '%'"></td>
                             </tr>
                         </tbody>
                     </table>
