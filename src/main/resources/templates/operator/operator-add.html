@@ -1,206 +1,206 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>操作点1添加</title>
-        <meta name="renderer" content="webkit">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport"
-              content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
-        <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
-        <link rel="stylesheet" th:href="@{/css/font.css}">
-        <link rel="stylesheet" th:href="@{/css/xadmin.css}">
-        <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
-        <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-        <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
-    </head>
 
-    <body>
-        <div class="x-body">
-            <form action="" method="post" class="layui-form layui-form-pane" lay-filter="form">
-                <div class="layui-form-item">
-                    <label for="operatorName" class="layui-form-label">
-                        功能名称
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" id="operatorName" name="operatorName" th:value="${operator?.operatorName}"
-                               lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" placeholder="请输入API名称" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="url" class="layui-form-label">
-                        功能URL
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" id="url" th:value="${operator?.url}" name="url"
-                               lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" class="layui-input" placeholder="请输入需要授权的 URL">
-                    </div>
-                </div>
-                <div id="methodField" class="layui-form-item" pane="">
-                    <label class="layui-form-label">
-                        请求方式
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="httpMethod" th:checked="${operator?.httpMethod == 'GET' ? true: false}" value="GET" title="GET">
-                        <input type="radio" name="httpMethod" th:checked="${operator?.httpMethod == 'POST' ? true: false}" value="POST" title="POST">
-                        <input type="radio" name="httpMethod" th:checked="${operator?.httpMethod == 'DELETE' ? true: false}" value="DELETE" title="DELETE">
-                        <input type="radio" name="httpMethod" th:checked="${operator?.httpMethod == 'PUT' ? true: false}" value="PUT" title="PUT">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="perms" class="layui-form-label">
-                        操作标识
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" id="perms" th:value="${operator?.perms}" name="perms"
-                               lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" class="layui-input" placeholder="">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="menuId" class="layui-form-label">
-                        所属菜单
-                    </label>
-                    <div class="layui-input-block">
+<head>
+    <meta charset="UTF-8">
+    <title>操作点1添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
+    <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+    <script type="text/javascript"  th:src="@{/js/common.js}"></script>
+</head>
 
-                        <div class="layui-unselect layui-form-select" id="menuNameDiv">
-                            <div class="layui-select-title">
-                                <input type="text" id="menuName"
-                                       placeholder="请选择所属菜单" class="layui-input layui-unselect" readonly>
-                                <input type="hidden" name="menuId" id="menuId">
-                                <i class="layui-edge"></i>
-                            </div>
-                            <div class="layui-card dtree-select" id="menuTreeDiv">
-                                <div class="layui-card-body">
-                                    <div id="toolbarDiv">
-                                        <ul id="menuTree" class="dtree" data-id="0" style="width: 100%;"></ul>
-                                    </div>
+<body>
+    <div class="z-body">
+        <form action="" method="post" class="layui-form layui-form-pane" lay-filter="form">
+            <div class="layui-form-item">
+                <label for="operatorName" class="layui-form-label">
+                    功能名称
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="operatorName" name="operatorName" th:value="${operator?.operatorName}"
+                           lay-verify="required" lay-vertype="tips"
+                           autocomplete="off" placeholder="请输入API名称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="url" class="layui-form-label">
+                    功能URL
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="url" th:value="${operator?.url}" name="url"
+                           lay-verify="required" lay-vertype="tips"
+                           autocomplete="off" class="layui-input" placeholder="请输入需要授权的 URL">
+                </div>
+            </div>
+            <div id="methodField" class="layui-form-item" pane="">
+                <label class="layui-form-label">
+                    请求方式
+                </label>
+                <div class="layui-input-block">
+                    <input type="radio" name="httpMethod" th:checked="${operator?.httpMethod == 'GET' ? true: false}" value="GET" title="GET">
+                    <input type="radio" name="httpMethod" th:checked="${operator?.httpMethod == 'POST' ? true: false}" value="POST" title="POST">
+                    <input type="radio" name="httpMethod" th:checked="${operator?.httpMethod == 'DELETE' ? true: false}" value="DELETE" title="DELETE">
+                    <input type="radio" name="httpMethod" th:checked="${operator?.httpMethod == 'PUT' ? true: false}" value="PUT" title="PUT">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="perms" class="layui-form-label">
+                    操作标识
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="perms" th:value="${operator?.perms}" name="perms"
+                           lay-verify="required" lay-vertype="tips"
+                           autocomplete="off" class="layui-input" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="menuId" class="layui-form-label">
+                    所属菜单
+                </label>
+                <div class="layui-input-block">
+
+                    <div class="layui-unselect layui-form-select" id="menuNameDiv">
+                        <div class="layui-select-title">
+                            <input type="text" id="menuName"
+                                   placeholder="请选择所属菜单" class="layui-input layui-unselect" readonly>
+                            <input type="hidden" name="menuId" id="menuId">
+                            <i class="layui-edge"></i>
+                        </div>
+                        <div class="layui-card dtree-select" id="menuTreeDiv">
+                            <div class="layui-card-body">
+                                <div id="toolbarDiv">
+                                    <ul id="menuTree" class="dtree" data-id="0" style="width: 100%;"></ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <fieldset class="layui-elem-field">
-                    <legend>备注</legend>
-                    <div class="layui-field-box">
-                        <div class="layui-form-mid layui-word-aux">
-                            URL 支持 ?, *, ** 通配符。<br>
-                            外部链接以 http(s):// 开头。
-                        </div>
-                    </div>
-                </fieldset>
-                <div class="layui-form-item">
-                    <div class="layui-input-block" style="margin-left:0;text-align:center;">
-                        <input type="hidden" name="operatorId" th:value="${operator?.operatorId}">
-                        <button class="layui-btn layui-btn-blue" th:text="${operator}?'修改':'增加'" lay-submit="" data-th-lay-filter="${operator}?'edit':'add'">增加</button>
+            </div>
+            <fieldset class="layui-elem-field">
+                <legend>备注</legend>
+                <div class="layui-field-box">
+                    <div class="layui-form-mid layui-word-aux">
+                        URL 支持 ?, *, ** 通配符。<br>
+                        外部链接以 http(s):// 开头。
                     </div>
                 </div>
-            </form>
-        </div>
+            </fieldset>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                    <input type="hidden" name="operatorId" th:value="${operator?.operatorId}">
+                    <button class="layui-btn layui-btn-blue" th:text="${operator}?'修改':'增加'" lay-submit="" data-th-lay-filter="${operator}?'edit':'add'">增加</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-        <script>
-            layui.config({
-                base: '/lib/layui/extend/'
-            }).use(['form', 'layer', 'autocomplete', 'dtree'], function () {
-                $ = layui.jquery;
-                var form = layui.form
-                    , layer = layui.layer
-                    , autocomplete = layui.autocomplete
-                    , dtree = layui.dtree;
-
-
-                autocomplete.render({
-                    elem: $('#url'),
-                    url: '/system/urls',
-                    template_val: '{{d.url}}',
-                    template_txt: '{{d.url}} \
-                        {{#  layui.each(d.method.split(","), function(index, item){ }} \
-                            <span class="layui-badge layui-bg-gray">{{item}}</span>  \
-                        {{#  }); }} \
-                            <div style="float: right;"><span class="layui-badge layui-bg-cyan">{{d.type}}</span></div>  \
-                    ',
-                    onselect: function (result) {
-                        layui.form.val('form', {
-                            httpMethod: result.method
-                        })
-                    }
-                });
+    <script>
+        layui.config({
+            base: '/lib/layui/extend/'
+        }).use(['form', 'layer', 'autocomplete', 'dtree'], function () {
+            $ = layui.jquery;
+            var form = layui.form
+                , layer = layui.layer
+                , autocomplete = layui.autocomplete
+                , dtree = layui.dtree;
 
 
-                var OperatorDTree = dtree.render({
-                    elem: "#menuTree",
-                    url: "/menu/tree",
-                    dataStyle: "layuiStyle",
-                    method: "GET",
-                    dot: false,     // 圆点是否显示
-                    icon: "2",
-                    accordion: true,
-                    menubar: true,
-                    response: {
-                        statusCode: 0,
-                        message: "msg",
-                        treeId: "id",
-                        menuId: "menuId",
-                        title: "name"
-                    },
-                    done: function (response, obj) {
-                        var menuId = getQueryString('menuId') ? getQueryString('menuId') : [[${operator?.menuId + ''}]] ;
-                        var menu = OperatorDTree.getParam(menuId);
-                        if (menu) {
-                            $("#menuName").val(menu.context);
-                            $("#menuId").val(menu.nodeId);
-                        }
-                    }
-                });
-
-                $("#menuName").on("click",function(){
-                    $(this).toggleClass("layui-form-selected");
-                    $("#menuTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
-                });
-
-                dtree.on("node(menuTree)", function(obj){
-                    console.log(obj);
-                    $("#menuName").val(obj.param.context);
-                    $("#menuId").val(obj.param.nodeId);
-                    $("#menuNameDiv").toggleClass("layui-form-selected");
-                    $("#menuTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
-                });
-                
-                // 监听提交
-                form.on('submit(add)', function (form) {
-                    console.log(form.field);
-
-                    $.post('/operator', form.field, function (result) {
-                        handlerResult(result, addDone);
-                    });
-                    return false;
-                });
-
-                // 监听提交
-                form.on('submit(edit)', function (form) {
-                    console.log(form.field);
-
-                    form.field._method = 'PUT';
-                    $.post('/operator', form.field, function (result) {
-                        handlerResult(result, editDone);
-                    });
-                    return false;
-                });
-
-                
-                function addDone(data) {
-                    console.log("add result id : ", data);
-                    layer.msg("添加成功", {icon: 6});
-                }
-
-                function editDone(data) {
-                    console.log("edit result id : ", data);
-                    layer.msg("修改成功", {icon: 6});
+            autocomplete.render({
+                elem: $('#url'),
+                url: '/system/urls',
+                template_val: '{{d.url}}',
+                template_txt: '{{d.url}} \
+                    {{#  layui.each(d.method.split(","), function(index, item){ }} \
+                        <span class="layui-badge layui-bg-gray">{{item}}</span>  \
+                    {{#  }); }} \
+                        <div style="float: right;"><span class="layui-badge layui-bg-cyan">{{d.type}}</span></div>  \
+                ',
+                onselect: function (result) {
+                    layui.form.val('form', {
+                        httpMethod: result.method
+                    })
                 }
             });
-        </script>
-    </body>
+
+
+            var OperatorDTree = dtree.render({
+                elem: "#menuTree",
+                url: "/menu/tree",
+                dataStyle: "layuiStyle",
+                method: "GET",
+                dot: false,     // 圆点是否显示
+                icon: "2",
+                accordion: true,
+                menubar: true,
+                response: {
+                    statusCode: 0,
+                    message: "msg",
+                    treeId: "id",
+                    menuId: "menuId",
+                    title: "name"
+                },
+                done: function (response, obj) {
+                    var menuId = getQueryString('menuId') ? getQueryString('menuId') : [[${operator?.menuId + ''}]] ;
+                    var menu = OperatorDTree.getParam(menuId);
+                    if (menu) {
+                        $("#menuName").val(menu.context);
+                        $("#menuId").val(menu.nodeId);
+                    }
+                }
+            });
+
+            $("#menuName").on("click",function(){
+                $(this).toggleClass("layui-form-selected");
+                $("#menuTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
+            });
+
+            dtree.on("node(menuTree)", function(obj){
+                console.log(obj);
+                $("#menuName").val(obj.param.context);
+                $("#menuId").val(obj.param.nodeId);
+                $("#menuNameDiv").toggleClass("layui-form-selected");
+                $("#menuTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
+            });
+
+            // 监听提交
+            form.on('submit(add)', function (form) {
+                console.log(form.field);
+
+                $.post('/operator', form.field, function (result) {
+                    handlerResult(result, addDone);
+                });
+                return false;
+            });
+
+            // 监听提交
+            form.on('submit(edit)', function (form) {
+                console.log(form.field);
+
+                form.field._method = 'PUT';
+                $.post('/operator', form.field, function (result) {
+                    handlerResult(result, editDone);
+                });
+                return false;
+            });
+
+
+            function addDone(data) {
+                console.log("add result id : ", data);
+                layer.msg("添加成功", {icon: 6});
+            }
+
+            function editDone(data) {
+                console.log("edit result id : ", data);
+                layer.msg("修改成功", {icon: 6});
+            }
+        });
+    </script>
+</body>
 
 </html>

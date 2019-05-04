@@ -226,37 +226,6 @@
     width: 190px;
 }
 
-.login-main {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 300px;
-    margin: 0 auto;
-}
-
-.login-main header {
-    margin-top: 150px;
-    height: 35px;
-    line-height: 35px;
-    font-size: 30px;
-    font-weight: 100;
-    text-align: center;
-}
-
-.login-main header, .login-main form, .login-main form .layui-input-inline{
-    margin-bottom: 15px;
-}
-
-.login-main form .layui-input-inline, .login-main form .layui-input-inline input, .login-main form .layui-input-inline button {
-    width: 100%;
-}
-
-.login-main form .login-btn {
-    margin-bottom: 5px;
-}
-
 /* demo */
 .site-demo-button div {
     margin: 20px 30px 10px;

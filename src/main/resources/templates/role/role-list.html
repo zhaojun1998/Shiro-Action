@@ -1,256 +1,250 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
-    <head>
-        <meta charset="UTF-8">
-        <title>角色管理</title>
-        <meta name="renderer" content="webkit">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-        <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
-        <link rel="stylesheet" th:href="@{/css/font.css}">
-        <link rel="stylesheet" th:href="@{/css/xadmin.css}">
-        <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
-        <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-        <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
-        <link rel="stylesheet" th:href="@{/css/animate.min.css}">
-    </head>
 
-    <body class="animated fadeIn">
-        <div class="x-nav">
-            <span class="layui-breadcrumb">
-                <a href="#">首页</a>
-                <a href="#">权限管理</a>
-                <a><cite>角色管理</cite></a>
-            </span>
-            <a class="layui-icon layui-icon-refresh"
-               style="float:right"
-               href="javascript:location.replace(location.href);" title="刷新"></a>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
+    <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+    <script type="text/javascript"  th:src="@{/js/common.js}"></script>
+</head>
 
-        <div class="x-body">
-            <table class="layui-hide" id="role-table"></table>
-        </div>
+<body>
 
-        <script type="text/html" id="toolbar">
-            <shiro:hasPermission name="role:add">
-                <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
-            </shiro:hasPermission>
-        </script>
+    <div class="page-loading">
+        <div class="rubik-loader"></div>
+    </div>
 
-        <script type="text/html" id="column-toolbar">
-            <shiro:hasPermission name="role:update">
-                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="role:grant:menu">
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-menu">授权菜单</a>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="role:grant:operator">
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-operator">授权功能</a>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="role:delete">
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-            </shiro:hasPermission>
-        </script>
+    <div class="z-body">
+        <table class="layui-hide" id="role-table"></table>
+    </div>
 
-        <script>
-            layui.config({
-                base: '/lib/layui/extend/'
-            }).use(['table', 'element', 'dtree'], function () {
-                var table = layui.table;
-                var $ = layui.$;
-                var dtree = layui.dtree;
+    <script type="text/html" id="toolbar">
+        <shiro:hasPermission name="role:add">
+            <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
+        </shiro:hasPermission>
+    </script>
 
-                table.render({
-                    elem: '#role-table'
-                    , url: '/role/list'
-                    , cellMinWidth: 80
-                    , page: true
-                    , toolbar: '#toolbar'
-                    , cols: [
-                        [
-                            {field: 'roleId', title: 'ID'}
-                            , {field: 'roleName', title: '名称'}
-                            , {field: 'remark', title: '描述'}
-                            , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar', width: "20%"}
-                        ]
+    <script type="text/html" id="column-toolbar">
+        <shiro:hasPermission name="role:update">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="role:grant:menu">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-menu">授权菜单</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="role:grant:operator">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-operator">授权功能</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="role:delete">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </shiro:hasPermission>
+    </script>
+
+    <script>
+        layui.config({
+            base: '/lib/layui/extend/'
+        }).use(['table', 'element', 'dtree'], function () {
+            var table = layui.table;
+            var $ = layui.$;
+            var dtree = layui.dtree;
+
+            table.render({
+                elem: '#role-table'
+                , url: '/role/list'
+                , cellMinWidth: 80
+                , page: true
+                , toolbar: '#toolbar'
+                , cols: [
+                    [
+                        {field: 'roleId', title: 'ID'}
+                        , {field: 'roleName', title: '名称'}
+                        , {field: 'remark', title: '描述'}
+                        , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar', width: "20%"}
                     ]
-                });
+                ]
+            });
 
-                table.on('toolbar', function (obj) {
-                    var event = obj.event;
-                    if (event === 'add') {
-                        add();
-                    }
-                });
-
-                table.on('tool', function (obj) {
-                    var data = obj.data;
-                    var event = obj.event;
-
-                    if (event === 'edit') {
-                        edit(data.roleId);
-                    } else if (event === 'grant-menu') {
-                        layer.open({
-                            type: 1,
-                            title: "授权菜单",
-                            area: ["350px", "85%"],
-                            shadeClose: true,
-                            content: '<ul id="menuTree" class="dtree" data-id="0"></ul>',
-                            btn: ['确认选择'],
-                            success: function(layero, index){
-                                dtree.render({
-                                    obj: $(layero).find("#menuTree"),
-                                    url: "/menu/tree",
-                                    dataStyle: "layuiStyle",
-                                    method: "GET",
-                                    dot: false,
-                                    checkbar: true, // 开启复选框
-                                    menubar: true,
-                                    response: {
-                                        statusCode: 0,
-                                        message: "msg",
-                                        treeId: "id",
-                                        parentId: "parentId",
-                                        title: "name"
-                                    },
-                                    done: function(response, obj){  //使用异步加载回调
-                                        layui.$.get('/role/' + data.roleId + '/own/menu', function (data) {
-                                            dtree.chooseDataInit("menuTree", data.data.toString()); // 初始化复选框的值
-                                        });
-                                    }
-                                });
-                            },
-                            yes: function(index, layero) {
-                                var flag = true;
-                                var nodes = dtree.getCheckbarNodesParam("menuTree"); // 获取选中值
-                                if (nodes.length == 0) {
-                                    layer.msg("请至少选择一个节点", {icon: 2});
-                                    return flag;
-                                }
-                                var ids = [];
-                                for (var key in nodes) {
-                                    var node = nodes[key];
-                                    ids.push(node.nodeId);
-                                }
-                                $.post('/role/' + data.roleId + '/grant/menu', {
-                                    menuIds: ids
-                                }, function (result) {
-                                    handlerResult(result, function () {
-                                        layer.msg("授权成功", {icon: 6});
-                                        layer.close(index);
-                                    });
-                                });
-
-                            }
-                        });
-                    } else if (event === 'grant-operator') {
-                        layer.open({
-                            type: 1,
-                            title: "授权功能",
-                            area: ["350px", "85%"],
-                            shadeClose: true,
-                            content: '<ul id="operatorTree" class="dtree" data-id="0"></ul>',
-                            btn: ['确认选择'],
-                            success: function(layero, index){
-                                dtree.render({
-                                    obj: $(layero).find("#operatorTree"),
-                                    url: "/operator/tree",
-                                    dataStyle: "layuiStyle",
-                                    initLevel: 5,   // 初始打开节点级别
-                                    method: "GET",
-                                    dot: false,
-                                    checkbar: true, // 开启复选框
-                                    menubar: true,
-                                    response: {
-                                        statusCode: 0,
-                                        message: "msg",
-                                        treeId: "id",
-                                        parentId: "parentId",
-                                        title: "name"
-                                    },
-                                    done: function(response, obj){  //使用异步加载回调
-                                        layui.$.get('/role/' + data.roleId + '/own/operator', function (data) {
-                                            dtree.chooseDataInit("operatorTree", data.data.toString()); // 初始化复选框的值
-                                        });
-                                    }
-                                });
-                            },
-                            yes: function(index, layero) {
-                                var flag = true;
-                                var nodes = dtree.getCheckbarNodesParam("operatorTree"); // 获取选中值
-                                if (nodes.length == 0) {
-                                    layer.msg("请至少选择一个节点", {icon: 2});
-                                    return flag;
-                                }
-                                var ids = [];
-                                for (var key in nodes) {
-                                    var node = nodes[key];
-                                    ids.push(node.nodeId);
-                                }
-                                $.post('/role/' + data.roleId + '/grant/operator', {
-                                    operatorIds: ids
-                                }, function (result) {
-                                    handlerResult(result, function () {
-                                        layer.msg("授权成功", {icon: 6});
-                                        layer.close(index);
-                                    });
-                                });
-
-                            }
-                        });
-                    } else if (event === 'del') {
-                        del(obj);
-                    }
-                });
-
-                function add() {
-                    layer.open({
-                        content: "/role",
-                        title: "新增角色",
-                        area: ['40%', '85%'],
-                        type: 2,
-                        maxmin: true,
-                        shadeClose: true,
-                        end: function () {
-                            $(".layui-laypage-btn")[0].click();
-                        }
-                    });
-                }
-
-                function edit(id) {
-                    layer.open({
-                        content: "/role/" + id,
-                        title: "编辑角色",
-                        area: ['40%', '85%'],
-                        type: 2,
-                        maxmin: true,
-                        shadeClose: true,
-                        end: function () {
-                            $(".layui-laypage-btn")[0].click();
-                        }
-                    });
-                }
-
-                function del(obj) {
-                    layer.confirm("确定删除角色吗?", {icon: 3, title: '提示'},
-                        function (index) {// 确定回调
-                            var id = obj.data.roleId;
-                            $.post('/role/' + id, {_method: "DELETE"}, function (data) {
-                                layer.close(index);
-                                handlerResult(data, deleteDone);
-                            });
-                        }, function (index) {//取消回调
-                            layer.close(index);
-                        }
-                    );
-                }
-
-                function deleteDone(data) {
-                    parent.layer.msg("删除成功", {icon: 6});
-                    table.reload('role-table');
+            table.on('toolbar', function (obj) {
+                var event = obj.event;
+                if (event === 'add') {
+                    add();
                 }
             });
-        </script>
-    </body>
+
+            table.on('tool', function (obj) {
+                var data = obj.data;
+                var event = obj.event;
+
+                if (event === 'edit') {
+                    edit(data.roleId);
+                } else if (event === 'grant-menu') {
+                    layer.open({
+                        type: 1,
+                        title: "授权菜单",
+                        area: ["350px", "85%"],
+                        shadeClose: true,
+                        content: '<ul id="menuTree" class="dtree" data-id="0"></ul>',
+                        btn: ['确认选择'],
+                        success: function(layero, index){
+                            dtree.render({
+                                obj: $(layero).find("#menuTree"),
+                                url: "/menu/tree",
+                                dataStyle: "layuiStyle",
+                                method: "GET",
+                                dot: false,
+                                checkbar: true, // 开启复选框
+                                menubar: true,
+                                response: {
+                                    statusCode: 0,
+                                    message: "msg",
+                                    treeId: "id",
+                                    parentId: "parentId",
+                                    title: "name"
+                                },
+                                done: function(response, obj){  //使用异步加载回调
+                                    layui.$.get('/role/' + data.roleId + '/own/menu', function (data) {
+                                        dtree.chooseDataInit("menuTree", data.data.toString()); // 初始化复选框的值
+                                    });
+                                }
+                            });
+                        },
+                        yes: function(index, layero) {
+                            var flag = true;
+                            var nodes = dtree.getCheckbarNodesParam("menuTree"); // 获取选中值
+                            if (nodes.length == 0) {
+                                layer.msg("请至少选择一个节点", {icon: 2});
+                                return flag;
+                            }
+                            var ids = [];
+                            for (var key in nodes) {
+                                var node = nodes[key];
+                                ids.push(node.nodeId);
+                            }
+                            $.post('/role/' + data.roleId + '/grant/menu', {
+                                menuIds: ids
+                            }, function (result) {
+                                handlerResult(result, function () {
+                                    layer.msg("授权成功", {icon: 6});
+                                    layer.close(index);
+                                });
+                            });
+
+                        }
+                    });
+                } else if (event === 'grant-operator') {
+                    layer.open({
+                        type: 1,
+                        title: "授权功能",
+                        area: ["350px", "85%"],
+                        shadeClose: true,
+                        content: '<ul id="operatorTree" class="dtree" data-id="0"></ul>',
+                        btn: ['确认选择'],
+                        success: function(layero, index){
+                            dtree.render({
+                                obj: $(layero).find("#operatorTree"),
+                                url: "/operator/tree",
+                                dataStyle: "layuiStyle",
+                                initLevel: 5,   // 初始打开节点级别
+                                method: "GET",
+                                dot: false,
+                                checkbar: true, // 开启复选框
+                                menubar: true,
+                                response: {
+                                    statusCode: 0,
+                                    message: "msg",
+                                    treeId: "id",
+                                    parentId: "parentId",
+                                    title: "name"
+                                },
+                                done: function(response, obj){  //使用异步加载回调
+                                    layui.$.get('/role/' + data.roleId + '/own/operator', function (data) {
+                                        dtree.chooseDataInit("operatorTree", data.data.toString()); // 初始化复选框的值
+                                    });
+                                }
+                            });
+                        },
+                        yes: function(index, layero) {
+                            var flag = true;
+                            var nodes = dtree.getCheckbarNodesParam("operatorTree"); // 获取选中值
+                            if (nodes.length == 0) {
+                                layer.msg("请至少选择一个节点", {icon: 2});
+                                return flag;
+                            }
+                            var ids = [];
+                            for (var key in nodes) {
+                                var node = nodes[key];
+                                ids.push(node.nodeId);
+                            }
+                            $.post('/role/' + data.roleId + '/grant/operator', {
+                                operatorIds: ids
+                            }, function (result) {
+                                handlerResult(result, function () {
+                                    layer.msg("授权成功", {icon: 6});
+                                    layer.close(index);
+                                });
+                            });
+
+                        }
+                    });
+                } else if (event === 'del') {
+                    del(obj);
+                }
+            });
+
+            function add() {
+                layer.open({
+                    content: "/role",
+                    title: "新增角色",
+                    area: ['40%', '85%'],
+                    type: 2,
+                    maxmin: true,
+                    shadeClose: true,
+                    end: function () {
+                        $(".layui-laypage-btn")[0].click();
+                    }
+                });
+            }
+
+            function edit(id) {
+                layer.open({
+                    content: "/role/" + id,
+                    title: "编辑角色",
+                    area: ['40%', '85%'],
+                    type: 2,
+                    maxmin: true,
+                    shadeClose: true,
+                    end: function () {
+                        $(".layui-laypage-btn")[0].click();
+                    }
+                });
+            }
+
+            function del(obj) {
+                layer.confirm("确定删除角色吗?", {icon: 3, title: '提示'},
+                    function (index) {// 确定回调
+                        var id = obj.data.roleId;
+                        $.post('/role/' + id, {_method: "DELETE"}, function (data) {
+                            layer.close(index);
+                            handlerResult(data, deleteDone);
+                        });
+                    }, function (index) {//取消回调
+                        layer.close(index);
+                    }
+                );
+            }
+
+            function deleteDone(data) {
+                parent.layer.msg("删除成功", {icon: 6});
+                table.reload('role-table');
+            }
+        });
+    </script>
+</body>
 
 </html>

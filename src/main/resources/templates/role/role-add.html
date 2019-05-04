@@ -1,85 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>角色添加</title>
-        <meta name="renderer" content="webkit">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport"
-              content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
-        <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
-        <link rel="stylesheet" th:href="@{/css/font.css}">
-        <link rel="stylesheet" th:href="@{/css/xadmin.css}">
-        <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
-        <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-        <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
-    </head>
 
-    <body>
-        <div class="x-body">
-            <form action="" method="post" class="layui-form layui-form-pane">
-                <div class="layui-form-item">
-                    <label for="roleName" class="layui-form-label">
-                        角色名称
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" id="roleName" name="roleName" th:value="${role?.roleName}"
-                               lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="remark" class="layui-form-label">
-                        角色描述
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="text" id="remark" name="remark" th:value="${role?.remark}"
-                               lay-verify="required" lay-vertype="tips"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block" style="margin-left:0;text-align:center;">
-                        <input type="hidden" name="roleId" th:value="${role?.roleId}">
-                        <button class="layui-btn layui-btn-blue" th:text="${role}?'修改':'添加'" lay-submit="" data-th-lay-filter="${role}?'edit':'add'">添加</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <title>角色添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
+    <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+    <script type="text/javascript"  th:src="@{/js/common.js}"></script>
+</head>
 
-        <script>
-            layui.use(['form', 'layer'], function () {
-                $ = layui.jquery;
-                var form = layui.form
-                    , layer = layui.layer;
+<body>
+    <div class="z-body">
+        <form action="" method="post" class="layui-form layui-form-pane">
+            <div class="layui-form-item">
+                <label for="roleName" class="layui-form-label">
+                    角色名称
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="roleName" name="roleName" th:value="${role?.roleName}"
+                           lay-verify="required" lay-vertype="tips"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="remark" class="layui-form-label">
+                    角色描述
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="remark" name="remark" th:value="${role?.remark}"
+                           lay-verify="required" lay-vertype="tips"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                    <input type="hidden" name="roleId" th:value="${role?.roleId}">
+                    <button class="layui-btn layui-btn-blue" th:text="${role}?'修改':'添加'" lay-submit="" data-th-lay-filter="${role}?'edit':'add'">添加</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-                // 监听提交
-                form.on('submit(add)', function (form) {
-                    $.post('/role', form.field, function (result) {
-                        handlerResult(result, addDone);
-                    });
-                    return false;
+    <script>
+        layui.use(['form', 'layer'], function () {
+            $ = layui.jquery;
+            var form = layui.form
+                , layer = layui.layer;
+
+            // 监听提交
+            form.on('submit(add)', function (form) {
+                $.post('/role', form.field, function (result) {
+                    handlerResult(result, addDone);
                 });
-
-                // 监听提交
-                form.on('submit(edit)', function (form) {
-                    form.field._method = 'PUT';
-                    $.post('/role', form.field, function (result) {
-                        handlerResult(result, editDone);
-                    });
-                    return false;
-                });
-
-
-                function addDone(data) {
-                    layer.msg("添加成功", {icon: 6});
-                }
-
-                function editDone(data) {
-                    layer.msg("修改成功", {icon: 6});
-                }
+                return false;
             });
-        </script>
-    </body>
+
+            // 监听提交
+            form.on('submit(edit)', function (form) {
+                form.field._method = 'PUT';
+                $.post('/role', form.field, function (result) {
+                    handlerResult(result, editDone);
+                });
+                return false;
+            });
+
+
+            function addDone(data) {
+                layer.msg("添加成功", {icon: 6});
+            }
+
+            function editDone(data) {
+                layer.msg("修改成功", {icon: 6});
+            }
+        });
+    </script>
+</body>
 
 </html>

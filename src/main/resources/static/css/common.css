@@ -1,0 +1,111 @@
+/* ----- 滚动条样式 ----- */
+
+::-webkit-scrollbar{width: 8px; height: 8px;background: transparent;}
+::-webkit-scrollbar-button:vertical{display: none;}
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner{background-color: #e2e2e2;}
+::-webkit-scrollbar-thumb{border-radius: 8px; background-color: #a6a6a6;}
+::-webkit-scrollbar-thumb:vertical:hover{background-color: #7f7f7f;}
+::-webkit-scrollbar-thumb:vertical:active{background-color: rgba(0,0,0,.38);}
+
+/* ----- 滚动条样式 ----- */
+
+
+* {
+    box-sizing: border-box;
+}
+
+.page-loading {
+    z-index: 9999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+}
+
+.rubik-loader {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-image: url(/images/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.z-body {
+    padding: 20px;
+}
+
+
+.x-admin-carousel, .layui-carousel, .x-admin-carousel > [carousel-item] > * {
+    background-color: #fff
+}
+
+.x-admin-backlog .x-admin-backlog-body {
+    display: block;
+    padding: 10px 15px;
+    background-color: #f8f8f8;
+    color: #999;
+    border-radius: 2px;
+    transition: all .3s;
+    -webkit-transition: all .3s
+}
+
+.x-admin-backlog-body h3 {
+    padding-bottom: 10px;
+    font-size: 12px
+}
+
+.x-admin-backlog-body p cite {
+    font-style: normal;
+    font-size: 30px;
+    font-weight: 300;
+    color: #009688
+}
+
+.x-admin-backlog-body:hover {
+    background-color: #CFCFCF;
+    color: #888
+}
+
+
+
+.login-main {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.login-main header {
+    margin-top: 150px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 30px;
+    font-weight: 100;
+    text-align: center;
+}
+
+.login-main header, .login-main form, .login-main form .layui-input-inline{
+    margin-bottom: 15px;
+}
+
+.login-main form .layui-input-inline, .login-main form .layui-input-inline input, .login-main form .layui-input-inline button {
+    width: 100%;
+}
+
+.login-main form .login-btn {
+    margin-bottom: 5px;
+}
+
+.layui-btn-blue {
+    background-color: #02a7f0;
+}

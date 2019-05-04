@@ -9,8 +9,9 @@
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}"/>
     <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
     <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-    <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
+    <script type="text/javascript"  th:src="@{/js/common.js}"></script>
 </head>
+
 <style>
     .error-page {
         position: absolute;
@@ -46,23 +47,19 @@
         line-height: 28px;
         margin-bottom: 16px;
     }
-
-    html {
-        background-color: #f2f2f2
-    }
 </style>
 <body>
 
-<div class="error-page">
-    <img class="error-page-img" th:src="@{/images/ic_500.svg}">
-    <div class="error-page-info">
-        <h1 th:text="${message}"></h1>
-        <div class="error-page-info-desc">诶呦，服务器开了个小差~</div>
-        <div>
-            <button onclick="openTab('我的桌面', '/home')" class="layui-btn layui-btn-blue">返回首页</button>
+    <div class="error-page">
+        <img class="error-page-img" th:src="@{/images/ic_500.svg}">
+        <div class="error-page-info">
+            <h1 th:text="${message}"></h1>
+            <div class="error-page-info-desc">诶呦，服务器开了个小差~</div>
+            <div>
+                <button onclick="openTab('我的桌面', '/home')" class="layui-btn layui-btn-blue">返回首页</button>
+            </div>
         </div>
     </div>
-</div>
 
 </body>
 

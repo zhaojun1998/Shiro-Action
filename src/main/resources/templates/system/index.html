@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <title>首页</title>
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}"/>
-    <link rel="stylesheet" th:href="@{/lib/layui/extend/dtree.css}">
-    <link rel="stylesheet" th:href="@{/lib/layui/extend/font/dtreefont.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
     <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
     <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
-    <script type="text/javascript"  th:src="@{/js/xadmin.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
-
+    <script type="text/javascript"  th:src="@{/js/common.js}"></script>
     <style>
 
         /* 卡片标题加粗 */
@@ -49,163 +45,166 @@
 
 <body>
 
+    <div class="page-loading">
+        <div class="rubik-loader"></div>
+    </div>
 
-<div class="animated fadeIn" style="padding: 20px; background-color: #f3f3f3;">
-    <div class="layui-row layui-col-space15">
-        <div class="layui-col-md6">
-            <div class="layui-card">
-                <div class="layui-card-header">CPU</div>
-                <div class="layui-card-body">
-                    <table class="layui-table" lay-skin="line">
-                        <thead>
-                            <tr>
-                                <th>属性</th>
-                                <th>值</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>核心数</td>
-                                <td th:text="${server.cpu.cpuNum}"></td>
-                            </tr>
-                            <tr>
-                                <td>用户使用率</td>
-                                <td th:text="${server.cpu.used} + '%'"></td>
-                            </tr>
-                            <tr>
-                                <td>系统使用率</td>
-                                <td th:text="${server.cpu.sys} + '%'"></td>
-                            </tr>
-                            <tr>
-                                <td>当前空闲率</td>
-                                <td th:text="${server.cpu.free} + '%'"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <div style="padding: 20px; background-color: #f3f3f3;">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">CPU</div>
+                    <div class="layui-card-body">
+                        <table class="layui-table" lay-skin="line">
+                            <thead>
+                                <tr>
+                                    <th>属性</th>
+                                    <th>值</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>核心数</td>
+                                    <td th:text="${server.cpu.cpuNum}"></td>
+                                </tr>
+                                <tr>
+                                    <td>用户使用率</td>
+                                    <td th:text="${server.cpu.used} + '%'"></td>
+                                </tr>
+                                <tr>
+                                    <td>系统使用率</td>
+                                    <td th:text="${server.cpu.sys} + '%'"></td>
+                                </tr>
+                                <tr>
+                                    <td>当前空闲率</td>
+                                    <td th:text="${server.cpu.free} + '%'"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="layui-col-md6">
-            <div class="layui-card">
-                <div class="layui-card-header">内存</div>
-                <div class="layui-card-body">
-                    <table class="layui-table" lay-skin="line">
-                        <thead>
-                            <tr>
-                                <th>属性</th>
-                                <th>内存</th>
-                                <th>JVM</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>总内存</td>
-                                <td th:text="${server.mem.total + 'G'}">0GB</td>
-                                <td th:text="${server.jvm.total + 'M'}">0MB</td>
-                            </tr>
-                            <tr>
-                                <td>已用内存</td>
-                                <td th:text="${server.mem.used + 'G'}">0GB</td>
-                                <td th:text="${server.jvm.used + 'M'}">0MB</td>
-                            </tr>
-                            <tr>
-                                <td>剩余内存</td>
-                                <td th:text="${server.mem.free + 'G'}">0GB</td>
-                                <td th:text="${server.jvm.free + 'M'}">0MB</td>
-                            </tr>
-                            <tr>
-                                <td>使用率</td>
-                                <td th:class="${server.mem.usage gt 80} ? 'text-danger'">[[${server.mem.usage}]]%</td>
-                                <td th:class="${server.jvm.usage gt 80} ? 'text-danger'">[[${server.jvm.usage}]]%</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">内存</div>
+                    <div class="layui-card-body">
+                        <table class="layui-table" lay-skin="line">
+                            <thead>
+                                <tr>
+                                    <th>属性</th>
+                                    <th>内存</th>
+                                    <th>JVM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>总内存</td>
+                                    <td th:text="${server.mem.total + 'G'}">0GB</td>
+                                    <td th:text="${server.jvm.total + 'M'}">0MB</td>
+                                </tr>
+                                <tr>
+                                    <td>已用内存</td>
+                                    <td th:text="${server.mem.used + 'G'}">0GB</td>
+                                    <td th:text="${server.jvm.used + 'M'}">0MB</td>
+                                </tr>
+                                <tr>
+                                    <td>剩余内存</td>
+                                    <td th:text="${server.mem.free + 'G'}">0GB</td>
+                                    <td th:text="${server.jvm.free + 'M'}">0MB</td>
+                                </tr>
+                                <tr>
+                                    <td>使用率</td>
+                                    <td th:class="${server.mem.usage gt 80} ? 'text-danger'">[[${server.mem.usage}]]%</td>
+                                    <td th:class="${server.jvm.usage gt 80} ? 'text-danger'">[[${server.jvm.usage}]]%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">服务器信息</div>
-                <div class="layui-card-body">
-                    <table class="layui-table" lay-skin="line">
-                        <tr>
-                            <td>服务器名称</td>
-                            <td th:text="${server.sys.computerName}">RuoYi</td>
-                            <td>操作系统</td>
-                            <td th:text="${server.sys.osName}">Linux</td>
-                        </tr>
-                        <tr>
-                            <td>服务器IP</td>
-                            <td th:text="${server.sys.computerIp}">127.0.0.1</td>
-                            <td>系统架构</td>
-                            <td th:text="${server.sys.osArch}">amd64</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">Java虚拟机信息</div>
-                <div class="layui-card-body">
-                    <table class="layui-table" lay-skin="line">
-                        <tr>
-                            <td>Java名称</td>
-                            <td th:text="${server.jvm.name}">Java</td>
-                            <td>Java版本</td>
-                            <td th:text="${server.jvm.version}">1.8.0</td>
-                        </tr>
-                        <tr>
-                            <td>启动时间</td>
-                            <td th:text="${server.jvm.startTime}">2019-04-08 00:00:00</td>
-                            <td>运行时长</td>
-                            <td th:text="${server.jvm.runTime}">0天0时0分0秒</td>
-                        </tr>
-                        <tr>
-                            <td colspan="1">安装路径</td>
-                            <td colspan="3" th:text="${server.jvm.home}"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="1">项目路径</td>
-                            <td colspan="3" th:text="${server.sys.userDir}"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">磁盘状态</div>
-                <div class="layui-card-body">
-                    <table class="layui-table" lay-skin="line">
-                        <thead>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">服务器信息</div>
+                    <div class="layui-card-body">
+                        <table class="layui-table" lay-skin="line">
                             <tr>
-                                <th>盘符路径</th>
-                                <th>文件系统</th>
-                                <th>盘符类型</th>
-                                <th>总大小</th>
-                                <th>可用大小</th>
-                                <th>已用大小</th>
-                                <th>已用百分比</th>
+                                <td>服务器名称</td>
+                                <td th:text="${server.sys.computerName}">RuoYi</td>
+                                <td>操作系统</td>
+                                <td th:text="${server.sys.osName}">Linux</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="sysFile : ${server.sysFiles}">
-                                <td th:text="${sysFile.dirName}">C:\</td>
-                                <td th:text="${sysFile.sysTypeName}">NTFS</td>
-                                <td th:text="${sysFile.typeName}">local</td>
-                                <td th:text="${sysFile.total}">0GB</td>
-                                <td th:text="${sysFile.free}">0GB</td>
-                                <td th:text="${sysFile.used}">0GB</td>
-                                <td th:text="${sysFile.usage} + '%'"></td>
+                            <tr>
+                                <td>服务器IP</td>
+                                <td th:text="${server.sys.computerIp}">127.0.0.1</td>
+                                <td>系统架构</td>
+                                <td th:text="${server.sys.osArch}">amd64</td>
                             </tr>
-                        </tbody>
-                    </table>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">Java虚拟机信息</div>
+                    <div class="layui-card-body">
+                        <table class="layui-table" lay-skin="line">
+                            <tr>
+                                <td>Java名称</td>
+                                <td th:text="${server.jvm.name}">Java</td>
+                                <td>Java版本</td>
+                                <td th:text="${server.jvm.version}">1.8.0</td>
+                            </tr>
+                            <tr>
+                                <td>启动时间</td>
+                                <td th:text="${server.jvm.startTime}">2019-04-08 00:00:00</td>
+                                <td>运行时长</td>
+                                <td th:text="${server.jvm.runTime}">0天0时0分0秒</td>
+                            </tr>
+                            <tr>
+                                <td colspan="1">安装路径</td>
+                                <td colspan="3" th:text="${server.jvm.home}"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="1">项目路径</td>
+                                <td colspan="3" th:text="${server.sys.userDir}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">磁盘状态</div>
+                    <div class="layui-card-body">
+                        <table class="layui-table" lay-skin="line">
+                            <thead>
+                                <tr>
+                                    <th>盘符路径</th>
+                                    <th>文件系统</th>
+                                    <th>盘符类型</th>
+                                    <th>总大小</th>
+                                    <th>可用大小</th>
+                                    <th>已用大小</th>
+                                    <th>已用百分比</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="sysFile : ${server.sysFiles}">
+                                    <td th:text="${sysFile.dirName}">C:\</td>
+                                    <td th:text="${sysFile.sysTypeName}">NTFS</td>
+                                    <td th:text="${sysFile.typeName}">local</td>
+                                    <td th:text="${sysFile.total}">0GB</td>
+                                    <td th:text="${sysFile.free}">0GB</td>
+                                    <td th:text="${sysFile.used}">0GB</td>
+                                    <td th:text="${sysFile.usage} + '%'"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 </body>
 </html>
