@@ -81,7 +81,7 @@
                             <i class="layui-icon layui-icon-home"></i>&emsp;
                             <cite th:text="${menu.menuName}"></cite>
                         </a>
-                        <dl class="layui-nav-child">
+                        <dl th:if="${!#lists.isEmpty(menu.children)}" class="layui-nav-child">
                             <dd th:each="child:${menu.children}">
                                 <a data-th-lay-id="${child.url}" data-th-lay-url="${child.url}">
                                     <cite th:text="${child.menuName}"></cite>
@@ -89,44 +89,6 @@
                                 <th:block th:unless="${#lists.isEmpty(child.children)}" th:include="common/public::menu(${child})" />
                             </dd>
                         </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a>
-                            <i class="layui-icon layui-icon-home"></i>&emsp;<cite>多级菜单</cite>
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd>
-                                <a>
-                                    <cite>二级菜单</cite>
-                                </a>
-                                <dl class="layui-nav-child">
-                                    <dd>
-                                        <a>
-                                            <cite>三级菜单</cite>
-                                        </a>
-                                        <dl class="layui-nav-child">
-                                            <dd>
-                                                <a>
-                                                    <cite>四级菜单</cite>
-                                                </a>
-                                                <dl class="layui-nav-child">
-                                                    <dd>
-                                                        <a href="#" lay-id="111" lay-url="https://www.baidu.com">
-                                                            <cite>百度</cite>
-                                                        </a>
-                                                    </dd>
-                                                </dl>
-                                            </dd>
-                                        </dl>
-                                    </dd>
-                                </dl>
-                            </dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a lay-id="一级菜单" lay-url="https://www.baidu.com">
-                            <i class="layui-icon layui-icon-app"></i>&emsp;<cite>一级菜单</cite>
-                        </a>
                     </li>
                 </ul>
             </div>
