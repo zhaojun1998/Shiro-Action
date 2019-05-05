@@ -60,21 +60,36 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 
 ## 系统预览
 
-![](https://cdn.jun6.net/201904032326_720.png)
+![](https://cdn.jun6.net/201905052146_570.png)
 
-![](https://cdn.jun6.net/201904032327_602.png)
+![](https://cdn.jun6.net/2019/05/05/5ccee9679211e.png)
 
-![](https://cdn.jun6.net/201904032327_107.png)
+![](https://cdn.jun6.net/2019/05/05/5ccee96794cb8.png)
 
-![](https://cdn.jun6.net/201904032327_936.png)
+![](https://cdn.jun6.net/2019/05/05/5ccee96789cb8.png)
 
-![](https://cdn.jun6.net/201904032328_32.png)
+![](https://cdn.jun6.net/2019/05/05/5ccee967871ab.png)
 
-![](https://cdn.jun6.net/201904142201_744.png)
+![](https://cdn.jun6.net/2019/05/05/5ccee9678c74a.png)
 
-![](https://cdn.jun6.net/2019/04/14/5cb340e86aacb.png)
 
-![](https://cdn.jun6.net/2019/04/14/5cb34129083c8.png)
+### 技术选型
+
+
+#### 前端
+
+* 前端框架: [Layui](https://www.layui.com/)
+* 后台模板: [Z-Admin](https://github.com/zhaojun1998/Z-Admin/)
+
+
+#### 后端
+
+* SpringBoot 2.0.6.RELEASE
+* Shiro 1.4.0
+* MyBatis 1.3.2
+* Druid 1.1.10
+* PageHelper 1.2.9
+* Shiro-Redis 3.2.3
 
 ### 反馈交流
 
