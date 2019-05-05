@@ -243,6 +243,7 @@
 }
 
 .layui-layout-admin .layui-side .layui-nav .layui-nav-item a {
+    cursor: pointer;
     height: 50px;
     line-height: 50px;
     padding-left: 30px;
@@ -324,12 +325,6 @@
     padding-left: 110px
 }
 
-/* 一级目录额外的高度 */
-.layui-layout-admin .layui-side .layui-nav .layui-nav-item>a {
-    padding-top: 3px;
-    padding-bottom: 3px;
-    cursor: pointer
-}
 /* ----- 导航样式 ----- */
 
 
