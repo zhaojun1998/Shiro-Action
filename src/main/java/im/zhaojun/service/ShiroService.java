@@ -2,6 +2,7 @@ package im.zhaojun.service;
 
 import im.zhaojun.model.Menu;
 import im.zhaojun.model.Operator;
+import org.apache.shiro.ShiroException;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
@@ -86,7 +87,7 @@ public class ShiroService {
                 shiroFilter = (AbstractShiroFilter) shiroFilterFactoryBean
                         .getObject();
             } catch (Exception e) {
-                throw new RuntimeException(
+                throw new ShiroException(
                         "get ShiroFilter from shiroFilterFactoryBean error!");
             }
             PathMatchingFilterChainResolver filterChainResolver = (PathMatchingFilterChainResolver) shiroFilter

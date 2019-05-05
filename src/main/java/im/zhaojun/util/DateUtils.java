@@ -65,14 +65,6 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         return new SimpleDateFormat(format).format(date);
     }
 
-    public static Date dateTime(final String format, final String ts) {
-        try {
-            return new SimpleDateFormat(format).parse(ts);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     /**
      * 日期路径 即年/月/日 如2018/08/08
      */

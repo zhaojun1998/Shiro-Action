@@ -26,9 +26,6 @@ public class MenuService {
     @Resource
     private OperatorMapper operatorMapper;
 
-    @Resource
-    private ShiroUtil shiroUtil;
-
     /**
      * 获取所有菜单
      */
