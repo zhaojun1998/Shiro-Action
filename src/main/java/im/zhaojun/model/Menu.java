@@ -38,6 +38,8 @@ public class Menu implements Serializable {
     @JsonSerialize(include = JsonSerialize.Inclusion.NON_EMPTY)
     private List<Menu> children;
 
+    private String icon;
+
     public Integer getMenuId() {
         return menuId;
     }
@@ -116,5 +118,13 @@ public class Menu implements Serializable {
 
     public void setChildren(List<Menu> children) {
         this.children = children;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

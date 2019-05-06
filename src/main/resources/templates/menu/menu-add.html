@@ -40,6 +40,20 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label for="url" class="layui-form-label">
+                    图标
+                </label>
+                <div class="layui-input-block">
+                    <div>
+                    <input type="text" id="icon" th:value="${menu?.icon}" name="icon"
+                           lay-verify="required" lay-vertype="tips"
+                           lay-filter="iconPicker"
+                           class="layui-input" style="float: left">
+                        <div class="layui-form-mid layui-word-aux" style="float: right;">注：仅对一级菜单生效</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label for="perms" class="layui-form-label">
                     权限标识
                 </label>
@@ -94,12 +108,34 @@
     <script>
         layui.config({
             base: '/lib/layui/extend/'
-        }).use(['form', 'layer', 'autocomplete', 'dtree'], function () {
+        }).use(['form', 'layer', 'autocomplete', 'dtree', 'iconPicker'], function () {
             var $ = layui.jquery,
                 form = layui.form,
                 layer = layui.layer,
                 autocomplete = layui.autocomplete,
-                dtree = layui.dtree;
+                dtree = layui.dtree,
+                iconPicker = layui.iconPicker;
+
+            iconPicker.render({
+                // 选择器，推荐使用input
+                elem: '#icon',
+                // 数据类型：fontClass/unicode，推荐使用fontClass
+                type: 'fontClass',
+                // 是否开启搜索：true/false，默认true
+                search: true,
+                // 是否开启分页：true/false，默认true
+                page: true,
+                // 每页显示数量，默认12
+                limit: 24,
+                // 点击回调
+                click: function (data) {
+                    console.log(data);
+                },
+                // 渲染成功后的回调
+                success: function(d) {
+                    console.log(d);
+                }
+            });
 
             autocomplete.render({
                 elem: $('#url'),
