@@ -252,7 +252,7 @@
 
 
     // 页面加载完后, 打开存储的标签卡.
-    $(document).ready(function() {
+    window.onload = function () {
         if (rememberTab) {
             let tabs = JSON.parse(sessionStorage.getItem("tabs"));
             for (let i = 0; tabs != null && i < tabs.length; i++) {
@@ -260,6 +260,6 @@
             }
             activeTab.tabChange(sessionStorage.getItem("currentTabId"));
         }
-    });
+    }
 });
 
