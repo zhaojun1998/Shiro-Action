@@ -71,23 +71,23 @@ CREATE TABLE `menu`  (
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+  `icon` varchar(32) DEFAULT NULL COMMENT '图标',
   PRIMARY KEY (`menu_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES (1, 0, '权限管理', '#', NULL, 0, '2018-12-02 07:51:17', '2019-03-31 18:52:21');
-INSERT INTO `menu` VALUES (2, 1, '用户管理', '/user/index', 'user:list', 1, '2018-12-23 19:50:25', '2019-03-31 18:55:51');
-INSERT INTO `menu` VALUES (3, 1, '角色管理', '/role/index', 'role:list', 2, '2018-12-02 07:51:18', '2018-12-23 19:50:44');
-INSERT INTO `menu` VALUES (4, 1, '菜单权限', '/menu/index', 'menu:list', 3, '2019-02-07 10:57:06', '2019-02-16 19:49:22');
-INSERT INTO `menu` VALUES (11, 0, '系统监控', '#', NULL, 5, '2019-02-04 15:07:41', '2019-03-31 18:52:21');
-INSERT INTO `menu` VALUES (12, 11, '登录日志', '/log/login/index', 'login:log:list', 1, '2018-12-09 10:07:36', '2019-02-10 22:27:00');
-INSERT INTO `menu` VALUES (19, 11, '操作日志', '/log/sys/index', 'sys:log:list', 4, '2018-12-22 22:48:27', '2019-02-10 22:12:13');
-INSERT INTO `menu` VALUES (20, 11, '在线用户', '/online/index', 'user:online', 3, '2018-12-23 15:40:21', '2019-02-10 22:27:00');
-INSERT INTO `menu` VALUES (27, 1, '操作权限', '/operator/index', 'operator:list', 4, '2019-02-10 17:39:08', '2019-02-16 19:49:22');
-INSERT INTO `menu` VALUES (28, 1, '部门管理', '/dept/index', 'dept:list', 6, '2019-03-13 20:58:55', NULL);
-INSERT INTO `menu` VALUES (29, 11, '系统管理', '/system/index', 'system:index', 7, '2019-04-27 23:06:08', NULL);
+INSERT INTO `menu` VALUES (1, 0, '权限管理', '#', '#', 0, '2018-12-02 07:51:17', '2019-05-06 21:15:26', 'layui-icon-auz');
+INSERT INTO `menu` VALUES (2, 1, '用户管理', '/user/index', 'user:list', 1, '2018-12-23 19:50:25', '2019-05-06 21:20:18', 'layui-icon-username');
+INSERT INTO `menu` VALUES (3, 1, '角色管理', '/role/index', 'role:list', 2, '2018-12-02 07:51:18', '2019-05-06 21:20:27', 'layui-icon-group');
+INSERT INTO `menu` VALUES (4, 1, '菜单权限', '/menu/index', 'menu:list', 3, '2019-02-07 10:57:06', '2019-05-06 21:21:24', 'layui-icon-list');
+INSERT INTO `menu` VALUES (11, 0, '系统监控', '#', '#', 5, '2019-02-04 15:07:41', '2019-05-06 21:18:23', 'layui-icon-console');
+INSERT INTO `menu` VALUES (12, 11, '登录日志', '/log/login/index', 'login:log:list', 1, '2018-12-09 10:07:36', '2019-02-10 22:27:00', NULL);
+INSERT INTO `menu` VALUES (19, 11, '操作日志', '/log/sys/index', 'sys:log:list', 4, '2018-12-22 22:48:27', '2019-02-10 22:12:13', NULL);
+INSERT INTO `menu` VALUES (20, 11, '在线用户', '/online/index', 'user:online', 3, '2018-12-23 15:40:21', '2019-02-10 22:27:00', NULL);
+INSERT INTO `menu` VALUES (27, 1, '操作权限', '/operator/index', 'operator:list', 4, '2019-02-10 17:39:08', '2019-02-16 19:49:22', NULL);
+INSERT INTO `menu` VALUES (28, 1, '部门管理', '/dept/index', 'dept:list', 6, '2019-03-13 20:58:55', NULL, NULL);
+INSERT INTO `menu` VALUES (29, 11, '系统管理', '/system/index', 'system:index', 7, '2019-04-27 23:06:08', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for operator
