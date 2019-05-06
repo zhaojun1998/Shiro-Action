@@ -59,21 +59,22 @@ function dateFormat(fmt, date) {
 
 function openTab(title, url) {
     var id = url;
-    iframe = parent.$('.x-iframe');
+    iframe = parent.$("iframe");
     for (var i = 0; i < iframe.length; i++) {
-        if (iframe.eq(i).attr('tab-id') == url) {
-            parent.element.tabChange('tab', url);
+        var curl = iframe.eq(i).attr("src");
+        if (curl === url) {
+            parent.layui.element.tabChange("lay-tab", url);
             return;
         }
     }
-    parent.element.tabAdd('tab', {
+    parent.layui.element.tabAdd('lay-tab', {
         title: title
         ,
-        content: '<iframe tab-id="' + id + '" frameborder="0" src="' + url + '" scrolling="yes" class="x-iframe"></iframe>'
+        content: "<iframe data-frame-id='" + id + "' class='layui-iframe' src='" + url + "'></iframe>"
         ,
         id: id
     });
-    parent.element.tabChange('tab', url);
+    parent.layui.element.tabChange('lay-tab', url);
 }
 
 /**
