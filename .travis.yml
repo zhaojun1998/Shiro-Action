@@ -1,5 +1,8 @@
 language: java
 jdk:
-  - openjdk8
+- openjdk8
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true
 script: mvn test
+before_install:
+- openssl aes-256-cbc -K $encrypted_2f25aa51b044_key -iv $encrypted_2f25aa51b044_iv
+  -in deploy_rsa.enc -out ~\/deploy_rsa -d
