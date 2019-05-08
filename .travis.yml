@@ -6,3 +6,8 @@ script: mvn test
 before_install:
 - openssl aes-256-cbc -K $encrypted_2f25aa51b044_key -iv $encrypted_2f25aa51b044_iv
   -in deploy_rsa.enc -out ~\/deploy_rsa -d
+- chmod 600 ~/.ssh/id_rsa
+- echo -e "Host 47.91.226.227\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+
+after_success:
+- scp -o stricthostkeychecking=no -r target/shiro-action-0.3.jar root@47.91.226.227:/data
