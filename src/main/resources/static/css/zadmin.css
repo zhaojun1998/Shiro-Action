@@ -235,7 +235,8 @@
     background-color: transparent;
 }
 
-.layui-layout-admin .layui-side .layui-nav .layui-nav-item .layui-icon {
+.layui-layout-admin .layui-side .layui-nav .layui-nav-item .layui-icon,
+.layui-layout-admin .layui-side .layui-nav .layui-nav-item .iconfont{
     position: absolute;
     top: 50%;
     left: 20px;
