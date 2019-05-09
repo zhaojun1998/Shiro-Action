@@ -39,7 +39,7 @@ public class OperatorController {
     }
 
     @GetMapping("/{operatorId}")
-    public String edit(Model model, @PathVariable("operatorId") Integer operatorId) {
+    public String update(Model model, @PathVariable("operatorId") Integer operatorId) {
         Operator operator = operatorService.selectByPrimaryKey(operatorId);
         model.addAttribute("operator", operator);
         return "operator/operator-add";
@@ -48,7 +48,7 @@ public class OperatorController {
     @RefreshFilterChain
     @PutMapping
     @ResponseBody
-    public ResultBean edit(Operator operator) {
+    public ResultBean update(Operator operator) {
         operatorService.updateByPrimaryKey(operator);
         return ResultBean.success();
     }

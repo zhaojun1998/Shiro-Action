@@ -49,8 +49,6 @@ public class ShiroService {
         filterChainDefinitionMap.put("/register", "anon");
         // 验证码
         filterChainDefinitionMap.put("/captcha", "anon");
-        // 检查用户名是否存在
-        filterChainDefinitionMap.put("/checkUser", "anon");
         List<Menu> menuList = menuService.getLeafNodeMenu();
         for (Menu menu : menuList) {
             String url = menu.getUrl();

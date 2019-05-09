@@ -7,8 +7,10 @@ import im.zhaojun.service.RoleService;
 import im.zhaojun.service.UserService;
 import im.zhaojun.util.PageResultBean;
 import im.zhaojun.util.ResultBean;
+import im.zhaojun.validate.groups.Create;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -47,7 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public String edit(@PathVariable("userId") Integer userId, Model model) {
+    public String update(@PathVariable("userId") Integer userId, Model model) {
         model.addAttribute("roleIds", userService.selectRoleIdsById(userId));
         model.addAttribute("user", userService.selectOne(userId));
         model.addAttribute("roles", roleService.selectAll());
@@ -57,7 +59,7 @@ public class UserController {
     @OperationLog("编辑角色")
     @PutMapping
     @ResponseBody
-    public ResultBean edit(User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
+    public ResultBean update(@Valid User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
         userService.update(user, roleIds);
         return ResultBean.success();
     }
@@ -65,7 +67,7 @@ public class UserController {
     @OperationLog("新增用户")
     @PostMapping
     @ResponseBody
-    public ResultBean add(@Valid User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
+    public ResultBean add(@Validated(Create.class) User user, @RequestParam(value = "role[]", required = false) Integer roleIds[]) {
         return ResultBean.success(userService.add(user, roleIds));
     }
 
