@@ -79,16 +79,10 @@ public class LoginController {
         return "redirect:login";
     }
 
-    @GetMapping("/checkUser")
-    @ResponseBody
-    public ResultBean checkUser(String username) {
-        return ResultBean.success(userService.checkUserNameExist(username));
-    }
-
     @PostMapping("/register")
     @ResponseBody
     public ResultBean register(User user) {
-        if (userService.checkUserNameExist(user.getUsername())) {
+        if (userService.checkUserNameExistOnCreate(user.getUsername())) {
             throw new DuplicateNameException();
         }
         String activeCode = IdUtil.fastSimpleUUID();
