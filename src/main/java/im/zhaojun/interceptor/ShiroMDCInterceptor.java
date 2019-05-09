@@ -1,6 +1,7 @@
 package im.zhaojun.interceptor;
 
 import im.zhaojun.model.User;
+import im.zhaojun.util.IPUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,9 @@ public class ShiroMDCInterceptor implements HandlerInterceptor {
  
     private final static String MDC_USERNAME = "username";
 
+    private final static String IP = "ip";
+
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {
         // 如已进行登录, 则获取当前登录者的用户名放入 MDC 中.
@@ -23,6 +27,8 @@ public class ShiroMDCInterceptor implements HandlerInterceptor {
         if (user != null) {
             username = user.getUsername();
         }
+
+        MDC.put(IP, IPUtils.getIpAddr());
         MDC.put(MDC_USERNAME, username);
         return true;
     }
