@@ -1,6 +1,7 @@
 package im.zhaojun.service;
 
 import com.github.pagehelper.PageHelper;
+import im.zhaojun.exception.DuplicateNameException;
 import im.zhaojun.mapper.UserMapper;
 import im.zhaojun.mapper.UserRoleMapper;
 import im.zhaojun.model.Menu;
@@ -41,7 +42,6 @@ public class UserService {
     @Resource
     private SessionDAO sessionDAO;
 
-
     public List<User> selectAllWithDept(int page, int rows) {
         PageHelper.startPage(page, rows);
         return userMapper.selectAllWithDept();
@@ -53,6 +53,7 @@ public class UserService {
 
     @Transactional
     public Integer add(User user, Integer[] roleIds) {
+        checkUserNameExistOnCreate(user.getUsername());
         String salt = generateSalt();
         String encryptPassword = new Md5Hash(user.getPassword(), salt).toString();
 
@@ -78,12 +79,17 @@ public class UserService {
         return userMapper.updateStatusByPrimaryKey(id, 1) == 1;
     }
 
-    public boolean update(User user) {
-        return userMapper.updateByPrimaryKeySelective(user) == 1;
+    /**
+     * 根据用户 ID 激活账号.
+     * @param userId    用户 ID
+     */
+    public void activeUserByUserId(Integer userId) {
+        userMapper.activeUserByUserId(userId);
     }
 
     @Transactional
     public boolean update(User user, Integer[] roleIds) {
+        checkUserNameExistOnUpdate(user);
         grantRole(user.getUserId(), roleIds);
         return userMapper.updateByPrimaryKeySelective(user) == 1;
     }
@@ -92,8 +98,20 @@ public class UserService {
         return userMapper.selectByPrimaryKey(id);
     }
 
-    public boolean checkUserNameExist(String username) {
-        return userMapper.countByUserName(username) > 0;
+    /**
+     * 新增时校验用户名是否重复
+     * @param username  用户名
+     */
+    public void checkUserNameExistOnCreate(String username) {
+        if (userMapper.countByUserName(username) > 0) {
+            throw new DuplicateNameException();
+        }
+    }
+
+    public void checkUserNameExistOnUpdate(User user) {
+        if (userMapper.countByUserNameNotIncludeUserId(user.getUsername(), user.getUserId()) > 0) {
+            throw new DuplicateNameException();
+        }
     }
 
     public void offlineBySessionId(String sessionId) {
@@ -179,7 +197,6 @@ public class UserService {
         String encryptPassword = new Md5Hash(password, salt).toString();
         userMapper.updatePasswordByUserId(userId, encryptPassword, salt);
     }
-
 
     private String generateSalt() {
         return String.valueOf(System.currentTimeMillis());

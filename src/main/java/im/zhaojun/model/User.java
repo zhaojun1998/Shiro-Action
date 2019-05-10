@@ -1,7 +1,7 @@
 package im.zhaojun.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import im.zhaojun.validate.constraints.UserNameNotDuplicate;
+import im.zhaojun.validate.groups.Create;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,11 +15,10 @@ public class User implements Serializable {
     private Integer userId;
 
     @NotBlank(message = "用户名不能为空")
-    @UserNameNotDuplicate
     private String username;
 
     @JsonIgnore
-    @NotBlank(message = "密码不能为空")
+    @NotBlank(message = "密码不能为空", groups = Create.class)
     private String password;
 
     @JsonIgnore

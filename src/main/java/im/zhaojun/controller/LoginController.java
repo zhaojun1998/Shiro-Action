@@ -3,7 +3,6 @@ package im.zhaojun.controller;
 import cn.hutool.core.util.IdUtil;
 import im.zhaojun.annotation.OperationLog;
 import im.zhaojun.exception.CaptchaIncorrectException;
-import im.zhaojun.exception.DuplicateNameException;
 import im.zhaojun.model.User;
 import im.zhaojun.service.MailService;
 import im.zhaojun.service.UserService;
@@ -82,9 +81,7 @@ public class LoginController {
     @PostMapping("/register")
     @ResponseBody
     public ResultBean register(User user) {
-        if (userService.checkUserNameExistOnCreate(user.getUsername())) {
-            throw new DuplicateNameException();
-        }
+        userService.checkUserNameExistOnCreate(user.getUsername());
         String activeCode = IdUtil.fastSimpleUUID();
         user.setActiveCode(activeCode);
         user.setStatus("0");
@@ -132,7 +129,7 @@ public class LoginController {
         } else {
             msg = "激活成功!";
             user.setStatus("1");
-            userService.update(user);
+            userService.activeUserByUserId(user.getUserId());
         }
         model.addAttribute("msg", msg);
         return "active";
