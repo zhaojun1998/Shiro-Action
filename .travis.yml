@@ -12,3 +12,5 @@ before_install:
 after_success:
 - scp -o stricthostkeychecking=no -r target/shiro-action-0.3.jar root@47.91.226.227:/data
 - ssh root@47.91.226.227 "bash /data/start.sh"
+- exit
+- eeooff
