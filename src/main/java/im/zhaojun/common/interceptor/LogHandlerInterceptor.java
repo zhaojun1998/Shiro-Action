@@ -1,4 +1,4 @@
-package im.zhaojun.interceptor;
+package im.zhaojun.common.interceptor;
 
 import cn.hutool.json.JSONUtil;
 import org.slf4j.Logger;
@@ -16,8 +16,8 @@ public class LogHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        log.info(request.getRequestURI());
-        log.info(JSONUtil.toJsonStr(request.getParameterMap()));
+        log.info("请求 URL:" + request.getRequestURI());
+        log.info("请求参数:" + JSONUtil.toJsonStr(request.getParameterMap()));
         return true;
     }
 }
