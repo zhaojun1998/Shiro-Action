@@ -6,9 +6,6 @@
     <title>操作管理</title>
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}"/>
     <link rel="stylesheet" th:href="@{/css/common.css}">
-    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
-    <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-    <script type="text/javascript"  th:src="@{/js/common.js}"></script>
     <link rel="stylesheet" th:href="@{/css/animate.min.css}">
 </head>
 
@@ -81,213 +78,219 @@
             </div>
         </div>
     </div>
+
+    <script type="text/html" id="column-toolbar">
+        <shiro:hasPermission name="operator:add">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="operator:delete">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </shiro:hasPermission>
+    </script>
+
+
+    <script th:src="@{/lib/jquery/jquery.min.js}"></script>
+    <script th:src="@{/lib/layui/layui.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+
+    <script>
+
+        // 获取有没有删除, 更新, 和新增的权限.
+        var hasOperatorDelete = false;
+        var hasOperatorUpdate = false;
+        var hasOperatorAdd = false;
+
+        $.get('/security/hasPermission/operator:update', function (data) {
+            hasOperatorUpdate = data.data;
+        });
+        $.get('/security/hasPermission/operator:delete', function (data) {
+            hasOperatorDelete = data.data;
+        });
+        $.get('/security/hasPermission/operator:add', function (data) {
+            hasOperatorAdd = data.data;
+        });
+
+        layui.config({
+            base: '/lib/layui/extend/'
+        }).use(['jquery', 'dtree', 'layer', 'table', 'element'], function () {
+            var dtree = layui.dtree;
+            var layer = layui.layer;
+            var table = layui.table;
+
+            var DTree = dtree.render({
+                elem: "#menuTree",
+                url: "/menu/tree/root/operator",
+                dataStyle: "layuiStyle",
+                initLevel: 5,   // 初始打开节点级别
+                method: "GET",
+                dot: false,     // 圆点是否显示
+                toolbar: true,  // 右键工具栏
+                menubar: true,  // 树上方工具栏, 展开、收缩、刷新、搜索等
+                toolbarShow: [],
+                toolbarScroll: "#toolbarDiv",
+                toolbarExt: [
+                    {
+                        toolbarId: "add",
+                        icon: "dtree-icon-roundadd",
+                        title: "添加操作点",
+                        handler: function (node, $div) {
+                            layer.open({
+                                content: "/operator?menuId=" + node.nodeId,
+                                title: "添加操作点",
+                                area: ['40%', '85%'],
+                                type: 2,
+                                maxmin: true,
+                                shadeClose: true,
+                                end: function () {
+                                    refresh();
+                                }
+                            });
+                        }
+                    },
+                    {
+                        toolbarId: "edit",
+                        icon: "dtree-icon-bianji",
+                        title: "编辑",
+                        handler: function (node, $div) {
+                            editMenu(node.nodeId);
+                        }
+                    },
+                    {
+                        toolbarId: "remove",
+                        icon: "dtree-icon-roundclose",
+                        title: "删除",
+                        handler: function (node, $div) {
+                            delMenu(node.nodeId);
+                        }
+                    }
+                ],
+                response: {
+                    statusCode: 0,
+                    message: "msg",
+                    treeId: "id",
+                    parentId: "parentId",
+                    title: "name"
+                },
+                toolbarFun:{
+                    loadToolbarBefore: function(buttons, param, $div){
+                        if(!param.isLeaf){ // 只有叶子节点, 即页面, 才能添加页面的功能权限.
+                            buttons.add = "";
+                        }
+                        if (!hasOperatorAdd) {
+                            buttons.add = "";
+                        }
+                        if (!hasOperatorDelete) {
+                            buttons.remove = "";
+                        }
+                        if (!hasOperatorUpdate) {
+                            buttons.edit = "";
+                        }
+                        return buttons; // 将按钮对象返回
+                    }
+                }
+            });
+
+            table.render({
+                elem: '#operator-table'
+                , url: '/operator/list'
+                , where: {
+                    menuId: 0
+                }
+                , cellMinWidth: 80
+                , toolbar: '#toolbar'
+                , cols: [
+                    [
+                        {field: 'operatorId', title: 'ID', width: "7%"}
+                        , {field: 'operatorName', title: '功能名称', width: "15%"}
+                        , {field: 'url', title: '地址', width: "25%"}
+                        , {field: 'httpMethod', title: '请求方法', width: "10%"}
+                        , {field: 'perms', title: '权限标识符', width: "18%"}
+                        , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
+                    ]
+                ]
+            });
+
+            dtree.on("node('menuTree')", function (obj) {
+                table.reload('operator-table', {
+                    where: {
+                        menuId: obj.param.nodeId
+                    }
+                });
+            });
+
+            table.on('tool', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    editOperator(data.operatorId);
+                } else if (obj.event === "del") {
+                    delOperator(obj.data.operatorId);
+                }
+            });
+
+            function delMenu(id) {
+                layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除！", {icon: 3, title: '提示'},
+                    function (index) {
+                        $.post('/menu/' + id, {_method: "DELETE"}, function (data) {
+                            layer.close(index);
+                            handlerResult(data, function () {
+                                refresh();
+                            });
+                        });
+                    }, function (index) {
+                        layer.close(index);
+                    }
+                );
+            }
+
+            function delOperator(id) {
+                layer.confirm("是否确定删除?", {icon: 3, title: '提示'},
+                    function (index) {
+                        $.post('/operator/' + id, {_method: "DELETE"}, function (data) {
+                            layer.close(index);
+                            handlerResult(data, function () {
+                                refresh();
+                            });
+                        });
+                    }, function (index) {
+                        layer.close(index);
+                    }
+                );
+            }
+
+            function refresh() {
+                table.reload("operator-table");
+                DTree.menubarMethod().refreshTree();
+            }
+
+            function editMenu(id) {
+                layer.open({
+                    content: '/menu/' + id,
+                    title: "编辑",
+                    area: ['40%', '85%'],
+                    type: 2,
+                    maxmin: true,
+                    shadeClose: true,
+                    end: function () {
+                        DTree.menubarMethod().refreshTree();
+                    }
+                });
+            }
+
+            function editOperator(id) {
+                layer.open({
+                    content: '/operator/' + id,
+                    title: "编辑",
+                    area: ['40%', '85%'],
+                    type: 2,
+                    maxmin: true,
+                    shadeClose: true,
+                    end: function () {
+                        table.reload("operator-table");
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
-<script type="text/html" id="column-toolbar">
-    <shiro:hasPermission name="operator:add">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="operator:delete">
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </shiro:hasPermission>
-</script>
-
-<script>
-
-    // 获取有没有删除, 更新, 和新增的权限.
-    var hasOperatorDelete = false;
-    var hasOperatorUpdate = false;
-    var hasOperatorAdd = false;
-
-    $.get('/security/hasPermission/operator:update', function (data) {
-        hasOperatorUpdate = data.data;
-    });
-    $.get('/security/hasPermission/operator:delete', function (data) {
-        hasOperatorDelete = data.data;
-    });
-    $.get('/security/hasPermission/operator:add', function (data) {
-        hasOperatorAdd = data.data;
-    });
-
-    layui.config({
-        base: '/lib/layui/extend/'
-    }).use(['jquery', 'dtree', 'layer', 'table', 'element'], function () {
-        var dtree = layui.dtree;
-        var layer = layui.layer;
-        var table = layui.table;
-
-        var DTree = dtree.render({
-            elem: "#menuTree",
-            url: "/menu/tree/root/operator",
-            dataStyle: "layuiStyle",
-            initLevel: 5,   // 初始打开节点级别
-            method: "GET",
-            dot: false,     // 圆点是否显示
-            toolbar: true,  // 右键工具栏
-            menubar: true,  // 树上方工具栏, 展开、收缩、刷新、搜索等
-            toolbarShow: [],
-            toolbarScroll: "#toolbarDiv",
-            toolbarExt: [
-                {
-                    toolbarId: "add",
-                    icon: "dtree-icon-roundadd",
-                    title: "添加操作点",
-                    handler: function (node, $div) {
-                        layer.open({
-                            content: "/operator?menuId=" + node.nodeId,
-                            title: "添加操作点",
-                            area: ['40%', '85%'],
-                            type: 2,
-                            maxmin: true,
-                            shadeClose: true,
-                            end: function () {
-                                refresh();
-                            }
-                        });
-                    }
-                },
-                {
-                    toolbarId: "edit",
-                    icon: "dtree-icon-bianji",
-                    title: "编辑",
-                    handler: function (node, $div) {
-                        editMenu(node.nodeId);
-                    }
-                },
-                {
-                    toolbarId: "remove",
-                    icon: "dtree-icon-roundclose",
-                    title: "删除",
-                    handler: function (node, $div) {
-                        delMenu(node.nodeId);
-                    }
-                }
-            ],
-            response: {
-                statusCode: 0,
-                message: "msg",
-                treeId: "id",
-                parentId: "parentId",
-                title: "name"
-            },
-            toolbarFun:{
-                loadToolbarBefore: function(buttons, param, $div){
-                    if(!param.isLeaf){ // 只有叶子节点, 即页面, 才能添加页面的功能权限.
-                        buttons.add = "";
-                    }
-                    if (!hasOperatorAdd) {
-                        buttons.add = "";
-                    }
-                    if (!hasOperatorDelete) {
-                        buttons.remove = "";
-                    }
-                    if (!hasOperatorUpdate) {
-                        buttons.edit = "";
-                    }
-                    return buttons; // 将按钮对象返回
-                }
-            }
-        });
-
-        table.render({
-            elem: '#operator-table'
-            , url: '/operator/list'
-            , where: {
-                menuId: 0
-            }
-            , cellMinWidth: 80
-            , toolbar: '#toolbar'
-            , cols: [
-                [
-                    {field: 'operatorId', title: 'ID', width: "7%"}
-                    , {field: 'operatorName', title: '功能名称', width: "15%"}
-                    , {field: 'url', title: '地址', width: "25%"}
-                    , {field: 'httpMethod', title: '请求方法', width: "10%"}
-                    , {field: 'perms', title: '权限标识符', width: "18%"}
-                    , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
-                ]
-            ]
-        });
-
-        dtree.on("node('menuTree')", function (obj) {
-            table.reload('operator-table', {
-                where: {
-                    menuId: obj.param.nodeId
-                }
-            });
-        });
-
-        table.on('tool', function (obj) {
-            var data = obj.data;
-            if (obj.event === 'edit') {
-                editOperator(data.operatorId);
-            } else if (obj.event === "del") {
-                delOperator(obj.data.operatorId);
-            }
-        });
-
-        function delMenu(id) {
-            layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除！", {icon: 3, title: '提示'},
-                function (index) {
-                    $.post('/menu/' + id, {_method: "DELETE"}, function (data) {
-                        layer.close(index);
-                        handlerResult(data, function () {
-                            refresh();
-                        });
-                    });
-                }, function (index) {
-                    layer.close(index);
-                }
-            );
-        }
-
-        function delOperator(id) {
-            layer.confirm("是否确定删除?", {icon: 3, title: '提示'},
-                function (index) {
-                    $.post('/operator/' + id, {_method: "DELETE"}, function (data) {
-                        layer.close(index);
-                        handlerResult(data, function () {
-                            refresh();
-                        });
-                    });
-                }, function (index) {
-                    layer.close(index);
-                }
-            );
-        }
-
-        function refresh() {
-            table.reload("operator-table");
-            DTree.menubarMethod().refreshTree();
-        }
-
-        function editMenu(id) {
-            layer.open({
-                content: '/menu/' + id,
-                title: "编辑",
-                area: ['40%', '85%'],
-                type: 2,
-                maxmin: true,
-                shadeClose: true,
-                end: function () {
-                    DTree.menubarMethod().refreshTree();
-                }
-            });
-        }
-
-        function editOperator(id) {
-            layer.open({
-                content: '/operator/' + id,
-                title: "编辑",
-                area: ['40%', '85%'],
-                type: 2,
-                maxmin: true,
-                shadeClose: true,
-                end: function () {
-                    table.reload("operator-table");
-                }
-            });
-        }
-    });
-</script>
 </html>

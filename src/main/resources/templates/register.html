@@ -8,91 +8,91 @@
     <title>注册页</title>
     <link rel="shortcut icon" type="image/x-icon"/>
     <link rel="stylesheet" th:href="@{/css/common.css}">
-    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
-    <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
-    <script type="text/javascript"  th:src="@{/js/common.js}"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
-
-<div class="login-main">
-    <header class="layui-elip" style="width: 100%">注册页</header>
-    <!-- 表单选项 -->
-    <form class="layui-form">
-        <div class="layui-input-inline">
-            <div class="layui-inline" style="width: 100%">
-                <input type="text" class="layui-input" placeholder="请输入用户名" autocomplete="off"
-                       lay-verify="required" lay-vertype="tips" id="username" name="username">
+    <div class="login-main">
+        <header class="layui-elip" style="width: 100%">注册页</header>
+        <!-- 表单选项 -->
+        <form class="layui-form">
+            <div class="layui-input-inline">
+                <div class="layui-inline" style="width: 100%">
+                    <input type="text" class="layui-input" placeholder="请输入用户名" autocomplete="off"
+                           lay-verify="required" lay-vertype="tips" id="username" name="username">
+                </div>
             </div>
-        </div>
-        <div class="layui-input-inline">
-            <div class="layui-inline" style="width: 100%">
-                <input type="text" class="layui-input" placeholder="请输入邮箱" autocomplete="off"
-                       lay-verify="required|email" lay-vertype="tips" id="email" name="email">
+            <div class="layui-input-inline">
+                <div class="layui-inline" style="width: 100%">
+                    <input type="text" class="layui-input" placeholder="请输入邮箱" autocomplete="off"
+                           lay-verify="required|email" lay-vertype="tips" id="email" name="email">
+                </div>
             </div>
-        </div>
-        <div class="layui-input-inline">
-            <div class="layui-inline" style="width: 100%">
-                <input type="password" id="password" name="password"
-                       lay-verify="required|password" lay-vertype="tips"
-                       placeholder="请输入密码"
-                       autocomplete="off" class="layui-input">
+            <div class="layui-input-inline">
+                <div class="layui-inline" style="width: 100%">
+                    <input type="password" id="password" name="password"
+                           lay-verify="required|password" lay-vertype="tips"
+                           placeholder="请输入密码"
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-        </div>
-        <div class="layui-input-inline">
-            <div class="layui-inline" style="width: 100%">
-                <input type="password" id="repassword"
-                       lay-verify="repassword" lay-vertype="tips"
-                       placeholder="请确认密码"
-                       autocomplete="off" class="layui-input">
+            <div class="layui-input-inline">
+                <div class="layui-inline" style="width: 100%">
+                    <input type="password" id="repassword"
+                           lay-verify="repassword" lay-vertype="tips"
+                           placeholder="请确认密码"
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-        </div>
 
-        <div class="layui-input-inline login-btn" style="width: 100%">
-            <button type="button" lay-submit lay-filter="sub" class="layui-btn layui-btn-blue">注册</button>
-        </div>
+            <div class="layui-input-inline login-btn" style="width: 100%">
+                <button type="button" lay-submit lay-filter="sub" class="layui-btn layui-btn-blue">注册</button>
+            </div>
 
-        <hr style="width: 85%"/>
-        <p style="width: 85%">
-            <a href="login" class="fl">已有账号？立即登录</a>
-            <a href="#" class="fr">忘记密码？</a>
-        </p>
-    </form>
-</div>
+            <hr style="width: 85%"/>
+            <p style="width: 85%">
+                <a href="login" class="fl">已有账号？立即登录</a>
+                <a href="#" class="fr">忘记密码？</a>
+            </p>
+        </form>
+    </div>
 
-<script type="text/javascript">
-    layui.use(['form', 'jquery', 'layer'], function () {
-        var form = layui.form;
-        var $ = layui.jquery;
-        var layer = layui.layer;
+    <script th:src="@{/lib/jquery/jquery.min.js}"></script>
+    <script th:src="@{/lib/layui/layui.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
 
-        form.verify({
-            password: [
-                /^[\S]{6,12}$/,
-                '密码必须6到12位，且不能出现空格'
-            ],
-            repassword: function (value) {
-                var password = $('#password').val();
-                if (value !== password) {
-                    return '两次密码不一致';
+    <script type="text/javascript">
+        layui.use(['form', 'jquery', 'layer'], function () {
+            var form = layui.form;
+            var $ = layui.jquery;
+            var layer = layui.layer;
+
+            form.verify({
+                password: [
+                    /^[\S]{6,12}$/,
+                    '密码必须6到12位，且不能出现空格'
+                ],
+                repassword: function (value) {
+                    var password = $('#password').val();
+                    if (value !== password) {
+                        return '两次密码不一致';
+                    }
                 }
-            }
-        });
-
-        //添加表单监听事件,提交注册信息
-        form.on('submit(sub)', function (form) {
-            $.post('/register', form.field, function (result) {
-                handlerResult(result, registerDone);
             });
-            //防止页面跳转
-            return false;
-        });
-    });
 
-    function registerDone(data) {
-        layer.msg("注册成功, 请检查邮箱进行激活!", {icon: 6});
-    }
-</script>
+            //添加表单监听事件,提交注册信息
+            form.on('submit(sub)', function (form) {
+                $.post('/register', form.field, function (result) {
+                    handlerResult(result, registerDone);
+                });
+                //防止页面跳转
+                return false;
+            });
+        });
+
+        function registerDone(data) {
+            layer.msg("注册成功, 请检查邮箱进行激活!", {icon: 6});
+        }
+    </script>
 </body>
 </html>
