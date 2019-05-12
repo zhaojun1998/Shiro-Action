@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="im.zhaojun.mapper.UserMapper">
-    <resultMap id="BaseResultMap" type="im.zhaojun.model.User">
+<mapper namespace="im.zhaojun.system.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="im.zhaojun.system.model.User">
         <id column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
@@ -37,14 +37,14 @@
         from user
         where user_id = #{userId,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.model.User"
+    <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.system.model.User"
             useGeneratedKeys="true">
         insert into user (username, password, salt,
                           email, status, last_login_time, active_code, dept_id)
         values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
                 #{email,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{activeCode,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}  )
     </insert>
-    <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.model.User"
+    <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.system.model.User"
             useGeneratedKeys="true">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -94,7 +94,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="im.zhaojun.model.User">
+    <update id="updateByPrimaryKeySelective" parameterType="im.zhaojun.system.model.User">
         update user
         <set>
             <if test="username != null">
@@ -121,7 +121,7 @@
         </set>
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="im.zhaojun.model.User">
+    <update id="updateByPrimaryKey" parameterType="im.zhaojun.system.model.User">
         update user
         set username        = #{username,jdbcType=VARCHAR},
             password        = #{password,jdbcType=VARCHAR},

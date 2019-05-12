@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="im.zhaojun.mapper.RoleMenuMapper">
+<mapper namespace="im.zhaojun.system.mapper.RoleMenuMapper">
     <sql id="Base_Column_List">
         role_id,
         menu_id
     </sql>
-    <resultMap id="BaseResultMap" type="im.zhaojun.model.RoleMenu">
+    <resultMap id="BaseResultMap" type="im.zhaojun.system.model.RoleMenu">
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="menu_id" jdbcType="INTEGER" property="menuId" />
   </resultMap>
-  <insert id="insert" parameterType="im.zhaojun.model.RoleMenu">
+  <insert id="insert" parameterType="im.zhaojun.system.model.RoleMenu">
     insert into role_menu (role_id, menu_id)
     values (#{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="im.zhaojun.model.RoleMenu">
+  <insert id="insertSelective" parameterType="im.zhaojun.system.model.RoleMenu">
     insert into role_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roleId != null">role_id,</if><if test="menuId != null">menu_id,</if>

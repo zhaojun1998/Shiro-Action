@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="im.zhaojun.mapper.RoleMapper">
-    <resultMap id="BaseResultMap" type="im.zhaojun.model.Role">
+<mapper namespace="im.zhaojun.system.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="im.zhaojun.system.model.Role">
         <id column="role_id" jdbcType="INTEGER" property="roleId"/>
         <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
@@ -26,12 +26,12 @@
         from role
         where role_id = #{roleId,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" keyColumn="role_id" keyProperty="roleId" parameterType="im.zhaojun.model.Role"
+    <insert id="insert" keyColumn="role_id" keyProperty="roleId" parameterType="im.zhaojun.system.model.Role"
             useGeneratedKeys="true">
         insert into role (role_name, remark)
         values (#{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="im.zhaojun.model.Role"
+    <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="im.zhaojun.system.model.Role"
             useGeneratedKeys="true">
         insert into role
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -51,7 +51,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="im.zhaojun.model.Role">
+    <update id="updateByPrimaryKeySelective" parameterType="im.zhaojun.system.model.Role">
         update role
         <set>
             <if test="roleName != null">
@@ -63,7 +63,7 @@
         </set>
         where role_id = #{roleId,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="im.zhaojun.model.Role">
+    <update id="updateByPrimaryKey" parameterType="im.zhaojun.system.model.Role">
         update role
         set role_name = #{roleName,jdbcType=VARCHAR},
             remark    = #{remark,jdbcType=VARCHAR}
