@@ -7,7 +7,7 @@
     box-shadow: 0 1px 0 0 rgba(0,0,0,.05);
 }
 
-.layui-layout-admin .layui-header .layui-nav .layui-this:after, 
+.layui-layout-admin .layui-header .layui-nav .layui-this:after,
 .layui-layout-admin .layui-header .layui-nav-bar {
     height: 2px;
     background-color: #03152a;
@@ -527,6 +527,13 @@
     .layui-layout-admin.admin-nav-mini .layui-side .layui-nav .layui-nav-itemed.admin-nav-hover>.layui-nav-child {
         display: block
     }
+
+    /* 小屏模式下隐藏面包屑, 只保留面包屑的最后一级的内容. */
+    .layui-layout-admin .layui-nav .layui-breadcrumb span,
+    .layui-layout-admin .layui-nav .layui-breadcrumb a:not(:last-child) {
+        display: none;
+    }
+
 }
 
 

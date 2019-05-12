@@ -1,11 +1,20 @@
-$(document).ready(function() {
+layui.config({
+    base: "/lib/layui/extend/",
+}).use(["zadmin", "tabRightMenu"], function () {
+    var zadmin = layui.zadmin;
+    var tabRightMenu = layui.tabRightMenu;
 
-    // 加载完成后关闭加载动画.
+    // 渲染 tab 右键菜单.
+    tabRightMenu.render({
+        filter: "lay-tab",
+        pintabIDs: ["home"],
+        width: 110,
+    });
+
     setTimeout(function() {
-        $(".page-loading").hide();
+        zadmin.removeLoading();
     }, 500);
 });
-
 
 /**
  * 显示错误信息
@@ -57,24 +66,17 @@ function dateFormat(fmt, date) {
     return fmt;
 }
 
+/**
+ * 公共打开父页面 tab 方法.
+ * @param title
+ * @param url
+ */
 function openTab(title, url) {
-    var id = url;
-    iframe = parent.$("iframe");
-    for (var i = 0; i < iframe.length; i++) {
-        var curl = iframe.eq(i).attr("src");
-        if (curl === url) {
-            parent.layui.element.tabChange("lay-tab", url);
-            return;
-        }
-    }
-    parent.layui.element.tabAdd('lay-tab', {
-        title: title
-        ,
-        content: "<iframe data-frame-id='" + id + "' class='layui-iframe' src='" + url + "'></iframe>"
-        ,
-        id: id
+    parent.layui.zadmin.tabAdd({
+        id: url,
+        title: title,
+        url: url
     });
-    parent.layui.element.tabChange('lay-tab', url);
 }
 
 /**
