@@ -5,7 +5,7 @@
 
     <groupId>im.zhaojun</groupId>
     <artifactId>shiro-action</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
     <packaging>jar</packaging>
 
     <name>Shiro-Action</name>
@@ -20,35 +20,34 @@
     </parent>
 
     <properties>
+
+        <!-- 项目编译相关 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+
+        <!-- 模板引擎相关 -->
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
         <thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version>
 
+        <!-- 数据库相关 -->
         <mybatis.starter.version>1.3.2</mybatis.starter.version>
         <druid.starter.version>1.1.10</druid.starter.version>
+        <pagehelper.starter.verison>1.2.9</pagehelper.starter.verison>
+
+        <!--  shiro 相关-->
         <shiro.verison>1.4.0</shiro.verison>
         <shiro.redis.version>3.2.3</shiro.redis.version>
-        <pagehelper.starter.verison>1.2.9</pagehelper.starter.verison>
         <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
-        <fastjson.version>1.2.55</fastjson.version>
+
+        <!-- 工具类相关 -->
         <hutool.version>4.1.21</hutool.version>
+        <oshi.version>3.9.1</oshi.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
-        </dependency>
 
-        <!-- https://mvnrepository.com/artifact/jaxen/jaxen -->
-        <dependency>
-            <groupId>jaxen</groupId>
-            <artifactId>jaxen</artifactId>
-            <version>1.1.1</version>
-        </dependency>
+        <!--spring boot 官方相关 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -86,13 +85,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- 数据库相关, 驱动、mybatis、分页插件-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -104,6 +103,13 @@
             <version>${druid.starter.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.starter.verison}</version>
+        </dependency>
+
+        <!-- shiro 相关 -->
+        <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
             <version>${shiro.verison}</version>
@@ -114,44 +120,26 @@
             <version>${thymeleaf.extras.shiro.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>${pagehelper.starter.verison}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
             <version>${shiro.redis.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
-        </dependency>
 
+        <!-- 其他工具类相关插件 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
-            <version>3.9.1</version>
+            <version>${oshi.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>
