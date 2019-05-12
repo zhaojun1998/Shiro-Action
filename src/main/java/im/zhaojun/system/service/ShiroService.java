@@ -1,7 +1,8 @@
-package im.zhaojun.service;
+package im.zhaojun.system.service;
 
-import im.zhaojun.model.Menu;
-import im.zhaojun.model.Operator;
+import cn.hutool.core.lang.UUID;
+import im.zhaojun.system.model.Menu;
+import im.zhaojun.system.model.Operator;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
@@ -72,6 +73,7 @@ public class ShiroService {
         }
 
         filterChainDefinitionMap.put("/**", "authc");
+
         return filterChainDefinitionMap;
     }
 
