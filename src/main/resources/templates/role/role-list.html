@@ -65,10 +65,11 @@
                 , toolbar: '#toolbar'
                 , cols: [
                     [
-                        {field: 'roleId', title: 'ID'}
+                        {type: 'numbers', title: '序号', width: "5%"}
+                        , {field: 'roleId', title: 'ID', hide: true}
                         , {field: 'roleName', title: '名称'}
                         , {field: 'remark', title: '描述'}
-                        , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar', width: "20%"}
+                        , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
                     ]
                 ]
             });

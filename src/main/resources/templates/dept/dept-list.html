@@ -221,10 +221,11 @@
                 , toolbar: '#toolbar'
                 , cols: [
                     [
-                        {field: 'id', title: 'ID', width: "7%"}
-                        , {field: 'name', title: '名称', width: "15%"}
+                        {type: 'numbers', title: '序号', width: "5%"}
+                        , {field: 'id', title: 'ID', hide: true}
+                        , {field: 'name', title: '名称'}
                         , {title: '操作', align: 'center', toolbar: '#column-toolbar'}
-                        , {title: '排序', fixed: 'right', width: "15%", align: 'center', toolbar: '#column-toolbar-sort'}
+                        , {title: '排序', fixed: 'right', align: 'center', toolbar: '#column-toolbar-sort'}
                     ]
                 ]
             });

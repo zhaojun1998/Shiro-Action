@@ -72,10 +72,11 @@
                 , toolbar: '#toolbar'
                 , cols: [
                     [
-                        {field: 'userId', title: 'ID', width: "10%"}
+                        {type: 'numbers', title: '序号', width: "5%"}
+                        ,{field: 'userId', title: 'ID', width: "10%", hide: true}
                         , {field: 'username', title: '用户名', width: "15%"}
-                        , {field: 'deptName', title: '部门', width: "10%"}
-                        , {field: 'email', title: '邮箱', width: "20%"}
+                        , {field: 'deptName', title: '部门', width: "15%"}
+                        , {field: 'email', title: '邮箱', width: "15%"}
                         , {field: 'lastLoginTime', title: '最后登陆时间', width: "15%"}
                         , {field: 'status', title: '状态', templet: "#statusTpl", width: "15%"}
                         , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
