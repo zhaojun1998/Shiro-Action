@@ -1,6 +1,5 @@
 package im.zhaojun.system.service;
 
-import cn.hutool.core.lang.UUID;
 import im.zhaojun.system.model.Menu;
 import im.zhaojun.system.model.Operator;
 import org.apache.shiro.ShiroException;

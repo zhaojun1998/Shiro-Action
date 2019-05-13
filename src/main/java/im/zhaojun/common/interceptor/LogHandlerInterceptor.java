@@ -16,8 +16,8 @@ public class LogHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        log.info("请求 URL:" + request.getRequestURI());
-        log.info("请求参数:" + JSONUtil.toJsonStr(request.getParameterMap()));
+        log.debug("请求 URL:" + request.getRequestURI());
+        log.debug("请求参数:" + JSONUtil.toJsonStr(request.getParameterMap()));
         return true;
     }
 }
