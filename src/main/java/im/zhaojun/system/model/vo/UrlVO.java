@@ -34,4 +34,39 @@ public class UrlVO {
         this.method = method;
         this.type = type;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        UrlVO urlVO = (UrlVO) o;
+
+        if (url != null ? !url.equals(urlVO.url) : urlVO.url != null) {
+            return false;
+        }
+        return (method != null ? method.equals(urlVO.method) : urlVO.method == null) && (type != null ? type.equals(urlVO.type) : urlVO.type == null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = url != null ? url.hashCode() : 0;
+        result = 31 * result + (method != null ? method.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UrlVO{" +
+                "url='" + url + '\'' +
+                ", method='" + method + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

@@ -66,4 +66,16 @@ public class UserVO implements Serializable {
     public void setDeptName(String deptName) {
         this.deptName = deptName;
     }
+
+    @Override
+    public String toString() {
+        return "UserVO{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", status='" + status + '\'' +
+                ", deptName='" + deptName + '\'' +
+                ", lastLoginTime=" + lastLoginTime +
+                '}';
+    }
 }

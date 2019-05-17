@@ -36,10 +36,22 @@ public class TreeUtil {
      */
     public static <T> List<T> toTree(@NotNull List<T> list, String id, String parent, String children, @NotNull Class<T> clazz) {
         try {
-            if (list == null || list.isEmpty()) return null;// 如果目标集合为空,直接返回一个空树
-            if (StringUtils.isEmpty(id)) id = "id";                     // 如果被依赖字段名称为空则默认为id
-            if (StringUtils.isEmpty(parent)) parent = "parent";         // 如果依赖字段为空则默认为parent
-            if (StringUtils.isEmpty(children)) children = "children";   // 如果子节点集合属性名称为空则默认为children
+            // 如果目标集合为空,直接返回一个空树
+            if (list == null || list.isEmpty()) {
+                return null;
+            }
+            // 如果被依赖字段名称为空则默认为 id
+            if (StringUtils.isEmpty(id)) {
+                id = "id";
+            }
+            // 如果依赖字段为空则默认为parent
+            if (StringUtils.isEmpty(parent)) {
+                parent = "parent";
+            }
+            // 如果子节点集合属性名称为空则默认为children
+            if (StringUtils.isEmpty(children)) {
+                children = "children";
+            }
 
             // 初始化根节点集合, 支持 Set 和 List
             List<T> roots = new ArrayList<>();

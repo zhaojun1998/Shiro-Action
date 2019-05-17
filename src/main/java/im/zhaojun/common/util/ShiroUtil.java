@@ -31,12 +31,12 @@ public class ShiroUtil {
 
     @Value("${security.super-admin.username:admin}")
     public void setSuperAdminUsername(String superAdminUsername) {
-        this.superAdminUsername = superAdminUsername;
+        ShiroUtil.superAdminUsername = superAdminUsername;
     }
 
     @Value("${security.retry.count:5}")
     public void setPasswordRetryCount(Integer passwordRetryCount) {
-        this.passwordRetryCount = passwordRetryCount;
+        ShiroUtil.passwordRetryCount = passwordRetryCount;
     }
 
     @Value("${security.login.verify:false}")
