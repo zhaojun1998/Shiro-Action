@@ -1,8 +1,8 @@
 package im.zhaojun.system.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -49,7 +49,7 @@ public class Dept implements Serializable {
     @JsonIgnore
     private String checkArr;
 
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_EMPTY)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Dept> children;
 
     public Integer getDeptId() {

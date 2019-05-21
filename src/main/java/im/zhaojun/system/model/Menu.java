@@ -3,7 +3,6 @@ package im.zhaojun.system.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -35,7 +34,7 @@ public class Menu implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String checkArr = "0";
 
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_EMPTY)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Menu> children;
 
     private String icon;
