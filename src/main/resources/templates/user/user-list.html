@@ -60,12 +60,12 @@
     <script th:src="@{/js/common.js}"></script>
 
     <script>
-        layui.use(['table', 'element', 'laydate', 'form'], function () {
+        layui.use(['table', 'element', 'form'], function () {
             var table = layui.table;
             var $ = layui.$;
             var form = layui.form;
 
-            var tableIns =table.render({
+            table.render({
                 elem: '#user-table'
                 , url: '/user/list'
                 , page: true
