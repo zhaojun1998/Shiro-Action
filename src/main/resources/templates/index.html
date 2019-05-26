@@ -60,7 +60,7 @@
 <!--                        </dd>-->
 <!--                        <hr>-->
                         <dd lay-unselect>
-                            <a th:href="@{/logout}">退出</a>
+                            <a onclick="logout()">退出</a>
                         </dd>
                     </dl>
                 </li>
@@ -133,6 +133,12 @@
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
+
+        function logout() {
+            sessionStorage.removeItem("tabs");
+            sessionStorage.removeItem("currentTabId");
+            window.location = "logout";
+        }
     </script>
 
 
