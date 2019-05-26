@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head>
     <meta charset="utf-8">
@@ -48,7 +48,7 @@
                 <li class="layui-nav-item">
                     <a>
                         <img th:src="@{/images/avatar.png}" class="layui-nav-img" alt="头像">
-                        <cite>管理员</cite>
+                        <cite><shiro:principal property="username"/></cite>
                         <span class="layui-nav-more"></span>
                     </a>
                     <dl class="layui-nav-child layui-anim layui-anim-upbit">
