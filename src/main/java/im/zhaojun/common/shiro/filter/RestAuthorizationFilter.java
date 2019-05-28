@@ -2,6 +2,7 @@ package im.zhaojun.common.shiro.filter;
 
 import im.zhaojun.common.util.IPUtils;
 import im.zhaojun.common.util.ResultBean;
+import im.zhaojun.common.util.WebHelper;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.StringUtils;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
@@ -53,14 +54,14 @@ public class RestAuthorizationFilter extends PermissionsAuthorizationFilter {
         // 如果未登录
         if (subject.getPrincipal() == null) {
             // AJAX 请求返回 JSON
-            if (im.zhaojun.common.util.WebUtils.isAjaxRequest(WebUtils.toHttp(request))) {
+            if (WebHelper.isAjaxRequest(WebUtils.toHttp(request))) {
                 if (log.isDebugEnabled()) {
                     log.debug("sessionId: [{}], ip: [{}] 请求 restful url : {}, 未登录被拦截.",
                             httpServletRequest.getRequestedSessionId(),
                             IPUtils.getIpAddr(),
                             this.getPathWithinApplication(request));
                 }
-                im.zhaojun.common.util.WebUtils.writeJson(ResultBean.error("未登录"), response);
+                WebHelper.writeJson(ResultBean.error("未登录"), response);
             } else {
                 // 其他请求跳转到登陆页面
                 saveRequestAndRedirectToLogin(request, response);
@@ -68,12 +69,12 @@ public class RestAuthorizationFilter extends PermissionsAuthorizationFilter {
         } else {
             // 如果已登陆, 但没有权限
             // 对于 AJAX 请求返回 JSON
-            if (im.zhaojun.common.util.WebUtils.isAjaxRequest(WebUtils.toHttp(request))) {
+            if (WebHelper.isAjaxRequest(WebUtils.toHttp(request))) {
                 if (log.isDebugEnabled()) {
                     log.debug("用户: [{}] 请求 restful url : {}, 无权限被拦截.", subject.getPrincipal(), this.getPathWithinApplication(request));
                 }
 
-                im.zhaojun.common.util.WebUtils.writeJson(ResultBean.error("无权限"), response);
+                WebHelper.writeJson(ResultBean.error("无权限"), response);
             } else {
                 // 对于普通请求, 跳转到配置的 UnauthorizedUrl 页面.
                 // 如果未设置 UnauthorizedUrl, 则返回 401 状态码

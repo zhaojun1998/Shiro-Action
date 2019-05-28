@@ -2,6 +2,7 @@ package im.zhaojun.common.shiro.filter;
 
 import im.zhaojun.common.util.IPUtils;
 import im.zhaojun.common.util.ResultBean;
+import im.zhaojun.common.util.WebHelper;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
@@ -63,13 +64,13 @@ public class RestFormAuthenticationFilter extends FormAuthenticationFilter {
                         "Authentication url [" + getLoginUrl() + "]");
             }
 
-            if (im.zhaojun.common.util.WebUtils.isAjaxRequest(WebUtils.toHttp(request))) {
+            if (WebHelper.isAjaxRequest(WebUtils.toHttp(request))) {
                 if (log.isDebugEnabled()) {
                     log.debug("sessionId: [{}], ip: [{}] 请求 restful url : {}, 未登录被拦截.", httpServletRequest.getRequestedSessionId(), IPUtils.getIpAddr(),
                     this.getPathWithinApplication(request));
                 }
 
-                im.zhaojun.common.util.WebUtils.writeJson(ResultBean.error("未登录"), response);
+                WebHelper.writeJson(ResultBean.error("未登录"), response);
             } else {
                 saveRequestAndRedirectToLogin(request, response);
             }

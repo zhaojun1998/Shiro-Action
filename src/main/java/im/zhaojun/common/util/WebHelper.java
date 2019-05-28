@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class WebUtils {
+public class WebHelper {
 
     /**
      * 是否是Ajax请求

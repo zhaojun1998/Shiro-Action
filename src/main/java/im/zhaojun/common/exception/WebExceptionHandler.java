@@ -43,61 +43,81 @@ public class WebExceptionHandler{
 
     @ExceptionHandler
     public String unauthorized(NoHandlerFoundException e) {
-        log.debug("请求的地址不存在", e);
+        if (log.isDebugEnabled()) {
+            log.debug("请求的地址不存在", e);
+        }
         return generateErrorInfo(ResultBean.FAIL, "请求的地址不存在", HttpStatus.NOT_FOUND.value());
     }
 
     @ExceptionHandler(value = { UnauthorizedException.class })
     public String unauthorized(Exception e) {
-        log.error("无权限");
-        return generateErrorInfo(ResultBean.FAIL, "无权限", HttpStatus.UNAUTHORIZED.value());
+        if (log.isDebugEnabled()) {
+            log.debug("无权限");
+        }
+        return generateErrorInfo(ResultBean.FAIL, "无权限");
     }
 
     @ExceptionHandler
     public String unknownAccount(UnknownAccountException e) {
-        log.debug("账号不存在");
+        if (log.isDebugEnabled()) {
+            log.debug("账号不存在");
+        }
         return generateErrorInfo(ResultBean.FAIL, "账号不存在");
     }
 
     @ExceptionHandler
     public String incorrectCredentials(IncorrectCredentialsException e) {
-        log.debug("密码错误");
+        if (log.isDebugEnabled()) {
+            log.debug("密码错误");
+        }
         return generateErrorInfo(ResultBean.FAIL, "密码错误");
     }
 
     @ExceptionHandler
     public String excessiveAttemptsException(ExcessiveAttemptsException e) {
-        log.debug("登录失败次数过多");
+        if (log.isDebugEnabled()) {
+            log.debug("登录失败次数过多");
+        }
         return generateErrorInfo(ResultBean.FAIL, "登录失败次数过多, 请稍后再试");
     }
 
     @ExceptionHandler
     public String lockedAccount(LockedAccountException e) {
-        log.debug("账号已锁定");
+        if (log.isDebugEnabled()) {
+            log.debug("账号已锁定");
+        }
         return generateErrorInfo(ResultBean.FAIL, "账号已锁定");
     }
 
     @ExceptionHandler
     public String lockedAccount(CaptchaIncorrectException e) {
-        log.debug("验证码错误");
+        if (log.isDebugEnabled()) {
+            log.debug("验证码错误");
+        }
         return generateErrorInfo(ResultBean.FAIL, "验证码错误");
     }
 
     @ExceptionHandler
     public String lockedAccount(DuplicateNameException e) {
-        log.debug("用户名已存在");
+        if (log.isDebugEnabled()) {
+            log.debug("用户名已存在");
+        }
         return generateErrorInfo(ResultBean.FAIL, "用户名已存在");
     }
 
     @ExceptionHandler
     public String missingRequestParameter(MissingServletRequestParameterException e) {
-        log.debug("请求参数无效");
+        if (log.isDebugEnabled()) {
+            log.debug("请求参数无效");
+        }
         return generateErrorInfo(ResultBean.FAIL, "请求参数缺失");
     }
 
     @ExceptionHandler
     public String methodArgumentNotValid(BindException e) {
-        log.debug("参数校验失败", e);
+        if (log.isDebugEnabled()) {
+            log.debug("参数校验失败", e);
+        }
         List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
         StringBuilder errorMessage = new StringBuilder();
         for (int i = 0; i < allErrors.size(); i++) {
@@ -141,7 +161,9 @@ public class WebExceptionHandler{
     @ResponseBody
     @ResponseStatus
     public void clientAbortException(Exception ex) {
-        log.debug("出现了断开异常:", ex);
+        if (log.isDebugEnabled()) {
+            log.debug("出现了断开异常:", ex);
+        }
     }
 
     private String generateErrorInfo(int code, String msg) {
