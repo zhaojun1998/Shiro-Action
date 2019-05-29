@@ -5,7 +5,7 @@
 
     <groupId>im.zhaojun</groupId>
     <artifactId>shiro-action</artifactId>
-    <version>0.4</version>
+    <version>0.5</version>
     <packaging>jar</packaging>
 
     <name>Shiro-Action</name>
