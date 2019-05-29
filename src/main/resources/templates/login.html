@@ -66,7 +66,13 @@
         }
 
         function renderDone(data) {
-            this.location.href = data;
+            var winObj = window.open(data, 'newwindow', 'height=500, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+            var loop = setInterval(function() {
+                if(winObj.closed) {
+                    clearInterval(loop);
+                    window.location.href = "/main";
+                }
+            }, 1000);
         }
         
         // 如果在 iframe 中, 则跳出 iframe
