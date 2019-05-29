@@ -126,3 +126,16 @@
 .layui-show {
     display: block !important;
 }
+
+.layui-login-oauth-icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.layui-login-tips {
+    padding: 0 !important;
+    line-height: 30px;
+    margin-right: 20px;
+}

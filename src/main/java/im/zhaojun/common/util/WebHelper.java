@@ -1,9 +1,12 @@
 package im.zhaojun.common.util;
 
 import cn.hutool.json.JSONUtil;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -33,6 +36,15 @@ public class WebHelper {
             if (out != null) {
                 out.close();
             }
+        }
+    }
+
+    public static void redirectUrl(String redirectUrl) {
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        try {
+            response.sendRedirect(redirectUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

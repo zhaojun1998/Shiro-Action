@@ -43,6 +43,9 @@
         <!-- 工具类相关 -->
         <hutool.version>4.1.21</hutool.version>
         <oshi.version>3.9.1</oshi.version>
+
+        <!-- OAuth2 工具类 -->
+        <justauth.version>1.4.0</justauth.version>
     </properties>
 
     <dependencies>
@@ -142,6 +145,11 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+            <version>${justauth.version}</version>
+        </dependency>
     </dependencies>
 
 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>账号关联</title>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+</head>
+
+<style>
+    html, body {
+        height: 100%;
+        margin:0;padding:0;
+        font-size: 12px;
+    }
+    div{
+        -moz-box-sizing: border-box;  /*Firefox3.5+*/
+        -webkit-box-sizing: border-box; /*Safari3.2+*/
+        -o-box-sizing: border-box; /*Opera9.6*/
+        -ms-box-sizing: border-box; /*IE8*/
+        box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
+    }
+</style>
+
+<body class="animated fadeIn">
+
+<div class="page-loading">
+    <div class="rubik-loader"></div>
+</div>
+
+<div class="z-body animated fadeIn">
+    <table class="layui-hide" id="oauth2-table"></table>
+</div>
+
+<script th:src="@{/lib/jquery/jquery.min.js}"></script>
+<script th:src="@{/lib/layui/layui.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+
+<script type="text/html" id="column-toolbar">
+    {{#  if(d.status === 'unbind'){ }}
+        <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="bind">绑定</a>
+    {{#  } }}
+
+    {{#  if(d.status === 'bind'){ }}
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="revoke">解除绑定</a>
+    {{#  } }}
+</script>
+
+<script>
+    layui.use(['table', 'element', 'form'], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        var form = layui.form;
+
+        table.render({
+            elem: '#oauth2-table'
+            , url: '/oauth2/list'
+            , page: false
+            , skin: 'nob'
+            , size: 'lg'
+            , cols: [
+                [
+                    {field: 'type', title: '应用名称', width: "35%"}
+                    , {field: 'username', title: '用户名', width: "35%"}
+                    , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
+                ]
+            ]
+        });
+
+        // 行点击事件 重置密码
+        table.on('tool', function (obj) {
+            var data = obj.data;
+            var event = obj.event;
+
+            if (event === 'bind') {
+                oauth2_authorize(data.type);
+            } else if (event === 'revoke') {
+                revoke(data.type);
+            }
+        });
+
+
+        function oauth2_authorize(type) {
+            $.get('/oauth2/render/' + type.toLowerCase(), function (data) {
+                console.log(data);
+                handlerResult(data, renderDone);
+            });
+        }
+
+        function renderDone(data) {
+            var winObj = window.open(data, 'newwindow', 'height=500, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+            var loop = setInterval(function() {
+                if(winObj.closed) {
+                    clearInterval(loop);
+                    table.reload('oauth2-table');
+                }
+            }, 1000);
+        }
+
+        function revoke(type) {
+            layer.confirm("确认解绑吗?", {icon: 3, title:"提示"}, function(index){
+                $.post('/oauth2/revoke/' + type, function (data) {
+                    handlerResult(data, function (data) {
+                        layer.msg("解绑成功");
+                        table.reload('oauth2-table');
+                    });
+                });
+            });
+        }
+    });
+</script>
+</body>
+
+</html>

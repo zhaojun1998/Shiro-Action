@@ -88,6 +88,5 @@ public class CommonPageController {
         return handlerMethod.getBeanType().getDeclaredAnnotation(RestController.class) != null ||
                 handlerMethod.getBeanType().getDeclaredAnnotation(ResponseBody.class) != null ||
                 handlerMethod.getMethodAnnotation(ResponseBody.class) != null;
-
     }
 }

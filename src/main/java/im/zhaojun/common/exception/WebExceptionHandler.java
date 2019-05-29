@@ -1,5 +1,6 @@
 package im.zhaojun.common.exception;
 
+import im.zhaojun.common.shiro.exception.AuthcTypeNotSupportException;
 import im.zhaojun.common.util.ResultBean;
 import org.apache.catalina.connector.ClientAbortException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -35,6 +36,14 @@ public class WebExceptionHandler{
     private ShiroFilterFactoryBean shiroFilterFactoryBean;
 
     private static final Logger log = LoggerFactory.getLogger(WebExceptionHandler.class);
+
+    @ExceptionHandler
+    public String authcTypeNotSupport(AuthcTypeNotSupportException e) {
+        if (log.isDebugEnabled()) {
+            log.debug(e.getMessage(), e);
+        }
+        return generateErrorInfo(ResultBean.FAIL, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
 
     @ExceptionHandler
     public String unauthenticatedException(UnauthenticatedException e) {

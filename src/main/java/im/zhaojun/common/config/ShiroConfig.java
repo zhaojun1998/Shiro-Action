@@ -1,14 +1,20 @@
 package im.zhaojun.common.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import im.zhaojun.common.shiro.EnhanceModularRealmAuthenticator;
+import im.zhaojun.common.shiro.OAuth2Helper;
 import im.zhaojun.common.shiro.RestShiroFilterFactoryBean;
 import im.zhaojun.common.shiro.credential.RetryLimitHashedCredentialsMatcher;
+import im.zhaojun.common.shiro.filter.OAuth2AuthenticationFilter;
 import im.zhaojun.common.shiro.filter.RestAuthorizationFilter;
 import im.zhaojun.common.shiro.filter.RestFormAuthenticationFilter;
+import im.zhaojun.common.shiro.realm.OAuth2GiteeRealm;
+import im.zhaojun.common.shiro.realm.OAuth2GithubRealm;
 import im.zhaojun.common.shiro.realm.UserNameRealm;
 import im.zhaojun.system.service.ShiroService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -23,10 +29,14 @@ import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
 import javax.servlet.Filter;
+import java.util.Arrays;
 import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
+
+    @Resource
+    private OAuth2Helper oAuth2Helper;
 
     @Lazy
     @Resource
@@ -47,6 +57,7 @@ public class ShiroConfig {
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
         filters.put("authc", new RestFormAuthenticationFilter());
         filters.put("perms", new RestAuthorizationFilter());
+        filters.put("oauth2Authc", new OAuth2AuthenticationFilter(oAuth2Helper));
 
         Map<String, String> urlPermsMap = shiroService.getUrlPermsMap();
         shiroFilterFactoryBean.setFilterChainDefinitionMap(urlPermsMap);
@@ -60,11 +71,25 @@ public class ShiroConfig {
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(userNameRealm());
         securityManager.setSessionManager(sessionManager());
+        securityManager.setRealms(Arrays.asList(userNameRealm(), oAuth2GithubRealm(), oAuth2GitteRealm()));
+        ModularRealmAuthenticator authenticator = new EnhanceModularRealmAuthenticator();
+        securityManager.setAuthenticator(authenticator);
+        authenticator.setRealms(Arrays.asList(userNameRealm(), oAuth2GithubRealm(), oAuth2GitteRealm()));
         SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
     }
+
+    @Bean
+    public OAuth2GithubRealm oAuth2GithubRealm() {
+        return new OAuth2GithubRealm();
+    }
+
+    @Bean
+    public OAuth2GiteeRealm oAuth2GitteRealm() {
+        return new OAuth2GiteeRealm();
+    }
+
 
     /**
      * 自定义 Realm

@@ -29,5 +29,10 @@
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "description": "是否开启登录验证码."
+    },
+    {
+      "name": "shiro-action.oauth2.provider",
+      "type": "java.util.Map",
+      "description": "Github OAuth2 Client Id."
     }
   ] }

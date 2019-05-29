@@ -34,6 +34,11 @@ public class UserNameRealm extends AuthorizingRealm {
     private SessionDAO sessionDAO;
 
     @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof UsernamePasswordToken;
+    }
+
+    @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         log.info("从数据库获取权限信息");
         User user = (User) principals.getPrimaryPrincipal();

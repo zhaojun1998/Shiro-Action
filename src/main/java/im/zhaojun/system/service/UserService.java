@@ -40,6 +40,9 @@ public class UserService {
     private UserRoleMapper userRoleMapper;
 
     @Resource
+    private UserAuthsService userAuthsService;
+
+    @Resource
     private SessionDAO sessionDAO;
 
     public List<User> selectAllWithDept(int page, int rows) {
@@ -164,6 +167,7 @@ public class UserService {
         if (ShiroUtil.getSuperAdminUsername().equals(user.getUsername())) {
             throw new UnauthorizedException("试图删除超级管理员, 被禁止.");
         }
+        userAuthsService.deleteByUserId(userId);
         userMapper.deleteByPrimaryKey(userId);
         userRoleMapper.deleteUserRoleByUserId(userId);
     }
