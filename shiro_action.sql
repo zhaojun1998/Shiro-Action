@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 27/04/2019 23:07:31
+ Date: 05/06/2019 21:26:43
 */
 
 SET NAMES utf8mb4;
@@ -56,7 +56,7 @@ CREATE TABLE `login_log`  (
   `login_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '登录状态, 0 表示登录失败, 1 表示登录成功.',
   `ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'IP',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 299 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 393 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for menu
@@ -71,23 +71,25 @@ CREATE TABLE `menu`  (
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-  `icon` varchar(32) DEFAULT NULL COMMENT '图标',
+  `icon` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES (1, 0, '权限管理', '#', '#', 0, '2018-12-02 07:51:17', '2019-05-06 21:15:26', 'layui-icon-auz');
+INSERT INTO `menu` VALUES (1, 0, '权限管理', '#', '#', 0, '2018-12-02 07:51:17', '2019-05-08 20:20:05', 'layui-icon-picker-securityscan');
 INSERT INTO `menu` VALUES (2, 1, '用户管理', '/user/index', 'user:list', 1, '2018-12-23 19:50:25', '2019-05-06 21:20:18', 'layui-icon-username');
 INSERT INTO `menu` VALUES (3, 1, '角色管理', '/role/index', 'role:list', 2, '2018-12-02 07:51:18', '2019-05-06 21:20:27', 'layui-icon-group');
 INSERT INTO `menu` VALUES (4, 1, '菜单权限', '/menu/index', 'menu:list', 3, '2019-02-07 10:57:06', '2019-05-06 21:21:24', 'layui-icon-list');
-INSERT INTO `menu` VALUES (11, 0, '系统监控', '#', '#', 5, '2019-02-04 15:07:41', '2019-05-06 21:18:23', 'layui-icon-console');
+INSERT INTO `menu` VALUES (11, 0, '系统监控', '#', '#', 5, '2019-02-04 15:07:41', '2019-05-08 20:25:01', 'layui-icon-picker-control');
 INSERT INTO `menu` VALUES (12, 11, '登录日志', '/log/login/index', 'login:log:list', 1, '2018-12-09 10:07:36', '2019-02-10 22:27:00', NULL);
 INSERT INTO `menu` VALUES (19, 11, '操作日志', '/log/sys/index', 'sys:log:list', 4, '2018-12-22 22:48:27', '2019-02-10 22:12:13', NULL);
 INSERT INTO `menu` VALUES (20, 11, '在线用户', '/online/index', 'user:online', 3, '2018-12-23 15:40:21', '2019-02-10 22:27:00', NULL);
 INSERT INTO `menu` VALUES (27, 1, '操作权限', '/operator/index', 'operator:list', 4, '2019-02-10 17:39:08', '2019-02-16 19:49:22', NULL);
 INSERT INTO `menu` VALUES (28, 1, '部门管理', '/dept/index', 'dept:list', 6, '2019-03-13 20:58:55', NULL, NULL);
 INSERT INTO `menu` VALUES (29, 11, '系统管理', '/system/index', 'system:index', 7, '2019-04-27 23:06:08', NULL, NULL);
+INSERT INTO `menu` VALUES (30, 0, '账号关联', '/oauth2/index', 'oauth2:index', 8, '2019-05-12 21:16:23', '2019-05-26 20:40:08', 'layui-icon-picker-insertrowabove');
 
 -- ----------------------------
 -- Table structure for operator
@@ -103,7 +105,7 @@ CREATE TABLE `operator`  (
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   PRIMARY KEY (`operator_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of operator
@@ -127,6 +129,7 @@ INSERT INTO `operator` VALUES (16, 28, '新增部门', '/dept', 'dept:add', 'POS
 INSERT INTO `operator` VALUES (17, 28, '删除部门', '/dept/*', 'dept:delete', 'DELETE', '2019-03-31 18:21:38', NULL);
 INSERT INTO `operator` VALUES (18, 2, '修改用户', '/user', 'user:update', 'PUT', '2019-03-31 18:22:33', '2019-03-31 18:24:26');
 INSERT INTO `operator` VALUES (19, 28, '修改部门', '/dept', 'dept:update', 'PUT', '2019-03-31 18:24:11', '2019-03-31 18:24:18');
+INSERT INTO `operator` VALUES (20, 20, '踢出用户', '/online/kickout', 'online:kickout', 'POST', '2019-06-05 20:52:41', NULL);
 
 -- ----------------------------
 -- Table structure for role
@@ -139,13 +142,13 @@ CREATE TABLE `role`  (
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   `modify_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
 INSERT INTO `role` VALUES (1, '管理员', '这是一个管理员', '2018-12-02 07:47:40', '2018-12-02 07:47:45');
-INSERT INTO `role` VALUES (2, '普通用户', '这是一个普通用户', '2018-12-02 10:09:08', NULL);
+INSERT INTO `role` VALUES (2, '普通用户', '这是一个普通用户', '2018-12-02 10:09:08', '2019-06-05 20:50:41');
 
 -- ----------------------------
 -- Table structure for role_menu
@@ -163,18 +166,26 @@ INSERT INTO `role_menu` VALUES (1, 1);
 INSERT INTO `role_menu` VALUES (1, 2);
 INSERT INTO `role_menu` VALUES (1, 3);
 INSERT INTO `role_menu` VALUES (1, 4);
+INSERT INTO `role_menu` VALUES (1, 27);
+INSERT INTO `role_menu` VALUES (1, 28);
 INSERT INTO `role_menu` VALUES (1, 11);
 INSERT INTO `role_menu` VALUES (1, 12);
-INSERT INTO `role_menu` VALUES (1, 19);
 INSERT INTO `role_menu` VALUES (1, 20);
+INSERT INTO `role_menu` VALUES (1, 19);
+INSERT INTO `role_menu` VALUES (1, 29);
+INSERT INTO `role_menu` VALUES (1, 30);
 INSERT INTO `role_menu` VALUES (2, 1);
 INSERT INTO `role_menu` VALUES (2, 2);
 INSERT INTO `role_menu` VALUES (2, 3);
 INSERT INTO `role_menu` VALUES (2, 4);
 INSERT INTO `role_menu` VALUES (2, 27);
+INSERT INTO `role_menu` VALUES (2, 28);
 INSERT INTO `role_menu` VALUES (2, 11);
 INSERT INTO `role_menu` VALUES (2, 12);
 INSERT INTO `role_menu` VALUES (2, 20);
+INSERT INTO `role_menu` VALUES (2, 19);
+INSERT INTO `role_menu` VALUES (2, 29);
+INSERT INTO `role_menu` VALUES (2, 30);
 
 -- ----------------------------
 -- Table structure for role_operator
@@ -192,6 +203,7 @@ INSERT INTO `role_operator` VALUES (1, 1);
 INSERT INTO `role_operator` VALUES (1, 2);
 INSERT INTO `role_operator` VALUES (1, 3);
 INSERT INTO `role_operator` VALUES (1, 4);
+INSERT INTO `role_operator` VALUES (1, 18);
 INSERT INTO `role_operator` VALUES (1, 5);
 INSERT INTO `role_operator` VALUES (1, 6);
 INSERT INTO `role_operator` VALUES (1, 7);
@@ -203,12 +215,23 @@ INSERT INTO `role_operator` VALUES (1, 12);
 INSERT INTO `role_operator` VALUES (1, 13);
 INSERT INTO `role_operator` VALUES (1, 14);
 INSERT INTO `role_operator` VALUES (1, 15);
-INSERT INTO `role_operator` VALUES (2, 1);
+INSERT INTO `role_operator` VALUES (1, 16);
+INSERT INTO `role_operator` VALUES (1, 17);
+INSERT INTO `role_operator` VALUES (1, 19);
 INSERT INTO `role_operator` VALUES (2, 2);
 INSERT INTO `role_operator` VALUES (2, 3);
+INSERT INTO `role_operator` VALUES (2, 4);
+INSERT INTO `role_operator` VALUES (2, 18);
 INSERT INTO `role_operator` VALUES (2, 5);
-INSERT INTO `role_operator` VALUES (2, 6);
 INSERT INTO `role_operator` VALUES (2, 7);
+INSERT INTO `role_operator` VALUES (2, 8);
+INSERT INTO `role_operator` VALUES (2, 9);
+INSERT INTO `role_operator` VALUES (2, 10);
+INSERT INTO `role_operator` VALUES (2, 11);
+INSERT INTO `role_operator` VALUES (2, 13);
+INSERT INTO `role_operator` VALUES (2, 15);
+INSERT INTO `role_operator` VALUES (2, 16);
+INSERT INTO `role_operator` VALUES (2, 19);
 
 -- ----------------------------
 -- Table structure for sys_log
@@ -224,7 +247,7 @@ CREATE TABLE `sys_log`  (
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP',
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for user
@@ -243,13 +266,26 @@ CREATE TABLE `user`  (
   `active_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '注册激活码',
   `dept_id` int(11) NULL DEFAULT NULL COMMENT '部门ID',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', 'f51703256a38e6bab3d9410a070c32ea', 'salt', 'root@zhaojun.im', 1, '2019-04-27 23:05:27', '2018-12-02 07:30:52', '2019-04-27 23:05:27', NULL, 1);
-INSERT INTO `user` VALUES (20, 'user', 'eb2db562d1024f59c8a5b147e2377aba', '1552187306998', 'user@xxx.com', 1, '2019-04-02 21:08:00', '2018-12-02 12:18:59', '2019-04-02 21:08:00', NULL, 6);
+INSERT INTO `user` VALUES (1, 'admin', 'f51703256a38e6bab3d9410a070c32ea', 'salt', 'root@zhaojun.im', 1, '2019-06-05 21:19:16', '2018-12-02 07:30:52', '2019-06-05 21:19:16', NULL, 1);
+INSERT INTO `user` VALUES (2, 'user', 'e0f68781b7887b2210715b88c96d15d9', '1559739026345', 'user@qq.com', 1, '2019-06-05 21:24:23', '2019-06-05 20:50:26', '2019-06-05 21:24:23', NULL, 1);
+
+-- ----------------------------
+-- Table structure for user_auths
+-- ----------------------------
+DROP TABLE IF EXISTS `user_auths`;
+CREATE TABLE `user_auths`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(11) NULL DEFAULT NULL COMMENT '用户 ID',
+  `identity_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录类型',
+  `identifier` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '第三方登录的用户名',
+  `credential` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '第三方登录 token',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for user_role
@@ -265,6 +301,6 @@ CREATE TABLE `user_role`  (
 -- ----------------------------
 INSERT INTO `user_role` VALUES (1, 1);
 INSERT INTO `user_role` VALUES (1, 2);
-INSERT INTO `user_role` VALUES (20, 2);
+INSERT INTO `user_role` VALUES (2, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
