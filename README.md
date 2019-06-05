@@ -7,10 +7,9 @@
 ![https://img.shields.io/badge/apache%20shiro-1.4.0-green.svg?style=flat-square](https://img.shields.io/badge/apache%20shiro-1.4.0-green.svg?longCache=true&style=flat-square)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/zhaojun1998/Shiro-Action.svg?style=flat-square)
 
-
 本项目使用 Spring Boot 搭建, 用于加深对 Spring Boot 与 Shiro 的学习, 项目特色是支持 restful 风格权限控制, 支持对同一 URL, 不同 HTTP Mehtod 的权限控制, 适用于更多的场景.
 
-预览地址: [http://shiro.zhaojun.im/](http://shiro.zhaojun.im/)
+预览地址: [http://139.217.80.122:8080/](http://139.217.80.122:8080/)
 
 文档地址: [http://docs.zhaojun.im/shiro/](http://docs.zhaojun.im/shiro/)
 
@@ -20,7 +19,17 @@
 
 > 为了不影响其他人的浏览体验, 请尽量不要进行删除类的敏感操作.  `admin` 为超级管理员, 自动拥有全部权限.
 
+
+## 系统特色
+
+* 支持根据同 URL, 不同 HTTP Method 来校验权限, 更支持 restful 场景.
+* 集成 OAuth2 登录, 且提供了接口易于拓展开发.
+* 全局异常处理. 根据请求方式区分返回 json 数据还是错误页面.
+* Logback MDC 支持, 将当前登录人和操作者 IP 加入日志中.
+* JSR-303 数据校验
+
 ## 运行环境
+
 * JDK 1.8
 * MySQL 5.7
 * Redis
@@ -64,6 +73,8 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 
 ## 系统预览
 
+![](https://cdn.jun6.net/201905292303_211.png)
+
 ![](https://cdn.jun6.net/201905052146_570.png)
 
 ![](https://cdn.jun6.net/2019/05/05/5ccee9679211e.png)
@@ -78,7 +89,6 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 
 
 ### 技术选型
-
 
 #### 前端
 
