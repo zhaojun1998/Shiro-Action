@@ -16,7 +16,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
@@ -49,8 +48,8 @@ public class ShiroConfig {
     private Integer redisPort;
 
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
-        ShiroFilterFactoryBean shiroFilterFactoryBean = new RestShiroFilterFactoryBean();
+    public RestShiroFilterFactoryBean restShiroFilterFactoryBean(SecurityManager securityManager) {
+        RestShiroFilterFactoryBean shiroFilterFactoryBean = new RestShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
@@ -64,7 +63,6 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-
     /**
      * 注入 securityManager
      */
@@ -72,27 +70,32 @@ public class ShiroConfig {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setSessionManager(sessionManager());
-        securityManager.setRealms(Arrays.asList(userNameRealm(), oAuth2GithubRealm(), oAuth2GitteRealm()));
+        securityManager.setRealms(Arrays.asList(userNameRealm(), oAuth2GithubRealm(), oAuth2GiteeRealm()));
         ModularRealmAuthenticator authenticator = new EnhanceModularRealmAuthenticator();
         securityManager.setAuthenticator(authenticator);
-        authenticator.setRealms(Arrays.asList(userNameRealm(), oAuth2GithubRealm(), oAuth2GitteRealm()));
+        authenticator.setRealms(Arrays.asList(userNameRealm(), oAuth2GithubRealm(), oAuth2GiteeRealm()));
         SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
     }
 
+    /**
+     * Github 登录 Realm
+     */
     @Bean
     public OAuth2GithubRealm oAuth2GithubRealm() {
         return new OAuth2GithubRealm();
     }
 
+    /**
+     * Gitee 登录 Realm
+     */
     @Bean
-    public OAuth2GiteeRealm oAuth2GitteRealm() {
+    public OAuth2GiteeRealm oAuth2GiteeRealm() {
         return new OAuth2GiteeRealm();
     }
 
-
     /**
-     * 自定义 Realm
+     * 用户名密码登录 Realm
      */
     @Bean
     public UserNameRealm userNameRealm() {
@@ -102,6 +105,9 @@ public class ShiroConfig {
         return userNameRealm;
     }
 
+    /**
+     * 用户名密码登录密码匹配器
+     */
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
         return new RetryLimitHashedCredentialsMatcher("md5");

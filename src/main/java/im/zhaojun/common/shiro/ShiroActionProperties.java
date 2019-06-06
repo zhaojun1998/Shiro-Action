@@ -11,28 +11,53 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * OAuth2 配置类
- */
 @Component
-@ConfigurationProperties(prefix = "shiro-action.oauth2", ignoreUnknownFields = false)
-public class OAuth2ClientProperties {
+@ConfigurationProperties(prefix = "shiro-action")
+public class ShiroActionProperties {
 
-    private Map<AuthcTypeEnum, Provider> provider = new HashMap<>();
+    private String superAdminUsername;
+    private Integer retryCount;
+    private Boolean loginVerify;
 
-    public Map<AuthcTypeEnum, Provider> getProvider() {
-        return provider;
+    public String getSuperAdminUsername() {
+        return superAdminUsername;
     }
 
-    public void setProvider(Map<AuthcTypeEnum, Provider> provider) {
-        this.provider = provider;
+    public void setSuperAdminUsername(String superAdminUsername) {
+        this.superAdminUsername = superAdminUsername;
+    }
+
+    public Integer getRetryCount() {
+        return retryCount;
+    }
+
+    public void setRetryCount(Integer retryCount) {
+        this.retryCount = retryCount;
+    }
+
+    public Boolean getLoginVerify() {
+        return loginVerify;
+    }
+
+    public void setLoginVerify(Boolean loginVerify) {
+        this.loginVerify = loginVerify;
+    }
+
+    private Map<AuthcTypeEnum, Provider> oauth2Provider = new HashMap<>();
+
+    public Map<AuthcTypeEnum, Provider> getOauth2Provider() {
+        return oauth2Provider;
+    }
+
+    public void setOauth2Provider(Map<AuthcTypeEnum, Provider> oauth2Provider) {
+        this.oauth2Provider = oauth2Provider;
     }
 
     @PostConstruct
     public void validate() {
         Set<String> set = new HashSet<>();
 
-        for (Provider provider : this.provider.values()) {
+        for (Provider provider : this.oauth2Provider.values()) {
             // ClientId 不能为空
             if (!StringUtils.hasText(provider.getClientId())) {
                 throw new IllegalStateException("Client id must not be empty.");
@@ -49,7 +74,6 @@ public class OAuth2ClientProperties {
             }
         }
     }
-
 
     public static class Provider {
         private String clientId;

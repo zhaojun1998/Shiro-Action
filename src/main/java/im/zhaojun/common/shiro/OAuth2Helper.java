@@ -1,7 +1,7 @@
 package im.zhaojun.common.shiro;
 
 import im.zhaojun.common.constants.AuthcTypeEnum;
-import im.zhaojun.common.shiro.exception.AuthcTypeNotSupportException;
+import im.zhaojun.common.exception.AuthcTypeNotSupportException;
 import me.zhyd.oauth.config.AuthConfig;
 import me.zhyd.oauth.request.AuthGiteeRequest;
 import me.zhyd.oauth.request.AuthGithubRequest;
@@ -19,19 +19,19 @@ import java.util.Map;
 public class OAuth2Helper {
 
     @Resource
-    private OAuth2ClientProperties properties;
+    private ShiroActionProperties properties;
 
     /**
      * 获取所有 OAuth2 配置对象
      */
-    private Map<AuthcTypeEnum, OAuth2ClientProperties.Provider> getAllProvider() {
-        return properties.getProvider();
+    private Map<AuthcTypeEnum, ShiroActionProperties.Provider> getAllProvider() {
+        return properties.getOauth2Provider();
     }
 
     /**
      * 根据类型获取单个 OAuth2 配置对象.
      */
-    public OAuth2ClientProperties.Provider getProvider(AuthcTypeEnum identifyType) {
+    public ShiroActionProperties.Provider getProvider(AuthcTypeEnum identifyType) {
         return getAllProvider().get(identifyType);
     }
 
@@ -39,7 +39,7 @@ public class OAuth2Helper {
      * 根据类型获取 AuthRequest 对象.
      */
     public AuthRequest getAuthRequest(AuthcTypeEnum authcTypeEnum) {
-        OAuth2ClientProperties.Provider provider = getProvider(authcTypeEnum);
+        ShiroActionProperties.Provider provider = getProvider(authcTypeEnum);
         if (provider == null) {
             throw new AuthcTypeNotSupportException("系统暂未开启 " + authcTypeEnum.getDescription() + " 登录");
         }

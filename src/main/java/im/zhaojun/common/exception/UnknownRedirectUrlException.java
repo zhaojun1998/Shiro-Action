@@ -1,4 +1,4 @@
-package im.zhaojun.common.shiro.exception;
+package im.zhaojun.common.exception;
 
 public class UnknownRedirectUrlException extends RuntimeException{
 

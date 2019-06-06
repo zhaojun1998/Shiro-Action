@@ -1,6 +1,5 @@
 package im.zhaojun.common.exception;
 
-import im.zhaojun.common.shiro.exception.AuthcTypeNotSupportException;
 import im.zhaojun.common.util.ResultBean;
 import org.apache.catalina.connector.ClientAbortException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;

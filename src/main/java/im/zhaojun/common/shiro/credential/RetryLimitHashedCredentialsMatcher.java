@@ -1,6 +1,6 @@
 package im.zhaojun.common.shiro.credential;
 
-import im.zhaojun.common.util.ShiroUtil;
+import im.zhaojun.common.shiro.ShiroActionProperties;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -17,7 +17,10 @@ public class RetryLimitHashedCredentialsMatcher extends
 	private Cache<String, AtomicInteger> passwordRetryCache;
 
 	@Resource(name = "redisCacheManager")
-	public CacheManager cacheManager;
+	private CacheManager cacheManager;
+
+	@Resource
+	private ShiroActionProperties shiroActionProperties;
 
 	public RetryLimitHashedCredentialsMatcher(String hashAlgorithmName) {
 		super(hashAlgorithmName);
@@ -26,6 +29,7 @@ public class RetryLimitHashedCredentialsMatcher extends
 	@Override
 	public boolean doCredentialsMatch(AuthenticationToken token,
 			AuthenticationInfo info) {
+
 		if (passwordRetryCache == null) {
 			passwordRetryCache = cacheManager.getCache("passwordRetryCache");
 		}
@@ -33,22 +37,22 @@ public class RetryLimitHashedCredentialsMatcher extends
 		String username = (String) token.getPrincipal();
 
 		// 超级管理员不进行登录次数校验.
-		if (!ShiroUtil.getSuperAdminUsername().equals(username)) {
-			// retry count + 1
+		if (!shiroActionProperties.getSuperAdminUsername().equals(username)) {
+
 			AtomicInteger retryCount = passwordRetryCache.get(username);
 			if (retryCount == null) {
 				retryCount = new AtomicInteger(0);
 			}
-			if (retryCount.incrementAndGet() > 5) {
-				// if retry count > 5 throw
+
+			if (retryCount.incrementAndGet() > shiroActionProperties.getRetryCount()) {
 				throw new ExcessiveAttemptsException();
 			}
+
 			passwordRetryCache.put(username, retryCount);
 		}
 
 		boolean matches = super.doCredentialsMatch(token, info);
 		if (matches) {
-			// clear retry count
 			passwordRetryCache.remove(username);
 		}
 		return matches;

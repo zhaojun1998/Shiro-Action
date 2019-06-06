@@ -1,7 +1,7 @@
 package im.zhaojun.common.config;
 
-import im.zhaojun.common.interceptor.LogHandlerInterceptor;
-import im.zhaojun.common.interceptor.ShiroMDCInterceptor;
+import im.zhaojun.common.interceptor.LogMDCInterceptor;
+import im.zhaojun.common.interceptor.RequestLogHandlerInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -13,10 +13,10 @@ import java.util.Arrays;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Resource
-    private LogHandlerInterceptor logHandlerInterceptor;
+    private RequestLogHandlerInterceptor logHandlerInterceptor;
 
     @Resource
-    private ShiroMDCInterceptor shiroMDCInterceptor;
+    private LogMDCInterceptor shiroMDCInterceptor;
 
     /**
      * 添加拦截器
@@ -29,6 +29,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(logHandlerInterceptor)
                 .excludePathPatterns(Arrays.asList("/css/**", "/fonts/**", "/images/**", "/js/**", "/lib/**", "/error"));
     }
-
 
 }

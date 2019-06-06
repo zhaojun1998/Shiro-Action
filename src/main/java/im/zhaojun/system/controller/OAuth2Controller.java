@@ -1,7 +1,6 @@
 package im.zhaojun.system.controller;
 
 import im.zhaojun.common.constants.AuthcTypeEnum;
-import im.zhaojun.common.shiro.OAuth2ClientProperties;
 import im.zhaojun.common.shiro.OAuth2Helper;
 import im.zhaojun.common.util.ResultBean;
 import im.zhaojun.common.util.ShiroUtil;
@@ -10,7 +9,10 @@ import im.zhaojun.system.model.vo.OAuth2VO;
 import im.zhaojun.system.service.UserAuthsService;
 import me.zhyd.oauth.request.AuthRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -50,14 +52,6 @@ public class OAuth2Controller {
     @GetMapping("/index")
     public String index() {
         return "oauth2/oauth2-list";
-    }
-
-
-    @GetMapping("/bind/{provider}")
-    public String add(@PathVariable("provider") AuthcTypeEnum authcTypeEnum) {
-        OAuth2ClientProperties.Provider provider = oAuth2Helper.getProvider(authcTypeEnum);
-
-        return "";
     }
 
     @GetMapping("/list")

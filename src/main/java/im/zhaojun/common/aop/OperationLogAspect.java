@@ -19,6 +19,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
 
+/**
+ * 操作日志切面.
+ */
 @Aspect
 @Component
 @ConditionalOnProperty(value = "log.operation", havingValue = "true")
@@ -37,7 +40,7 @@ public class OperationLogAspect {
         long beginTime = System.currentTimeMillis();
         // 执行方法
         result = point.proceed();
-        // 执行时长(毫秒)
+        // 执行时长
         long time = System.currentTimeMillis() - beginTime;
         // 保存日志
         saveLog(point, time);
@@ -47,21 +50,24 @@ public class OperationLogAspect {
     private void saveLog(ProceedingJoinPoint joinPoint, long time) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
+
         SysLog sysLog = new SysLog();
+
+        // 获取注解上的操作描述
         OperationLog operationLogAnnotation = method.getAnnotation(OperationLog.class);
         if (operationLogAnnotation != null) {
-            // 注解上的描述
             sysLog.setOperation(operationLogAnnotation.value());
         }
+
         // 请求的方法名
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = signature.getName();
         sysLog.setMethod(className + "." + methodName + "()");
-        // 请求的方法参数值
+
+        // 请求的方法参数
         Object[] args = joinPoint.getArgs();
-        // 请求的方法参数名称
-        LocalVariableTableParameterNameDiscoverer u = new LocalVariableTableParameterNameDiscoverer();
-        String[] paramNames = u.getParameterNames(method);
+        LocalVariableTableParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
+        String[] paramNames = parameterNameDiscoverer.getParameterNames(method);
         if (args != null && paramNames != null) {
             StringBuilder params = new StringBuilder();
             for (int i = 0; i < args.length; i++) {
@@ -69,9 +75,10 @@ public class OperationLogAspect {
             }
             sysLog.setParams(params.toString());
         }
+
         sysLog.setIp(IPUtils.getIpAddr());
 
-        // 登录才获取用户名
+        // 获取当前登录用户名
         if (SecurityUtils.getSubject().isAuthenticated()) {
             User user = ShiroUtil.getCurrentUser();
             sysLog.setUsername(user.getUsername());

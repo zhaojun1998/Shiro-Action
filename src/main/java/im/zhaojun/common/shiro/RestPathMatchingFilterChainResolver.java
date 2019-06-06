@@ -22,8 +22,8 @@ public class RestPathMatchingFilterChainResolver extends PathMatchingFilterChain
 
         String requestURI = getPathWithinApplication(request);
 
-        //the 'chain names' in this implementation are actually path patterns defined by the user.  We just use them
-        //as the chain name for the FilterChainManager's requirements
+        // the 'chain names' in this implementation are actually path patterns defined by the user.  We just use them
+        // as the chain name for the FilterChainManager's requirements
         for (String pathPattern : filterChainManager.getChainNames()) {
 
             String[] pathPatternArray = pathPattern.split("==");

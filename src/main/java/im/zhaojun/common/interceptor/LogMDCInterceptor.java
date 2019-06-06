@@ -15,12 +15,11 @@ import javax.servlet.http.HttpServletResponse;
  * MDC 拦截器, 用于将当前操作人的用户名及 IP 添加到 MDC 中. 以在日志中进行显示.
  */
 @Component
-public class ShiroMDCInterceptor implements HandlerInterceptor {
+public class LogMDCInterceptor implements HandlerInterceptor {
  
     private final static String MDC_USERNAME = "username";
 
     private final static String IP = "ip";
-
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {

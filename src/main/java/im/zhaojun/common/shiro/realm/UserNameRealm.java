@@ -88,7 +88,6 @@ public class UserNameRealm extends AuthorizingRealm {
         }
     }
 
-
     /**
      * 超级管理员拥有所有权限
      */

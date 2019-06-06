@@ -1,8 +1,8 @@
 package im.zhaojun.common.shiro.filter;
 
 import im.zhaojun.common.constants.AuthcTypeEnum;
+import im.zhaojun.common.exception.UnknownRedirectUrlException;
 import im.zhaojun.common.shiro.OAuth2Helper;
-import im.zhaojun.common.shiro.exception.UnknownRedirectUrlException;
 import im.zhaojun.common.shiro.token.OAuth2Token;
 import im.zhaojun.common.util.WebHelper;
 import org.apache.shiro.authc.AuthenticationToken;

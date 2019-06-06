@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+/**
+ * 更新过滤器链
+ */
 @Aspect
 @Component
 public class RefreshFilterChainAspect {

@@ -25,7 +25,6 @@ public class LoginLogAspect {
     @Pointcut("execution(im.zhaojun.common.util.ResultBean im.zhaojun.system.controller..LoginController.login(im.zhaojun.system.model.User, String) )")
     public void loginLogPointCut() {}
 
-
     @After("loginLogPointCut()")
     public void recordLoginLog(JoinPoint joinPoint) {
         // 获取登陆参数
