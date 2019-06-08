@@ -7,14 +7,14 @@ public class OAuth2Token implements AuthenticationToken {
 
     private static final long serialVersionUID = 636072434492299237L;
 
+    private String authCode;
+    private String principal;
+    private AuthcTypeEnum authcTypeEnum;
+
     public OAuth2Token(String authCode, AuthcTypeEnum authcTypeEnum) {
         this.authCode = authCode;
         this.authcTypeEnum = authcTypeEnum;
     }
-
-    private String authCode;
-    private String principal;
-    private AuthcTypeEnum authcTypeEnum;
 
     public String getAuthCode() {
         return authCode;

@@ -1,5 +1,6 @@
 package im.zhaojun.system.controller;
 
+import im.zhaojun.common.annotation.OperationLog;
 import im.zhaojun.common.constants.AuthcTypeEnum;
 import im.zhaojun.common.shiro.OAuth2Helper;
 import im.zhaojun.common.util.ResultBean;
@@ -32,6 +33,7 @@ public class OAuth2Controller {
     /**
      * 生成 Github 授权地址
      */
+    @OperationLog("Github OAuth2 登录")
     @GetMapping("/render/github")
     @ResponseBody
     public ResultBean renderGithubAuth(HttpServletResponse response) {
@@ -42,6 +44,7 @@ public class OAuth2Controller {
     /**
      * 生成 Gitee 授权地址
      */
+    @OperationLog("Gitee OAuth2 登录")
     @GetMapping("/render/gitee")
     @ResponseBody
     public ResultBean renderGiteeAuth(HttpServletResponse response) {
@@ -54,6 +57,7 @@ public class OAuth2Controller {
         return "oauth2/oauth2-list";
     }
 
+    @OperationLog("获取账号绑定信息")
     @GetMapping("/list")
     @ResponseBody
     public ResultBean list() {
@@ -77,6 +81,7 @@ public class OAuth2Controller {
     /**
      * 取消授权
      */
+    @OperationLog("取消账号绑定")
     @PostMapping("/revoke/github")
     @ResponseBody
     public Object revokeAuth() {
