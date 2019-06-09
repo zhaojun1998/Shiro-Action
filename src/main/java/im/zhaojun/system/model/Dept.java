@@ -25,7 +25,7 @@ public class Dept implements Serializable {
     private String deptName;
 
     /**
-	* 上级部门ID
+	* 上级部门 ID
 	*/
     private Integer parentId;
 
@@ -45,9 +45,6 @@ public class Dept implements Serializable {
 	*/
     @JsonIgnore
     private Date modifyTime;
-
-    @JsonIgnore
-    private String checkArr;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Dept> children;
@@ -98,14 +95,6 @@ public class Dept implements Serializable {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
-    }
-
-    public String getCheckArr() {
-        return checkArr;
-    }
-
-    public void setCheckArr(String checkArr) {
-        this.checkArr = checkArr;
     }
 
     public List<Dept> getChildren() {

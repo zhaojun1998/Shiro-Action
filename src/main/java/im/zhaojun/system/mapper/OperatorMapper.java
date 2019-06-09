@@ -12,15 +12,11 @@ public interface OperatorMapper {
 
     int insert(Operator operator);
 
-    int insertSelective(Operator operator);
-
     Operator selectByPrimaryKey(Integer operatorId);
-
-    int updateByPrimaryKeySelective(Operator operator);
 
     int updateByPrimaryKey(Operator operator);
 
-    List<Operator> selectByMenuId(@Param("menuId")Integer menuId);
+    List<Operator> selectByMenuId(@Param("menuId") Integer menuId);
 
     List<Operator> selectAll();
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="im.zhaojun.system.mapper.UserMapper">
+
     <resultMap id="BaseResultMap" type="im.zhaojun.system.model.User">
         <id column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
@@ -13,86 +14,41 @@
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
         <result column="dept_id" jdbcType="INTEGER" property="deptId"/>
     </resultMap>
+
     <sql id="Base_Column_List">
-        user_id,
-        username,
-        password,
-        salt,
-        email,
-        status,
-        last_login_time,
-        create_time,
-        modify_time,
-        active_code,
-        dept_id
+            user_id,
+            username,
+            password,
+            salt,
+            email,
+            status,
+            last_login_time,
+            create_time,
+            modify_time,
+            active_code,
+            dept_id
     </sql>
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from user
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from user
         where user_id = #{userId,jdbcType=INTEGER}
     </delete>
+
     <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.system.model.User"
             useGeneratedKeys="true">
         insert into user (username, password, salt,
                           email, status, last_login_time, active_code, dept_id)
         values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
-                #{email,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{activeCode,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}  )
-    </insert>
-    <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="im.zhaojun.system.model.User"
-            useGeneratedKeys="true">
-        insert into user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="username != null">
-                username,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="salt != null">
-                salt,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="lastLoginTime != null">
-                last_login_time,
-            </if>
-            <if test="deptId != null">
-                dept_id,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="username != null">
-                #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="salt != null">
-                #{salt,jdbcType=VARCHAR},
-            </if>
-            <if test="email != null">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=CHAR},
-            </if>
-            <if test="lastLoginTime != null">
-                #{lastLoginTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="deptId != null">
-                #{deptId,jdbcType=INTEGER}
-            </if>
-        </trim>
+                #{email,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{lastLoginTime,jdbcType=TIMESTAMP},
+                #{activeCode,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER})
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="im.zhaojun.system.model.User">
         update user
@@ -129,42 +85,32 @@
             email           = #{email,jdbcType=VARCHAR},
             status          = #{status,jdbcType=CHAR},
             last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
-            dept_id = #{deptId,jdbcType=INTEGER}
+            dept_id         = #{deptId,jdbcType=INTEGER}
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
 
     <select id="selectPermsByUserName" resultType="String" parameterType="String">
         select menu.perms
-        from
-             user,
+        from user,
              role,
              user_role,
              menu,
              role_menu
-        where
-            user.user_id = user_role.user_id
-          and
-            role.role_id = user_role.role_id
-          and
-            role.role_id = role_menu.role_id
-          and
-            menu.menu_id = role_menu.menu_id
-          and
-            user.username = #{username, jdbcType=VARCHAR}
+        where user.user_id = user_role.user_id
+          and role.role_id = user_role.role_id
+          and role.role_id = role_menu.role_id
+          and menu.menu_id = role_menu.menu_id
+          and user.username = #{username, jdbcType=VARCHAR}
     </select>
 
     <select id="selectRoleNameByUserName" resultType="String" parameterType="String">
         select role.role_name
-        from
-             user,
+        from user,
              role,
              user_role
-        where
-            user.user_id = user_role.user_id
-          and
-            role.role_id = user_role.role_id
-          and
-            user.username = #{username,jdbcType=VARCHAR}
+        where user.user_id = user_role.user_id
+          and role.role_id = user_role.role_id
+          and user.username = #{username,jdbcType=VARCHAR}
     </select>
 
     <select id="selectOneByUserName" resultMap="BaseResultMap">
@@ -195,56 +141,58 @@
 
     <select id="countByUserName" resultType="java.lang.Integer">
         select count(*)
-        from user where username = #{username}
+        from user
+        where username = #{username}
     </select>
 
     <select id="countByUserNameNotIncludeUserId" resultType="java.lang.Integer">
         select count(*)
-        from user where username = #{username}  and user_id != #{userId}
+        from user
+        where username = #{username}
+          and user_id != #{userId}
     </select>
 
     <select id="selectRoleIdsByUserId" resultType="java.lang.Integer">
-        select role_id from user_role where user_id = #{userId}
+        select role_id
+        from user_role
+        where user_id = #{userId}
     </select>
 
     <select id="selectByActiveCode" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/> from user where active_code = #{activeCode}
+        select
+        <include refid="Base_Column_List"/>
+        from user where active_code = #{activeCode}
     </select>
 
     <select id="count" resultType="java.lang.Integer">
-        select count(*) from user
+        select count(*)
+        from user
     </select>
 
     <select id="selectOperatorPermsByUserName" resultType="String" parameterType="String">
         select operator.perms
-        from
-            user,
-            role,
-            user_role,
-            operator,
-            role_operator
-        where
-            user.user_id = user_role.user_id
-          and
-            role.role_id = user_role.role_id
-          and
-            role.role_id = role_operator.role_id
-          and
-            operator.operator_id = role_operator.operator_id
-          and
-            user.username = #{username, jdbcType=VARCHAR}
+        from user,
+             role,
+             user_role,
+             operator,
+             role_operator
+        where user.user_id = user_role.user_id
+          and role.role_id = user_role.role_id
+          and role.role_id = role_operator.role_id
+          and operator.operator_id = role_operator.operator_id
+          and user.username = #{username, jdbcType=VARCHAR}
     </select>
 
     <update id="updatePasswordByUserId">
         update user
-        set password = #{password}, salt = #{salt}
+        set password = #{password},
+            salt     = #{salt}
         where user_id = #{userId}
     </update>
 
 
     <select id="selectAllWithDept" resultMap="BaseResultMap">
-        select
-               u.user_id,
+        select u.user_id,
                u.username,
                u.password,
                u.salt,
@@ -257,12 +205,13 @@
                u.dept_id,
                d.dept_name
         from user u
-        left join dept d on u.dept_id = d.dept_id
+                 left join dept d on u.dept_id = d.dept_id
     </select>
 
     <update id="activeUserByUserId">
         update user
-        set status = 1 where user_id = #{userId}
+        set status = 1
+        where user_id = #{userId}
     </update>
 
 </mapper>

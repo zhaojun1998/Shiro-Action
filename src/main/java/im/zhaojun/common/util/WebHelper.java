@@ -17,7 +17,7 @@ public class WebHelper {
      */
     public static boolean isAjaxRequest(HttpServletRequest request) {
         String requestedWith = request.getHeader("x-requested-with");
-        return requestedWith != null && "XMLHttpRequest".equalsIgnoreCase(requestedWith);
+        return "XMLHttpRequest".equalsIgnoreCase(requestedWith);
     }
 
     /**

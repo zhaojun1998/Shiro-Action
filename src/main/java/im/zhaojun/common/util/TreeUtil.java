@@ -17,17 +17,6 @@ public class TreeUtil {
      * 集合转树结构
      *
      * @param list       目标集合
-     * @param clazz      集合元素类型
-     * @return 转换后的树形结构
-     */
-    public static <T> List<T> toTree(@NotNull List<T> list, @NotNull Class<T> clazz) {
-        return toTree(list, null, null, null, clazz);
-    }
-
-    /**
-     * 集合转树结构
-     *
-     * @param list       目标集合
      * @param id         节点编号字段名称
      * @param parent     父节点编号字段名称
      * @param children   子节点集合属性名称

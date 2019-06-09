@@ -32,57 +32,6 @@
     values (#{userId,jdbcType=INTEGER}, #{identityType,jdbcType=VARCHAR}, #{identifier,jdbcType=VARCHAR}, 
       #{credential,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="im.zhaojun.system.model.UserAuths" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into user_auths
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="identityType != null">
-        identity_type,
-      </if>
-      <if test="identifier != null">
-        identifier,
-      </if>
-      <if test="credential != null">
-        credential,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="identityType != null">
-        #{identityType,jdbcType=VARCHAR},
-      </if>
-      <if test="identifier != null">
-        #{identifier,jdbcType=VARCHAR},
-      </if>
-      <if test="credential != null">
-        #{credential,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="im.zhaojun.system.model.UserAuths">
-    <!--@mbg.generated-->
-    update user_auths
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="identityType != null">
-        identity_type = #{identityType,jdbcType=VARCHAR},
-      </if>
-      <if test="identifier != null">
-        identifier = #{identifier,jdbcType=VARCHAR},
-      </if>
-      <if test="credential != null">
-        credential = #{credential,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
   <update id="updateByPrimaryKey" parameterType="im.zhaojun.system.model.UserAuths">
     <!--@mbg.generated-->
     update user_auths

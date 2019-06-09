@@ -1,5 +1,7 @@
 package im.zhaojun.system.model.vo;
 
+import java.util.Objects;
+
 public class UrlVO {
     private String url;
     private String method;
@@ -46,10 +48,10 @@ public class UrlVO {
 
         UrlVO urlVO = (UrlVO) o;
 
-        if (url != null ? !url.equals(urlVO.url) : urlVO.url != null) {
+        if (!Objects.equals(url, urlVO.url)) {
             return false;
         }
-        return (method != null ? method.equals(urlVO.method) : urlVO.method == null) && (type != null ? type.equals(urlVO.type) : urlVO.type == null);
+        return (Objects.equals(method, urlVO.method)) && (Objects.equals(type, urlVO.type));
 
     }
 

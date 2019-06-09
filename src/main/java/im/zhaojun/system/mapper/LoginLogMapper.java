@@ -12,11 +12,7 @@ public interface LoginLogMapper {
 
     int insert(LoginLog loginLog);
 
-    int insertSelective(LoginLog loginLog);
-
     LoginLog selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(LoginLog loginLog);
 
     int updateByPrimaryKey(LoginLog loginLog);
 

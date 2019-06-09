@@ -60,7 +60,7 @@ public class DeptController {
     @DeleteMapping("/{deptId}")
     @ResponseBody
     public ResultBean delete(@PathVariable("deptId") Integer deptId) {
-        deptService.deleteByIDAndChildren(deptId);
+        deptService.deleteCascadeByID(deptId);
         return ResultBean.success();
     }
 

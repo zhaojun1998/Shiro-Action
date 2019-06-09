@@ -31,38 +31,6 @@
         insert into role (role_name, remark)
         values (#{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="im.zhaojun.system.model.Role"
-            useGeneratedKeys="true">
-        insert into role
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="roleName != null">
-                role_name,
-            </if>
-            <if test="remark != null">
-                remark,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="roleName != null">
-                #{roleName,jdbcType=VARCHAR},
-            </if>
-            <if test="remark != null">
-                #{remark,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="im.zhaojun.system.model.Role">
-        update role
-        <set>
-            <if test="roleName != null">
-                role_name = #{roleName,jdbcType=VARCHAR},
-            </if>
-            <if test="remark != null">
-                remark = #{remark,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where role_id = #{roleId,jdbcType=INTEGER}
-    </update>
     <update id="updateByPrimaryKey" parameterType="im.zhaojun.system.model.Role">
         update role
         set role_name = #{roleName,jdbcType=VARCHAR},

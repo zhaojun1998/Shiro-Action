@@ -35,7 +35,7 @@
         <druid.starter.version>1.1.10</druid.starter.version>
         <pagehelper.starter.verison>1.2.9</pagehelper.starter.verison>
 
-        <!--  shiro 相关-->
+        <!--  shiro 相关 -->
         <shiro.verison>1.4.0</shiro.verison>
         <shiro.redis.version>3.2.3</shiro.redis.version>
         <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
@@ -50,7 +50,7 @@
 
     <dependencies>
 
-        <!--spring boot 官方相关 -->
+        <!-- spring boot 官方相关 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -89,7 +89,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- 数据库相关, 驱动、mybatis、分页插件-->
+        <!-- 数据库相关, 驱动、mybatis、分页插件 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -127,7 +127,6 @@
             <artifactId>shiro-redis</artifactId>
             <version>${shiro.redis.version}</version>
         </dependency>
-
 
         <!-- 其他工具类相关插件 -->
         <dependency>

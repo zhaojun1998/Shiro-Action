@@ -25,28 +25,25 @@ public class DeptService {
         return deptMapper.insert(dept);
     }
 
-    public int insertSelective(Dept dept) {
-        return deptMapper.insertSelective(dept);
-    }
-
     public Dept selectByPrimaryKey(Integer deptId) {
         return deptMapper.selectByPrimaryKey(deptId);
-    }
-
-    public int updateByPrimaryKeySelective(Dept dept) {
-        return deptMapper.updateByPrimaryKeySelective(dept);
     }
 
     public int updateByPrimaryKey(Dept dept) {
         return deptMapper.updateByPrimaryKey(dept);
     }
 
-    public void deleteByIDAndChildren(Integer deptId) {
+    /**
+     * 删除当然部门及子部门.
+     */
+    public void deleteCascadeByID(Integer deptId) {
+
         // 删除子节点
         List<Integer> childIDList = deptMapper.selectChildrenIDByPrimaryKey(deptId);
         for (Integer childId : childIDList) {
-            deleteByIDAndChildren(childId);
+            deleteCascadeByID(childId);
         }
+
         // 删除自身
         deleteByPrimaryKey(deptId);
     }

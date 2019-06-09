@@ -7,8 +7,6 @@ public enum AuthcTypeEnum {
 
     GITHUB("Github"), GITEE("Gitee");
 
-    private String value;
-
     private String description;
 
     AuthcTypeEnum(String description) {

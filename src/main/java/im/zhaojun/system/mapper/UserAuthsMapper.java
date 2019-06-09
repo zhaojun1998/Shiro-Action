@@ -12,19 +12,15 @@ public interface UserAuthsMapper {
 
     int insert(UserAuths record);
 
-    int insertSelective(UserAuths record);
-
     UserAuths selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(UserAuths record);
 
     int updateByPrimaryKey(UserAuths record);
 
-    UserAuths selectOneByIdentityTypeAndUserId(@Param("identityType")String identityType, @Param("userId")Integer userId);
+    UserAuths selectOneByIdentityTypeAndUserId(@Param("identityType") String identityType, @Param("userId") Integer userId);
 
-    List<UserAuths> selectOneByIdentifier(@Param("identifier")String identifier);
+    List<UserAuths> selectOneByIdentifier(@Param("identifier") String identifier);
 
-    int deleteByUserId(@Param("userId")Integer userId);
+    int deleteByUserId(@Param("userId") Integer userId);
 
-    UserAuths selectOneByIdentityTypeAndIdentifier(@Param("identityType")String identityType, @Param("identifier") String identifier);
+    UserAuths selectOneByIdentityTypeAndIdentifier(@Param("identityType") String identityType, @Param("identifier") String identifier);
 }

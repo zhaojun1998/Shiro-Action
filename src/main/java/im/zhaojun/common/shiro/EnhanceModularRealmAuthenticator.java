@@ -40,7 +40,7 @@ public class EnhanceModularRealmAuthenticator extends ModularRealmAuthenticator 
 
                 log.trace("Attempting to authenticate token [{}] using realm [{}]", token, realm);
 
-                AuthenticationInfo info = null;
+                AuthenticationInfo info;
                 // 有异常从此处抛出
                 info = realm.getAuthenticationInfo(token);
 

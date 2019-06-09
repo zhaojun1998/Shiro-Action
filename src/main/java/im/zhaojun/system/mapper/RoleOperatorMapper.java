@@ -8,13 +8,11 @@ import org.apache.ibatis.annotations.Param;
 public interface RoleOperatorMapper {
     int insert(RoleOperator roleOperator);
 
-    int insertSelective(RoleOperator roleOperator);
-
     Integer[] getOperatorsByRoleId(Integer roleId);
 
-    int deleteByRoleId(@Param("roleId")Integer roleId);
+    int deleteByRoleId(@Param("roleId") Integer roleId);
 
-    int insertRoleOperators(@Param("roleId")Integer roleId, @Param("operatorIds")Integer[] operatorIds);
+    int insertRoleOperators(@Param("roleId") Integer roleId, @Param("operatorIds") Integer[] operatorIds);
 
-    int deleteByOperatorId(@Param("operatorId")Integer operatorId);
+    int deleteByOperatorId(@Param("operatorId") Integer operatorId);
 }

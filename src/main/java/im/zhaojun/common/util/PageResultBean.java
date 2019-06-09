@@ -11,9 +11,6 @@ public class PageResultBean<T> implements Serializable {
     private int code;
     private List<T> data;
 
-    public PageResultBean() {
-    }
-
     public PageResultBean(long count, List<T> data) {
         this.count = count;
         this.data = data;

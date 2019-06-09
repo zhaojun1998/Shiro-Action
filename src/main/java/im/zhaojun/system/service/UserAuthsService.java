@@ -6,7 +6,6 @@ import im.zhaojun.system.model.UserAuths;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class UserAuthsService {
@@ -22,16 +21,8 @@ public class UserAuthsService {
         return userAuthsMapper.insert(record);
     }
 
-    public int insertSelective(UserAuths record) {
-        return userAuthsMapper.insertSelective(record);
-    }
-
     public UserAuths selectByPrimaryKey(Integer id) {
         return userAuthsMapper.selectByPrimaryKey(id);
-    }
-
-    public int updateByPrimaryKeySelective(UserAuths record) {
-        return userAuthsMapper.updateByPrimaryKeySelective(record);
     }
 
     public int updateByPrimaryKey(UserAuths record) {
@@ -44,9 +35,6 @@ public class UserAuthsService {
 
     public UserAuths selectOneByIdentityTypeAndIdentifier(AuthcTypeEnum authcTypeEnum, String identifier){
         return userAuthsMapper.selectOneByIdentityTypeAndIdentifier(authcTypeEnum.getDescription(), identifier);
-    }
-    public List<UserAuths> selectOneByIdentifier(String identifier){
-        return userAuthsMapper.selectOneByIdentifier(identifier);
     }
 
     public int deleteByUserId(Integer userId) {

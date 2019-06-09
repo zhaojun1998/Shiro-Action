@@ -8,10 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface UserRoleMapper {
+
     int insert(UserRole userRole);
-
-    int insertSelective(UserRole userRole);
-
 
     /**
      * 插入多条 用户色-角色 关联关系
@@ -29,6 +27,6 @@ public interface UserRoleMapper {
     int deleteUserRoleByRoleId(@Param("roleId") Integer roleId);
 
 
-    List<Integer> selectUserIdByRoleId(@Param("roleId")Integer roleId);
+    List<Integer> selectUserIdByRoleId(@Param("roleId") Integer roleId);
 
 }

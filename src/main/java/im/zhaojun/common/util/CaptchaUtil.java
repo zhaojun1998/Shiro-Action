@@ -76,8 +76,8 @@ public class CaptchaUtil {
      * 验证码对象
      */
     public static class Captcha {
-        private String code;
-        private BufferedImage image;
+        private final String code;
+        private final BufferedImage image;
 
         public String getCode() {
             return code;

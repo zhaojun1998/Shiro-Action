@@ -11,11 +11,7 @@ public interface SysLogMapper {
 
     int insert(SysLog sysLog);
 
-    int insertSelective(SysLog sysLog);
-
     SysLog selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(SysLog sysLog);
 
     int updateByPrimaryKey(SysLog sysLog);
 

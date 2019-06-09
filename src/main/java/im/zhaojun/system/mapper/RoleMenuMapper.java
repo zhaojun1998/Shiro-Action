@@ -8,8 +8,6 @@ import org.apache.ibatis.annotations.Param;
 public interface RoleMenuMapper {
     int insert(RoleMenu roleMenu);
 
-    int insertSelective(RoleMenu roleMenu);
-
     /**
      * 插入多条 角色-菜单 关联关系
      */
@@ -25,5 +23,5 @@ public interface RoleMenuMapper {
      */
     int deleteByMenuId(@Param("menuId") Integer menuId);
 
-    Integer[] getMenusByRoleId(@Param("roleId")Integer roleId);
+    Integer[] getMenusByRoleId(@Param("roleId") Integer roleId);
 }

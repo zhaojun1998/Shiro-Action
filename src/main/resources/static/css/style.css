@@ -178,11 +178,6 @@
     font-size: 12px;
 }
 
-/* login */
-.login-body {
-    background: url("../image/bg.png") repeat fixed;
-}
-
 .login-box {
     position: fixed;
     top: 0;
@@ -193,13 +188,6 @@
     width: 320px;
     height: 241px;
     max-height: 300px;
-}
-
-.login-body .login-box h3 {
-    color: #444;
-    font-size: 22px;
-    font-weight: 100;
-    text-align: center;
 }
 
 .login-box .layui-input[type='number'] {
