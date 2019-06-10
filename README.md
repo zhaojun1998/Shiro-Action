@@ -9,7 +9,7 @@
 
 本项目使用 Spring Boot 搭建, 用于加深对 Spring Boot 与 Shiro 的学习, 项目特色是支持 restful 风格权限控制, 支持对同一 URL, 不同 HTTP Mehtod 的权限控制, 适用于更多的场景.
 
-预览地址: [http://139.217.80.122:8080/](http://139.217.80.122:8080/)
+预览地址: [http://shiro.jun6.net/](http://shiro.jun6.net/)
 
 文档地址: [http://docs.zhaojun.im/shiro/](http://docs.zhaojun.im/shiro/)
 
