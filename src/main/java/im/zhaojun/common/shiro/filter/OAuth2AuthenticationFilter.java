@@ -20,13 +20,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class OAuth2AuthenticationFilter extends AuthenticatingFilter {
 
-    private OAuth2Helper oAuth2Helper;
+    private final OAuth2Helper oAuth2Helper;
 
     // oauth2 authc code 参数名
     private static final String AUTHC_CODE_PARAM = "code";
-
-    // oauth2 服务提供商返回错误信息后, 跳转到的错误页面.
-    private String failureUrl;
 
     public OAuth2AuthenticationFilter(OAuth2Helper oAuth2Helper) {
         this.oAuth2Helper = oAuth2Helper;
@@ -66,12 +63,11 @@ public class OAuth2AuthenticationFilter extends AuthenticatingFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        // todo 构建错误信息  抽象成子类实现
         String error = request.getParameter("error");
         String errorDescription = request.getParameter("error_description");
 
         if (!StringUtils.isEmpty(error)) { // 如果服务端返回了错误
-            WebUtils.issueRedirect(request, response, failureUrl + "?error=" + error + "error_description=" + errorDescription);
+            WebUtils.issueRedirect(request, response, "/error?error=" + error + "error_description=" + errorDescription);
             return false;
         }
 
@@ -88,7 +84,7 @@ public class OAuth2AuthenticationFilter extends AuthenticatingFilter {
     // 当登录成功, 跳转到  shiro 配置的 successUrl.
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
-                                     ServletResponse response) throws Exception {
+                                     ServletResponse response) {
         WebHelper.redirectUrl("/oauth2/success");
         return false;
     }
