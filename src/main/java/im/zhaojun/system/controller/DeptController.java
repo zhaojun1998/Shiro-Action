@@ -52,8 +52,7 @@ public class DeptController {
     @PostMapping
     @ResponseBody
     public ResultBean add(Dept dept) {
-        deptService.insert(dept);
-        return ResultBean.success();
+        return ResultBean.success(deptService.insert(dept));
     }
 
     @OperationLog("删除部门")
