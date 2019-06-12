@@ -104,4 +104,17 @@ public class Dept implements Serializable {
     public void setChildren(List<Dept> children) {
         this.children = children;
     }
+
+    @Override
+    public String toString() {
+        return "Dept{" +
+                "deptId=" + deptId +
+                ", deptName='" + deptName + '\'' +
+                ", parentId=" + parentId +
+                ", orderNum=" + orderNum +
+                ", createTime=" + createTime +
+                ", modifyTime=" + modifyTime +
+                ", children=" + children +
+                '}';
+    }
 }

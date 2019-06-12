@@ -1,6 +1,5 @@
 package im.zhaojun.system.service;
 
-import im.zhaojun.common.util.TreeUtil;
 import im.zhaojun.system.mapper.DeptMapper;
 import im.zhaojun.system.model.Dept;
 import org.springframework.stereotype.Service;
@@ -34,11 +33,10 @@ public class DeptService {
     }
 
     /**
-     * 删除当然部门及子部门.
+     * 删除当前部门及子部门.
      */
     public void deleteCascadeByID(Integer deptId) {
 
-        // 删除子节点
         List<Integer> childIDList = deptMapper.selectChildrenIDByPrimaryKey(deptId);
         for (Integer childId : childIDList) {
             deleteCascadeByID(childId);
@@ -53,17 +51,11 @@ public class DeptService {
     }
 
     /**
-     * 查找所有的部门
-     */
-    public List<Dept> selectAllDept() {
-        return deptMapper.selectAll();
-    }
-
-    /**
      * 查找所有的部门的树形结构
      */
+    @Cacheable(key = "'selectAllDeptTree'")
     public List<Dept> selectAllDeptTree() {
-        return toTree(selectAllDept());
+        return deptMapper.selectAllTree();
     }
 
     /**
@@ -78,13 +70,6 @@ public class DeptService {
         List<Dept> rootList = new ArrayList<>();
         rootList.add(root);
         return rootList;
-    }
-
-    /**
-     * 调用工具类, 将部门列表转化为部门树
-     */
-    private List<Dept> toTree(List<Dept> depts) {
-        return TreeUtil.toTree(depts, "deptId", "parentId", "children", Dept.class);
     }
 
     public void swapSort(Integer currentId, Integer swapId) {

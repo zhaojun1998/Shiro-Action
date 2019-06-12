@@ -19,11 +19,12 @@ public interface DeptMapper {
 
     List<Dept> selectByParentId(@Param("parentId") Integer parentId);
 
-    List<Dept> selectAll();
+    List<Dept> selectAllTree();
 
     List<Integer> selectChildrenIDByPrimaryKey(@Param("deptId") Integer deptId);
 
     int selectMaxOrderNum();
 
     int swapSort(@Param("currentId") Integer currentId, @Param("swapId") Integer swapId);
+
 }
