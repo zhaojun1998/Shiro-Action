@@ -39,8 +39,11 @@
         <shiro:hasPermission name="user:delete">
             <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
         </shiro:hasPermission>
-    </script>
 
+        <shiro:lacksPermission  name="user:delete,user:reset,user:update">
+            无权限
+        </shiro:lacksPermission>
+    </script>
 
 
     <script type="text/html" id="statusTpl">

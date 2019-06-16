@@ -92,6 +92,10 @@
         <shiro:hasPermission name="dept:delete">
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         </shiro:hasPermission>
+
+        <shiro:lacksPermission  name="dept:update, dept:delete">
+            无权限
+        </shiro:lacksPermission>
     </script>
 
     <script type="text/html" id="column-toolbar-sort">

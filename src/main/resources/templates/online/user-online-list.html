@@ -25,6 +25,10 @@
         <shiro:hasPermission name="online:kickout">
             <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="kickout">下线</a>
         </shiro:hasPermission>
+
+        <shiro:lacksPermission  name="online:kickout">
+            无权限
+        </shiro:lacksPermission>
     </script>
 
     <script th:src="@{/lib/jquery/jquery.min.js}"></script>

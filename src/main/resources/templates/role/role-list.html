@@ -42,6 +42,10 @@
         <shiro:hasPermission name="role:delete">
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         </shiro:hasPermission>
+
+        <shiro:lacksPermission  name="role:update, role:grant:menu, role:grant:operator, role:delete">
+            无权限
+        </shiro:lacksPermission>
     </script>
 
 
@@ -121,10 +125,6 @@
                         yes: function(index, layero) {
                             var flag = true;
                             var nodes = dtree.getCheckbarNodesParam("menuTree"); // 获取选中值
-                            if (nodes.length == 0) {
-                                layer.msg("请至少选择一个节点", {icon: 2});
-                                return flag;
-                            }
                             var ids = [];
                             for (var key in nodes) {
                                 var node = nodes[key];
@@ -176,17 +176,14 @@
                         yes: function(index, layero) {
                             var flag = true;
                             var nodes = dtree.getCheckbarNodesParam("operatorTree"); // 获取选中值
-                            if (nodes.length == 0) {
-                                layer.msg("请至少选择一个节点", {icon: 2});
-                                return flag;
-                            }
                             var ids = [];
                             for (var key in nodes) {
                                 var node = nodes[key];
                                 ids.push(node.nodeId);
                             }
                             $.post('/role/' + data.roleId + '/grant/operator', {
-                                operatorIds: ids
+                                operatorIds: "",
+                                a: 1
                             }, function (result) {
                                 handlerResult(result, function () {
                                     layer.msg("授权成功", {icon: 6});
