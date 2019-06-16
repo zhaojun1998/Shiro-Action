@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @ControllerAdvice
-public class WebExceptionHandler{
+public class WebExceptionHandler {
 
     @Resource
     private ShiroFilterFactoryBean shiroFilterFactoryBean;
@@ -57,7 +57,7 @@ public class WebExceptionHandler{
         return generateErrorInfo(ResultBean.FAIL, "请求的地址不存在", HttpStatus.NOT_FOUND.value());
     }
 
-    @ExceptionHandler(value = { UnauthorizedException.class })
+    @ExceptionHandler(value = {UnauthorizedException.class})
     public String unauthorized(Exception e) {
         if (log.isDebugEnabled()) {
             log.debug("无权限");
@@ -132,7 +132,7 @@ public class WebExceptionHandler{
             ObjectError error = allErrors.get(i);
             errorMessage.append(error.getDefaultMessage());
             if (i != allErrors.size() - 1) {
-               errorMessage.append(",");
+                errorMessage.append(",");
             }
         }
         return generateErrorInfo(ResultBean.FAIL, errorMessage.toString());
@@ -148,10 +148,11 @@ public class WebExceptionHandler{
 
     /**
      * 生成错误信息, 放到 request 域中.
-     * @param code          错误码
-     * @param msg       错误信息
-     * @param httpStatus    HTTP 状态码
-     * @return              SpringBoot 默认提供的 /error Controller 处理器
+     *
+     * @param code       错误码
+     * @param msg        错误信息
+     * @param httpStatus HTTP 状态码
+     * @return SpringBoot 默认提供的 /error Controller 处理器
      */
     private String generateErrorInfo(int code, String msg, int httpStatus) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
