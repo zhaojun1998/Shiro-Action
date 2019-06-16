@@ -75,7 +75,7 @@ public class RoleController {
     @OperationLog("为角色授予菜单")
     @PostMapping("/{roleId}/grant/menu")
     @ResponseBody
-    public ResultBean grantMenu(@PathVariable("roleId") Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
+    public ResultBean grantMenu(@PathVariable("roleId") Integer roleId, @RequestParam(value = "menuIds[]", required = false) Integer[] menuIds) {
         roleService.grantMenu(roleId, menuIds);
         return ResultBean.success();
     }
@@ -84,7 +84,7 @@ public class RoleController {
     @OperationLog("为角色授予菜单")
     @PostMapping("/{roleId}/grant/operator")
     @ResponseBody
-    public ResultBean grantOperator(@PathVariable("roleId") Integer roleId, @RequestParam("operatorIds[]") Integer[] operatorIds) {
+    public ResultBean grantOperator(@PathVariable("roleId") Integer roleId, @RequestParam(value = "operatorIds", required = false) Integer[] operatorIds) {
         for (int i = 0; i < operatorIds.length; i++) {
             operatorIds[i] = operatorIds[i] - 10000;
         }

@@ -65,7 +65,9 @@ public class RoleService {
     @Transactional
     public void grantMenu(Integer roleId, Integer[] menuIds) {
         roleMenuMapper.deleteByRoleId(roleId);
-        roleMenuMapper.insertRoleMenus(roleId, menuIds);
+        if (menuIds != null && menuIds.length != 0) {
+            roleMenuMapper.insertRoleMenus(roleId, menuIds);
+        }
         clearRoleAuthCache(roleId);
     }
 
@@ -77,7 +79,9 @@ public class RoleService {
     @Transactional
     public void grantOperator(Integer roleId, Integer[] operatorIds) {
         roleOperatorMapper.deleteByRoleId(roleId);
-        roleOperatorMapper.insertRoleOperators(roleId, operatorIds);
+        if (operatorIds != null && operatorIds.length != 0) {
+            roleOperatorMapper.insertRoleOperators(roleId, operatorIds);
+        }
         clearRoleAuthCache(roleId);
     }
 
