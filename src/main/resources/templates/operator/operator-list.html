@@ -187,7 +187,7 @@
                 },
                 toolbarFun: {
                     loadToolbarBefore: function (buttons, param, $div) {
-                        if (!param.isLeaf) { // 只有叶子节点, 即页面, 才能添加页面的功能权限.
+                        if (!param.leaf) { // 只有叶子节点, 即页面, 才能添加页面的功能权限.
                             buttons.add = "";
                         }
                         if (!hasOperatorAdd) {
@@ -233,7 +233,7 @@
             });
 
             dtree.on("node('menuTree')", function (obj) {
-                if (obj.param.isLeaf) {
+                if (obj.param.leaf) {
                     parentMenuId = obj.param.nodeId;
                     parentMenuIsLeaf = true;
                 } else {

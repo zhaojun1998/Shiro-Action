@@ -100,6 +100,34 @@
         "uncode": "e6a4"
     },
     {
+        "cls": "dtree-icon-roundcheckfill",
+        "uncode": "e659"
+    },
+    {
+        "cls": "dtree-icon-roundclosefill",
+        "uncode": "e65b"
+    },
+    {
+        "cls": "dtree-icon-roundcheck",
+        "uncode": "e65a"
+    },
+    {
+        "cls": "dtree-icon-pulldown",
+        "uncode": "e6a0"
+    },
+    {
+        "cls": "dtree-icon-pullup",
+        "uncode": "e6a1"
+    },
+    {
+        "cls": "dtree-icon-set-sm",
+        "uncode": "e621"
+    },
+    {
+        "cls": "dtree-icon-rate",
+        "uncode": "e833"
+    },
+    {
         "cls": "dtree-icon-jian1",
         "uncode": "e600"
     },
@@ -128,18 +156,6 @@
         "uncode": "e64c"
     },
     {
-        "cls": "dtree-icon-roundcheckfill",
-        "uncode": "e659"
-    },
-    {
-        "cls": "dtree-icon-roundcheck",
-        "uncode": "e65a"
-    },
-    {
-        "cls": "dtree-icon-roundclosefill",
-        "uncode": "e65b"
-    },
-    {
         "cls": "dtree-icon-roundrightfill",
         "uncode": "e65d"
     },
@@ -154,14 +170,6 @@
     {
         "cls": "dtree-icon-same",
         "uncode": "e672"
-    },
-    {
-        "cls": "dtree-icon-pulldown",
-        "uncode": "e6a0"
-    },
-    {
-        "cls": "dtree-icon-pullup",
-        "uncode": "e6a1"
     },
     {
         "cls": "dtree-icon-qrcode1",
@@ -198,10 +206,6 @@
     {
         "cls": "dtree-icon-search2",
         "uncode": "e615"
-    },
-    {
-        "cls": "dtree-icon-set-sm",
-        "uncode": "e621"
     },
     {
         "cls": "dtree-icon-close1",
@@ -242,10 +246,6 @@
     {
         "cls": "dtree-icon-star-fill",
         "uncode": "e832"
-    },
-    {
-        "cls": "dtree-icon-rate",
-        "uncode": "e833"
     },
     {
         "cls": "dtree-icon-shujudaping",

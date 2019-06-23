@@ -13,18 +13,28 @@
 .dtree-theme-choose{color:#fe7786!important;}
 
 /* layui主题风格*/
-.dtree-layui-item-this{background-color: #d2d2d2!important;}
-.dtree-layui-item:hover{background-color: #eaeceb!important;}
-.dtree-layui-item cite{font-size:12px!important;}
-.dtree-layui-item:hover cite{color:#01AAED!important;}
+.dtree-layui-item-this{background: none!important;}
+.dtree-layui-item:hover{background: none!important;}
+.dtree-layui-item cite{font-size:14px!important;}
+.dtree-layui-item:hover cite{opacity:0.5;filter:Alpha(opacity=50);text-decoration: underline;}
 
-.dtree-layui-dtreefont{font-size: 16px!important;}
-.dtree-layui-ficon{font-size: 14px!important;color:#393D49!important;}
-.dtree-layui-icon{color:#393D49!important;}
-.dtree-layui-checkbox:hover{color:#01AAED!important;}
-.dtree-layui-choose{color:#01AAED!important;}
+.dtree-layui-dtreefont{font-size: 18px!important;}
+.dtree-layui-ficon{font-size: 18px!important;color:#393D49!important;}
+.dtree-layui-icon{color:#666!important;}
+.dtree-layui-checkbox:hover{color:#5FB878!important;}
+.dtree-layui-choose{color:#5FB878!important;}
 
+/* laySimple主题风格*/
+.dtree-laySimple-item-this{background-color: #d2d2d2!important;}
+.dtree-laySimple-item:hover{background-color: #eaeceb!important;}
+.dtree-laySimple-item cite{font-size:12px!important;}
+.dtree-laySimple-item:hover cite{color:#01AAED!important;}
 
+.dtree-laySimple-dtreefont{font-size: 16px!important;}
+.dtree-laySimple-ficon{font-size: 14px!important;color:#393D49!important;}
+.dtree-laySimple-icon{color:#393D49!important;}
+.dtree-laySimple-checkbox:hover{color:#01AAED!important;}
+.dtree-laySimple-choose{color:#01AAED!important;}
 /**************** 树基础  ****************/
 /* 菜单栏*/
 .dtree-menubar {padding-left: 10px;}
@@ -49,6 +59,19 @@
 .dtree{width:260px;}
 .dtree-nav-item{line-height:33px;padding-left:16px;}
 .dtree-nav-ul-sid{display: none;}
+.dtree-none-text{font-size: 12px;text-align: center;color: gray;}
+
+/* 树线*/
+.dtree-nav-first-line,.dtree-nav-line,.dtree-nav-last-line{width: 100%;position: relative;}
+.dtree-nav-first-line:before{content:"";position: absolute;height: 0;border-left: 1px dotted #c0c4cc;}
+.dtree-nav-first-line:after{content:"";position: absolute;height: 0;border-top: 1px dotted #c0c4cc;}
+
+.dtree-nav-line:before{content:"";position: absolute;top: 0;left: 7px;width: 0;height: 100%;border-left: 1px dotted #c0c4cc;}
+.dtree-nav-line:after{content:"";position: absolute;top: 16px;left: 8px;width: 9px;height: 0;border-top: 1px dotted #c0c4cc;}
+
+.dtree-nav-last-line:before{content:"";position: absolute;top: 0;left: 7px;width: 0;height: 17px;border-left: 1px dotted #c0c4cc;}
+.dtree-nav-last-line:after{content:"";position: absolute;top: 16px;left: 8px;width: 9px;height: 0;border-top: 1px dotted #c0c4cc;}
+
 
 /* 图标及复选框*/
 .dtreefont{cursor: pointer;}
@@ -74,11 +97,12 @@
 .dtree-nav-div cite.dtree-disabled{font-style: normal; cursor: not-allowed; color:#c2c2c2!important;}
 .dtree-nav-div>cite.dtree-disabled:hover{color:#c2c2c2!important;}
 
+
+/** 下拉树属性*/
+.dtree-select{position: absolute;max-height: 500px;height: 350px;overflow: auto;width: 99%;z-index: 123;display: none;border:1px solid silver;top: 42px;}
+.dtree-select-show{display: block!important;z-index: 9999}
+
 /* 简单适配*/
 @media screen and (max-width:1700px) and (min-width:1300px){
 	.dtree-nav-item {padding-left: 15px;}
 }
-
-
-
-

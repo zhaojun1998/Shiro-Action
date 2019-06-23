@@ -77,26 +77,13 @@
                     部门
                 </label>
                 <div class="layui-input-block">
-                    <div class="layui-unselect layui-form-select" id="deptNameDiv">
-                        <div class="layui-select-title">
-                            <input type="text" id="deptName"
-                                   placeholder="请选择" class="layui-input layui-unselect" readonly>
-                            <input type="hidden" name="deptId" id="deptId">
-                            <i class="layui-edge"></i>
-                        </div>
-                    </div>
-                    <div class="layui-card dtree-select" id="deptTreeDiv">
-                        <div class="layui-card-body">
-                            <div id="toolbarDiv">
-                                <ul id="deptTree" class="dtree" data-id="0" style="width: 100%;"></ul>
-                            </div>
-                        </div>
-                    </div>
+                    <ul id="deptTree" class="dtree" data-id="0" data-value="请选择部门"></ul>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block" style="margin-left:0;text-align:center;">
-                    <input type="hidden" name="userId" th:value="${user?.userId}">
+                    <input type="hidden" id="deptId" name="deptId" th:value="${user?.deptId}">
+                    <input type="hidden" id="userId" name="userId" th:value="${user?.userId}">
                     <button type="button"  th:text="${user}?'修改':'增加'"  class="layui-btn layui-btn-normal btn-w100" lay-submit="" data-th-lay-filter="${user}?'edit':'add'"></button>
                 </div>
             </div>
@@ -119,12 +106,13 @@
                 , formSelects = layui.formSelects
                 , dtree = layui.dtree;
 
-            var deptDTree = dtree.render({
+            dtree.renderSelect({
                 elem: "#deptTree",
                 url: "/dept/tree",
                 dataStyle: "layuiStyle",
+                width: "100%",
                 method: "GET",
-                dot: false,     // 圆点是否显示
+                dot: false,
                 accordion: true,
                 menubar: true,
                 response: {
@@ -134,27 +122,15 @@
                     parentId: "parentId",
                     title: "name"
                 },
-                done: function (response, obj) {
+                done: function() {
                     var deptId = [[${user?.deptId + ''}]] ;
-                    var dept = deptDTree.getParam(deptId);
-                    if (dept) {
-                        $("#deptName").val(dept.context);
-                        $("#deptId").val(dept.nodeId);
-                    }
+                    dtree.dataInit("deptTree", deptId);
+                    dtree.setSelectValue("deptTree");
                 }
             });
 
-            $("#deptName").on("click",function(){
-                $(this).toggleClass("layui-form-selected");
-                $("#deptTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
-            });
-
-            dtree.on("node(deptTree)", function(obj){
-                console.log(obj);
-                $("#deptName").val(obj.param.context);
+            dtree.on("node('deptTree')" ,function(obj){
                 $("#deptId").val(obj.param.nodeId);
-                $("#deptNameDiv").toggleClass("layui-form-selected");
-                $("#deptTreeDiv").toggleClass("layui-show layui-anim layui-anim-upbit");
             });
 
             form.on('submit(add)', function (form) {
