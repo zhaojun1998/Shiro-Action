@@ -206,6 +206,20 @@
                d.dept_name
         from user u
                  left join dept d on u.dept_id = d.dept_id
+        <where>
+            <if test="username != null and username != ''">
+                AND u.username = #{username}
+            </if>
+            <if test="email != null and email != ''">
+                AND u.email = #{email}
+            </if>
+            <if test="status != null and status != ''">
+                AND u.status = #{status}
+            </if>
+            <if test="deptId != null and deptId != ''">
+                AND d.dept_id = #{deptId}
+            </if>
+        </where>
     </select>
 
     <update id="activeUserByUserId">

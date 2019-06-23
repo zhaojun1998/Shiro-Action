@@ -31,7 +31,6 @@ public class User implements Serializable {
 
     private Date lastLoginTime;
 
-    @JsonIgnore
     private Date createTime;
 
     @JsonIgnore

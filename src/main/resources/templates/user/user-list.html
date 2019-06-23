@@ -30,6 +30,18 @@
                                id="username" class="layui-input">
                     </div>
 
+                    <label for="email" class="layui-form-label">邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" autocomplete="off"
+                               id="email" class="layui-input">
+                    </div>
+
+                    <label for="deptTree" class="layui-form-label">部门</label>
+                    <div class="layui-input-inline">
+                        <ul id="deptTree" class="dtree" data-id="0" data-value="请选择"></ul>
+                        <input type="hidden" id="deptId" name="deptId">
+                    </div>
+
                     <label for="status" class="layui-form-label">状态</label>
                     <div class="layui-input-inline">
                         <select name="status" id="status">
@@ -98,6 +110,36 @@
             var table = layui.table;
             var $ = layui.$;
             var form = layui.form;
+            var dtree = layui.dtree;
+
+            dtree.renderSelect({
+                elem: "#deptTree",
+                url: "/dept/tree",
+                dataStyle: "layuiStyle",
+                width: "100%",
+                method: "GET",
+                dot: false,
+                menubar: true,
+                response: {
+                    statusCode: 0,
+                    message: "msg",
+                    treeId: "id",
+                    parentId: "parentId",
+                    title: "name"
+                }
+            });
+
+            dtree.on("node('deptTree')" ,function(obj) {
+                var typeDom = layui.$('#deptId');
+                console.log(typeDom.val() , obj.param.nodeId);
+                console.log(typeDom.val() === obj.param.nodeId);
+                if (typeDom.val() === obj.param.nodeId) {
+                    typeDom.val('');
+                    layui.$("input[dtree-id='deptTree']").val('请选择');
+                } else {
+                    typeDom.val(obj.param.nodeId)
+                }
+            });
 
             table.render({
                 elem: '#user-table'

@@ -43,7 +43,7 @@ public interface UserMapper {
     /**
      * 获取所有用户
      */
-    List<User> selectAllWithDept();
+    List<User> selectAllWithDept(User userQuery);
 
     /**
      * 更改用户的状态为某项值
@@ -91,4 +91,7 @@ public interface UserMapper {
     int updatePasswordByUserId(@Param("userId") Integer userId, @Param("password") String password, @Param("salt") String salt);
 
     int activeUserByUserId(Integer userId);
+
+//    selectAllByUsernameLikeAndStatus
+
 }

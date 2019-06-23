@@ -45,9 +45,9 @@ public class UserService {
     @Resource
     private SessionDAO sessionDAO;
 
-    public List<User> selectAllWithDept(int page, int rows) {
+    public List<User> selectAllWithDept(int page, int rows, User userQuery) {
         PageHelper.startPage(page, rows);
-        return userMapper.selectAllWithDept();
+        return userMapper.selectAllWithDept(userQuery);
     }
 
     public Integer[] selectRoleIdsById(Integer userId) {

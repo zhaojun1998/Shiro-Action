@@ -36,8 +36,9 @@ public class UserController {
     @GetMapping("/list")
     @ResponseBody
     public PageResultBean<User> getList(@RequestParam(value = "page", defaultValue = "1") int page,
-                                          @RequestParam(value = "limit", defaultValue = "10")int limit) {
-        List<User> users = userService.selectAllWithDept(page, limit);
+                                        @RequestParam(value = "limit", defaultValue = "10") int limit,
+                                        User userQuery) {
+        List<User> users = userService.selectAllWithDept(page, limit, userQuery);
         PageInfo<User> userPageInfo = new PageInfo<>(users);
         return new PageResultBean<>(userPageInfo.getTotal(), userPageInfo.getList());
     }
@@ -106,5 +107,4 @@ public class UserController {
         userService.updatePasswordByUserId(userId, password);
         return ResultBean.success();
     }
-
 }
