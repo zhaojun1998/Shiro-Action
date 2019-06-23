@@ -7,7 +7,6 @@ import im.zhaojun.system.mapper.RoleMenuMapper;
 import im.zhaojun.system.mapper.RoleOperatorMapper;
 import im.zhaojun.system.mapper.UserRoleMapper;
 import im.zhaojun.system.model.Role;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-@CacheConfig(cacheNames = "role")
 public class RoleService {
 
     @Resource
