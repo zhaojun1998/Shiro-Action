@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}"/>
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/iconfont/iconfont.css}">
 </head>
 
 <style>
@@ -79,17 +80,33 @@
         </div>
     </div>
 
-    <script type="text/html" id="column-toolbar">
-        <shiro:hasPermission name="operator:update">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <script type="text/html" id="toolbar">
+        <shiro:hasPermission name="operator:add">
+            <button type="button" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="add" style="display: none">
+                <i class="zadmin-icon zadmin-icon-xinzeng zadmin-oper-area"></i>
+                新增
+            </button>
         </shiro:hasPermission>
+    </script>
+
+    <script type="text/html" id="column-toolbar">
+
+        <shiro:hasPermission name="operator:update">
+            <a lay-event="edit">
+                <i class="zadmin-icon zadmin-icon-edit-square zadmin-oper-area zadmin-blue" title="编辑"></i>
+            </a>
+        </shiro:hasPermission>
+
         <shiro:hasPermission name="operator:delete">
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            <a lay-event="del">
+                <i class="zadmin-icon zadmin-icon-delete zadmin-oper-area zadmin-red" title="删除"></i>
+            </a>
         </shiro:hasPermission>
 
         <shiro:lacksPermission  name="operator:delete, operator:delete">
-            无权限
+            <i class="zadmin-icon zadmin-icon-wuquanxian zadmin-oper-area zadmin-red"></i>无权限
         </shiro:lacksPermission>
+
     </script>
 
 
@@ -98,6 +115,9 @@
     <script th:src="@{/js/common.js}"></script>
 
     <script>
+
+        var parentMenuId = 0;
+        var parentMenuIsLeaf = false;
 
         // 获取有没有删除, 更新, 和新增的权限.
         var hasOperatorDelete = false;
@@ -138,17 +158,7 @@
                         icon: "dtree-icon-roundadd",
                         title: "添加操作点",
                         handler: function (node, $div) {
-                            layer.open({
-                                content: "/operator?menuId=" + node.nodeId,
-                                title: "添加操作点",
-                                area: ['40%', '85%'],
-                                type: 2,
-                                maxmin: true,
-                                shadeClose: true,
-                                end: function () {
-                                    refresh();
-                                }
-                            });
+                            addOperator(node.nodeId);
                         }
                     },
                     {
@@ -175,9 +185,9 @@
                     parentId: "parentId",
                     title: "name"
                 },
-                toolbarFun:{
-                    loadToolbarBefore: function(buttons, param, $div){
-                        if(!param.isLeaf){ // 只有叶子节点, 即页面, 才能添加页面的功能权限.
+                toolbarFun: {
+                    loadToolbarBefore: function (buttons, param, $div) {
+                        if (!param.isLeaf) { // 只有叶子节点, 即页面, 才能添加页面的功能权限.
                             buttons.add = "";
                         }
                         if (!hasOperatorAdd) {
@@ -212,15 +222,37 @@
                         , {field: 'perms', title: '权限标识符', width: "18%"}
                         , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
                     ]
-                ]
+                ],
+                done: function(res, curr, count){
+                    if (parentMenuIsLeaf) {
+                        $("button[lay-event='add']").show();
+                    } else {
+                        $("button[lay-event='add']").hide();
+                    }
+                }
             });
 
             dtree.on("node('menuTree')", function (obj) {
+                if (obj.param.isLeaf) {
+                    parentMenuId = obj.param.nodeId;
+                    parentMenuIsLeaf = true;
+                } else {
+                    parentMenuId = 0;
+                    parentMenuIsLeaf = false;
+                }
+
                 table.reload('operator-table', {
                     where: {
                         menuId: obj.param.nodeId
                     }
                 });
+            });
+
+            table.on('toolbar', function (obj) {
+                var event = obj.event;
+                if (event === 'add') {
+                    addOperator(parentMenuId);
+                }
             });
 
             table.on('tool', function (obj) {
@@ -265,6 +297,20 @@
             function refresh() {
                 table.reload("operator-table");
                 DTree.menubarMethod().refreshTree();
+            }
+            
+            function addOperator(menuId) {
+                layer.open({
+                    content: "/operator?menuId=" + menuId,
+                    title: "添加操作点",
+                    area: ['40%', '85%'],
+                    type: 2,
+                    maxmin: true,
+                    shadeClose: true,
+                    end: function () {
+                        refresh();
+                    }
+                });
             }
 
             function editMenu(id) {

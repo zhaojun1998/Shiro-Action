@@ -7,16 +7,10 @@
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}"/>
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/iconfont/iconfont.css}">
 </head>
 
 <style>
-    .icon {
-        width: 1em;
-        height: 1em;
-        vertical-align: -0.15em;
-        fill: currentColor;
-        overflow: hidden;
-    }
     html, body {
         height: 100%;
         margin:0;padding:0;
@@ -30,26 +24,6 @@
         box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
     }
 
-    .x-nav {
-        padding: 0 20px;
-        position: relative;
-        z-index: 99;
-        line-height: 39px;
-        border-bottom: 1px solid #e5e5e5;
-        height: 39px;
-        overflow: hidden;
-    }
-    .layui-btn-xstree {
-        height: 35px;
-        line-height: 35px;
-        padding: 0 5px;
-        font-size: 12px;
-    }
-    .layui-table-body{overflow-x: hidden;}
-    /* 去掉表格内容超出的提示*/
-    .layui-table-tips-main{display:none}
-    .layui-table-tips-c{display:none}
-    .layui-table-grid-down{display: none}
     .layui-table-view .layui-table {width:100%}
 </style>
 
@@ -84,41 +58,54 @@
         </div>
     </div>
 
+    <script type="text/html" id="toolbar">
+        <shiro:hasPermission name="dept:add">
+            <button type="button" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="add">
+                <i class="zadmin-icon zadmin-icon-xinzeng zadmin-oper-area"></i>
+                新增
+            </button>
+        </shiro:hasPermission>
+    </script>
+
 
     <script type="text/html" id="column-toolbar">
+
         <shiro:hasPermission name="dept:update">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="dept:delete">
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            <a lay-event="edit">
+                <i class="zadmin-icon zadmin-icon-edit-square zadmin-oper-area zadmin-blue" title="编辑"></i>
+            </a>
         </shiro:hasPermission>
 
-        <shiro:lacksPermission  name="dept:update, dept:delete">
-            无权限
+        <shiro:hasPermission name="dept:delete">
+            <a lay-event="del">
+                <i class="zadmin-icon zadmin-icon-delete zadmin-oper-area zadmin-red" title="删除"></i>
+            </a>
+        </shiro:hasPermission>
+
+        <shiro:lacksPermission name="dept:update, dept:delete">
+            <i class="zadmin-icon zadmin-icon-wuquanxian zadmin-oper-area zadmin-red"></i>无权限
         </shiro:lacksPermission>
+
     </script>
 
     <script type="text/html" id="column-toolbar-sort">
-        <svg class="icon" aria-hidden="true" lay-event="up">
-            <use xlink:href="#icon-shangyimian"></use>
-        </svg>
-        <svg class="icon" aria-hidden="true" lay-event="down">
-            <use xlink:href="#icon-xiayimian"></use>
-        </svg>
-        <svg class="icon" aria-hidden="true" lay-event="top">
-            <use xlink:href="#icon-zhidingmian"></use>
-        </svg>
-        <svg class="icon" aria-hidden="true" lay-event="bottom">
-            <use xlink:href="#icon-zhidimian"></use>
-        </svg>
+        <i class="zadmin-icon zadmin-icon-shangyimian zadmin-oper-area zadmin-blue" lay-event="up" title="上移"></i>
+
+        <i class="zadmin-icon zadmin-icon-xiayimian zadmin-oper-area zadmin-blue" lay-event="down" title="下移"></i>
+
+        <i class="zadmin-icon zadmin-icon-zhidingmian zadmin-oper-area zadmin-blue" lay-event="top" title="置顶"></i>
+
+        <i class="zadmin-icon zadmin-icon-zhidimian zadmin-oper-area zadmin-blue" lay-event="bottom" title="置底"></i>
     </script>
 
     <script th:src="@{/lib/jquery/jquery.min.js}"></script>
     <script th:src="@{/lib/layui/layui.js}"></script>
     <script th:src="@{/js/common.js}"></script>
-    <script type="text/javascript" src="//at.alicdn.com/t/font_1046816_zflltanvzro.js"></script>
 
     <script>
+
+        var parentDeptId = 0;
+
         // 获取有没有删除, 更新, 和新增的权限.
         var hasDeptDelete = false;
         var hasDeptUpdate = false;
@@ -158,17 +145,7 @@
                         icon: "dtree-icon-roundadd",
                         title: "添加子节点",
                         handler: function (node, $div) {
-                            layer.open({
-                                content: "/dept?parentId=" + node.nodeId,
-                                title: "添加子节点",
-                                area: ['40%', '85%'],
-                                type: 2,
-                                maxmin: true,
-                                shadeClose: true,
-                                end: function () {
-                                    refresh();
-                                }
-                            });
+                            add(node.nodeId);
                         }
                     },
                     {
@@ -228,8 +205,8 @@
                         {type: 'numbers', title: '序号', width: "5%"}
                         , {field: 'id', title: 'ID', hide: true}
                         , {field: 'name', title: '名称'}
-                        , {title: '操作', align: 'center', toolbar: '#column-toolbar'}
                         , {title: '排序', fixed: 'right', align: 'center', toolbar: '#column-toolbar-sort'}
+                        , {title: '操作', align: 'center', toolbar: '#column-toolbar'}
                     ]
                 ]
             });
@@ -240,9 +217,16 @@
                         parentId: obj.param.nodeId
                     }
                 });
+                parentDeptId = obj.param.nodeId;
                 $("#card-header").html("[" + obj.param.context + "]的子部门");
             });
 
+            table.on('toolbar', function (obj) {
+                var event = obj.event;
+                if (event === 'add') {
+                    add(parentDeptId);
+                }
+            });
 
             table.on('tool', function (obj) {
                 var data = obj.data;
@@ -278,6 +262,21 @@
                     swapSort(currentId, swapId);
                 }
             });
+
+
+            function add(parentDeptId) {
+                layer.open({
+                    content: "/dept?parentId=" + parentDeptId,
+                    title: "添加子节点",
+                    area: ['40%', '85%'],
+                    type: 2,
+                    maxmin: true,
+                    shadeClose: true,
+                    end: function () {
+                        refresh();
+                    }
+                });
+            }
 
             function swapSort(currentId, swapId) {
                 $.post('/dept/swap', {currentId: currentId, swapId: swapId}, function (data) {

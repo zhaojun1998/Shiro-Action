@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/iconfont/iconfont.css}">
 </head>
 
 <body>
@@ -23,11 +24,15 @@
 
     <script type="text/html" id="column-toolbar">
         <shiro:hasPermission name="online:kickout">
-            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="kickout">下线</a>
+            {{#  if('<shiro:principal property="username"/>' != d.username) { }}
+                <a lay-event="kickout">
+                    <i class="zadmin-icon zadmin-icon-icon_qiangzhixiaxian zadmin-oper-area zadmin-red" title="强制下线"></i>
+                </a>
+            {{#  } }}
         </shiro:hasPermission>
 
         <shiro:lacksPermission  name="online:kickout">
-            无权限
+            <i class="zadmin-icon zadmin-icon-wuquanxian zadmin-oper-area zadmin-red"></i>无权限
         </shiro:lacksPermission>
     </script>
 
@@ -50,7 +55,7 @@
                         , {field: 'username', title: '用户名', width: "13%", templet: function (d) {
                                 var username = d.username;
                                 if (d.id === '[[${#session.id}]]') {
-                                    username += "<span class=\"layui-badge-rim layui-bg-blue\">当前登录</span>";
+                                    username += "<i class=\"layui-icon layui-icon-ok-circle zadmin-blue\" title='当前登录'></i>";
                                 }
                                 return username;
                             }
@@ -70,15 +75,17 @@
                 var data = obj.data;
                 var event = obj.event;
                 if (event === 'kickout') {
-                    $.post('/online/kickout', {"sessionId": data.id}, function (data) {
-                        handlerResult(data, kickoutDone);
+                    layer.confirm("确定将该用户踢出?", {icon: 3, title: "提示"}, function (index) {
+                        $.post('/online/kickout', {"sessionId": data.id}, function (data) {
+                            handlerResult(data, kickoutDone);
+                        });
                     });
                 }
             });
 
             function kickoutDone(data) {
                 parent.layer.msg("该用户已被强制下线!", {icon: 6});
-                table.reload('user-table');
+                window.location.reload();
             }
         });
     </script>

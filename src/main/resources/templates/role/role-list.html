@@ -11,6 +11,7 @@
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/iconfont/iconfont.css}">
 </head>
 
 <body>
@@ -25,27 +26,47 @@
 
     <script type="text/html" id="toolbar">
         <shiro:hasPermission name="role:add">
-            <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
+            <button type="button" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="add">
+                <i class="zadmin-icon zadmin-icon-xinzeng zadmin-oper-area"></i>
+                新增
+            </button>
         </shiro:hasPermission>
     </script>
 
-    <script type="text/html" id="column-toolbar">
-        <shiro:hasPermission name="role:update">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        </shiro:hasPermission>
+    <script type="text/html" id="auth-toolbar">
+
         <shiro:hasPermission name="role:grant:menu">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-menu">授权菜单</a>
         </shiro:hasPermission>
+
         <shiro:hasPermission name="role:grant:operator">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant-operator">授权功能</a>
         </shiro:hasPermission>
-        <shiro:hasPermission name="role:delete">
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+        <shiro:lacksPermission name="role:grant:menu, role:grant:operator">
+            <i class="zadmin-icon zadmin-icon-wuquanxian zadmin-oper-area zadmin-red"></i>无权限
+        </shiro:lacksPermission>
+
+    </script>
+
+    <script type="text/html" id="column-toolbar">
+
+        <shiro:hasPermission name="role:update">
+            <a lay-event="edit">
+                <i class="zadmin-icon zadmin-icon-edit-square zadmin-oper-area zadmin-blue" title="编辑"></i>
+            </a>
         </shiro:hasPermission>
 
-        <shiro:lacksPermission  name="role:update, role:grant:menu, role:grant:operator, role:delete">
-            无权限
+        <shiro:hasPermission name="role:delete">
+            <a lay-event="del">
+                <i class="zadmin-icon zadmin-icon-delete zadmin-oper-area zadmin-red" title="删除"></i>
+            </a>
+        </shiro:hasPermission>
+
+        <shiro:lacksPermission  name="role:update, role:delete">
+            <i class="zadmin-icon zadmin-icon-wuquanxian zadmin-oper-area zadmin-red"></i>无权限
         </shiro:lacksPermission>
+
     </script>
 
 
@@ -73,6 +94,7 @@
                         , {field: 'roleId', title: 'ID', hide: true}
                         , {field: 'roleName', title: '名称'}
                         , {field: 'remark', title: '描述'}
+                        , {title: '授权', align: 'center', toolbar: '#auth-toolbar'}
                         , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
                     ]
                 ]

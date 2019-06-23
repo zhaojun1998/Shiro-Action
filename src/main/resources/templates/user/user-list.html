@@ -11,6 +11,7 @@
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/iconfont/iconfont.css}">
 </head>
 
 <body>
@@ -20,28 +21,57 @@
     </div>
 
     <div class="z-body animated fadeIn">
+        <form class="layui-form zadmin-search-area input">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label for="username" class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" autocomplete="off"
+                               id="username" class="layui-input">
+                    </div>
+
+                    <label for="status" class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <select name="status" id="status">
+                            <option value="">请选择</option>
+                            <option value="1">正常</option>
+                            <option value="0">锁定</option>
+                        </select>
+                    </div>
+
+                    <button type="button" lay-submit="" lay-filter="search" class="layui-btn layui-btn-sm layui-btn-primary table-action">
+                        <i class="zadmin-icon zadmin-icon-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
         <table class="layui-hide" id="user-table"></table>
     </div>
 
     <script type="text/html" id="toolbar">
         <shiro:hasPermission name="user:add">
-            <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
+            <button type="button" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="add">
+                <i class="zadmin-icon zadmin-icon-xinzeng zadmin-oper-area"></i>
+                新增
+            </button>
         </shiro:hasPermission>
     </script>
 
     <script type="text/html" id="column-toolbar">
         <shiro:hasPermission name="user:update">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="user:reset">
-            <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
+            <a lay-event="edit">
+                <i class="zadmin-icon zadmin-icon-edit-square zadmin-oper-area zadmin-blue" title="编辑"></i>
+            </a>
         </shiro:hasPermission>
         <shiro:hasPermission name="user:delete">
-            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+            <a lay-event="del">
+                <i class="zadmin-icon zadmin-icon-delete zadmin-oper-area zadmin-red" title="删除"></i>
+            </a>
         </shiro:hasPermission>
 
-        <shiro:lacksPermission  name="user:delete,user:reset,user:update">
-            无权限
+        <shiro:lacksPermission  name="user:update,user:delete">
+            <i class="zadmin-icon zadmin-icon-wuquanxian zadmin-oper-area zadmin-red"></i>无权限
         </shiro:lacksPermission>
     </script>
 
@@ -53,17 +83,18 @@
         {{#  } }}
 
         {{#  if('<shiro:principal property="username"/>' !== d.username) { }}
-        <input type="checkbox" name="status" value="{{d.userId}}" lay-skin="switch" lay-text="正常|锁定" lay-filter="status" {{ d.status == '1' ? 'checked' : '' }}>
+            <input type="checkbox" name="status" value="{{d.userId}}" lay-skin="switch" lay-text="正常|锁定" lay-filter="status" {{ d.status == '1' ? 'checked' : '' }}>
         {{#  } }}
     </script>
-
 
     <script th:src="@{/lib/jquery/jquery.min.js}"></script>
     <script th:src="@{/lib/layui/layui.js}"></script>
     <script th:src="@{/js/common.js}"></script>
 
     <script>
-        layui.use(['table', 'element', 'form'], function () {
+        layui.config({
+            base: '/lib/layui/extend/'
+        }).use(['table', 'element', 'form', 'dtree'], function () {
             var table = layui.table;
             var $ = layui.$;
             var form = layui.form;
@@ -78,10 +109,11 @@
                         {type: 'numbers', title: '序号', width: "5%"}
                         ,{field: 'userId', title: 'ID', width: "10%", hide: true}
                         , {field: 'username', title: '用户名', width: "15%"}
-                        , {field: 'deptName', title: '部门', width: "15%"}
-                        , {field: 'email', title: '邮箱', width: "15%"}
-                        , {field: 'lastLoginTime', title: '最后登陆时间', width: "15%"}
-                        , {field: 'status', title: '状态', templet: "#statusTpl", width: "15%"}
+                        , {field: 'deptName', title: '部门', width: "12%"}
+                        , {field: 'email', title: '邮箱', width: "12%"}
+                        , {field: 'createTime', title: '创建时间', width: "12%"}
+                        , {field: 'lastLoginTime', title: '最后登陆时间', width: "12%"}
+                        , {field: 'status', title: '状态', templet: "#statusTpl", width: "12%"}
                         , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}
                     ]
                 ]
@@ -187,6 +219,15 @@
                     }
                 });
             }
+
+            form.on('submit(search)', function (form) {
+                console.log(form);
+                table.reload('user-table', {
+                    where: form.field
+                });
+                return false;
+            });
+
         });
     </script>
 </body>

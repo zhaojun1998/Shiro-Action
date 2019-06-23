@@ -9,11 +9,11 @@
 
 /* ----- 滚动条样式 ----- */
 
-
 * {
     box-sizing: border-box;
 }
 
+/* 加载层样式 */
 .page-loading {
     z-index: 9999999;
     position: fixed;
@@ -41,12 +41,11 @@
     margin: 30px;
 }
 
-
-.x-admin-carousel, .layui-carousel, .x-admin-carousel > [carousel-item] > * {
+.z-admin-carousel, .layui-carousel, .z-admin-carousel > [carousel-item] > * {
     background-color: #fff
 }
 
-.x-admin-backlog .x-admin-backlog-body {
+.z-admin-backlog .z-admin-backlog-body {
     display: block;
     padding: 10px 15px;
     background-color: #f8f8f8;
@@ -56,24 +55,22 @@
     -webkit-transition: all .3s
 }
 
-.x-admin-backlog-body h3 {
+.z-admin-backlog-body h3 {
     padding-bottom: 10px;
     font-size: 12px
 }
 
-.x-admin-backlog-body p cite {
+.z-admin-backlog-body p cite {
     font-style: normal;
     font-size: 30px;
     font-weight: 300;
     color: #009688
 }
 
-.x-admin-backlog-body:hover {
+.z-admin-backlog-body:hover {
     background-color: #CFCFCF;
     color: #888
 }
-
-
 
 .login-main {
     position: fixed;
@@ -138,4 +135,34 @@
     padding: 0 !important;
     line-height: 30px;
     margin-right: 20px;
+}
+
+
+.zadmin-icon {
+    cursor: pointer;
+}
+
+.zadmin-search-area input {
+    height: 32px;
+}
+
+.zadmin-oper-area {
+    font-size: 18px !important;
+    margin-right: 5px;
+}
+
+.zadmin-blue {
+    color: #1E90FF;
+}
+
+.zadmin-red {
+    color: #f5222d;
+}
+
+.zadmin-left {
+    float: left;
+}
+
+.zadmin-right {
+    float: right;
 }
