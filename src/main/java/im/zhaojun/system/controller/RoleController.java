@@ -81,7 +81,7 @@ public class RoleController {
     }
 
 
-    @OperationLog("为角色授予菜单")
+    @OperationLog("为角色授予操作权限")
     @PostMapping("/{roleId}/grant/operator")
     @ResponseBody
     public ResultBean grantOperator(@PathVariable("roleId") Integer roleId, @RequestParam(value = "operatorIds", required = false) Integer[] operatorIds) {

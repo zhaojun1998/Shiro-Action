@@ -53,7 +53,7 @@ public class UserOnlineService {
     public void forceLogout(String sessionId) {
         Session session = sessionDAO.readSession(sessionId);
         if (session != null) {
-            session.stop();
+            session.setTimeout(0);
             session.stop();
             sessionDAO.delete(session);
         }
