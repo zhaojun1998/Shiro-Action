@@ -19,7 +19,6 @@
 
 > 为了不影响其他人的浏览体验, 请尽量不要进行删除类的敏感操作.  `admin` 为超级管理员, 自动拥有全部权限.
 
-
 ## 系统特色
 
 * 支持根据同 URL, 不同 HTTP Method 来校验权限, 更支持 restful 场景.
@@ -75,18 +74,17 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 
 ![](https://cdn.jun6.net/201905292303_211.png)
 
-![](https://cdn.jun6.net/201905052146_570.png)
+![](https://cdn.jun6.net/201906302159_326.png)
 
-![](https://cdn.jun6.net/2019/05/05/5ccee9679211e.png)
+![](https://cdn.jun6.net/2019/06/30/5d18c0a85b38a.png)
 
-![](https://cdn.jun6.net/2019/05/05/5ccee96794cb8.png)
+![](https://cdn.jun6.net/2019/06/30/5d18c0a849285.png)
 
-![](https://cdn.jun6.net/2019/05/05/5ccee96789cb8.png)
+![](https://cdn.jun6.net/2019/06/30/5d18c1e09d314.png)
 
-![](https://cdn.jun6.net/2019/05/05/5ccee967871ab.png)
+![](https://cdn.jun6.net/2019/06/30/5d18c1ad27580.png)
 
-![](https://cdn.jun6.net/2019/05/05/5ccee9678c74a.png)
-
+![](https://cdn.jun6.net/2019/06/30/5d18c1ad29d05.png)
 
 ### 技术选型
 
@@ -94,7 +92,6 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 
 * 前端框架: [Layui](https://www.layui.com/)
 * 后台模板: [Z-Admin](https://github.com/zhaojun1998/Z-Admin/)
-
 
 #### 后端
 
