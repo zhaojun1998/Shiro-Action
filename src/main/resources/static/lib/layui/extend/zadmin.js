@@ -62,6 +62,9 @@ layui.define(["element", "layer"], function (exports) {
             var iframes = $(".layui-layout-admin .layui-tab .layui-tab-item.layui-show .layui-iframe");
             iframes[0].src = iframes[0].src;
         },
+        github: function() {
+            window.open('https://github.com/zhaojun1998/Shiro-Action');
+        },
         clear: function () {
             layer.confirm("确认清空标签缓存吗?", {icon: 3, title:"提示"}, function(index){
                 sessionStorage.setItem("tabs", null);
