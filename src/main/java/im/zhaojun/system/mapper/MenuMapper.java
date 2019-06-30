@@ -21,6 +21,8 @@ public interface MenuMapper {
      */
     List<Menu> selectAll();
 
+    List<Menu> selectAllTree();
+
     List<Menu> selectAllMenuAndCountOperator();
 
     List<Menu> selectByParentId(Integer parentId);

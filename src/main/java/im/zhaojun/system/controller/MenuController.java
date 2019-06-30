@@ -40,7 +40,7 @@ public class MenuController {
     @GetMapping("/tree")
     @ResponseBody
     public ResultBean tree() {
-        return ResultBean.success(menuService.getALLMenuTree());
+        return ResultBean.success(menuService.getALLTree());
     }
 
     @GetMapping("/tree/root")

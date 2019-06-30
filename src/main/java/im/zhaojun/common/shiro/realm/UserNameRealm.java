@@ -70,17 +70,17 @@ public class UserNameRealm extends AuthorizingRealm {
     }
 
     public void clearAuthCacheByUserId(Integer userId) {
-        //获取所有session
+        // 获取所有 session
         Collection<Session> sessions = sessionDAO.getActiveSessions();
         for (Session session : sessions) {
-            //获取session登录信息。
+            // 获取 session 登录信息。
             Object obj = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
             if (obj instanceof SimplePrincipalCollection) {
                 // 强转
                 SimplePrincipalCollection spc = (SimplePrincipalCollection) obj;
                 User user = new User();
                 BeanUtils.copyProperties(spc.getPrimaryPrincipal(), user);
-                //判断用户，匹配用户ID。
+                // 判断用户, 匹配用户ID.
                 if (userId.equals(user.getUserId())) {
                     this.clearCachedAuthorizationInfo(spc);
                 }
