@@ -21,6 +21,23 @@
     </div>
 
     <div class="z-body animated fadeIn">
+
+        <form class="layui-form zadmin-search-area input">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label for="roleName" class="layui-form-label">名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="roleName" autocomplete="off"
+                               id="roleName" class="layui-input">
+                    </div>
+
+                    <button lay-submit="" lay-filter="search" class="layui-btn layui-btn-sm layui-btn-primary table-action">
+                        <i class="zadmin-icon zadmin-icon-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
         <table class="layui-hide" id="role-table"></table>
     </div>
 
@@ -77,10 +94,18 @@
     <script>
         layui.config({
             base: '/lib/layui/extend/'
-        }).use(['table', 'element', 'dtree'], function () {
+        }).use(['table', 'element', 'dtree', 'form'], function () {
             var table = layui.table;
             var $ = layui.$;
             var dtree = layui.dtree;
+            var form = layui.form;
+
+            form.on('submit(search)', function (form) {
+                table.reload('role-table', {
+                    where: form.field
+                });
+                return false;
+            });
 
             table.render({
                 elem: '#role-table'
@@ -92,7 +117,7 @@
                     [
                         {type: 'numbers', title: '序号', width: "5%"}
                         , {field: 'roleId', title: 'ID', hide: true}
-                        , {field: 'roleName', title: '名称'}
+                        , {field: 'roleName', title: '角色名称'}
                         , {field: 'remark', title: '描述'}
                         , {title: '授权', align: 'center', toolbar: '#auth-toolbar'}
                         , {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar'}

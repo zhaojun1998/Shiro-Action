@@ -29,8 +29,9 @@ public class RoleController {
     @GetMapping("/list")
     @ResponseBody
     public PageResultBean<Role> getList(@RequestParam(value = "page", defaultValue = "1") int page,
-                                        @RequestParam(value = "limit", defaultValue = "10")int limit) {
-        List<Role> roles = roleService.selectAll(page, limit);
+                                        @RequestParam(value = "limit", defaultValue = "10")int limit,
+                                        Role roleQuery) {
+        List<Role> roles = roleService.selectAll(page, limit, roleQuery);
         PageInfo<Role> rolePageInfo = new PageInfo<>(roles);
         return new PageResultBean<>(rolePageInfo.getTotal(), rolePageInfo.getList());
     }

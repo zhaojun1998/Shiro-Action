@@ -17,5 +17,7 @@ public interface RoleMapper {
 
     List<Role> selectAll();
 
+    List<Role> selectAllByQuery(Role roleQuery);
+
     int count();
 }

@@ -35,13 +35,17 @@ public class RoleService {
         return roleMapper.selectByPrimaryKey(roleId);
     }
 
-    public List<Role> selectAll(int page, int limit) {
+    public List<Role> selectAll(int page, int limit, Role roleQuery) {
         PageHelper.startPage(page, limit);
-        return selectAll();
+        return selectAllByQuery(roleQuery);
     }
 
     public List<Role> selectAll() {
         return roleMapper.selectAll();
+    }
+
+    public List<Role> selectAllByQuery(Role roleQuery) {
+        return roleMapper.selectAllByQuery(roleQuery);
     }
 
     @Transactional

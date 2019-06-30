@@ -44,6 +44,17 @@
         from role
     </select>
 
+    <select id="selectAllByQuery" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+        <where>
+            <if test="roleName != null and roleName != ''">
+                AND role_name like concat('%', #{roleName}, '%')
+            </if>
+        </where>
+    </select>
+
     <select id="count" resultType="java.lang.Integer">
         select
         count(*)
