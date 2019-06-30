@@ -84,7 +84,7 @@
                 <div class="layui-input-block" style="margin-left:0;text-align:center;">
                     <input type="hidden" id="deptId" name="deptId" th:value="${user?.deptId}">
                     <input type="hidden" id="userId" name="userId" th:value="${user?.userId}">
-                    <button type="button"  th:text="${user}?'修改':'增加'"  class="layui-btn layui-btn-normal btn-w100" lay-submit="" data-th-lay-filter="${user}?'edit':'add'"></button>
+                    <button th:text="${user}?'修改':'增加'"  class="layui-btn layui-btn-normal btn-w100" lay-submit="" data-th-lay-filter="${user}?'edit':'add'"></button>
                 </div>
             </div>
         </form>

@@ -51,7 +51,7 @@
                         </select>
                     </div>
 
-                    <button type="button" lay-submit="" lay-filter="search" class="layui-btn layui-btn-sm layui-btn-primary table-action">
+                    <button lay-submit="" lay-filter="search" class="layui-btn layui-btn-sm layui-btn-primary table-action">
                         <i class="zadmin-icon zadmin-icon-search"></i>
                     </button>
                 </div>
@@ -263,7 +263,6 @@
             }
 
             form.on('submit(search)', function (form) {
-                console.log(form);
                 table.reload('user-table', {
                     where: form.field
                 });
