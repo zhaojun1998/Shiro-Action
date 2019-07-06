@@ -1,0 +1,166 @@
+.layui-table-view .layui-disabled.layui-form-checkbox.layui-form-checked[lay-skin="primary"] i,
+.layui-table-view .layui-disabled.layui-form-checkbox.layui-form-checked[lay-skin="primary"] i:hover {
+  background-color: lightgray !important;
+  color: #fff !important;
+  border-color: lightgray !important;
+}
+
+.layui-table-view .layui-disabled.layui-form-checkbox[lay-skin="primary"] i,
+.layui-table-view .layui-disabled.layui-form-checkbox[lay-skin="primary"] i:hover {
+  background-color: lightgray !important;
+  color: lightgray !important;
+  border-color: lightgray !important;
+}
+
+.layui-table-view.layui-table-none-overflow .layui-table-header .layui-table {
+  margin-bottom: 0;
+}
+
+.layui-table-view.layui-table-none-overflow .layui-table-header {
+  overflow-x: auto;
+}
+
+.layui-table-view.layui-table-none-overflow .layui-table-patch {
+  display: none;
+}
+
+#layui-tablePlug-col-filter + div {
+  margin: 0;
+}
+
+.layui-table-filter.layui-active {
+  color: deepskyblue;
+}
+
+.layui-table-filter {
+  cursor: pointer;
+}
+
+.table-filter-opt-invert {
+  cursor: pointer;
+  float: right;
+}
+
+.LAY_TABLE_TOOL_COLS_Invert_Selection {
+  position: absolute;
+  right: 10px;
+  padding: 0 6px;
+  cursor: pointer;
+  color: #666;
+}
+
+tr.layui-tablePlug-data-temp {
+  background-color: #d8ff83 !important;
+}
+
+.layui-table-view.has-data-temp-warn {
+  border-color: red;
+}
+
+.layui-table-view tr.layui-table-hover.layui-tablePlug-data-temp td:first-child {
+  /*pointer-events: none;*/
+}
+
+.layui-table-view tr.layui-table-hover.layui-tablePlug-data-temp .close_temp {
+  position: absolute;
+  left: 0;
+  right: auto;
+  top: 0;
+  bottom: auto;
+  padding: 5px 0;
+}
+
+.layui-table-view tr.layui-table-hover.layui-tablePlug-data-temp .close_temp:before {
+  content: '删除';
+  color: red;
+  position: absolute;
+  height: 26px;
+  line-height: 26px;
+  width: 28px;
+  padding: 0 5px;
+  margin: 0 5px;
+  pointer-events: auto;
+  cursor: pointer;
+  border: 1px solid green;
+  border-radius: 4px;
+}
+
+.layui-table-view table[lay-size="lg"] tr.layui-table-hover.layui-tablePlug-data-temp .close_temp:before {
+  line-height: 38px;
+  height: 38px;
+}
+
+.layui-table-view table[lay-size="sm"] tr.layui-table-hover.layui-tablePlug-data-temp .close_temp:before {
+  line-height: 18px;
+  height: 18px;
+}
+
+/* 让固定列区域在鼠标移入的时候支持滚动 - 开始 */
+.layui-table-fixed.layui-table-fixed-scroll .layui-table-body:hover {
+  overflow-y: auto;
+}
+
+.layui-table-fixed-r.layui-table-fixed-scroll:hover {
+  right: 0 !important;
+}
+
+.layui-table-fixed-l.layui-table-fixed-scroll:hover {
+  overflow-x: hidden;
+}
+
+/* 让固定列区域在鼠标移入的时候支持滚动 - 结束 */
+
+
+/* 表格翻转样式 - 开始 */
+.layui-table-view.vertical {
+  height: auto !important;
+  position: relative;
+}
+
+.layui-table-view.vertical table {
+  -webkit-writing-mode: vertical-lr;
+  -moz-writing-mode: vertical-lr;
+  -ms-writing-mode: tb-lr;
+  writing-mode: vertical-lr;
+}
+
+.layui-table-view.vertical table th > div.layui-table-cell,
+.layui-table-view.vertical table td > div.layui-table-cell {
+  -webkit-writing-mode: horizontal-tb;
+  -moz-writing-mode: horizontal-tb;
+  -ms-writing-mode: lr-tb;
+  writing-mode: horizontal-tb;
+}
+
+.layui-table-view.vertical table th > div.layui-table-cell {
+  /*margin-top: calc(50% - 20px);*/
+  width: 120px;
+}
+
+.layui-table-view.vertical table td > div.layui-table-cell {
+  width: 160px;
+}
+
+/*.layui-table-view.vertical .layui-table-total,*/
+.layui-table-view.vertical .layui-table-fixed {
+  display: none !important;
+}
+
+.layui-table-view.vertical .layui-table-box > .layui-table-main {
+  height: auto !important;
+  /*margin-right: 160px;*/
+}
+
+.layui-table-view.vertical .layui-table-box > .layui-table-header {
+  position: absolute;
+  display: grid;
+}
+
+.layui-table-view.vertical .layui-table-total {
+  position: absolute;
+  right: -1px;
+  border-left-width: 1px;
+  display: grid;
+}
+
+/* 表格翻转样式 - 结束 */

@@ -123,10 +123,13 @@
 
         layui.config({
             base: '/lib/layui/extend/'
-        }).use(['jquery', 'dtree', 'layer', 'table', 'element'], function () {
+        }).use(['jquery', 'dtree', 'layer', 'table', 'element', 'tablePlug'], function () {
             var dtree = layui.dtree;
             var layer = layui.layer;
             var table = layui.table;
+            var tablePlug = layui.tablePlug;
+
+            tablePlug.smartReload.enable(true);
 
             var DTree = dtree.render({
                 elem: "#deptTree",
@@ -200,6 +203,7 @@
                 }
                 , cellMinWidth: 80
                 , toolbar: '#toolbar'
+                , smartReloadModel: true
                 , cols: [
                     [
                         {type: 'numbers', title: '序号', width: "5%"}

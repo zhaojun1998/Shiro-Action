@@ -1,0 +1,19 @@
+
+@font-face {font-family: "layui-tablePlug-icon";
+  src: url('iconfont.eot?t=1544435521530'); /* IE9*/
+  src: url('iconfont.eot?t=1544435521530#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAASgAAsAAAAAB3QAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFY8e0f3Y21hcAAAAYAAAABLAAABcOcttblnbHlmAAABzAAAANAAAADwQIr9eWhlYWQAAAKcAAAALwAAADYTh/R3aGhlYQAAAswAAAAcAAAAJAfeA4NobXR4AAAC6AAAAAgAAAAICAAAAGxvY2EAAALwAAAABgAAAAYAeAAAbWF4cAAAAvgAAAAgAAAAIAEQAFtuYW1lAAADGAAAAWUAAAL9ieAqlXBvc3QAAASAAAAAHwAAADDM7G18eJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkYWCcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGByesT5jZW7438AQw9zA0AAUZgTJAQDd7QvteJxjYGBgZWBgYAZiHSBmYWBgDGFgZAABP6AoI1icmYELLM7CoARWwwISf8b6/z+MBPJZwCQDIxvDKOABkzJQHjisIJiBEQA1JAl9AHicY2BhYPi/m/kQsy2DJoMZgxODHwMDoz2jHaMeo7KiEh+jmDijsIiYsaGRmTkzo5qZuaIcIzujsBwjSMSUWVyO0ZrRyMxETV2Zj5FVWYlNRAzCZ0diM0czMopwSujL/50gpy/JIcwoxSTIyyvAyPzvBr+oBFOBpIjAvwuMjII8vIKMIUDqC6+gIO8XHkFGQSCB4EJYTFMZGcUtLOTlzSzE/n35dxwozssYyCgtpMPIqCv878k/U5Byxo2xQEpSEGjqdEEpQSBaCaEYAN7HKiV4nGNgZGBgAGKbzDVX4vltvjJwszCAwA2TCEcE/X83CwOzLZDLwcAEEgUAEkMJKAB4nGNgZGBgbvjfwBDDwgACQJKRARUwAQBHCAJrBAAAAAQAAAAAAAAAAHgAAAABAAAAAgBPAAQAAAAAAAIAAAAKAAoAAAD/AAAAAAAAeJyNkr1uwjAUhY/5VUHq0JbOniraivAzInWighUxoK4hOAFkEmQcqqhv0z5DX6d9jm49BLMgBhL56rvnnnsdWwFwgx8IHJ4G14EF7pgduIAqHh0XqXccl8ivjsuo481xhXrguIZnvDuu4xafnCBKV8ye8O1YoIlfxwVci6rjIpqi4bhEfnFcxr1QjivUPxzXMBVfjut4EH+1gVG+VXM5y+QySOIwiW1N+1m6bFl/ptVYp1FrX5ioKNW+OVc6p02V2S6TWHa9zrnySMXKHPfd7qKetaEMTbKWQ36A0jqRG5OsVGC9hbWbfrsdOt0LkjWPMYCBgg/LOIfEDBnjkpeaIEaYR0ufpidDykqLuU+fZseYMUVE7dgxoRpR2/vNxV2X+qZUDbbM95lEFx5/kUu7R1TjfMLpebfY0dmjanlmyWXYsSYN3Q0oTtNkiU1eW1EJqHtY5F0b9NHmG574vXzv9T9MzpLMAAAAeJxjYGKAAC4G7ICJkYmRmYEtLTOnJLWIgQEAEIICogA=') format('woff'),
+  url('iconfont.ttf?t=1544435521530') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1544435521530#layui-tablePlug-icon') format('svg'); /* iOS 4.1- */
+}
+
+.layui-tablePlug-icon {
+  font-family:"layui-tablePlug-icon" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.layui-tablePlug-icon-filter:before { content: "\e605"; }
+

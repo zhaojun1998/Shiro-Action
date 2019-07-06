@@ -94,11 +94,14 @@
     <script>
         layui.config({
             base: '/lib/layui/extend/'
-        }).use(['table', 'element', 'dtree', 'form'], function () {
+        }).use(['table', 'element', 'dtree', 'form', 'tablePlug'], function () {
             var table = layui.table;
             var $ = layui.$;
             var dtree = layui.dtree;
             var form = layui.form;
+            var tablePlug = layui.tablePlug;
+
+            tablePlug.smartReload.enable(true);
 
             form.on('submit(search)', function (form) {
                 table.reload('role-table', {
@@ -113,6 +116,7 @@
                 , cellMinWidth: 80
                 , page: true
                 , toolbar: '#toolbar'
+                , smartReloadModel: true
                 , cols: [
                     [
                         {type: 'numbers', title: '序号', width: "5%"}
@@ -254,7 +258,7 @@
                     maxmin: true,
                     shadeClose: true,
                     end: function () {
-                        $(".layui-laypage-btn")[0].click();
+                        table.reload('role-table');
                     }
                 });
             }
@@ -268,7 +272,7 @@
                     maxmin: true,
                     shadeClose: true,
                     end: function () {
-                        $(".layui-laypage-btn")[0].click();
+                        table.reload('role-table');
                     }
                 });
             }

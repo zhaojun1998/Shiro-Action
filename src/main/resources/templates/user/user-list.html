@@ -106,11 +106,14 @@
     <script>
         layui.config({
             base: '/lib/layui/extend/'
-        }).use(['table', 'element', 'form', 'dtree'], function () {
+        }).use(['table', 'element', 'form', 'dtree', 'tablePlug'], function () {
             var table = layui.table;
             var $ = layui.$;
             var form = layui.form;
             var dtree = layui.dtree;
+            var tablePlug = layui.tablePlug;
+
+            tablePlug.smartReload.enable(true);
 
             dtree.renderSelect({
                 elem: "#deptTree",
@@ -146,6 +149,7 @@
                 , url: '/user/list'
                 , page: true
                 , toolbar: '#toolbar'
+                , smartReloadModel: true
                 , cols: [
                     [
                         {type: 'numbers', title: '序号', width: "5%"}
@@ -199,7 +203,7 @@
                         maxmin: true,
                         shadeClose: true,
                         end: function () {
-                            $(".layui-laypage-btn")[0].click()
+                            table.reload('user-table');
                         }
                     });
                 } else if (event === 'del') {
@@ -224,7 +228,7 @@
                     maxmin: true,
                     shadeClose: true,
                     end: function () {
-                        $(".layui-laypage-btn")[0].click()
+                        table.reload('user-table');
                     }
                 });
             }

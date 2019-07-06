@@ -1,0 +1,11 @@
+.layui-layer-content div.layui-form-select>div.layui-select-title+ dl,
+.select_option_in_layer div.layui-form-select>div.layui-select-title+ dl
+/*.layui-table-view .layui-form-select dl*/
+{
+  display: none !important;
+}
+
+.layui-layer.layui-option-layer {
+  mso-border-shadow: no;
+  box-shadow: none;
+}
