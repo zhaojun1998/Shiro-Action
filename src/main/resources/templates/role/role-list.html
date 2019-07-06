@@ -233,8 +233,7 @@
                                 ids.push(node.nodeId);
                             }
                             $.post('/role/' + data.roleId + '/grant/operator', {
-                                operatorIds: "",
-                                a: 1
+                                operatorIds: ids
                             }, function (result) {
                                 handlerResult(result, function () {
                                     layer.msg("授权成功", {icon: 6});
