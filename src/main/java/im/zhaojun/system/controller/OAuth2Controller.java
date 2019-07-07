@@ -11,7 +11,7 @@ import im.zhaojun.system.service.UserAuthsService;
 import me.zhyd.oauth.request.AuthRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -69,7 +69,8 @@ public class OAuth2Controller {
 
             OAuth2VO oAuth2VO = new OAuth2VO();
 
-            oAuth2VO.setType(type.getDescription());
+            oAuth2VO.setType(type.name());
+            oAuth2VO.setDescription(type.getDescription());
             oAuth2VO.setStatus(auth == null ?  "unbind" : "bind");
             oAuth2VO.setUsername(auth == null ? "" : auth.getIdentifier());
             authsList.add(oAuth2VO);
@@ -82,10 +83,10 @@ public class OAuth2Controller {
      * 取消授权
      */
     @OperationLog("取消账号绑定")
-    @PostMapping("/revoke/github")
+    @GetMapping("/revoke/{provider}")
     @ResponseBody
-    public Object revokeAuth() {
-        UserAuths userAuths = userAuthsService.selectOneByIdentityTypeAndUserId(AuthcTypeEnum.GITHUB, ShiroUtil.getCurrentUser().getUserId());
+    public Object revokeAuth(@PathVariable("provider") AuthcTypeEnum provider) {
+        UserAuths userAuths = userAuthsService.selectOneByIdentityTypeAndUserId(provider, ShiroUtil.getCurrentUser().getUserId());
 
         if (userAuths == null) {
             return ResultBean.error("已经是未绑定状态!");

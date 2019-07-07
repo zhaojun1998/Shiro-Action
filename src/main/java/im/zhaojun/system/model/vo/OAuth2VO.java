@@ -4,6 +4,8 @@ public class OAuth2VO {
 
     private String type;
 
+    private String description;
+
     private String username;
 
     private String status;
@@ -30,5 +32,13 @@ public class OAuth2VO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
