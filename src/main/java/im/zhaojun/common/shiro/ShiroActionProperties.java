@@ -18,6 +18,7 @@ public class ShiroActionProperties {
     private String superAdminUsername;
     private Integer retryCount;
     private Boolean loginVerify;
+    private Integer retryTimeout;
 
     public String getSuperAdminUsername() {
         return superAdminUsername;
@@ -33,6 +34,14 @@ public class ShiroActionProperties {
 
     public void setRetryCount(Integer retryCount) {
         this.retryCount = retryCount;
+    }
+
+    public Integer getRetryTimeout() {
+        return retryTimeout;
+    }
+
+    public void setRetryTimeout(Integer retryTimeout) {
+        this.retryTimeout = retryTimeout;
     }
 
     public Boolean getLoginVerify() {

@@ -23,6 +23,11 @@
       "type": "java.lang.Integer",
       "defaultValue": 5,
       "description": "登录失败重试次数."
+    },{
+      "name": "shiro-action.retry-timeout",
+      "type": "java.lang.Integer",
+      "defaultValue": 300,
+      "description": "超出登录失败重试次数后, 禁用账号的时间. 单位为秒"
     },
     {
       "name": "shiro-action.login-verify",

@@ -1,14 +1,16 @@
 package im.zhaojun.common.shiro.credential;
 
 import im.zhaojun.common.shiro.ShiroActionProperties;
+import im.zhaojun.common.util.IPUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.Cache;
-import org.apache.shiro.cache.CacheManager;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -18,11 +20,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RetryLimitHashedCredentialsMatcher extends
 		HashedCredentialsMatcher {
- 
-	private Cache<String, AtomicInteger> passwordRetryCache;
 
-	@Resource(name = "redisCacheManager")
-	private CacheManager cacheManager;
+	@Resource
+	private RedisTemplate<String, AtomicInteger> redisTemplate;
 
 	@Resource
 	private ShiroActionProperties shiroActionProperties;
@@ -35,16 +35,16 @@ public class RetryLimitHashedCredentialsMatcher extends
 	public boolean doCredentialsMatch(AuthenticationToken token,
 			AuthenticationInfo info) {
 
-		if (passwordRetryCache == null) {
-			passwordRetryCache = cacheManager.getCache("passwordRetryCache");
-		}
+		ValueOperations<String, AtomicInteger> opsForValue = redisTemplate.opsForValue();
 
 		String username = (String) token.getPrincipal();
 
-		// 超级管理员不进行登录次数校验.
-		if (!shiroActionProperties.getSuperAdminUsername().equals(username)) {
+		String key = username + IPUtils.getIpAddr();
 
-			AtomicInteger retryCount = passwordRetryCache.get(username);
+		// 超级管理员不进行登录次数校验.
+		if (!shiroActionProperties.getSuperAdminUsername().equals(key)) {
+
+			AtomicInteger retryCount = opsForValue.get(key);
 			if (retryCount == null) {
 				retryCount = new AtomicInteger(0);
 			}
@@ -53,13 +53,14 @@ public class RetryLimitHashedCredentialsMatcher extends
 				throw new ExcessiveAttemptsException();
 			}
 
-			passwordRetryCache.put(username, retryCount);
+			opsForValue.set(key, retryCount, shiroActionProperties.getRetryTimeout(), TimeUnit.SECONDS);
 		}
 
 		boolean matches = super.doCredentialsMatch(token, info);
 		if (matches) {
-			passwordRetryCache.remove(username);
+			redisTemplate.delete(key);
 		}
+
 		return matches;
 	}
 
