@@ -22,6 +22,9 @@ import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * 根据用户名密码校验的 Realm.
+ */
 @Component
 public class UserNameRealm extends AuthorizingRealm {
 

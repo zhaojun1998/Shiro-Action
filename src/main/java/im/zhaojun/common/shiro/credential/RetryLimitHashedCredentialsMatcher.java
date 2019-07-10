@@ -10,7 +10,12 @@ import org.apache.shiro.cache.CacheManager;
 
 import javax.annotation.Resource;
 import java.util.concurrent.atomic.AtomicInteger;
- 
+
+/**
+ * MD5 密码匹配器
+ *
+ * 密码校验失败后计数, 当超出 ${shiro-action.retry-count} 次后, 禁止登录 ${shiro-action.retry-timeout} 秒.
+ */
 public class RetryLimitHashedCredentialsMatcher extends
 		HashedCredentialsMatcher {
  
