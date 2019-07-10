@@ -85,7 +85,7 @@ public class RoleController {
     @OperationLog("为角色授予操作权限")
     @PostMapping("/{roleId}/grant/operator")
     @ResponseBody
-    public ResultBean grantOperator(@PathVariable("roleId") Integer roleId, @RequestParam(value = "operatorIds", required = false) Integer[] operatorIds) {
+    public ResultBean grantOperator(@PathVariable("roleId") Integer roleId, @RequestParam(value = "operatorIds[]", required = false) Integer[] operatorIds) {
         for (int i = 0; i < operatorIds.length; i++) {
             operatorIds[i] = operatorIds[i] - 10000;
         }
