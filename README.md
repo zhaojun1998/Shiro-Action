@@ -102,6 +102,11 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 * PageHelper 1.2.9
 * Shiro-Redis 3.2.3
 
+#### 其他工具类
+
+* OAuth2 认证工具类: [JustAuth](https://gitee.com/yadong.zhang/JustAuth)
+* Hutool : [https://hutool.cn/](https://hutool.cn/)
+
 ### 反馈交流
 
 QQ 群号: [850586205](//shang.qq.com/wpa/qunwpa?idkey=b482b2e48a938a993ef54adcff7ed499a45127a73802a68f1238256fb02ed425)
