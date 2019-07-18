@@ -70,7 +70,7 @@
             var loop = setInterval(function() {
                 if(winObj.closed) {
                     clearInterval(loop);
-                    window.location.href = "/main";
+                    window.location.href = '/main?=timestap'+ new Date().getTime();
                 }
             }, 1000);
         }
@@ -102,7 +102,7 @@
                 icon: 1,
                 time: 1000
             }, function () {
-                location.href = 'main';
+                location.href = '/main?=timestap'+ new Date().getTime();
             });
         }
     </script>
