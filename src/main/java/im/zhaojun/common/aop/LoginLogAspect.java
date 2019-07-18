@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 
 @Aspect
 @Component
-@ConditionalOnProperty(value = "log.login", havingValue = "true")
+@ConditionalOnProperty(value = "shiro-action.log.login", havingValue = "true")
 public class LoginLogAspect {
 
     @Resource

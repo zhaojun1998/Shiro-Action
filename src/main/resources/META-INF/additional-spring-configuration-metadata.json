@@ -1,13 +1,13 @@
 {
   "properties": [
     {
-      "name": "log.operation",
+      "name": "shiro-action.log.operation",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "description": "是否记录操作日志."
     },
     {
-      "name": "log.login",
+      "name": "shiro-action.log.login",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "description": "是否记录登录日志."

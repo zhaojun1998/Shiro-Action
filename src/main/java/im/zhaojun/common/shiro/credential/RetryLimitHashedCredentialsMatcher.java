@@ -53,7 +53,8 @@ public class RetryLimitHashedCredentialsMatcher extends
 				throw new ExcessiveAttemptsException();
 			}
 
-			opsForValue.set(key, retryCount, shiroActionProperties.getRetryTimeout(), TimeUnit.SECONDS);
+			Integer retryTimeout = shiroActionProperties.getRetryTimeout() == null ? 300 : shiroActionProperties.getRetryTimeout();
+			opsForValue.set(key, retryCount, retryTimeout, TimeUnit.SECONDS);
 		}
 
 		boolean matches = super.doCredentialsMatch(token, info);
