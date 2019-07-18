@@ -3,9 +3,9 @@ package im.zhaojun.system.controller;
 import cn.hutool.core.util.IdUtil;
 import im.zhaojun.common.annotation.OperationLog;
 import im.zhaojun.common.exception.CaptchaIncorrectException;
+import im.zhaojun.common.shiro.ShiroActionProperties;
 import im.zhaojun.common.util.CaptchaUtil;
 import im.zhaojun.common.util.ResultBean;
-import im.zhaojun.common.util.ShiroUtil;
 import im.zhaojun.system.model.User;
 import im.zhaojun.system.service.MailService;
 import im.zhaojun.system.service.UserService;
@@ -40,9 +40,12 @@ public class LoginController {
     @Resource
     private TemplateEngine templateEngine;
 
+    @Resource
+    private ShiroActionProperties shiroActionProperties;
+
     @GetMapping("/login")
     public String login(Model model) {
-        model.addAttribute("loginVerify", ShiroUtil.getLoginVerify());
+        model.addAttribute("loginVerify", shiroActionProperties.getLoginVerify());
         return "login";
     }
 
@@ -57,7 +60,7 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
 
         // 如果开启了登录校验
-        if (ShiroUtil.getLoginVerify()) {
+        if (shiroActionProperties.getLoginVerify()) {
             String realCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute("captcha");
             // session 中的验证码过期了
             if (realCaptcha == null || !realCaptcha.equals(captcha.toLowerCase())) {

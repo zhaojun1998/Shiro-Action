@@ -1,5 +1,6 @@
 package im.zhaojun.system.service;
 
+import im.zhaojun.common.shiro.ShiroActionProperties;
 import im.zhaojun.common.util.ShiroUtil;
 import im.zhaojun.common.util.TreeUtil;
 import im.zhaojun.system.mapper.MenuMapper;
@@ -25,6 +26,9 @@ public class MenuService {
 
     @Resource
     private OperatorMapper operatorMapper;
+
+    @Resource
+    private ShiroActionProperties shiroActionProperties;
 
     public Menu selectByPrimaryKey(Integer id) {
         return menuMapper.selectByPrimaryKey(id);
@@ -79,7 +83,7 @@ public class MenuService {
      */
     public List<Menu> selectMenuTreeVOByUsername(String username) {
         List<Menu> menus;
-        if (ShiroUtil.getSuperAdminUsername().equals(username)) {
+        if (shiroActionProperties.getSuperAdminUsername().equals(username)) {
             menus = menuMapper.selectAll();
         } else {
             menus = menuMapper.selectMenuByUserName(username);

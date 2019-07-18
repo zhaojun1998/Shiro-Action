@@ -2,7 +2,7 @@ package im.zhaojun.system.service;
 
 import com.github.pagehelper.PageHelper;
 import im.zhaojun.common.exception.DuplicateNameException;
-import im.zhaojun.common.util.ShiroUtil;
+import im.zhaojun.common.shiro.ShiroActionProperties;
 import im.zhaojun.common.util.TreeUtil;
 import im.zhaojun.system.mapper.UserMapper;
 import im.zhaojun.system.mapper.UserRoleMapper;
@@ -44,6 +44,9 @@ public class UserService {
 
     @Resource
     private SessionDAO sessionDAO;
+
+    @Resource
+    private ShiroActionProperties shiroActionProperties;
 
     public List<User> selectAllWithDept(int page, int rows, User userQuery) {
         PageHelper.startPage(page, rows);
@@ -164,7 +167,7 @@ public class UserService {
     public void delete(Integer userId) {
         // 检查删除的是否是超级管理员, 如果是, 则不允许删除.
         User user = userMapper.selectByPrimaryKey(userId);
-        if (ShiroUtil.getSuperAdminUsername().equals(user.getUsername())) {
+        if (shiroActionProperties.getSuperAdminUsername().equals(user.getUsername())) {
             throw new UnauthorizedException("试图删除超级管理员, 被禁止.");
         }
         userAuthsService.deleteByUserId(userId);
