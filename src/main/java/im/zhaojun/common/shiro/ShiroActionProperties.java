@@ -19,6 +19,8 @@ public class ShiroActionProperties {
     private Integer retryCount;
     private Boolean loginVerify;
     private Integer retryTimeout;
+    private Integer sessionTimeout;
+    private Integer permsCacheTimeout;
 
     public String getSuperAdminUsername() {
         return superAdminUsername;
@@ -60,6 +62,22 @@ public class ShiroActionProperties {
 
     public void setOauth2Provider(Map<AuthcTypeEnum, Provider> oauth2Provider) {
         this.oauth2Provider = oauth2Provider;
+    }
+
+    public Integer getSessionTimeout() {
+        return sessionTimeout;
+    }
+
+    public void setSessionTimeout(Integer sessionTimeout) {
+        this.sessionTimeout = sessionTimeout;
+    }
+
+    public Integer getPermsCacheTimeout() {
+        return permsCacheTimeout;
+    }
+
+    public void setPermsCacheTimeout(Integer permsCacheTimeout) {
+        this.permsCacheTimeout = permsCacheTimeout;
     }
 
     @PostConstruct

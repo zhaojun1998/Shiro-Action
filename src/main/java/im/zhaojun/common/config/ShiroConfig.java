@@ -4,6 +4,7 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import im.zhaojun.common.shiro.EnhanceModularRealmAuthenticator;
 import im.zhaojun.common.shiro.OAuth2Helper;
 import im.zhaojun.common.shiro.RestShiroFilterFactoryBean;
+import im.zhaojun.common.shiro.ShiroActionProperties;
 import im.zhaojun.common.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import im.zhaojun.common.shiro.filter.OAuth2AuthenticationFilter;
 import im.zhaojun.common.shiro.filter.RestAuthorizationFilter;
@@ -40,6 +41,9 @@ public class ShiroConfig {
     @Lazy
     @Resource
     private ShiroService shiroService;
+
+    @Resource
+    private ShiroActionProperties shiroActionProperties;
 
     @Value("${spring.redis.host}")
     private String redisHost;
@@ -122,7 +126,7 @@ public class ShiroConfig {
     public RedisCacheManager redisCacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
-        redisCacheManager.setExpire(600);
+        redisCacheManager.setExpire(shiroActionProperties.getPermsCacheTimeout() == null ? 3600 : shiroActionProperties.getPermsCacheTimeout());
         redisCacheManager.setPrincipalIdFieldName("userId");
         return redisCacheManager;
     }
@@ -137,7 +141,7 @@ public class ShiroConfig {
     @Bean
     public RedisSessionDAO redisSessionDAO() {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-        redisSessionDAO.setExpire(1800);
+        redisSessionDAO.setExpire(shiroActionProperties.getSessionTimeout() == null ? 1800 : shiroActionProperties.getSessionTimeout());
         redisSessionDAO.setRedisManager(redisManager());
         redisSessionDAO.setSessionInMemoryEnabled(false);
         return redisSessionDAO;

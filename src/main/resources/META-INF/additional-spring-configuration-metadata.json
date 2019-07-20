@@ -39,5 +39,17 @@
       "name": "shiro-action.oauth2-provider",
       "type": "java.util.Map",
       "description": "Github OAuth2 Client Id."
+    },
+    {
+      "name": "shiro-action.session-timeout",
+      "type": "java.lang.Integer",
+      "defaultValue": 1800,
+      "description": "用户登录 Session 过期时间 (秒)."
+    },
+    {
+      "name": "shiro-action.perms-cache-timeout",
+      "type": "java.lang.Integer",
+      "defaultValue": 3600,
+      "description": "用户权限缓存过期时间 (秒)."
     }
   ] }
