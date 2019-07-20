@@ -45,6 +45,7 @@ public class ShiroService {
         filterChainDefinitionMap.put("/images/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/lib/**", "anon");
+        filterChainDefinitionMap.put("/active/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/register", "anon");
         filterChainDefinitionMap.put("/403", "anon");
@@ -54,9 +55,8 @@ public class ShiroService {
         filterChainDefinitionMap.put("/oauth2/callback/*", "oauth2Authc");
         filterChainDefinitionMap.put("/oauth2/render/*", "anon");
         filterChainDefinitionMap.put("/oauth2/error", "anon");
-
-        // 验证码
         filterChainDefinitionMap.put("/captcha", "anon");
+
         List<Menu> menuList = menuService.getLeafNodeMenu();
         for (Menu menu : menuList) {
             String url = menu.getUrl();
