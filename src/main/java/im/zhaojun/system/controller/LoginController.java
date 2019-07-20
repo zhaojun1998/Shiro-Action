@@ -98,7 +98,7 @@ public class LoginController {
                 + activeCode;
         Context context = new Context();
         context.setVariable("url", url);
-        String mailContent = templateEngine.process("/mail/registerTemplate", context);
+        String mailContent = templateEngine.process("mail/registerTemplate", context);
         new Thread(() ->
                 mailService.sendHTMLMail(user.getEmail(), "Shiro-Action 激活邮件", mailContent))
                 .start();
