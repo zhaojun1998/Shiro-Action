@@ -202,7 +202,7 @@
             next.`order_num` = per.`order_num`
     </update>
 
-    <select id="selectMaxOrderNum" resultMap="TreeBaseResultMap">
+    <select id="selectMaxOrderNum" resultType="java.lang.Integer">
         select ifnull(max(order_num), 0)
         from menu
     </select>
