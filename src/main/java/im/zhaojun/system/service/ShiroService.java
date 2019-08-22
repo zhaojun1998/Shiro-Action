@@ -61,7 +61,7 @@ public class ShiroService {
         for (Menu menu : menuList) {
             String url = menu.getUrl();
             if (url != null) {
-                String perms = "perms[" + menu.getPerms() + "]";
+                String perms = "authc, perms[" + menu.getPerms() + "]";
                 filterChainDefinitionMap.put(url, perms);
             }
         }
@@ -74,7 +74,7 @@ public class ShiroService {
                         && !"".equals(operator.getHttpMethod())) {
                     url += ("==" + operator.getHttpMethod());
                 }
-                String perms = "perms[" + operator.getPerms() + "]";
+                String perms = "authc, perms[" + operator.getPerms() + "]";
                 filterChainDefinitionMap.put(url, perms);
             }
         }

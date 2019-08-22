@@ -48,4 +48,13 @@ public class WebHelper {
         }
     }
 
+    /**
+     * 获取当前请求的 Http Method
+     * @return
+     */
+    public static String getRequestHTTPMethod() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return request.getMethod();
+    }
+
 }

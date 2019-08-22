@@ -1,5 +1,6 @@
 package im.zhaojun.common.shiro;
 
+import im.zhaojun.common.util.WebHelper;
 import org.apache.shiro.web.filter.mgt.FilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.slf4j.Logger;
@@ -28,8 +29,14 @@ public class RestPathMatchingFilterChainResolver extends PathMatchingFilterChain
 
             String[] pathPatternArray = pathPattern.split("==");
 
+            boolean httpMethodMatchFlag = true;
+
+            if (pathPatternArray.length > 1) {
+                httpMethodMatchFlag = pathPatternArray[1].equals(WebHelper.getRequestHTTPMethod());
+            }
+
             // 只用过滤器链的 URL 部分与请求的 URL 进行匹配
-            if (pathMatches(pathPatternArray[0], requestURI)) {
+            if (pathMatches(pathPatternArray[0], requestURI) && httpMethodMatchFlag) {
                 if (log.isTraceEnabled()) {
                     log.trace("Matched path pattern [" + pathPattern + "] for requestURI [" + requestURI + "].  " +
                             "Utilizing corresponding filter chain...");

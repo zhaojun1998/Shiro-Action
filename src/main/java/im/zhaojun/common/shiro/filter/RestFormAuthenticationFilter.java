@@ -22,19 +22,25 @@ public class RestFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Override
     protected boolean pathsMatch(String path, ServletRequest request) {
+        boolean flag;
         String requestURI = this.getPathWithinApplication(request);
 
         String[] strings = path.split("==");
 
         if (strings.length <= 1) {
             // 普通的 URL, 正常处理
-            return this.pathsMatch(strings[0], requestURI);
+            flag = this.pathsMatch(strings[0], requestURI);
         } else {
             // 获取当前请求的 http method.
             String httpMethod = WebUtils.toHttp(request).getMethod().toUpperCase();
             // 匹配当前请求的 url 和 http method 与过滤器链中的的是否一致
-            return httpMethod.equals(strings[1].toUpperCase()) && this.pathsMatch(strings[0], requestURI);
+            flag = httpMethod.equals(strings[1].toUpperCase()) && this.pathsMatch(strings[0], requestURI);
         }
+
+        if (flag) {
+            log.debug("URL : [{}] matching perms filter : [{}]", requestURI, path);
+        }
+        return flag;
     }
 
     /**
