@@ -38,7 +38,7 @@ public class RestFormAuthenticationFilter extends FormAuthenticationFilter {
         }
 
         if (flag) {
-            log.debug("URL : [{}] matching perms filter : [{}]", requestURI, path);
+            log.debug("URL : [{}] matching authc filter : [{}]", requestURI, path);
         }
         return flag;
     }

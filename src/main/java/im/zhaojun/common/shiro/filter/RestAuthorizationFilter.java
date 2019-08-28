@@ -43,7 +43,7 @@ public class RestAuthorizationFilter extends PermissionsAuthorizationFilter {
         }
 
         if (flag) {
-            log.debug("URL : [{}] matching authc filter : [{}]", requestURI, path);
+            log.debug("URL : [{}] matching perms filter : [{}]", requestURI, path);
         }
         return flag;
     }
