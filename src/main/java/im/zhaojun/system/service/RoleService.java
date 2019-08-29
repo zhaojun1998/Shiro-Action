@@ -82,6 +82,9 @@ public class RoleService {
     public void grantOperator(Integer roleId, Integer[] operatorIds) {
         roleOperatorMapper.deleteByRoleId(roleId);
         if (operatorIds != null && operatorIds.length != 0) {
+            for (int i = 0; i < operatorIds.length; i++) {
+                operatorIds[i] = operatorIds[i] - 10000;
+            }
             roleOperatorMapper.insertRoleOperators(roleId, operatorIds);
         }
         clearRoleAuthCache(roleId);
@@ -106,7 +109,6 @@ public class RoleService {
     public Integer[] getOperatorsByRoleId(Integer roleId) {
         return roleOperatorMapper.getOperatorsByRoleId(roleId);
     }
-
 
     private void clearRoleAuthCache(Integer roleId) {
         // 获取该角色下的所有用户.

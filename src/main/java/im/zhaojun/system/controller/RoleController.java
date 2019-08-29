@@ -86,9 +86,6 @@ public class RoleController {
     @PostMapping("/{roleId}/grant/operator")
     @ResponseBody
     public ResultBean grantOperator(@PathVariable("roleId") Integer roleId, @RequestParam(value = "operatorIds[]", required = false) Integer[] operatorIds) {
-        for (int i = 0; i < operatorIds.length; i++) {
-            operatorIds[i] = operatorIds[i] - 10000;
-        }
         roleService.grantOperator(roleId, operatorIds);
         return ResultBean.success();
     }
