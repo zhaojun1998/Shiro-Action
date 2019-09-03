@@ -1,6 +1,7 @@
 package im.zhaojun.system.service;
 
 import cn.hutool.core.util.ReflectUtil;
+import im.zhaojun.common.shiro.realm.UserNameRealm;
 import im.zhaojun.system.model.Menu;
 import im.zhaojun.system.model.Operator;
 import org.apache.shiro.ShiroException;
@@ -34,6 +35,9 @@ public class ShiroService {
 
     @Resource
     private OperatorService operatorService;
+
+    @Resource
+    private UserNameRealm userNameRealm;
 
     /**
      * 从数据库加载用户拥有的菜单权限和 API 权限.
@@ -108,6 +112,7 @@ public class ShiroService {
             manager.getFilterChains().clear();
             shiroFilterFactoryBean.getFilterChainDefinitionMap().clear();
             shiroFilterFactoryBean.setFilterChainDefinitionMap(getUrlPermsMap());
+            userNameRealm.clearAllAuthCache();
 
             // 清除每个 Filter 中的 appliedPaths 信息
             for (Map.Entry<String, Filter> filterEntry : manager.getFilters().entrySet()) {
@@ -128,6 +133,7 @@ public class ShiroService {
                 String chainDefinition = entry.getValue().trim().replace(" ", "");
                 manager.createChain(url, chainDefinition);
             }
+
             log.info("更新 Shiro 过滤器链");
         }
     }

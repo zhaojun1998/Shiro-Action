@@ -89,8 +89,24 @@ public class UserNameRealm extends AuthorizingRealm {
                 BeanUtils.copyProperties(spc.getPrimaryPrincipal(), user);
                 // 判断用户, 匹配用户ID.
                 if (userId.equals(user.getUserId())) {
-                    this.clearCachedAuthorizationInfo(spc);
+                    this.doClearCache(spc);
                 }
+            }
+        }
+    }
+
+    public void clearAllAuthCache() {
+        // 获取所有 session
+        Collection<Session> sessions = sessionDAO.getActiveSessions();
+        for (Session session : sessions) {
+            // 获取 session 登录信息。
+            Object obj = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+            if (obj instanceof SimplePrincipalCollection) {
+                // 强转
+                SimplePrincipalCollection spc = (SimplePrincipalCollection) obj;
+                User user = new User();
+                BeanUtils.copyProperties(spc.getPrimaryPrincipal(), user);
+                this.doClearCache(spc);
             }
         }
     }
